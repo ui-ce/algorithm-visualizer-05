@@ -1,0 +1,206 @@
+// The page is exactly one viewport tall and never scrolls at this level;
+// the drawer content and (later) the pseudocode panel handle their own
+// internal scrolling instead.
+.algo-practice-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--color-background);
+
+  &__main-row {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    gap: 8px;
+    padding-inline-start: 12px;
+    padding-block-start: 10px;
+    overflow-x: auto;
+  }
+
+  &__content {
+     display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    gap: 10px;
+    padding-inline-end: 24px;
+    padding-block: 0;
+  }
+
+  &__sections-layer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    gap: 8px;
+    padding: 8px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 4px;
+  }
+
+  &__title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: fit-content;
+    padding-block: 4px;
+  }
+
+  &__title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__title {
+    color: var(--color-text-primary);
+  }
+
+  &__stars {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__panel-description {
+    margin-block-start: 8px;
+    color: var(--color-text-secondary);
+  }
+
+  &__complexity-list {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 12px;
+    margin-block-start: 8px;
+    color: var(--color-text-secondary);
+
+    dt {
+      color: var(--color-text-tertiary);
+    }
+  }
+
+  &__list {
+    margin-block-start: 8px;
+    padding-inline-start: 20px;
+    color: var(--color-text-secondary);
+
+    li {
+      margin-block-end: 4px;
+    }
+  }
+
+  &__faq {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-block-start: 20px;
+  }
+
+  &__faq-item {
+    padding-block-start: 12px;
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  &__faq-question {
+    margin-block-end: 4px;
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+
+  &__code-language {
+    margin: 0;
+    color: var(--color-text-tertiary);
+  }
+
+  &__code-block {
+    margin: 0;
+    padding: 12px;
+    background-color: var(--color-background);
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  &__code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-block-start: 16px;
+    margin-block-end: 4px;
+  }
+
+  &__copy-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    background: none;
+    border: 1px solid var(--color-border-default);
+    border-radius: 6px;
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-text-primary);
+      border-color: var(--color-text-tertiary);
+    }
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  // The title row is Hug — it keeps its natural height. Visualization
+  // Section is the one region in this column that's Fill, so it's the
+  // only child that grows to take up whatever space the other sections
+  // (added in later stages) don't need.
+  algo-visualization-section {
+    flex: 1;
+    min-height: 0;
+  }
+
+  &__fullscreen-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    padding: 32px;
+    background-color: var(--color-background);
+  }
+
+  &__fullscreen-close {
+    align-self: flex-end;
+    display: inline-flex;
+    padding: 8px;
+    background: none;
+    border: none;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: var(--color-surface-container);
+    }
+  }
+
+  &__fullscreen-chart {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+  }
+}

@@ -1,0 +1,224 @@
+<div class="algo-practice-page">
+  <algo-header
+    [breadcrumbs]="breadcrumbs"
+    [themeMode]="themeService.themeMode()"
+    (themeToggle)="themeService.toggle()"
+  />
+
+  <div class="algo-practice-page__main-row">
+    <algo-drawer
+      [isOpen]="activeDrawerSection !== null"
+      [title]="drawerPanelTitle"
+      (closed)="closeDrawer()"
+    >
+      <ng-container icon-buttons>
+        <algo-drawer-icon-button
+          [selected]="activeDrawerSection === 'overview'"
+          (toggle)="toggleDrawerSection('overview')"
+        >
+          <svg icon solarInfoCircleLinear [size]="24"></svg>
+        </algo-drawer-icon-button>
+
+        <algo-drawer-icon-button
+          [selected]="activeDrawerSection === 'complexity'"
+          (toggle)="toggleDrawerSection('complexity')"
+        >
+          <svg icon solarChartLinear [size]="24"></svg>
+        </algo-drawer-icon-button>
+
+        <algo-drawer-icon-button
+          [selected]="activeDrawerSection === 'pros-cons'"
+          (toggle)="toggleDrawerSection('pros-cons')"
+        >
+          <svg icon solarWidget2Linear [size]="24"></svg>
+        </algo-drawer-icon-button>
+
+        <algo-drawer-icon-button
+          [selected]="activeDrawerSection === 'implementation'"
+          (toggle)="toggleDrawerSection('implementation')"
+        >
+          <svg icon solarCodeSquareLinear [size]="24"></svg>
+        </algo-drawer-icon-button>
+
+        <algo-drawer-icon-button
+          [selected]="activeDrawerSection === 'usage'"
+          (toggle)="toggleDrawerSection('usage')"
+        >
+          <svg icon solarMagnifierLinear [size]="24"></svg>
+        </algo-drawer-icon-button>
+      </ng-container>
+
+      <div panel-content>
+        @if (content) {
+          @switch (activeDrawerSection) {
+            @case ('overview') {
+              <p class="text-body-medium algo-practice-page__panel-description">{{ content.overview }}</p>
+
+              <div class="algo-practice-page__faq">
+                @for (item of content.overviewFaq; track item.question) {
+                  <div class="algo-practice-page__faq-item">
+                    <p class="text-body-medium algo-practice-page__faq-question">{{ item.question }}</p>
+                    <p class="text-body-medium algo-practice-page__panel-description">{{ item.answer }}</p>
+                  </div>
+                }
+              </div>
+            }
+            @case ('complexity') {
+              <dl class="algo-practice-page__complexity-list text-body-medium">
+                <dt>Best case</dt>
+                <dd>{{ content.complexity.bestTime }}</dd>
+                <dt>Average case</dt>
+                <dd>{{ content.complexity.averageTime }}</dd>
+                <dt>Worst case</dt>
+                <dd>{{ content.complexity.worstTime }}</dd>
+                <dt>Space</dt>
+                <dd>{{ content.complexity.space }}</dd>
+              </dl>
+              <p class="text-body-medium algo-practice-page__panel-description">{{ content.complexity.note }}</p>
+            }
+            @case ('pros-cons') {
+              <p class="text-body-large">Pros</p>
+              <ul class="algo-practice-page__list text-body-medium">
+                @for (pro of content.pros; track pro) {
+                  <li>{{ pro }}</li>
+                }
+              </ul>
+              <p class="text-body-large algo-practice-page__panel-description">Cons</p>
+              <ul class="algo-practice-page__list text-body-medium">
+                @for (con of content.cons; track con) {
+                  <li>{{ con }}</li>
+                }
+              </ul>
+            }
+            @case ('implementation') {
+              @for (impl of content.implementations; track impl.language) {
+                <div class="algo-practice-page__code-header">
+                  <p class="text-body-medium algo-practice-page__code-language">{{ impl.language }}</p>
+                  <button
+                    type="button"
+                    class="algo-practice-page__copy-button text-label-medium-regular"
+                    (click)="onCopyCode(impl.code, impl.language)"
+                  >
+                    <svg solarCopyLinear [size]="14"></svg>
+                    {{ copiedLanguage === impl.language ? 'Copied' : 'Copy' }}
+                  </button>
+                </div>
+                <pre class="algo-practice-page__code-block"><code>{{ impl.code }}</code></pre>
+              }
+            }
+            @case ('usage') {
+              <ul class="algo-practice-page__list text-body-medium">
+                @for (application of content.applications; track application) {
+                  <li>{{ application }}</li>
+                }
+              </ul>
+            }
+          }
+        } @else {
+          <p class="text-body-medium algo-practice-page__panel-description">
+            Content for {{ algorithmDisplayName }} hasn't been written yet.
+          </p>
+        }
+      </div>
+    </algo-drawer>
+
+    <div class="algo-practice-page__content">
+      <div class="algo-practice-page__sections-layer">
+
+        <!-- Title + Stars + Segmented Button -->
+        <div class="algo-practice-page__title-row">
+          <div class="algo-practice-page__title-group">
+            <h1 class="algo-practice-page__title text-title-large">
+              {{ algorithmDisplayName }}
+            </h1>
+
+            <div class="algo-practice-page__stars">
+              <!-- Star rating renders here once quiz completion state exists -->
+            </div>
+          </div>
+
+          <algo-segmented-button
+            [options]="tabs"
+            [selectedIndex]="selectedTabIndex"
+            (selectedIndexChange)="onTabChange($event)"
+          />
+        </div>
+
+        <!-- Visualization -->
+        <algo-visualization-section
+          [currentStep]="currentStep"
+          [totalSteps]="totalSteps"
+          [speed]="speed"
+          (speedChange)="onSpeedChange($event)"
+          [animation]="animation"
+          [rendererMetadata]="rendererMetadata"
+          [frameIndex]="frameIndex"
+          [legendItems]="legendItems"
+          (fullscreenToggle)="onFullscreenToggle()"
+          [showHint]="!hasInteracted"
+          (hintPlayClick)="onPlayToggle()"
+          (hintGenerateClick)="onCustomInputClick()"
+        />
+
+        <!-- Controls -->
+        <algo-control-section
+          [isPlaying]="isPlaying"
+          [isDrawerOpen]="activeDrawerSection !== null"
+          [selectedPattern]="selectedPattern"
+          (previous)="onPrevious()"
+          (playToggle)="onPlayToggle()"
+          (next)="onNext()"
+          (again)="onAgain()"
+          (customInputClick)="onCustomInputClick()"
+          (randomInputClick)="onRandomInputClick()"
+          (patternChange)="onPatternChange($event)"
+          (compareClick)="onCompareClick()"
+        />
+
+        <!-- Pseudocode -->
+        <algo-pseudocode-section
+          [lines]="pseudocodeLines"
+          [activeLineNumber]="activeLineNumber"
+          [explanationTitle]="explanationTitle"
+          [explanationDescription]="explanationDescription"
+        />
+
+      </div>
+    </div>
+  </div>
+
+  <algo-custom-input-modal
+    [isOpen]="isCustomInputModalOpen"
+    (closed)="onCustomInputModalClosed()"
+    (applied)="onCustomInputApplied($event)"
+  />
+
+  @if (isVisualizationMaximized) {
+    <div class="algo-practice-page__fullscreen-overlay">
+      <button
+        type="button"
+        class="algo-practice-page__fullscreen-close"
+        aria-label="Close"
+        (click)="onFullscreenToggle()"
+      >
+        <svg solarCloseCircleLinear [size]="24"></svg>
+      </button>
+
+      <div class="algo-practice-page__fullscreen-chart">
+        <algo-visualization-area
+          [animation]="animation"
+          [rendererMetadata]="rendererMetadata"
+          [frameIndex]="frameIndex"
+        />
+      </div>
+
+      <algo-navigation-controls
+        [isPlaying]="isPlaying"
+        (previous)="onPrevious()"
+        (playToggle)="onPlayToggle()"
+        (next)="onNext()"
+        (again)="onAgain()"
+      />
+    </div>
+  }
+</div>
