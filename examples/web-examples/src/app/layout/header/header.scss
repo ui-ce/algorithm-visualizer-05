@@ -1,0 +1,102 @@
+// The three circular header controls (theme, language, account) reuse
+// the Navigation button's border/text color tokens rather than
+// introducing a new token group, since no dedicated tokens exist for
+// them and their visual weight matches Navigation most closely
+// (transparent fill, bordered, icon-driven).
+.algo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: fit-content;
+  padding-block: 12px;
+  padding-inline: 64px;
+  background-color: var(--color-background);
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  &__logo {
+    display: inline-flex;
+    text-decoration: none;
+  }
+
+  &__logo-part--primary {
+    color: var(--color-brand-primary);
+  }
+
+  &__logo-part--default {
+    color: var(--color-text-primary);
+  }
+
+  &__logo-part--accent {
+    color: var(--color-brand-accent);
+  }
+
+  &__breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__breadcrumb-link {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: var(--color-text-primary);
+    }
+  }
+
+  &__breadcrumb-separator {
+    color: var(--color-text-tertiary);
+  }
+
+  &__breadcrumb-current {
+    color: var(--color-text-primary);
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    background: none;
+    border: 1px solid var(--color-button-navigation-default);
+    color: var(--color-button-navigation-on-default);
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      border-color: var(--color-button-navigation-hover);
+      color: var(--color-button-navigation-on-hover);
+    }
+
+    &:active {
+      border-color: var(--color-button-navigation-pressed);
+      color: var(--color-button-navigation-on-pressed);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  &__icon-button svg {
+    width: 20px;
+    height: 20px;
+  }
+}

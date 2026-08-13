@@ -1,0 +1,58 @@
+<header class="algo-header">
+  <div class="algo-header__left">
+    <!--
+      Temporary text logo. The three spans keep the letter groups
+      separable so the brand colors can be swapped for an actual logo
+      image later without touching the surrounding layout.
+    -->
+    <a routerLink="/" class="algo-header__logo text-body-large" aria-label="ALGO">
+      <span class="algo-header__logo-part algo-header__logo-part--primary">A</span><span
+        class="algo-header__logo-part algo-header__logo-part--default">LG</span><span
+        class="algo-header__logo-part algo-header__logo-part--accent">O</span>
+    </a>
+
+    <nav class="algo-header__breadcrumb text-body-medium" aria-label="Breadcrumb">
+      @for (item of breadcrumbs; track item.label; let last = $last) {
+        @if (!last) {
+          <a [routerLink]="item.route" class="algo-header__breadcrumb-link">{{ item.label }}</a>
+          <span class="algo-header__breadcrumb-separator">/</span>
+        } @else {
+          <span class="algo-header__breadcrumb-current">{{ item.label }}</span>
+        }
+      }
+    </nav>
+  </div>
+
+  <div class="algo-header__right">
+    <button
+      type="button"
+      class="algo-header__icon-button"
+      [attr.aria-label]="themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+      (click)="themeToggle.emit()"
+    >
+      @if (themeMode === 'dark') {
+        <svg solarMoonLinear [size]="18"></svg>
+      } @else {
+        <svg solarSunLinear [size]="18"></svg>
+      }
+    </button>
+
+    <button
+      type="button"
+      class="algo-header__icon-button algo-header__icon-button--language text-label-medium"
+      [attr.aria-label]="'Current language: ' + currentLanguage"
+      (click)="languageToggle.emit()"
+    >
+      {{ currentLanguage === 'fa' ? 'FA' : 'EN' }}
+    </button>
+
+    <button
+      type="button"
+      class="algo-header__icon-button"
+      aria-label="Account"
+      (click)="accountClick.emit()"
+    >
+      <svg solarUserCircleLinear [size]="20"></svg>
+    </button>
+  </div>
+</header>
