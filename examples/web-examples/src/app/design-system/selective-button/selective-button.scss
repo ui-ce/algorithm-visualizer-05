@@ -1,0 +1,59 @@
+// The selection circle carries the same color as the border in every
+// state — it isn't an icon and doesn't use the On-* text/icon tokens.
+.algo-selective-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: fit-content;
+  height: fit-content;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--color-button-selective-default);
+  background: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+
+  &__circle {
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--color-button-selective-default);
+    transition: background-color 0.15s ease;
+  }
+
+  &__text {
+    color: var(--color-button-selective-on-default);
+    transition: color 0.15s ease;
+  }
+
+  &:hover:not(.algo-selective-button--selected) {
+    border-color: var(--color-button-selective-hover);
+  }
+
+  &:hover:not(.algo-selective-button--selected) .algo-selective-button__circle {
+    background-color: var(--color-button-selective-hover);
+  }
+
+  &:hover:not(.algo-selective-button--selected) .algo-selective-button__text {
+    color: var(--color-button-selective-on-hover);
+  }
+
+  &--selected {
+    border-color: var(--color-button-selective-select);
+  }
+
+  &--selected .algo-selective-button__circle {
+    background-color: var(--color-button-selective-select);
+  }
+
+  &--selected .algo-selective-button__text {
+    color: var(--color-button-selective-on-select);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+}

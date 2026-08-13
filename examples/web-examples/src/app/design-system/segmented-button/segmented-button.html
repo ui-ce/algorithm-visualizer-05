@@ -1,0 +1,16 @@
+<div class="algo-segmented-button">
+  <div class="algo-segmented-button__thumb" [style.transform]="thumbTransform"></div>
+
+  @for (option of options; track option; let i = $index) {
+    <button
+      type="button"
+      class="algo-segmented-button__segment"
+      [class.algo-segmented-button__segment--selected]="i === selectedIndex"
+      [class]="i === selectedIndex ? 'text-body-medium-emphasized' : 'text-body-medium'"
+      [attr.aria-pressed]="i === selectedIndex"
+      (click)="selectOption(i)"
+    >
+      {{ option }}
+    </button>
+  }
+</div>

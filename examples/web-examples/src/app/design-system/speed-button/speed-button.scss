@@ -1,0 +1,33 @@
+// Typography wasn't specified in the spec for this button, so it borrows
+// Label/Medium/Regular to match the other small controls (Navigation,
+// Selective). Worth a quick check against Figma once it exists there.
+.algo-speed-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: fit-content;
+  padding-block: 4px;
+  padding-inline: 8px;
+  background: none;
+  border: 0.6px solid var(--color-speed-button-default);
+  border-radius: 4px;
+  color: var(--color-speed-button-on-default);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    border-color: var(--color-speed-button-hover);
+    color: var(--color-speed-button-on-hover);
+  }
+
+  &--selected {
+    border-color: var(--color-speed-button-pressed);
+    color: var(--color-speed-button-on-pressed);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+}

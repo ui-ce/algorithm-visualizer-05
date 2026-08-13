@@ -1,0 +1,28 @@
+<div class="algo-drawer">
+  <div class="algo-drawer__icon-column">
+    <ng-content select="[icon-buttons]" />
+  </div>
+
+  @if (isOpen) {
+    <div class="algo-drawer__panel">
+      <div class="algo-drawer__panel-header">
+        <button
+          type="button"
+          class="algo-drawer__close-button"
+          aria-label="Close"
+          (click)="closed.emit()"
+        >
+          <svg solarArrowLeftLinear [size]="24"></svg>
+        </button>
+
+        @if (title) {
+          <p class="algo-drawer__panel-title text-body-large">{{ title }}</p>
+        }
+      </div>
+
+      <div class="algo-drawer__panel-content">
+        <ng-content select="[panel-content]" />
+      </div>
+    </div>
+  }
+</div>

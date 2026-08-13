@@ -1,0 +1,111 @@
+.algo-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: fit-content;
+  height: fit-content;
+  padding-block: 8px;
+  padding-inline: 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: none;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+
+  &__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+  }
+
+  &--full-width {
+    width: 100%;
+  }
+
+  &__icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  // Primary
+  &--primary {
+    background-color: var(--color-button-primary-default);
+    color: var(--color-button-primary-on-default);
+
+    &:hover:not(.algo-button--disabled) {
+      background-color: var(--color-button-primary-hover);
+    }
+
+    &:active:not(.algo-button--disabled) {
+      background-color: var(--color-button-primary-pressed);
+    }
+
+    &.algo-button--disabled {
+      background-color: var(--color-button-primary-disabled);
+      color: var(--color-button-primary-on-disabled);
+      cursor: not-allowed;
+    }
+  }
+
+  // Outline
+  &--outline {
+    background-color: transparent;
+    border-color: var(--color-button-outline-default);
+    color: var(--color-button-outline-on-default);
+
+    &:hover:not(.algo-button--disabled) {
+      border-color: var(--color-button-outline-hover);
+      color: var(--color-button-outline-on-hover);
+    }
+
+    &:active:not(.algo-button--disabled) {
+      border-color: var(--color-button-outline-pressed);
+      color: var(--color-button-outline-on-pressed);
+    }
+
+    &.algo-button--disabled {
+      border-color: var(--color-button-outline-disabled);
+      color: var(--color-button-outline-on-disabled);
+      cursor: not-allowed;
+    }
+  }
+
+  // Navigation
+  &--navigation {
+    background-color: transparent;
+    border-color: var(--color-button-navigation-default);
+    color: var(--color-button-navigation-on-default);
+
+    &:hover {
+      border-color: var(--color-button-navigation-hover);
+      color: var(--color-button-navigation-on-hover);
+    }
+
+    &:active {
+      border-color: var(--color-button-navigation-pressed);
+      color: var(--color-button-navigation-on-pressed);
+    }
+
+    &.algo-button--selected {
+      background-color: var(--color-button-selective-default);
+      border-color: var(--color-button-selective-default);
+      color: var    (--color-button-selective-on-default);
+    }
+    
+    // Persistent selected / pressed state
+    &.algo-button--selected {
+      border-color: var(--color-button-navigation-pressed);
+      color: var(--color-button-navigation-on-pressed);
+    }
+  }
+}

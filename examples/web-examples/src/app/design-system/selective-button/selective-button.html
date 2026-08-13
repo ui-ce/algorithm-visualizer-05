@@ -1,0 +1,12 @@
+<button
+  type="button"
+  class="algo-selective-button text-label-medium-regular"
+  [class.algo-selective-button--selected]="selected"
+  [attr.aria-pressed]="selected"
+>
+  <span class="algo-selective-button__circle"></span>
+
+  @if (text) {
+    <span class="algo-selective-button__text">{{ text }}</span>
+  }
+</button>

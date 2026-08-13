@@ -1,0 +1,66 @@
+.algo-play-pause-button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 60px;
+  height: 60px;
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+  &__icon {
+    display: inline-flex;
+    width: 16px;
+    height: 16px;
+  }
+
+  &__icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  &--play {
+    border-color: var(--color-play-default);
+    background-color: var(--color-play-bg-default);
+    color: var(--color-play-on-default);
+
+    &:hover {
+      border-color: var(--color-play-hover);
+      background-color: var(--color-play-bg-hover);
+      color: var(--color-play-on-hover);
+    }
+
+    &:active {
+      border-color: var(--color-play-pressed);
+      background-color: var(--color-play-bg-pressed);
+      color: var(--color-play-on-pressed);
+    }
+  }
+
+  &--pause {
+    border-color: var(--color-pause-default);
+    background-color: var(--color-pause-bg-default);
+    color: var(--color-pause-on-default);
+
+    &:hover {
+      border-color: var(--color-pause-hover);
+      background-color: var(--color-pause-bg-hover);
+      color: var(--color-pause-on-hover);
+    }
+
+    &:active {
+      border-color: var(--color-pause-pressed);
+      background-color: var(--color-pause-bg-pressed);
+      color: var(--color-pause-on-pressed);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+}

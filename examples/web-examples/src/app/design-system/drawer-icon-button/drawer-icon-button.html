@@ -1,0 +1,9 @@
+<button
+  type="button"
+  class="algo-drawer-icon-button"
+  [class.algo-drawer-icon-button--selected]="selected"
+  [attr.aria-pressed]="selected"
+  (click)="toggle.emit()"
+>
+  <ng-content select="[icon]" />
+</button>

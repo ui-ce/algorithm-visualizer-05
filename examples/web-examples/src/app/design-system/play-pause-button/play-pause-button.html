@@ -1,0 +1,16 @@
+<button
+  type="button"
+  class="algo-play-pause-button text-label-medium-regular"
+  [class.algo-play-pause-button--play]="type === 'play'"
+  [class.algo-play-pause-button--pause]="type === 'pause'"
+>
+  <span class="algo-play-pause-button__icon">
+    @if (type === 'play') {
+      <svg solarPlayLinear [size]="16"></svg>
+    } @else {
+      <svg solarPauseLinear [size]="16"></svg>
+    }
+  </span>
+
+  <span class="algo-play-pause-button__text">{{ label }}</span>
+</button>

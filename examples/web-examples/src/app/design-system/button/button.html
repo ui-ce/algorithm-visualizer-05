@@ -1,0 +1,28 @@
+<button
+  type="button"
+  class="algo-button"
+  [class]="typographyClass"
+  [class.algo-button--primary]="variant === 'primary'"
+  [class.algo-button--outline]="variant === 'outline'"
+  [class.algo-button--navigation]="variant === 'navigation'"
+  [class.algo-button--selected]="selected"
+  [class.algo-button--disabled]="disabled"
+  [class.algo-button--full-width]="fullWidth"
+  [disabled]="disabled"
+>
+  @if (hasLeftIcon) {
+    <span class="algo-button__icon">
+      <ng-content select="[left-icon]" />
+    </span>
+  }
+
+  @if (text) {
+    <span class="algo-button__text">{{ text }}</span>
+  }
+
+  @if (hasRightIcon) {
+    <span class="algo-button__icon">
+      <ng-content select="[right-icon]" />
+    </span>
+  }
+</button>

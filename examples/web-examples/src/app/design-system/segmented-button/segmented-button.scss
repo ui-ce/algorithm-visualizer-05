@@ -1,0 +1,40 @@
+.algo-segmented-button {
+  position: relative;
+  display: flex;
+  width: 370px;
+  height: fit-content;
+  gap: 4px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-button-primary-default);
+  border-radius: 999px;
+  padding-inline: 0;
+
+  &__thumb {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: calc((100% - 8px) / 3);
+    background-color: var(--color-button-primary-default);
+    border-radius: 999px;
+    transition: transform 0.25s ease;
+  }
+
+  &__segment {
+    position: relative;
+    z-index: 1;
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: 4px;
+    background: none;
+    border: none;
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+    transition: color 0.25s ease;
+
+    &--selected {
+      color: var(--color-text-on-primary);
+    }
+  }
+}

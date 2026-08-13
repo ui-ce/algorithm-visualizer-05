@@ -1,0 +1,44 @@
+// 24px icon + 12px padding on every side lands at 48x48 in practice, but
+// the size comes from content + padding, not a fixed width/height — the
+// spec is explicit that this must stay Hug Contents.
+:host {
+  display: block;
+  width: fit-content;
+}
+
+.algo-drawer-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: fit-content;
+  padding: 8px;
+  background-color: var(--color-icon-button-bg-default);
+  border: 1px solid var(--color-icon-button-default);
+  border-radius: 8px;
+  color: var(--color-icon-button-on-default);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+  ::ng-deep svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  &:hover:not(.algo-drawer-icon-button--selected) {
+    background-color: var(--color-icon-button-bg-hover);
+    border-color: var(--color-icon-button-hover);
+    color: var(--color-icon-button-on-hover);
+  }
+
+  &--selected {
+    background-color: var(--color-icon-button-bg-pressed);
+    border-color: var(--color-icon-button-pressed);
+    color: var(--color-icon-button-on-pressed);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+}
