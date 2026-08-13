@@ -1,0 +1,113 @@
+// Typography tokens for the design system.
+// The scale (Headline Large Emphasized, Body Large, Body Medium x2,
+// Label Medium x2) maps to Google's Material 3 type scale, with the base
+// font swapped from Roboto to Vazirmatn. Sizes, line heights and weights
+// follow the M3 spec directly.
+//
+// Letter-spacing is kept at 0 across every style. M3's original values
+// (0.5px, 0.25px) were tuned for Latin script and add visible gaps
+// between Persian letters, which breaks the letter-joining Farsi relies
+// on for readability. Zero avoids that failure mode for both languages
+// rather than switching the value per language.
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/assets/fonts/Vazirmatn[wght].woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --font-family-base: 'Vazirmatn', sans-serif;
+  --letter-spacing-none: 0rem;
+
+  // Headline / Large / Emphasized
+  --font-size-headline-large: 2rem;      // 32px
+  --line-height-headline-large: 2.5rem;  // 40px
+  --font-weight-headline-large: 700;     // Bold
+
+  // Body / Large / Regular
+  --font-size-body-large: 1rem;          // 16px
+  --line-height-body-large: 1.5rem;      // 24px
+  --font-weight-body-large: 400;         // Regular
+
+  // Body / Medium / Regular and Body / Medium / Medium share the same
+  // size and line height; only the weight changes between them.
+  --font-size-body-medium: 0.875rem;     // 14px
+  --line-height-body-medium: 1.25rem;    // 20px
+  --font-weight-body-medium-regular: 400;
+  --font-weight-body-medium-medium: 500;
+
+  // Label / Medium / Medium and Label / Medium / Regular share the same
+  // size and line height; only the weight changes between them.
+  --font-size-label-medium: 0.75rem;     // 12px
+  --line-height-label-medium: 1rem;      // 16px
+  --font-weight-label-medium-medium: 500;
+  --font-weight-label-medium-regular: 400;
+
+  // Title / Large / Primary
+  --font-size-title-large: 1.375rem;     // 22px
+  --line-height-title-large: 1.75rem;    // 28px
+  --font-weight-title-large: 400;        // Regular
+}
+
+// Utility classes for applying a full type style in one line, rather than
+// pulling individual custom properties into every component stylesheet.
+// New styles can be added the same way: a size/line-height/weight triple
+// under :root, plus a matching class below.
+
+.text-headline-large-emphasized {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-headline-large);
+  line-height: var(--line-height-headline-large);
+  font-weight: var(--font-weight-headline-large);
+  letter-spacing: var(--letter-spacing-none);
+}
+
+.text-body-large {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body-large);
+  line-height: var(--line-height-body-large);
+  font-weight: var(--font-weight-body-large);
+  letter-spacing: var(--letter-spacing-none);
+}
+
+.text-body-medium {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body-medium);
+  line-height: var(--line-height-body-medium);
+  font-weight: var(--font-weight-body-medium-regular);
+  letter-spacing: var(--letter-spacing-none);
+}
+
+.text-body-medium-emphasized {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body-medium);
+  line-height: var(--line-height-body-medium);
+  font-weight: var(--font-weight-body-medium-medium);
+  letter-spacing: var(--letter-spacing-none);
+}
+
+.text-label-medium {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-label-medium);
+  line-height: var(--line-height-label-medium);
+  font-weight: var(--font-weight-label-medium-medium);
+  letter-spacing: var(--letter-spacing-none);
+}
+
+.text-label-medium-regular {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-label-medium);
+  line-height: var(--line-height-label-medium);
+  font-weight: var(--font-weight-label-medium-regular);
+  letter-spacing: var(--letter-spacing-none);
+}
+
+.text-title-large {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-title-large);
+  line-height: var(--line-height-title-large);
+  font-weight: var(--font-weight-title-large);
+  letter-spacing: var(--letter-spacing-none);
+}

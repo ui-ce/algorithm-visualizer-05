@@ -1,0 +1,270 @@
+// Color tokens, pulled from the Figma "Color-Dark" / "Color-Light" exports.
+// Everything here is a CSS custom property, not a Sass variable, because the
+// theme has to flip at runtime (dark <-> light) without a rebuild — Sass
+// variables are resolved at compile time and can't do that.
+//
+// Theme switching works off a `data-theme` attribute on <html>, set by
+// the theme service. Dark is the default per FR-23, so it lives on :root
+// directly and [data-theme='dark'] is there only for explicitness.
+//
+// One token from the source file was left out on purpose:
+// Button/Selective/Disable (#FFFFFF, both modes). That state never fires
+// in the product, so keeping it would just be dead CSS someone has to
+// puzzle over later.
+
+:root,
+[data-theme='dark'] {
+  // Text
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #CACFD8;
+  --color-text-tertiary: #ACB1BB;
+  --color-text-placeholder: #707681;
+  --color-text-disabled: #707681;
+  --color-text-on-primary: #FFFFFF;
+  --color-text-on-outline: #A68FE8;
+  --color-text-error: #FF9142;
+  --color-text-success: #24A148;
+
+  // Button / Primary
+  --color-button-primary-default: #402982;
+  --color-button-primary-hover: #6A45D8;
+  --color-button-primary-pressed: #886AE0;
+  --color-button-primary-disabled: #2A1C56;
+  --color-button-primary-on-default: #FFFFFF;
+  --color-button-primary-on-disabled: #525864;
+
+  // Button / Outline
+  --color-button-outline-default: #6A45D8;
+  --color-button-outline-hover: #886AE0;
+  --color-button-outline-pressed: #A68FE8;
+  --color-button-outline-disabled: #2A1C56;
+  --color-button-outline-on-default: #A68FE8;
+  --color-button-outline-on-hover: #C3B5EF;
+  --color-button-outline-on-pressed: #D2C7F3;
+  --color-button-outline-on-disabled: #886AE0;
+
+  // Button / Selective (controll the data pattern in exercise)
+  --color-button-selective-default: #2A2E39;
+  --color-button-selective-hover: #525864;
+  --color-button-selective-select: #886AE0;
+  --color-button-selective-on-default: #525864;
+  --color-button-selective-on-hover: #707681;
+  --color-button-selective-on-select: #A68FE8;
+
+  // Button / Navigation(control the steps in exercise)
+  --color-button-navigation-default: #2A2E39;
+  --color-button-navigation-hover: #525864;
+  --color-button-navigation-pressed: #707681;
+  --color-button-navigation-on-default: #CACFD8;
+  --color-button-navigation-on-hover: #CACFD8;
+  --color-button-navigation-on-pressed: #D0D2D7;
+
+  // Speed Button (control the speed in ecercise)
+  --color-speed-button-default: #ACB1BB;
+  --color-speed-button-hover: #CACFD8;
+  --color-speed-button-pressed: #886AE0;
+  --color-speed-button-on-default: #DDDBE7;
+  --color-speed-button-on-hover: #E5E4ED;
+  --color-speed-button-on-pressed: #A68FE8;
+
+  // Icon Button (mostly used for drawer/sidebar)
+  --color-icon-button-default: #1F232B; //border
+  --color-icon-button-hover: #3C404A; //border
+  --color-icon-button-pressed: #3C404A; //border
+
+  --color-icon-button-on-default: #CACFD8;
+  --color-icon-button-on-hover: #CACFD8;
+  --color-icon-button-on-pressed: #CACFD8;
+
+  --color-icon-button-bg-default: #101114;
+  --color-icon-button-bg-hover: #131314;
+  --color-icon-button-bg-pressed: #151516;
+
+  // Play / Pause controls (kept separate from the general button set since they carry their own background states)
+  --color-play-default: #6A45D8;
+  --color-play-hover: #886AE0;
+  --color-play-pressed: #A68FE8;
+  --color-play-on-default: #CACFD8;
+  --color-play-on-hover: #C3B5EF;
+  --color-play-on-pressed: #101114;
+  --color-play-bg-default: #101114;
+  --color-play-bg-hover: #101114;
+  --color-play-bg-pressed: #402982;
+
+  --color-pause-default: #6A45D8;
+  --color-pause-hover: #886AE0;
+  --color-pause-pressed: #A68FE8;
+  --color-pause-on-default: #CACFD8;
+  --color-pause-on-hover: #C3B5EF;
+  --color-pause-on-pressed: #101114;
+  --color-pause-bg-default: #101114;
+  --color-pause-bg-hover: #101114;
+  --color-pause-bg-pressed: #A68FE8;
+
+  // Support (status/feedback colors, not tied to any one component)
+  --color-support-error: #DA1E28;
+  --color-support-success: #24A148;
+  --color-support-warning: #F1C21B;
+  --color-support-info: #0043CE;
+
+  --color-focus: #6A45D8;
+
+  // Brand — also exposed as a gradient pair, since Figma variants can't hold a gradient. Use --gradient-brand wherever the design shows the brand border/accent as a purple-to-orange blend.
+  --color-brand-primary: #6A45D8;
+  --color-brand-accent: #FFA768;
+  --gradient-brand: linear-gradient(180deg, var(--color-brand-primary) 0%, var(--color-brand-accent) 100%);
+
+  // Surfaces
+  --color-background: #0A0A0C;
+  --color-surface: #0D0E10;
+  --color-surface-container: #101114;
+  --color-elevated-surface: #151516;
+
+  // Borders
+  --color-border-default: #1F232B;
+  --color-border-strong: #2A2E39;
+  --color-border-primary: #6A45D8;
+  --color-border-subtle: #15171C;
+  // Border/Brand has no flat color in the source — it's the gradient above.
+  // Solid fallback for places a gradient border isn't practical (e.g. box-shadow rings).
+  --color-border-brand-fallback: #FFFFFF;
+
+  // Learn tab — pseudocode / annotation accents
+  --color-learning-code: #886AE0;
+  --color-learning-annotation: #FF9142;
+  --color-learning-active-step: #886AE0;
+
+  // Visualization bar states
+  --color-viz-default: #2C2E33;
+  --color-viz-comparing: #FF9142;
+  --color-viz-swapping: #DA1E28;
+  --color-viz-sorted: #28BE2A;
+  --color-viz-active: #3B82F6;
+}
+
+[data-theme='light'] {
+  // Text
+  --color-text-primary: #111017;
+  --color-text-secondary: #16151F;
+  --color-text-tertiary: #383646;
+  --color-text-placeholder: #555265;
+  --color-text-disabled: #555265;
+  --color-text-on-primary: #FFFFFF;
+  --color-text-on-outline: #6A45D8;
+  --color-text-error: #FF9142;
+  --color-text-success: #24A148;
+
+  // Button / Primary
+  --color-button-primary-default: #6A45D8;
+  --color-button-primary-hover: #402982;
+  --color-button-primary-pressed: #2A1C56;
+  --color-button-primary-disabled: #C3B5EF;
+  --color-button-primary-on-default: #FFFFFF;
+  --color-button-primary-on-disabled: #2A2E39;
+
+  // Button / Outline
+  --color-button-outline-default: #6A45D8;
+  --color-button-outline-hover: #402982;
+  --color-button-outline-pressed: #2A1C56;
+  --color-button-outline-disabled: #2A1C56;
+  --color-button-outline-on-default: #886AE0;
+  --color-button-outline-on-hover: #6A45D8;
+  --color-button-outline-on-pressed: #402982;
+  --color-button-outline-on-disabled: #886AE0;
+
+  // Button / Selective
+  --color-button-selective-default: #A6A9AF;
+  --color-button-selective-hover: #6B6E74;
+  --color-button-selective-select: #886AE0;
+  --color-button-selective-on-default: #383646;
+  --color-button-selective-on-hover: #1C1A27;
+  --color-button-selective-on-select: #A68FE8;
+
+  // Button / Navigation
+  --color-button-navigation-default: #A6A9AF;
+  --color-button-navigation-hover: #5C5F65;
+  --color-button-navigation-pressed: #4E5157;
+  --color-button-navigation-on-default: #16151F;
+  --color-button-navigation-on-hover: #0B0A10;
+  --color-button-navigation-on-pressed: #08080C;
+
+    // Speed Button (control the speed in ecercise)
+  --color-speed-button-default: #383646;
+  --color-speed-button-hover: #2A2837;
+  --color-speed-button-pressed: #886AE0;
+  --color-speed-button-on-default: #383646;
+  --color-speed-button-on-hover: #2A2837;
+  --color-speed-button-on-pressed: #A68FE8;
+
+  // Icon Button (mostly used for drawer/sidebar)
+  --color-icon-button-default: #C4C7CD;
+  --color-icon-button-hover: #C4C7CD;
+  --color-icon-button-pressed: #898C92;
+
+  --color-icon-button-on-default: #5C5F65;
+  --color-icon-button-on-hover: #383646;
+  --color-icon-button-on-pressed: #383646;
+
+  --color-icon-button-bg-default: #EBEDEF;
+  --color-icon-button-bg-hover: #EBEDEF;
+  --color-icon-button-bg-pressed: #F5F6F7;
+
+  // Play / Pause controls
+  --color-play-default: #6A45D8;
+  --color-play-hover: #5537AD;
+  --color-play-pressed: #402982;
+  --color-play-on-default: #16151F;
+  --color-play-on-hover: #16151F;
+  --color-play-on-pressed: #EBEDEF;
+  --color-play-bg-default: #EBEDEF;
+  --color-play-bg-hover: #E1DAF7;
+  --color-play-bg-pressed: #402982;
+
+  --color-pause-default: #6A45D8;
+  --color-pause-hover: #5537AD;
+  --color-pause-pressed: #402982;
+  --color-pause-on-default: #16151F;
+  --color-pause-on-hover: #16151F;
+  --color-pause-on-pressed: #EBEDEF;
+  --color-pause-bg-default: #EBEDEF;
+  --color-pause-bg-hover: #E1DAF7;
+  --color-pause-bg-pressed: #402982;
+
+  // Support
+  --color-support-error: #DA1E28;
+  --color-support-success: #24A148;
+  --color-support-warning: #F1C21B;
+  --color-support-info: #0043CE;
+
+  --color-focus: #A68FE8;
+
+  // Brand
+  --color-brand-primary: #6A45D8;
+  --color-brand-accent: #FFA768;
+  --gradient-brand: linear-gradient(180deg, var(--color-brand-primary) 0%, var(--color-brand-accent) 100%);
+
+  // Surfaces
+  --color-background: #D7DADF;
+  --color-surface: #E1E3E7;
+  --color-surface-container: #EBEDEF;
+  --color-elevated-surface: #F5F6F7;
+
+  // Borders
+  --color-border-default: #C4C7CD;
+  --color-border-strong: #A6A9AF;
+  --color-border-primary: #A68FE8;
+  --color-border-subtle: #D0D2D7;
+  --color-border-brand-fallback: #FFFFFF;
+
+  // Learn tab
+  --color-learning-code: #6A45D8;
+  --color-learning-annotation: #D17635;
+  --color-learning-active-step: #886AE0;
+
+  // Visualization bar states
+  --color-viz-default: #9CA3AF;
+  --color-viz-comparing: #FFA768;
+  --color-viz-swapping: #E14B53;
+  --color-viz-sorted: #5BF15D;
+  --color-viz-active: #629BF8;
+}
