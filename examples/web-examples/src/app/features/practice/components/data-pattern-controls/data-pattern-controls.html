@@ -1,0 +1,44 @@
+@if (!compact) {
+
+  <div class="algo-data-pattern-controls">
+
+    <span class="algo-data-pattern-controls__label text-body-medium">
+      Data Pattern:
+    </span>
+
+    @for (pattern of patterns; track pattern.id) {
+      <algo-selective-button
+        [text]="pattern.label"
+        [selected]="selectedPattern === pattern.id"
+        (click)="selectedPatternChange.emit(pattern.id)"
+      />
+    }
+
+  </div>
+
+} @else {
+
+  <div class="algo-data-pattern-controls algo-data-pattern-controls--compact">
+
+    <span class="algo-data-pattern-controls__label text-body-medium">
+      Data Pattern:
+    </span>
+
+    <button
+      type="button"
+      class="algo-data-pattern-controls__cycle-button"
+      [class.algo-data-pattern-controls__cycle-button--selected]="selectedPattern !== null"
+      (click)="cyclePattern()"
+    >
+      <span class="text-label-medium">
+        {{ compactLabel }}
+      </span>
+
+      <span class="algo-data-pattern-controls__cycle-icon">
+        <svg solarRestartLinear [size]="16"></svg>
+      </span>
+    </button>
+
+  </div>
+
+}

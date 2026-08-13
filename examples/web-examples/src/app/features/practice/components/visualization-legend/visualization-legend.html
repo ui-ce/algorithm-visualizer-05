@@ -1,0 +1,8 @@
+<div class="algo-visualization-legend">
+  @for (item of items; track item.label) {
+    <div class="algo-visualization-legend__item">
+      <span class="algo-visualization-legend__square" [style.background-color]="'var(--color-' + item.colorToken + ')'"></span>
+      <span class="algo-visualization-legend__label text-label-medium-regular">{{ item.label }}</span>
+    </div>
+  }
+</div>

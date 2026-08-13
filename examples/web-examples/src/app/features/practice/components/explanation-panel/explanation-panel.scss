@@ -1,0 +1,25 @@
+.algo-explanation-panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+  max-height: 100%;
+  padding-inline: 24px;
+  padding-block: 12px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background-image: linear-gradient(var(--color-elevated-surface), var(--color-elevated-surface)), var(--gradient-brand);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+
+  &__title {
+    // Learning/Explanation isn't in the color tokens file yet — falls
+    // back to Text/Primary until that token is added.
+    color: var(--color-learning-explanation, var(--color-text-primary));
+    margin-block-end: 8px;
+  }
+
+  &__description {
+    color: var(--color-text-secondary);
+  }
+}

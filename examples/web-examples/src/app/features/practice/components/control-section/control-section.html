@@ -1,0 +1,19 @@
+<div class="algo-control-section" [class.algo-control-section--drawer-open]="isDrawerOpen">
+  <algo-navigation-controls
+    [isPlaying]="isPlaying"
+    (previous)="previous.emit()"
+    (playToggle)="playToggle.emit()"
+    (next)="next.emit()"
+    (again)="again.emit()"
+  />
+
+  <algo-input-controls
+    [isDrawerOpen]="isDrawerOpen"
+    [selectedPattern]="selectedPattern"
+    (customInputClick)="customInputClick.emit()"
+    (randomInputClick)="randomInputClick.emit()"
+    (patternChange)="patternChange.emit($event)"
+  />
+
+  <algo-compare-control (compareClick)="compareClick.emit()" />
+</div>

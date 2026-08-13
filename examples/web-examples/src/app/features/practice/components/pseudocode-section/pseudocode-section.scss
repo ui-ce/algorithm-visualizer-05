@@ -1,0 +1,23 @@
+// Pseudocode is written first in source order so it lands on the
+// visually-right side under RTL, the project's primary direction —
+// flex-direction: row already follows the document's writing direction,
+// so this flips correctly under LTR too without hardcoding either side.
+.algo-pseudocode-section {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 42px;
+  width: 100%;
+  height: fit-content;
+  padding-inline: 24px;
+  padding-block: 12px;
+  background-color: var(--color-surface-container);
+  border: 1px solid var(--color-border-default);
+  border-radius: 12px;
+
+  algo-pseudocode-panel,
+  algo-explanation-panel {
+    flex: 1;
+    min-width: 0;
+  }
+}

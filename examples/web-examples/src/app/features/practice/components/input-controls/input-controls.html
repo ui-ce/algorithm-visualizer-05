@@ -1,0 +1,32 @@
+<div class="algo-input-controls">
+
+  <algo-button
+    variant="primary"
+    text="Custom Input"
+    (click)="customInputClick.emit()"
+  />
+
+  <algo-button
+    variant="outline"
+    text="Random Input"
+    (click)="randomInputClick.emit()"
+  />
+
+  @if (!isDrawerOpen) {
+
+    <algo-data-pattern-controls
+      [selectedPattern]="selectedPattern"
+      (selectedPatternChange)="onPatternChange($event)"
+    />
+
+  } @else {
+
+    <algo-data-pattern-controls
+      [selectedPattern]="selectedPattern"
+      [compact]="true"
+      (selectedPatternChange)="onPatternChange($event)"
+    />
+
+  }
+
+</div>

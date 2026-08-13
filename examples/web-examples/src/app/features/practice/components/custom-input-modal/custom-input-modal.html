@@ -1,0 +1,72 @@
+@if (isOpen) {
+  <div class="algo-custom-input-modal__backdrop" (click)="onCancel()"></div>
+
+  <div class="algo-custom-input-modal" role="dialog" aria-modal="true">
+    <p class="algo-custom-input-modal__title text-headline-large-emphasized">Custom Input</p>
+
+    <label class="algo-custom-input-modal__label text-body-medium">Number of elements</label>
+    <input
+      type="text"
+      class="algo-custom-input-modal__count-input text-label-medium-regular"
+      placeholder="Example 10"
+      [value]="elementCountText"
+      (input)="onElementCountChange($any($event.target).value)"
+    />
+    @if (countErrorMessage) {
+      <p class="algo-custom-input-modal__error text-label-medium-regular">{{ countErrorMessage }}</p>
+    }
+    @if (maxCountNotice) {
+      <p class="algo-custom-input-modal__notice text-label-medium-regular">{{ maxCountNotice }}</p>
+    }
+
+    <p class="algo-custom-input-modal__label algo-custom-input-modal__label--elements text-body-medium">
+      Elements
+    </p>
+
+    <div class="algo-custom-input-modal__rows">
+      @for (row of rows; track $index) {
+        <div class="algo-custom-input-modal__row">
+          @for (index of row; track index) {
+            <div class="algo-custom-input-modal__field">
+              <span class="algo-custom-input-modal__field-number text-label-medium-regular">
+                #{{ index + 1 }}
+              </span>
+              <input
+                type="text"
+                class="algo-custom-input-modal__field-input"
+                [disabled]="!fieldsAreEnabled"
+                [value]="elementValues[index] ?? ''"
+                (input)="onElementValueChange(index, $any($event.target).value)"
+              />
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="algo-custom-input-modal__actions">
+  <algo-button
+    variant="primary"
+    text="Apply"
+    [fullWidth]="true"
+    [disabled]="!canApply"
+    (click)="onApply()"
+  />
+
+  <algo-button
+    variant="outline"
+    text="Generate Random"
+    [fullWidth]="true"
+    [disabled]="!fieldsAreEnabled"
+    (click)="onGenerateRandom()"
+  />
+
+  <algo-button
+    variant="outline"
+    text="Cancel"
+    [fullWidth]="true"
+    (click)="onCancel()"
+  />
+</div>
+  </div>
+}

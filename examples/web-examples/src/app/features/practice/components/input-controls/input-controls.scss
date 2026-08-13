@@ -1,0 +1,15 @@
+// Padding here mirrors Row 1's stated values (24px / 12px) since the
+// spec describes this row as sharing the same container treatment as
+// the other Control rows without restating the numbers.
+.algo-input-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  width: fit-content;
+  height: 100%;
+  padding-inline: 20px;
+  padding-block: 12px;
+  background-color: var(--color-surface-container);
+  border: 1px solid var(--color-border-default);
+  border-radius: 12px;
+}

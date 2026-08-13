@@ -1,0 +1,19 @@
+.algo-control-section {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  width: 100%;
+  height: fit-content;
+
+  // When the Drawer's panel is open, the available width shrinks —
+  // space-between then stretches the gaps between the three groups to
+  // an amount that has nothing to do with the actual content anymore.
+  // Switching to a fixed gap keeps the spacing proportional to what's
+  // actually on screen instead of to whatever width happens to be left.
+  &--drawer-open {
+    justify-content: flex-start;
+    gap: 16px;
+  }
+}

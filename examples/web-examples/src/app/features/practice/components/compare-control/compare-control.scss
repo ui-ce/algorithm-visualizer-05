@@ -1,0 +1,15 @@
+.algo-compare-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: fit-content;
+  height: 100%;
+
+  padding-inline: 20px;
+  padding-block: 12px;
+
+  background-color: var(--color-surface-container);
+  border: 1px solid var(--color-border-default);
+  border-radius: 12px;
+}

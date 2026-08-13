@@ -1,0 +1,15 @@
+<div class="algo-navigation-controls">
+  <algo-button variant="navigation" text="Prev" [hasLeftIcon]="true" (click)="previous.emit()">
+    <svg left-icon solarSkipPreviousLinear [size]="16"></svg>
+  </algo-button>
+
+  <algo-play-pause-button [type]="isPlaying ? 'pause' : 'play'" (click)="playToggle.emit()" />
+
+  <algo-button variant="navigation" text="Next" [hasRightIcon]="true" (click)="next.emit()">
+    <svg right-icon solarSkipNextLinear [size]="16"></svg>
+  </algo-button>
+
+  <algo-button variant="navigation" text="Again" [hasRightIcon]="true" (click)="again.emit()">
+    <svg right-icon solarRestartLinear [size]="16"></svg>
+  </algo-button>
+</div>

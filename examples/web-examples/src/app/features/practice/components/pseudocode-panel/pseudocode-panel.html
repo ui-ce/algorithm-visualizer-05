@@ -1,0 +1,26 @@
+<div class="algo-pseudocode-panel">
+  <div class="algo-pseudocode-panel__scroll-area">
+    @for (line of lines; track line.lineNumber) {
+      <div
+        class="algo-pseudocode-panel__line text-body-medium"
+        [class.algo-pseudocode-panel__line--active]="line.lineNumber === activeLineNumber"
+      >
+        <span class="algo-pseudocode-panel__line-number">{{ line.lineNumber }}</span>
+
+        @for (guide of indentGuides(line.indentLevel); track $index) {
+          <span class="algo-pseudocode-panel__indent-guide"></span>
+        }
+
+        <span class="algo-pseudocode-panel__code">
+          @for (token of line.tokens; track $index) {
+            <span
+              class="algo-pseudocode-panel__token"
+              [class.algo-pseudocode-panel__token--keyword]="token.kind === 'keyword'"
+              [class.algo-pseudocode-panel__token--number]="token.kind === 'number'"
+            >{{ token.text }}</span>
+          }
+        </span>
+      </div>
+    }
+  </div>
+</div>

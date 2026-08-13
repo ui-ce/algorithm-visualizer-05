@@ -1,0 +1,43 @@
+<div class="algo-visualization-section">
+  <div class="algo-visualization-section__header">
+    <span class="algo-visualization-section__step text-body-large">
+      Step {{ currentStep }} of {{ totalSteps }}
+    </span>
+
+    <div class="algo-visualization-section__header-right">
+      <span class="algo-visualization-section__speed-label text-body-large">Speed:</span>
+      <algo-speed-button [speed]="speed" (speedChange)="speedChange.emit($event)" />
+      <button
+        type="button"
+        class="algo-visualization-section__fullscreen-button"
+        aria-label="Toggle fullscreen"
+        (click)="fullscreenToggle.emit()"
+      >
+        <svg solarFullScreenLinear [size]="24"></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="algo-visualization-section__chart-wrapper">
+    <algo-visualization-area
+      [animation]="animation"
+      [rendererMetadata]="rendererMetadata"
+      [frameIndex]="frameIndex"
+    />
+
+    @if (showHint) {
+      <div class="algo-visualization-section__hint">
+        <p class="algo-visualization-section__hint-title text-title-medium">Ready to see it in action?</p>
+        <p class="algo-visualization-section__hint-description text-body-medium">
+          Press Play to run the algorithm on this random array, or enter your own numbers first.
+        </p>
+        <div class="algo-visualization-section__hint-actions">
+          <algo-button variant="primary" text="Play" (click)="hintPlayClick.emit()" />
+          <algo-button variant="outline" text="Enter custom data" (click)="hintGenerateClick.emit()" />
+        </div>
+      </div>
+    }
+  </div>
+
+  <algo-visualization-legend [items]="legendItems" />
+</div>

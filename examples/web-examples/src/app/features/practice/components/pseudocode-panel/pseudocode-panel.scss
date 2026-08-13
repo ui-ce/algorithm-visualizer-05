@@ -1,0 +1,60 @@
+// The brand gradient can't be set as a flat border-color, so it's drawn
+// as a second background layer clipped to the border box while the
+// panel's real background is clipped to the padding box — a common way
+// to get a gradient border without an extra wrapper element.
+.algo-pseudocode-panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 100%;
+  padding-inline: 24px;
+  padding-block: 12px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background-image: linear-gradient(var(--color-elevated-surface), var(--color-elevated-surface)), var(--gradient-brand);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+
+  &__scroll-area {
+    overflow-y: auto;
+  }
+
+  &__line {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding-block: 4px;
+    color: var(--color-text-secondary);
+
+    &--active {
+      padding-block: 8px;
+      color: var(--color-learning-active-step);
+    }
+  }
+
+  &__line-number {
+    flex-shrink: 0;
+    width: 20px;
+    text-align: end;
+    color: var(--color-text-tertiary);
+  }
+
+  &__indent-guide {
+    flex-shrink: 0;
+    width: 12px;
+    align-self: stretch;
+    border-inline-start: 1px solid var(--color-border-default);
+  }
+
+  &__code {
+    white-space: pre;
+  }
+
+  &__token--keyword {
+    color: var(--color-learning-code);
+  }
+
+  &__token--number {
+    color: var(--color-learning-annotation);
+  }
+}

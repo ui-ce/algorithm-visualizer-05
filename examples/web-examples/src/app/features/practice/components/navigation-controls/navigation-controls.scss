@@ -1,0 +1,15 @@
+// align-items: center handles the height difference between the 60px
+// Play/Pause button and the shorter Navigation buttons on either side of
+// it — no manual offset needed.
+.algo-navigation-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  width: fit-content;
+  height: fit-content;
+  padding-inline: 20px;
+  padding-block: 12px;
+  background-color: var(--color-surface-container);
+  border: 1px solid var(--color-border-default);
+  border-radius: 12px;
+}

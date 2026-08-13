@@ -1,0 +1,11 @@
+<div class="algo-visualization-area">
+  @if (animation && rendererMetadata) {
+    <web-renderer
+      [animation]="chartOnlyAnimation"
+      [rendererMetadata]="rendererMetadata"
+      [frameIndex]="frameIndex"
+      [hasPlayer]="false"
+      [showTitle]="false"
+    />
+  }
+</div>
