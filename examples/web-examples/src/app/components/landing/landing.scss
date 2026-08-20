@@ -1,0 +1,727 @@
+// Shared section rhythm: every section gets the same horizontal gutter
+// as the header/footer (64px) and a generous vertical rhythm so the
+// page reads as distinct chapters, not one long scroll.
+.landing {
+  display: flex;
+  flex-direction: column;
+
+  // Bigger, heavier-weight body copy for marketing sections. Regular
+  // Body/Large (16px/400) reads fine inside the app's own UI, but next
+  // to big headlines on a landing page — especially in light mode,
+  // where thin weights lose contrast against the lighter surface
+  // tokens — it looked washed out. This stays on the same font family
+  // and uses --color-text-secondary (near-black in light mode, not the
+  // dimmer tertiary token) specifically to keep it readable in both
+  // themes.
+  &__lead {
+    font-family: var(--font-family-base);
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+  }
+
+  &__section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 640px;
+    margin-bottom: 48px;
+  }
+
+  // Replaces the old text "eyebrow" label with a small decorative
+  // brand-gradient mark — keeps the section head from feeling flat
+  // without resorting to another line of generic marketing copy.
+  &__accent-mark {
+    display: block;
+    width: 48px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--gradient-brand);
+  }
+
+  &__section-title {
+    color: var(--color-text-primary);
+    font-family: var(--font-family-base);
+    font-size: 2.25rem;
+    line-height: 2.75rem;
+    font-weight: 800;
+  }
+
+  &__section-subtitle {
+    margin: 0;
+  }
+
+  // ---------- 1. HERO ----------
+  &__hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 64px;
+    min-height: 88vh;
+    padding: 96px 64px;
+    overflow: hidden;
+
+    // Fine geometric dot-grid, confined to the top-right corner via a
+    // mask so it reads as a deliberate accent rather than noise across
+    // the whole hero.
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(var(--color-border-strong) 1px, transparent 1px);
+      background-size: 28px 28px;
+      -webkit-mask-image: radial-gradient(ellipse 65% 65% at 85% 15%, black 0%, transparent 70%);
+      mask-image: radial-gradient(ellipse 65% 65% at 85% 15%, black 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -160px;
+      inset-inline-end: -160px;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: var(--gradient-brand);
+      opacity: 0.14;
+      filter: blur(100px);
+      pointer-events: none;
+    }
+  }
+
+  &__hero-copy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 580px;
+  }
+
+  &__hero-title {
+    color: var(--color-text-primary);
+    font-family: var(--font-family-base);
+    font-size: 3.25rem;
+    line-height: 3.75rem;
+    font-weight: 800;
+    margin: 0;
+
+    &-highlight {
+      display: block;
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  &__hero-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+
+  &__hero-demo {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 440px;
+  }
+
+  // ---------- 2. ALGORITHM PICKER ----------
+  &__picker {
+    padding: 96px 64px;
+    background-color: var(--color-surface);
+  }
+
+  &__picker-groups {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  &__picker-group-title {
+    color: var(--color-text-primary);
+    margin-bottom: 16px;
+  }
+
+  &__picker-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__algo-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    width: 100%;
+    padding: 18px;
+    border-radius: 14px;
+    background: var(--color-surface-container);
+    border: 1px solid var(--color-border-default);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    text-align: start;
+    transition: border-color 0.15s ease, transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover {
+      border-color: var(--color-brand-primary);
+      background: var(--color-elevated-surface);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px -20px var(--color-brand-primary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  &__algo-card-name {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+
+  &__algo-card-class {
+    color: var(--color-text-secondary);
+  }
+
+  &__picker-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+  }
+
+  // ---------- 3. FEATURES ----------
+  &__features {
+    padding: 96px 64px;
+  }
+
+  &__feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  &__feature-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 28px 24px;
+    border-radius: 16px;
+    background: var(--color-surface-container);
+    border: 1px solid var(--color-border-default);
+
+    h3 {
+      color: var(--color-text-primary);
+    }
+
+    p {
+      color: var(--color-text-secondary);
+    }
+
+    &--accent {
+      background: color-mix(in srgb, var(--color-brand-primary) 12%, var(--color-surface-container));
+      border-color: var(--color-border-primary);
+    }
+  }
+
+  &__feature-step {
+    font-family: var(--font-family-base);
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-brand-primary);
+    direction: ltr; // digits stay LTR regardless of page language
+  }
+
+  &__feature-stars {
+    font-size: 1.25rem;
+    color: var(--color-test-summary-xp);
+    letter-spacing: 4px;
+  }
+
+  // ---------- 3.5 PRODUCT TOUR ----------
+  &__tour {
+    padding: 96px 64px;
+    background-color: var(--color-surface);
+  }
+
+  &__tour-list {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+  }
+
+  &__tour-row {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+
+    &--reverse {
+      flex-direction: row-reverse;
+    }
+  }
+
+  // Browser-chrome mockup frame. `background-image` (set inline from
+  // TS) shows a real screenshot once one exists at that path; until
+  // then this gradient is what renders — no broken-image icon.
+  &__tour-frame {
+    flex: 1 1 55%;
+    aspect-ratio: 16 / 10;
+    border-radius: 16px;
+    background-color: var(--color-elevated-surface);
+    background-image: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-brand-primary) 18%, var(--color-elevated-surface)) 0%,
+      color-mix(in srgb, var(--color-brand-accent) 12%, var(--color-elevated-surface)) 100%
+    );
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--color-border-default);
+    box-shadow: 0 32px 64px -32px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+  }
+
+  &__tour-frame-bar {
+    direction: ltr;
+    display: flex;
+    gap: 6px;
+    padding: 12px 16px;
+    background: color-mix(in srgb, var(--color-background) 70%, transparent);
+
+    span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--color-border-strong);
+    }
+  }
+
+  &__tour-copy {
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+
+    h3 {
+      color: var(--color-text-primary);
+    }
+  }
+
+  // ---------- QUIZ SPOTLIGHT ----------
+  &__quiz {
+    padding: 0 64px 96px;
+  }
+
+  &__quiz-panel {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    padding: 56px;
+    border-radius: 24px;
+    background: color-mix(in srgb, var(--color-brand-primary) 14%, var(--color-surface-container));
+    border: 1px solid var(--color-border-primary);
+    box-shadow: 0 32px 80px -40px var(--color-brand-primary);
+  }
+
+  &__quiz-copy {
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+
+    .landing__section-title,
+    .landing__section-subtitle {
+      max-width: 460px;
+    }
+  }
+
+  &__quiz-stats {
+    display: flex;
+    gap: 32px;
+  }
+
+  &__quiz-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__quiz-stat-value {
+    font-family: var(--font-family-base);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-brand-primary);
+    direction: ltr;
+  }
+
+  &__quiz-stat-label {
+    color: var(--color-text-secondary);
+  }
+
+  &__quiz-frame {
+    flex: 1 1 50%;
+    aspect-ratio: 16 / 11;
+    border-radius: 18px;
+    background-color: var(--color-elevated-surface);
+    background-image: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-brand-primary) 22%, var(--color-elevated-surface)) 0%,
+      color-mix(in srgb, var(--color-brand-accent) 14%, var(--color-elevated-surface)) 100%
+    );
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--color-border-default);
+    box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.55);
+    overflow: hidden;
+  }
+
+  // ---------- 4. BATTLE / COMPARISON ----------
+  &__battle {
+    padding: 96px 64px;
+    background-color: var(--color-surface);
+  }
+
+  &__battle-arena {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+  }
+
+  &__battle-side {
+    padding: 32px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    h3 {
+      color: var(--color-text-primary);
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      color: var(--color-text-secondary);
+      padding-inline-start: 24px;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset-inline-start: 0;
+        top: 8px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+    }
+
+    &--left {
+      background: var(--color-surface-container);
+      border: 1px solid var(--color-border-default);
+
+      li::before {
+        background: var(--color-text-tertiary);
+      }
+    }
+
+    &--right {
+      background: color-mix(in srgb, var(--color-brand-primary) 16%, var(--color-surface-container));
+      border: 1px solid var(--color-border-primary);
+      box-shadow: 0 24px 60px -32px var(--color-brand-primary);
+
+      li {
+        color: var(--color-text-primary);
+      }
+
+      li::before {
+        background: var(--color-viz-sorted);
+      }
+    }
+  }
+
+  &__battle-vs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--gradient-brand);
+    color: var(--color-text-on-primary);
+    font-family: var(--font-family-base);
+    font-size: 1.125rem;
+    font-weight: 800;
+  }
+
+  // ---------- 5. SIGN-UP ----------
+  &__signup {
+    padding: 40px 64px 96px;
+  }
+
+  &__signup-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 64px 48px;
+    border-radius: 24px;
+    background: var(--color-elevated-surface);
+    border: 1px solid var(--color-border-default);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      padding: 1px;
+      border-radius: inherit;
+      background: var(--gradient-brand);
+      opacity: 0.5;
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+  }
+
+  &__signup-title {
+    color: var(--color-text-primary);
+    font-family: var(--font-family-base);
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
+  }
+
+  &__signup-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-top: 8px;
+  }
+
+  &__signup-login {
+    color: var(--color-text-secondary);
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--color-text-primary);
+    }
+  }
+}
+
+// ---------- Algorithm card hover glyphs ----------
+// Same markup (5 generic "bits") for every category — only the CSS
+// treatment changes, so the picker doesn't need three separate
+// templates. Hovering a card runs a small staggered animation on the
+// glyph that loosely mimics that category of algorithm actually doing
+// something: bars settle into a sorted color for Sorting, cells scan
+// left-to-right and the target lights up for Searching, nodes light up
+// along their connecting line for Graph.
+.algo-card__glyph {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 56px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.algo-card__glyph-bit {
+  flex: 1;
+  border-radius: 4px;
+  background: var(--color-viz-default);
+  transition: background-color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+@for $i from 1 through 5 {
+  .landing__algo-card:hover .algo-card__glyph-bit:nth-child(#{$i}) {
+    transition-delay: #{($i - 1) * 70}ms;
+  }
+}
+
+// Sorting: bar heights, cascades to the "sorted" color on hover.
+.algo-card__glyph--sorting .algo-card__glyph-bit {
+  &:nth-child(1) {
+    height: 35%;
+  }
+  &:nth-child(2) {
+    height: 70%;
+  }
+  &:nth-child(3) {
+    height: 50%;
+  }
+  &:nth-child(4) {
+    height: 90%;
+  }
+  &:nth-child(5) {
+    height: 60%;
+  }
+}
+
+.landing__algo-card:hover .algo-card__glyph--sorting .algo-card__glyph-bit {
+  background: var(--color-viz-sorted);
+}
+
+// Searching: flat cells, one pre-marked as the target; on hover the
+// scan color sweeps across and the target resolves to "found".
+.algo-card__glyph--searching .algo-card__glyph-bit {
+  height: 42%;
+  border: 1px solid var(--color-border-default);
+  background: var(--color-surface-container);
+
+  &:nth-child(4) {
+    border-color: var(--color-brand-accent);
+  }
+}
+
+.landing__algo-card:hover .algo-card__glyph--searching .algo-card__glyph-bit {
+  background: var(--color-viz-comparing);
+}
+
+.landing__algo-card:hover .algo-card__glyph--searching .algo-card__glyph-bit:nth-child(4) {
+  background: var(--color-viz-sorted);
+  transition-delay: 340ms;
+}
+
+// Graph: nodes on a shared connecting line; on hover nodes pulse and
+// the line picks up the brand gradient, mimicking a traversal.
+.algo-card__glyph--graph {
+  position: relative;
+  align-items: center;
+  justify-content: space-between;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline: 4px;
+    top: 50%;
+    height: 2px;
+    background: var(--color-border-strong);
+    transition: background 0.3s ease;
+    z-index: 0;
+  }
+}
+
+.algo-card__glyph--graph .algo-card__glyph-bit {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 1;
+}
+
+.landing__algo-card:hover .algo-card__glyph--graph .algo-card__glyph-bit {
+  background: var(--color-brand-primary);
+  transform: scale(1.3);
+}
+
+.landing__algo-card:hover .algo-card__glyph--graph::before {
+  background: var(--gradient-brand);
+}
+
+// ---------- Responsive ----------
+@media (max-width: 1024px) {
+  .landing {
+    &__hero {
+      flex-direction: column;
+      min-height: auto;
+      padding: 72px 24px 80px;
+      text-align: center;
+      align-items: center;
+    }
+
+    &__hero-copy {
+      align-items: center;
+    }
+
+    &__hero-actions {
+      justify-content: center;
+    }
+
+    &__hero-demo {
+      flex: 1 1 auto;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    &__picker,
+    &__features,
+    &__tour,
+    &__battle,
+    &__signup {
+      padding-inline: 24px;
+    }
+
+    &__quiz {
+      padding-inline: 24px;
+    }
+
+    &__picker-groups {
+      grid-template-columns: 1fr;
+    }
+
+    &__feature-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    &__tour-row,
+    &__tour-row--reverse {
+      flex-direction: column;
+    }
+
+    &__quiz-panel {
+      flex-direction: column;
+    }
+
+    &__battle-arena {
+      grid-template-columns: 1fr;
+    }
+
+    &__battle-vs {
+      justify-self: center;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .landing {
+    &__hero-title {
+      font-size: 2.25rem;
+      line-height: 2.75rem;
+    }
+
+    &__feature-grid {
+      grid-template-columns: 1fr;
+    }
+
+    &__quiz-stats {
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+  }
+}

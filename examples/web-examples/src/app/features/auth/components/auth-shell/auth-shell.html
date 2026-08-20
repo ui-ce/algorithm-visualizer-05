@@ -1,0 +1,22 @@
+<div class="algo-auth-shell">
+  <a routerLink="/home" class="algo-auth-shell__logo text-headline-large-emphasized" aria-label="ALGO">
+    <span class="algo-auth-shell__logo-part algo-auth-shell__logo-part--primary">A</span><span
+      class="algo-auth-shell__logo-part algo-auth-shell__logo-part--default">LG</span><span
+      class="algo-auth-shell__logo-part algo-auth-shell__logo-part--accent">O</span>
+  </a>
+
+  <div class="algo-auth-shell__card">
+    <p class="algo-auth-shell__title text-headline-large-emphasized">{{ title }}</p>
+    @if (subtitle) {
+      <p class="algo-auth-shell__subtitle text-body-medium">{{ subtitle }}</p>
+    }
+
+    <div class="algo-auth-shell__content">
+      <ng-content />
+    </div>
+
+    <div class="algo-auth-shell__footer text-body-medium">
+      <ng-content select="[footer]" />
+    </div>
+  </div>
+</div>

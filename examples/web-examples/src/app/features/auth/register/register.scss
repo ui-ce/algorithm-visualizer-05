@@ -1,0 +1,40 @@
+.algo-register-page {
+  &__error {
+    color: var(--color-text-error);
+  }
+
+  &__success {
+    color: var(--color-text-success);
+  }
+
+  &__link {
+    color: var(--color-brand-accent);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__password-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__password-rules {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding-inline-start: 16px;
+  }
+
+  &__password-rule {
+    color: var(--color-text-error);
+
+    &--met {
+      color: var(--color-text-success);
+    }
+  }
+}

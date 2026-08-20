@@ -1,0 +1,31 @@
+<footer class="algo-footer">
+  <div class="algo-footer__top">
+    <div class="algo-footer__brand">
+      <a routerLink="/" class="algo-footer__logo text-body-large" aria-label="ALGO">
+        <span class="algo-footer__logo-part algo-footer__logo-part--primary">A</span><span
+          class="algo-footer__logo-part algo-footer__logo-part--default">LG</span><span
+          class="algo-footer__logo-part algo-footer__logo-part--accent">O</span>
+      </a>
+      <p class="algo-footer__tagline text-body-medium">{{ 'landing.footer.tagline' | translate }}</p>
+    </div>
+
+    <div class="algo-footer__links">
+      <div class="algo-footer__column">
+        <span class="algo-footer__column-title text-label-medium">{{ 'landing.footer.sections.product' | translate }}</span>
+        <a routerLink="/home" class="text-body-medium">{{ 'landing.footer.links.algorithms' | translate }}</a>
+        <a routerLink="/algorithms/bubble-sort" class="text-body-medium">{{ 'landing.footer.links.practice' | translate }}</a>
+        <a routerLink="/algorithms/bubble-sort/test" class="text-body-medium">{{ 'landing.footer.links.test' | translate }}</a>
+      </div>
+
+      <div class="algo-footer__column">
+        <span class="algo-footer__column-title text-label-medium">{{ 'landing.footer.sections.about' | translate }}</span>
+        <a href="#" class="text-body-medium">{{ 'landing.footer.links.team' | translate }}</a>
+        <a href="#" class="text-body-medium">{{ 'landing.footer.links.contact' | translate }}</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="algo-footer__bottom text-label-medium">
+    <span>{{ 'landing.footer.copyright' | translate }} {{ year }}</span>
+  </div>
+</footer>

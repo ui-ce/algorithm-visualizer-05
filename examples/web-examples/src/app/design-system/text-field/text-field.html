@@ -1,0 +1,19 @@
+<div class="algo-text-field">
+  <label class="algo-text-field__label text-body-medium">{{ label }}</label>
+
+  <div class="algo-text-field__input-wrapper" [class.algo-text-field__input-wrapper--error]="errorMessage">
+    <input
+      [type]="type"
+      class="algo-text-field__input text-label-medium-regular"
+      [placeholder]="placeholder"
+      [value]="value"
+      [attr.autocomplete]="autocomplete"
+      (input)="onInput($any($event.target).value)"
+      (keydown.enter)="enterPressed.emit()"
+    />
+  </div>
+
+  @if (errorMessage) {
+    <p class="algo-text-field__error text-label-medium-regular">{{ errorMessage }}</p>
+  }
+</div>

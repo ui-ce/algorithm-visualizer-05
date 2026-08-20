@@ -1,0 +1,70 @@
+.algo-auth-shell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  padding-block: 48px;
+  padding-inline: 24px;
+  background-color: var(--color-background);
+
+  &__logo {
+    display: inline-flex;
+    margin-block-end: 40px;
+    text-decoration: none;
+  }
+
+  &__logo-part--primary {
+    color: var(--color-brand-primary);
+  }
+
+  &__logo-part--default {
+    color: var(--color-text-primary);
+  }
+
+  &__logo-part--accent {
+    color: var(--color-brand-accent);
+  }
+
+  // Same flat-fill-clipped-to-padding-box / gradient-clipped-to-border-box
+  // double layer as Custom Input Modal, since border-color can't hold a
+  // gradient directly.
+  &__card {
+    display: flex;
+    flex-direction: column;
+    width: 440px;
+    max-width: 100%;
+    padding-block: 32px;
+    padding-inline: 32px;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    background-image: linear-gradient(var(--color-elevated-surface), var(--color-elevated-surface)), var(--gradient-brand);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+
+  &__title {
+    color: var(--color-text-primary);
+  }
+
+  &__subtitle {
+    margin-block-start: 8px;
+    color: var(--color-text-tertiary);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-block-start: 24px;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-block-start: 24px;
+    color: var(--color-text-tertiary);
+  }
+}

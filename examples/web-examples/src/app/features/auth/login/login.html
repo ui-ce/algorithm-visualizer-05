@@ -1,0 +1,38 @@
+<algo-auth-shell title="Welcome back" subtitle="Sign in to keep tracking your progress">
+  <algo-text-field
+    label="Email"
+    type="email"
+    placeholder="you@example.com"
+    autocomplete="email"
+    [value]="email"
+    [errorMessage]="emailError"
+    (valueChange)="onEmailChange($event)"
+    (enterPressed)="onSubmit()"
+  />
+
+  <algo-password-field
+    label="Password"
+    placeholder="Enter your password"
+    autocomplete="current-password"
+    [value]="password"
+    (valueChange)="onPasswordChange($event)"
+    (enterPressed)="onSubmit()"
+  />
+
+  @if (formError) {
+    <p class="algo-login-page__error text-label-medium-regular">{{ formError }}</p>
+  }
+
+  <algo-button
+    variant="primary"
+    [text]="authService.isSubmitting() ? 'Signing in…' : 'Sign in'"
+    [fullWidth]="true"
+    [disabled]="authService.isSubmitting()"
+    (click)="onSubmit()"
+  />
+
+  <div footer>
+    <span class="text-body-medium">Don't have an account?</span>
+    <a routerLink="/auth/register" class="algo-login-page__link text-body-medium-emphasized">Create one</a>
+  </div>
+</algo-auth-shell>

@@ -1,0 +1,267 @@
+<algo-header
+  [themeMode]="themeService.themeMode()"
+  (themeToggle)="themeService.toggle()"
+  [currentLanguage]="languageService.currentLanguage()"
+  (languageToggle)="languageService.toggle()"
+/>
+
+<main class="landing">
+  <!-- 1. HERO -->
+  <section class="landing__hero">
+    <div class="landing__hero-copy">
+      <h1 class="landing__hero-title">
+        {{ 'landing.hero.title.line1' | translate }}
+        <span class="landing__hero-title-highlight">{{ 'landing.hero.title.highlight' | translate }}</span>
+      </h1>
+      <p class="landing__hero-subtitle landing__lead">{{ 'landing.hero.subtitle' | translate }}</p>
+
+      <div class="landing__hero-actions">
+        <algo-button
+          variant="primary"
+          size="large"
+          [text]="'landing.hero.cta.start' | translate"
+          (click)="scrollToPicker()"
+        />
+        <algo-button
+          variant="outline"
+          size="large"
+          [text]="'landing.hero.cta.watch' | translate"
+          (click)="scrollToDemo()"
+        />
+      </div>
+    </div>
+
+    <div class="landing__hero-demo" id="landing-hero-demo">
+      <algo-mini-sort-demo />
+    </div>
+  </section>
+
+  <!-- 2. ALGORITHM PICKER -->
+  <section class="landing__picker" id="landing-picker">
+    <div class="landing__section-head">
+      <span class="landing__accent-mark" aria-hidden="true"></span>
+      <h2 class="landing__section-title">{{ 'landing.picker.title' | translate }}</h2>
+      <p class="landing__section-subtitle landing__lead">{{ 'landing.picker.subtitle' | translate }}</p>
+    </div>
+
+    <div class="landing__picker-groups">
+      <div class="landing__picker-group">
+        <h3 class="landing__picker-group-title text-title-large">{{ 'landing.picker.category.sorting' | translate }}</h3>
+        <div class="landing__picker-grid">
+          @for (algo of sortingAlgorithms; track algo.route) {
+            <button type="button" class="landing__algo-card" (click)="goToAlgorithm(algo)">
+              <span class="algo-card__glyph algo-card__glyph--sorting" aria-hidden="true">
+                <span class="algo-card__glyph-bit"></span>
+                <span class="algo-card__glyph-bit"></span>
+                <span class="algo-card__glyph-bit"></span>
+                <span class="algo-card__glyph-bit"></span>
+                <span class="algo-card__glyph-bit"></span>
+              </span>
+              <span class="landing__algo-card-name text-body-large">{{ algo.nameKey | translate }}</span>
+              <span class="landing__algo-card-class text-label-medium">{{ algo.classKey | translate }}</span>
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="landing__picker-group">
+        <h3 class="landing__picker-group-title text-title-large">{{ 'landing.picker.category.searching' | translate }}</h3>
+        <div class="landing__picker-grid">
+          @for (algo of searchingAlgorithms; track algo.route) {
+            <button type="button" class="landing__algo-card" (click)="goToAlgorithm(algo)">
+              <span class="algo-card__glyph algo-card__glyph--searching" aria-hidden="true">
+                <span class="algo-card__glyph-bit"></span>
+                <span class="algo-card__glyph-bit"></span>
+                <span class="algo-card__glyph-bit"></span>
+                <span class="algo-card__glyph-bit"></span>
+                <span class="algo-card__glyph-bit"></span>
+              </span>
+              <span class="landing__algo-card-name text-body-large">{{ algo.nameKey | translate }}</span>
+              <span class="landing__algo-card-class text-label-medium">{{ algo.classKey | translate }}</span>
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="landing__picker-group">
+        <h3 class="landing__picker-group-title text-title-large">{{ 'landing.picker.category.graph' | translate }}</h3>
+        <div class="landing__picker-grid">
+          @for (algo of graphAlgorithms; track algo.route) {
+            <button type="button" class="landing__algo-card" (click)="goToAlgorithm(algo)">
+              <span class="algo-card__glyph algo-card__glyph--graph" aria-hidden="true">
+                <span class="algo-card__glyph-bit"></span>
+                <span class="algo-card__glyph-bit"></span>
+                <span class="algo-card__glyph-bit"></span>
+                <span class="algo-card__glyph-bit"></span>
+                <span class="algo-card__glyph-bit"></span>
+              </span>
+              <span class="landing__algo-card-name text-body-large">{{ algo.nameKey | translate }}</span>
+              <span class="landing__algo-card-class text-label-medium">{{ algo.classKey | translate }}</span>
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="landing__picker-footer">
+      <algo-button
+        variant="outline"
+        [text]="'landing.picker.viewAll' | translate"
+        (click)="goToAllAlgorithms()"
+      />
+    </div>
+  </section>
+
+  <!-- 3. FEATURES / LEARNING JOURNEY -->
+  <section class="landing__features">
+    <div class="landing__section-head">
+      <span class="landing__accent-mark" aria-hidden="true"></span>
+      <h2 class="landing__section-title">{{ 'landing.features.title' | translate }}</h2>
+      <p class="landing__section-subtitle landing__lead">{{ 'landing.features.subtitle' | translate }}</p>
+    </div>
+
+    <div class="landing__feature-grid">
+      <div class="landing__feature-card">
+        <span class="landing__feature-step" aria-hidden="true">01</span>
+        <h3 class="text-title-large">{{ 'landing.features.learn.title' | translate }}</h3>
+        <p class="text-body-medium">{{ 'landing.features.learn.description' | translate }}</p>
+      </div>
+      <div class="landing__feature-card">
+        <span class="landing__feature-step" aria-hidden="true">02</span>
+        <h3 class="text-title-large">{{ 'landing.features.practice.title' | translate }}</h3>
+        <p class="text-body-medium">{{ 'landing.features.practice.description' | translate }}</p>
+      </div>
+      <div class="landing__feature-card">
+        <span class="landing__feature-step" aria-hidden="true">03</span>
+        <h3 class="text-title-large">{{ 'landing.features.test.title' | translate }}</h3>
+        <p class="text-body-medium">{{ 'landing.features.test.description' | translate }}</p>
+      </div>
+      <div class="landing__feature-card landing__feature-card--accent">
+        <span class="landing__feature-stars" aria-hidden="true">★ ★ ★</span>
+        <h3 class="text-title-large">{{ 'landing.features.stars.title' | translate }}</h3>
+        <p class="text-body-medium">{{ 'landing.features.stars.description' | translate }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.5 PRODUCT TOUR (real-screenshot mockups) -->
+  <section class="landing__tour">
+    <div class="landing__section-head">
+      <span class="landing__accent-mark" aria-hidden="true"></span>
+      <h2 class="landing__section-title">{{ 'landing.tour.title' | translate }}</h2>
+      <p class="landing__section-subtitle landing__lead">{{ 'landing.tour.subtitle' | translate }}</p>
+    </div>
+
+    <div class="landing__tour-list">
+      @for (item of tourItems; track item.titleKey; let odd = $odd) {
+        <div class="landing__tour-row" [class.landing__tour-row--reverse]="odd">
+          <div class="landing__tour-frame" [style.background-image]="'url(' + tourImagePath(item.image) + ')'">
+            <div class="landing__tour-frame-bar">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+          <div class="landing__tour-copy">
+            <h3 class="text-title-large">{{ item.titleKey | translate }}</h3>
+            <p class="landing__lead">{{ item.descriptionKey | translate }}</p>
+            <algo-button
+              variant="outline"
+              [text]="'landing.tour.cta' | translate"
+              (click)="goToRoute(item.ctaRoute)"
+            />
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- QUIZ SPOTLIGHT -->
+  <section class="landing__quiz">
+    <div class="landing__quiz-panel">
+      <div class="landing__quiz-copy">
+        <h2 class="landing__section-title">{{ 'landing.quiz.title' | translate }}</h2>
+        <p class="landing__section-subtitle landing__lead">{{ 'landing.quiz.subtitle' | translate }}</p>
+
+        <div class="landing__quiz-stats">
+          <div class="landing__quiz-stat">
+            <span class="landing__quiz-stat-value">{{ 'landing.quiz.stat.levels.value' | translate }}</span>
+            <span class="landing__quiz-stat-label text-label-medium">{{ 'landing.quiz.stat.levels.label' | translate }}</span>
+          </div>
+          <div class="landing__quiz-stat">
+            <span class="landing__quiz-stat-value">{{ 'landing.quiz.stat.types.value' | translate }}</span>
+            <span class="landing__quiz-stat-label text-label-medium">{{ 'landing.quiz.stat.types.label' | translate }}</span>
+          </div>
+          <div class="landing__quiz-stat">
+            <span class="landing__quiz-stat-value">{{ 'landing.quiz.stat.stars.value' | translate }}</span>
+            <span class="landing__quiz-stat-label text-label-medium">{{ 'landing.quiz.stat.stars.label' | translate }}</span>
+          </div>
+        </div>
+
+        <algo-button
+          variant="primary"
+          size="large"
+          [text]="'landing.quiz.cta' | translate"
+          (click)="goToQuiz()"
+        />
+      </div>
+
+      <div class="landing__quiz-frame" [style.background-image]="'url(' + tourImagePath('test.png') + ')'">
+        <div class="landing__tour-frame-bar">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. COMPARISON ("battle") -->
+  <section class="landing__battle">
+    <div class="landing__section-head">
+      <span class="landing__accent-mark" aria-hidden="true"></span>
+      <h2 class="landing__section-title">{{ 'landing.battle.title' | translate }}</h2>
+      <p class="landing__section-subtitle landing__lead">{{ 'landing.battle.subtitle' | translate }}</p>
+    </div>
+
+    <div class="landing__battle-arena">
+      <div class="landing__battle-side landing__battle-side--left">
+        <h3 class="text-title-large">{{ 'landing.battle.left.title' | translate }}</h3>
+        <ul>
+          <li>{{ 'landing.battle.left.item1' | translate }}</li>
+          <li>{{ 'landing.battle.left.item2' | translate }}</li>
+          <li>{{ 'landing.battle.left.item3' | translate }}</li>
+          <li>{{ 'landing.battle.left.item4' | translate }}</li>
+        </ul>
+      </div>
+
+      <div class="landing__battle-vs">{{ 'landing.battle.vs' | translate }}</div>
+
+      <div class="landing__battle-side landing__battle-side--right">
+        <h3 class="text-title-large">{{ 'landing.battle.right.title' | translate }}</h3>
+        <ul>
+          <li>{{ 'landing.battle.right.item1' | translate }}</li>
+          <li>{{ 'landing.battle.right.item2' | translate }}</li>
+          <li>{{ 'landing.battle.right.item3' | translate }}</li>
+          <li>{{ 'landing.battle.right.item4' | translate }}</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. SIGN-UP CTA -->
+  <section class="landing__signup">
+    <div class="landing__signup-card">
+      <h2 class="landing__signup-title">{{ 'landing.signup.title' | translate }}</h2>
+      <p class="landing__lead">{{ 'landing.signup.subtitle' | translate }}</p>
+      <div class="landing__signup-actions">
+        <algo-button
+          variant="primary"
+          size="large"
+          [text]="'landing.signup.cta.register' | translate"
+          (click)="goToRegister()"
+        />
+        <a routerLink="/login" class="landing__signup-login text-body-medium">{{ 'landing.signup.cta.login' | translate }}</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 6. FOOTER -->
+<algo-footer />

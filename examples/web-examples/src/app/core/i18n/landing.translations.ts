@@ -1,0 +1,153 @@
+import type { TranslationDictionary } from './translations.type';
+
+// Strings for the landing page (components/landing). Algorithm
+// name/class/description keys are intentionally NOT duplicated here —
+// the landing page's algorithm picker section reuses the existing
+// `home.algorithm.*` keys from home.translation.ts so both places stay
+// in sync from one source.
+//
+// Revision note (round 2): the small uppercase "eyebrow" kicker labels
+// from stage 1 (landing.hero.eyebrow, landing.picker.eyebrow, etc.) were
+// removed per feedback — sections now lead with just the title/subtitle
+// plus a decorative accent mark instead of a text label.
+export const LANDING_TRANSLATIONS: TranslationDictionary = {
+  // Hero
+  'landing.hero.title.line1': { fa: 'الگوریتم‌ها رو دیگه', en: 'Stop reading algorithms.' },
+  'landing.hero.title.highlight': { fa: 'حفظ نکن، ببینشون', en: 'Start watching them.' },
+  'landing.hero.subtitle': {
+    fa: 'برای خیلی از دانشجوها، الگوریتم فقط چند خط شبه‌کد روی تخته‌ست. اینجا هر قدم از اجرا رو قدم‌به‌قدم می‌بینی، باهاش تمرین می‌کنی و در آخر با یه تست واقعی می‌سنجی چقدر یاد گرفتی.',
+    en: 'For a lot of students, an algorithm is just pseudocode on a whiteboard. Here you watch every step run live, practice it yourself, then prove what you learned with a real test.',
+  },
+  'landing.hero.cta.start': { fa: 'شروع یادگیری', en: 'Start learning' },
+  'landing.hero.cta.watch': { fa: 'ببین چطور کار می‌کنه', en: 'See it in action' },
+  'landing.hero.demo.label': { fa: 'مرتب‌سازی حبابی — زنده', en: 'Bubble Sort — live' },
+  'landing.hero.demo.reset': { fa: 'از اول', en: 'Reset' },
+  'landing.hero.demo.sorted': { fa: 'مرتب شد ✓', en: 'Sorted ✓' },
+
+  // Algorithm picker section
+  'landing.picker.title': { fa: 'از کجا شروع کنیم؟', en: 'Where do you want to start?' },
+  'landing.picker.subtitle': {
+    fa: 'یازده الگوریتم، سه دسته. موس رو ببر روی هرکارت تا ببینی خودِ الگوریتم چطور کار می‌کنه، بعد بزن بریم تمرین.',
+    en: 'Eleven algorithms, three categories. Hover a card to see the algorithm itself move, then tap it to practice.',
+  },
+  'landing.picker.category.sorting': { fa: 'مرتب‌سازی', en: 'Sorting' },
+  'landing.picker.category.searching': { fa: 'جست‌وجو', en: 'Searching' },
+  'landing.picker.category.graph': { fa: 'گراف و مسیریابی', en: 'Graph & Pathfinding' },
+  'landing.picker.viewAll': { fa: 'مشاهده همه الگوریتم‌ها', en: 'View all algorithms' },
+
+  // Features / learning journey — numbers now live only in the big
+  // decorative numeral badge in the template, not duplicated in the text.
+  'landing.features.title': { fa: 'یاد بگیر، تمرین کن، ثابت کن', en: 'Learn it, practice it, prove it' },
+  'landing.features.subtitle': {
+    fa: 'هر الگوریتم سه مرحله داره — و در آخر تا سه ستاره می‌گیری تا بدونی واقعاً چقدر یادش گرفتی.',
+    en: 'Every algorithm has three stages — finish them to earn up to three stars and know exactly how well you learned it.',
+  },
+  'landing.features.learn.title': { fa: 'یادگیری', en: 'Learn' },
+  'landing.features.learn.description': {
+    fa: 'شبه‌کد، توضیح مرحله‌به‌مرحله و یه اجرای نمایشی از الگوریتم، قبل از اینکه خودت دست به کار بشی.',
+    en: 'Pseudocode, step-by-step explanations, and a guided run-through before you touch anything yourself.',
+  },
+  'landing.features.practice.title': { fa: 'تمرین', en: 'Practice' },
+  'landing.features.practice.description': {
+    fa: 'داده دلخواه بده، سرعت اجرا رو تنظیم کن، قدم‌به‌قدم جلو برو یا عقب برگرد و ببین دقیقاً کجای الگوریتمی.',
+    en: 'Feed in your own data, control the speed, step forward or back, and see exactly where you are in the algorithm.',
+  },
+  'landing.features.test.title': { fa: 'آزمون', en: 'Test' },
+  'landing.features.test.description': {
+    fa: 'سه سطح سختی، سه نوع سؤال. جواب بده و همون‌جا نتیجه و ستاره‌هاتو بگیر.',
+    en: 'Three difficulty levels, three question types. Answer them and get your result and stars right away.',
+  },
+  'landing.features.stars.title': { fa: 'پیشرفت قابل‌اندازه‌گیری', en: 'Progress you can measure' },
+  'landing.features.stars.description': {
+    fa: 'برای هر الگوریتم تا ۳ ستاره جمع می‌کنی — یه راه ساده برای اینکه بدونی کجاها هنوز باید مرور کنی.',
+    en: 'Earn up to 3 stars per algorithm — a simple way to see what still needs review.',
+  },
+
+  // Product tour — mockup frames for Learn / Practice / Test. `image`
+  // filenames are referenced from landing.ts; drop real screenshots at
+  // src/assets/screenshots/<file> and they render automatically — until
+  // then the frame still looks intentional (gradient placeholder, not a
+  // broken image icon).
+  'landing.tour.title': { fa: 'محیط واقعی رو ببین', en: 'See the real thing' },
+  'landing.tour.subtitle': {
+    fa: 'این‌ها اسکرین‌شات‌های واقعی خودِ اپن — نه یه شبیه‌سازی از یه محصول دیگه.',
+    en: 'These are real screenshots of the actual product — not a mockup of something else.',
+  },
+  'landing.tour.learn.title': { fa: 'یادگیری قدم‌به‌قدم', en: 'Step-by-step learning' },
+  'landing.tour.learn.description': {
+    fa: 'شبه‌کد و توضیح هر خط، همزمان با اجرای زنده‌ی الگوریتم روی داده نمونه.',
+    en: 'Pseudocode and a line-by-line explanation, synced live with the algorithm running on sample data.',
+  },
+  'landing.tour.practice.title': { fa: 'تمرین با داده خودت', en: 'Practice with your own data' },
+  'landing.tour.practice.description': {
+    fa: 'یه آرایه دلخواه بده، سرعت رو تنظیم کن، جلو و عقب برو و ببین هر مرحله دقیقاً چی تغییر می‌کنه.',
+    en: 'Feed in your own array, control the speed, step forward and back, and watch exactly what changes at each step.',
+  },
+  'landing.tour.test.title': { fa: 'آزمون و نتیجه فوری', en: 'Testing with instant results' },
+  'landing.tour.test.description': {
+    fa: 'سؤال مفهومی، اجرایی و کدنویسی — با نتیجه، امتیاز و ستاره همون لحظه که تموم می‌کنی.',
+    en: 'Conceptual, execution and code questions — with your score and stars the moment you finish.',
+  },
+  'landing.tour.cta': { fa: 'امتحانش کن', en: 'Try it' },
+
+  // Quiz spotlight — a dedicated, larger callout for the Test feature.
+  'landing.quiz.title': { fa: 'وقتی فکر می‌کنی بلدی، بسنجش', en: "Think you've got it? Prove it." },
+  'landing.quiz.subtitle': {
+    fa: 'برای هر الگوریتم یه آزمون واقعی داری، نه یه کوییز تزئینی.',
+    en: "Every algorithm has a real test behind it, not a decorative quiz.",
+  },
+  'landing.quiz.stat.levels.value': { fa: '۳', en: '3' },
+  'landing.quiz.stat.levels.label': { fa: 'سطح سختی', en: 'difficulty levels' },
+  'landing.quiz.stat.types.value': { fa: '۳', en: '3' },
+  'landing.quiz.stat.types.label': { fa: 'نوع سؤال', en: 'question types' },
+  'landing.quiz.stat.stars.value': { fa: '۳★', en: '3★' },
+  'landing.quiz.stat.stars.label': { fa: 'بیشترین امتیاز', en: 'max score' },
+  'landing.quiz.cta': { fa: 'برو سراغ آزمون', en: 'Go take a test' },
+
+  // Comparison / "battle" section
+  'landing.battle.title': { fa: 'کتاب درسی در برابر ALGO', en: 'Textbook vs. ALGO' },
+  'landing.battle.subtitle': {
+    fa: 'همون الگوریتم، دو تا تجربه‌ی کاملاً متفاوت.',
+    en: 'Same algorithm, two completely different experiences.',
+  },
+  'landing.battle.left.title': { fa: 'روش سنتی', en: 'The old way' },
+  'landing.battle.left.item1': { fa: 'شبه‌کد ثابت روی کاغذ', en: 'Static pseudocode on paper' },
+  'landing.battle.left.item2': { fa: 'باید تو ذهنت اجراش کنی', en: 'You trace it by hand in your head' },
+  'landing.battle.left.item3': {
+    fa: 'فقط بعد از امتحان می‌فهمی بلد بودی یا نه',
+    en: "You only find out you didn't get it after the exam",
+  },
+  'landing.battle.left.item4': { fa: 'یه نسخه، یه سرعت، بدون تمرین واقعی', en: 'One version, one speed, no real practice' },
+  'landing.battle.right.title': { fa: 'ALGO', en: 'ALGO' },
+  'landing.battle.right.item1': { fa: 'اجرای زنده و قدم‌به‌قدم', en: 'Live, step-by-step execution' },
+  'landing.battle.right.item2': { fa: 'با داده خودت امتحانش کن', en: 'Run it with your own data' },
+  'landing.battle.right.item3': { fa: 'تست فوری با نتیجه و ستاره', en: 'Instant testing with results and stars' },
+  'landing.battle.right.item4': { fa: 'کنترل کامل روی سرعت و مراحل', en: 'Full control over speed and steps' },
+  'landing.battle.vs': { fa: 'مقابل', en: 'VS' },
+
+  // Sign-up section (replaces the old generic "go to algorithms" final
+  // CTA — that destination is already covered by the picker section
+  // above, so the last thing on the page is the one CTA that isn't
+  // covered anywhere else: creating an account).
+  'landing.signup.title': { fa: 'پیشرفتت رو ذخیره کن', en: 'Save your progress' },
+  'landing.signup.subtitle': {
+    fa: 'با حساب کاربری، ستاره‌ها و نتیجه آزمون‌هات همیشه می‌مونن — هر وقت برگردی، از همونجا ادامه می‌دی.',
+    en: 'With an account, your stars and test results stick around — pick up right where you left off, any time.',
+  },
+  'landing.signup.cta.register': { fa: 'ثبت‌نام رایگان', en: 'Create free account' },
+  'landing.signup.cta.login': { fa: 'قبلاً حساب داری؟ وارد شو', en: 'Already have an account? Log in' },
+
+  // Footer
+  'landing.footer.tagline': {
+    fa: 'یادگیری الگوریتم‌ها، این‌بار به‌چشم دیدن.',
+    en: 'Algorithm learning, this time you can actually see it.',
+  },
+  'landing.footer.sections.product': { fa: 'محصول', en: 'Product' },
+  'landing.footer.links.algorithms': { fa: 'الگوریتم‌ها', en: 'Algorithms' },
+  'landing.footer.links.practice': { fa: 'تمرین', en: 'Practice' },
+  'landing.footer.links.test': { fa: 'آزمون', en: 'Test' },
+  'landing.footer.sections.about': { fa: 'درباره', en: 'About' },
+  'landing.footer.links.team': { fa: 'تیم پروژه', en: 'Project team' },
+  'landing.footer.links.contact': { fa: 'تماس با ما', en: 'Contact' },
+  'landing.footer.copyright': { fa: '© تمامی حقوق محفوظ است.', en: '© All rights reserved.' },
+};

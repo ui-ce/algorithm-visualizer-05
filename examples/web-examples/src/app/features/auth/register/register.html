@@ -1,0 +1,77 @@
+<algo-auth-shell title="Create your account" subtitle="Track your progress across every algorithm">
+  @if (successMessage) {
+    <p class="algo-register-page__success text-body-medium">{{ successMessage }}</p>
+  } @else {
+    <algo-text-field
+      label="Full name"
+      placeholder="Your name"
+      autocomplete="name"
+      [value]="fullName"
+      [errorMessage]="fullNameError"
+      (valueChange)="onFullNameChange($event)"
+      (enterPressed)="onSubmit()"
+    />
+
+    <algo-text-field
+      label="Email"
+      type="email"
+      placeholder="you@example.com"
+      autocomplete="email"
+      [value]="email"
+      [errorMessage]="emailError"
+      (valueChange)="onEmailChange($event)"
+      (enterPressed)="onSubmit()"
+    />
+
+    <div class="algo-register-page__password-group">
+      <algo-password-field
+        label="Password"
+        placeholder="Create a password"
+        autocomplete="new-password"
+        [value]="password"
+        (valueChange)="onPasswordChange($event)"
+        (enterPressed)="onSubmit()"
+      />
+
+      @if (passwordTouched) {
+        <ul class="algo-register-page__password-rules">
+          @for (rule of passwordRules; track rule.label) {
+            <li
+              class="algo-register-page__password-rule text-label-medium-regular"
+              [class.algo-register-page__password-rule--met]="rule.met"
+            >
+              {{ rule.label }}
+            </li>
+          }
+        </ul>
+      }
+    </div>
+
+    <algo-password-field
+      label="Confirm password"
+      placeholder="Re-enter your password"
+      autocomplete="new-password"
+      [value]="confirmPassword"
+      [errorMessage]="confirmPasswordError"
+      (valueChange)="onConfirmPasswordChange($event)"
+      (enterPressed)="onSubmit()"
+    />
+
+    @if (formError) {
+      <p class="algo-register-page__error text-label-medium-regular">{{ formError }}</p>
+    }
+
+    <algo-button
+      variant="primary"
+      [text]="authService.isSubmitting() ? 'Creating account…' : 'Create account'"
+      [fullWidth]="true"
+      [disabled]="authService.isSubmitting()"
+      (click)="onSubmit()"
+    />
+  }
+
+  <div footer>
+    <span class="text-body-medium">Already have an account?</span>
+    <a routerLink="/auth/login" class="algo-register-page__link text-body-medium-emphasized">Sign in</a>
+  </div>
+</algo-auth-shell>
