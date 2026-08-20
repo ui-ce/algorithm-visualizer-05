@@ -263,11 +263,15 @@ type LogClearMessageParams = {};
 
 type LogInitParams = {
     name: string;
+    title?: string;
     message?: string;
+    line?: number;
 };
 
 type LogSetMessageParams = {
+    title?: string;
     message: string;
+    line?: number;
 };
 
 type Recording = CommandGroup[];
