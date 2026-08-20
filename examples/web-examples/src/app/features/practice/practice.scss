@@ -56,10 +56,10 @@
     border-radius: 4px;
   }
 
-  // Graph-algorithm main row (DFS/Dijkstra): Visualization on the left
-  // taking whatever width/height is left, fixed-width Pseudocode/
-  // Explanation column on the right. Sits in place of the sorting
-  // layout's separate visualization-section + pseudocode-section rows.
+  // Graph-algorithm main row (DFS/Dijkstra/BFS/A*): Visualization takes
+  // whatever width is left; Pseudocode/Explanation and the Data
+  // Structures panel are each their own fixed-width column next to it
+  // — three columns side by side, not two stacked under one.
   &__graph-main-row {
     display: flex;
     flex-direction: row;
@@ -70,14 +70,14 @@
     width: 100%;
   }
 
-  // Fixed-width right column shared by Pseudocode/Explanation and the
-  // Data Structures aux panel. flex-shrink: 0 is essential here — the
-  // sibling visualization (flex: 1) would otherwise consume the whole
-  // row and squeeze this column down to nothing.
-  &__graph-side-column {
+  // Fixed-width column for Pseudocode/Explanation only now — the Data
+  // Structures panel used to be nested inside this same column,
+  // stacked underneath it; it's its own sibling column below instead,
+  // so a person can see the pseudocode and, say, Dijkstra's Open/
+  // Closed Set at the same time without either one getting squeezed.
+  &__graph-pseudocode-column {
     display: flex;
     flex-direction: column;
-    gap: 10px;
     flex: 0 0 292px;
     width: 292px;
     min-height: 0;
@@ -91,16 +91,17 @@
     }
   }
 
-  // Compact panel for DFS's Stack / Dijkstra's Open Set, Closed Set,
-  // and Node Costs — deliberately separate from the main graph canvas
-  // so none of them compete with the graph for space the way they did
-  // when everything rendered stacked inside one box.
+  // DFS's Stack, or Dijkstra/A*'s Open Set, Closed Set, and Node
+  // Costs. Its own column at full row height (not a short strip
+  // squeezed under the pseudocode column anymore), with its own
+  // internal scroll for when there's more content than fits.
   &__graph-aux-panel {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    flex: 0 0 auto;
-    max-height: 160px;
+    flex: 0 0 260px;
+    width: 260px;
+    height: 100%;
     padding: 8px;
     background-color: var(--color-surface-container);
     border: 1px solid var(--color-border-default);
@@ -298,6 +299,16 @@
       flex: 1;
       min-height: 0;
       width: 100%;
+    }
+
+    // Graph algorithms: Graph canvas + Data Structures side by side,
+    // same as the non-fullscreen layout, instead of the default
+    // column stacking above (which is still right for sorts/searches,
+    // where there's only ever one panel type to show).
+    &--graph {
+      flex-direction: row;
+      align-items: stretch;
+      gap: 10px;
     }
   }
 }

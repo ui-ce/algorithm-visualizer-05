@@ -151,6 +151,14 @@
   --color-viz-swapping: #DA1E28;
   --color-viz-sorted: #28BE2A;
   --color-viz-active: #3B82F6;
+  // Visited/traversed but not currently the active focus (DFS/BFS
+  // visited nodes) — deliberately distinct from --color-viz-sorted,
+  // which is reserved for a definitive final result (Dijkstra/A*'s
+  // finalized nodes / shortest path).
+  --color-viz-explored: #8A63D2;
+  // Momentary flash for "this value just changed for the better"
+  // (Dijkstra/A* relaxing an edge to a shorter distance).
+  --color-viz-updated: #FFC857;
 
   // Test tab — question sidebar status icons (Question N item, right-side
   // icon only; true/skipped/incorrect). Values and 60% opacity given
@@ -337,4 +345,6 @@
   --color-viz-swapping: #E14B53;
   --color-viz-sorted: #5BF15D;
   --color-viz-active: #629BF8;
+  --color-viz-explored: #7C4FDB;
+  --color-viz-updated: #E0A400;
 }

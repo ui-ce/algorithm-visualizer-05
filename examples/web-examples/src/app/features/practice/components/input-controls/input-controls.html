@@ -17,6 +17,7 @@
     @if (showPatternControls) {
       <algo-data-pattern-controls
         [selectedPattern]="selectedPattern"
+        [options]="patternOptions"
         (selectedPatternChange)="onPatternChange($event)"
       />
     }
@@ -26,6 +27,7 @@
     @if (showPatternControls) {
       <algo-data-pattern-controls
         [selectedPattern]="selectedPattern"
+        [options]="patternOptions"
         [compact]="true"
         (selectedPatternChange)="onPatternChange($event)"
       />

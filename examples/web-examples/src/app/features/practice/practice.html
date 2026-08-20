@@ -181,7 +181,7 @@
         </div>
 
         @if (isGraphAlgorithm) {
-          <!-- Graph layout: Visualization | Pseudocode/Explanation + Data Structures column -->
+          <!-- Graph layout: Visualization | Pseudocode/Explanation | Data Structures, all three as separate columns in one row -->
           <div class="algo-practice-page__graph-main-row">
             <div class="algo-practice-page__graph-visualization">
               <algo-visualization-section
@@ -201,7 +201,7 @@
               />
             </div>
 
-            <div class="algo-practice-page__graph-side-column">
+            <div class="algo-practice-page__graph-pseudocode-column">
               <algo-pseudocode-section
                 orientation="column"
                 [lines]="pseudocodeLines"
@@ -209,23 +209,23 @@
                 [explanationTitle]="explanationTitle"
                 [explanationDescription]="explanationDescription"
               />
+            </div>
 
-              <!-- DFS's Stack, or Dijkstra's Open Set / Closed Set / Node
-                   Costs — kept fully separate from the graph canvas
-                   above instead of stacking inside it and squeezing it
-                   down. -->
-              <div class="algo-practice-page__graph-aux-panel">
-                <p class="algo-practice-page__graph-aux-panel-title text-label-medium-regular">
-                  {{ 'practice.viz.dataStructures' | translate }}
-                </p>
-                <algo-visualization-area
-                  [animation]="animation"
-                  [rendererMetadata]="rendererMetadata"
-                  [frameIndex]="frameIndex"
-                  [includeTypes]="['Array2D', 'Chart']"
-                  [showTitle]="false"
-                />
-              </div>
+            <!-- DFS's Stack, or Dijkstra's Open Set / Closed Set / Node
+                 Costs — its own column next to Pseudocode/Explanation
+                 instead of stacked underneath it, so both are visible
+                 at full height at the same time. -->
+            <div class="algo-practice-page__graph-aux-panel">
+              <p class="algo-practice-page__graph-aux-panel-title text-label-medium-regular">
+                {{ 'practice.viz.dataStructures' | translate }}
+              </p>
+              <algo-visualization-area
+                [animation]="animation"
+                [rendererMetadata]="rendererMetadata"
+                [frameIndex]="frameIndex"
+                [includeTypes]="['Array2D', 'Chart']"
+                [showTitle]="false"
+              />
             </div>
           </div>
 
@@ -233,15 +233,16 @@
           <algo-control-section
             [isPlaying]="isPlaying"
             [isDrawerOpen]="activeDrawerSection !== null"
-            [selectedPattern]="selectedPattern"
-            [showPatternControls]="isArrayAlgorithm"
+            [selectedPattern]="selectedGraphPattern"
+            [patternOptions]="graphPatternOptions"
+            [showPatternControls]="true"
             (previous)="onPrevious()"
             (playToggle)="onPlayToggle()"
             (next)="onNext()"
             (again)="onAgain()"
             (customInputClick)="onCustomInputClick()"
             (randomInputClick)="onRandomInputClick()"
-            (patternChange)="onPatternChange($event)"
+            (patternChange)="onGraphPatternChange($event)"
             (compareClick)="onCompareClick()"
           />
         } @else {
@@ -255,6 +256,7 @@
             [rendererMetadata]="rendererMetadata"
             [frameIndex]="frameIndex"
             [legendItems]="legendItems"
+            [searchTarget]="searchTarget"
             (fullscreenToggle)="onFullscreenToggle()"
             [showHint]="!hasInteracted"
             (hintPlayClick)="onPlayToggle()"
@@ -308,12 +310,43 @@
         <svg solarCloseCircleLinear [size]="24"></svg>
       </button>
 
-      <div class="algo-practice-page__fullscreen-chart">
-        <algo-visualization-area
-          [animation]="animation"
-          [rendererMetadata]="rendererMetadata"
-          [frameIndex]="frameIndex"
-        />
+      <div
+        class="algo-practice-page__fullscreen-chart"
+        [class.algo-practice-page__fullscreen-chart--graph]="isGraphAlgorithm"
+      >
+        @if (isGraphAlgorithm) {
+          <div class="algo-practice-page__graph-visualization">
+            <algo-visualization-area
+              [animation]="animation"
+              [rendererMetadata]="rendererMetadata"
+              [frameIndex]="frameIndex"
+              [includeTypes]="['Graph']"
+            />
+          </div>
+
+          <!-- Same Data Structures column as the normal layout — kept
+               as its own column here too instead of letting
+               algo-visualization-area stack every panel type
+               vertically underneath the graph. -->
+          <div class="algo-practice-page__graph-aux-panel">
+            <p class="algo-practice-page__graph-aux-panel-title text-label-medium-regular">
+              {{ 'practice.viz.dataStructures' | translate }}
+            </p>
+            <algo-visualization-area
+              [animation]="animation"
+              [rendererMetadata]="rendererMetadata"
+              [frameIndex]="frameIndex"
+              [includeTypes]="['Array2D', 'Chart']"
+              [showTitle]="false"
+            />
+          </div>
+        } @else {
+          <algo-visualization-area
+            [animation]="animation"
+            [rendererMetadata]="rendererMetadata"
+            [frameIndex]="frameIndex"
+          />
+        }
       </div>
 
       <algo-navigation-controls

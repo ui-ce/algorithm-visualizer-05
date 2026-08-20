@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { AlgoButton } from '../../../../design-system/button/button';
 import { DataPatternControls } from '../data-pattern-controls/data-pattern-controls';
-import type { DataPattern } from '../data-pattern-controls/data-pattern-controls.types';
+import type { PatternOption } from '../data-pattern-controls/data-pattern-controls.types';
+import { DEFAULT_ARRAY_PATTERN_OPTIONS } from '../data-pattern-controls/data-pattern-controls.types';
 import { TranslatePipe } from '../../../../core/i18n/translate.pipe';
 
 @Component({
@@ -16,14 +17,24 @@ export class InputControls {
   public isDrawerOpen = false;
 
   @Input()
-  public selectedPattern: DataPattern | null = null;
+  public selectedPattern: string | null = null;
 
-  // Graph algorithms (Dijkstra/DFS/BFS/A*) have no array to reshape, so
-  // Best/Worst/Nearly-Sorted/Reversed-style buttons have nothing to do
-  // for them — the page component passes false here for those so the
-  // row doesn't sit on screen doing nothing when clicked.
+  // Every algorithm — array or graph — has a meaningful pattern row
+  // now (graph algorithms get Chain/Dense/Disconnected instead of
+  // Nearly Sorted/Reversed/Many Duplicates — see patternOptions below),
+  // so this stays true in practice; kept as an input rather than
+  // removed outright in case a future algorithm genuinely has nothing
+  // to pattern.
   @Input()
   public showPatternControls = true;
+
+  // Which buttons DataPatternControls should render — defaults to the
+  // array-sorting patterns (same shared default DataPatternControls
+  // itself falls back to); the page component passes the graph
+  // pattern set (see practice.ts's graphPatternOptions) for graph
+  // algorithms.
+  @Input()
+  public patternOptions: PatternOption[] = DEFAULT_ARRAY_PATTERN_OPTIONS;
 
   @Output()
   public readonly customInputClick = new EventEmitter<void>();
@@ -32,10 +43,9 @@ export class InputControls {
   public readonly randomInputClick = new EventEmitter<void>();
 
   @Output()
-  public readonly patternChange = new EventEmitter<DataPattern>();
+  public readonly patternChange = new EventEmitter<string | null>();
 
-
-  protected onPatternChange(pattern: DataPattern): void {
+  protected onPatternChange(pattern: string | null): void {
     this.patternChange.emit(pattern);
   }
 }

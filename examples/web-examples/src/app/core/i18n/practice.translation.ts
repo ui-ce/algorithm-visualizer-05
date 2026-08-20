@@ -100,6 +100,13 @@ export const PRACTICE_TRANSLATIONS: TranslationDictionary = {
   'practice.pattern.reversed': { fa: 'معکوس', en: 'Reversed' },
   'practice.pattern.manyDuplicates': { fa: 'تکراری‌های زیاد', en: 'Many Duplicates' },
 
+  // Graph patterns (DFS/BFS/Dijkstra/A*) — each one actually changes
+  // the shape of the generated graph, the same way the array patterns
+  // above change the shape of the generated array.
+  'practice.pattern.graph.chain': { fa: 'زنجیره‌ای', en: 'Chain' },
+  'practice.pattern.graph.dense': { fa: 'پرتراکم', en: 'Dense' },
+  'practice.pattern.graph.disconnected': { fa: 'ناهم‌بند', en: 'Disconnected' },
+
   // Compare control
   'practice.compare.compare': { fa: 'مقایسه', en: 'Compare' },
 

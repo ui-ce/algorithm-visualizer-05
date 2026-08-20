@@ -6,7 +6,8 @@ import { LanguageService } from '../../../../core/services/language.service';
 import { TranslatePipe } from '../../../../core/i18n/translate.pipe';
 import { translate } from '../../../../core/i18n/translations';
 
-import type { DataPattern } from './data-pattern-controls.types';
+import type { PatternOption } from './data-pattern-controls.types';
+import { DEFAULT_ARRAY_PATTERN_OPTIONS } from './data-pattern-controls.types';
 
 @Component({
   selector: 'algo-data-pattern-controls',
@@ -16,38 +17,42 @@ import type { DataPattern } from './data-pattern-controls.types';
 })
 export class DataPatternControls {
   @Input()
-  public selectedPattern: DataPattern | null = null;
+  public selectedPattern: string | null = null;
 
   @Input()
   public compact = false;
 
+  // Which buttons to render — defaults to the array-sorting patterns
+  // (Nearly Sorted / Reversed / Many Duplicates), so every existing
+  // usage of this component keeps working exactly as before. Graph
+  // pages pass a different list (chain / dense / disconnected — see
+  // practice.ts's graphPatternOptions) through this same input instead
+  // of a second, separately-styled component being built for them:
+  // same markup, same CSS classes, same design-system button
+  // underneath, just a different button set — which is also why a
+  // graph page's pattern row now looks identical to a sort page's.
+  @Input()
+  public options: PatternOption[] = DEFAULT_ARRAY_PATTERN_OPTIONS;
+
   @Output()
-  public readonly selectedPatternChange = new EventEmitter<DataPattern | null>();
+  public readonly selectedPatternChange = new EventEmitter<string | null>();
 
   public constructor(private readonly _languageService: LanguageService) {}
 
-  // "No Pattern" (id: null) is listed first and is the default — it's a
-  // real, selectable option here, not just the absence of a choice, so
-  // it needs its own entry rather than being implied. labelKey resolves
-  // through the translate pipe in the template; compactLabel (below)
-  // needs the resolved string directly since it isn't rendered via a
-  // template interpolation.
-  protected readonly patterns: { id: DataPattern | null; labelKey: string }[] = [
-    { id: null, labelKey: 'practice.pattern.none' },
-    { id: 'nearly-sorted', labelKey: 'practice.pattern.nearlySorted' },
-    { id: 'reversed', labelKey: 'practice.pattern.reversed' },
-    { id: 'many-duplicates', labelKey: 'practice.pattern.manyDuplicates' },
-  ];
-
   protected get compactLabel(): string {
     const labelKey =
-      this.patterns.find((pattern) => pattern.id === this.selectedPattern)?.labelKey ?? 'practice.pattern.none';
+      this.options.find((pattern) => pattern.id === this.selectedPattern)?.labelKey ??
+      this.options[0]?.labelKey ??
+      'practice.pattern.none';
     return translate(labelKey, this._languageService.currentLanguage());
   }
 
   protected cyclePattern(): void {
-    const currentIndex = this.patterns.findIndex((pattern) => pattern.id === this.selectedPattern);
-    const nextIndex = (currentIndex + 1) % this.patterns.length;
-    this.selectedPatternChange.emit(this.patterns[nextIndex].id);
+    if (this.options.length === 0) {
+      return;
+    }
+    const currentIndex = this.options.findIndex((pattern) => pattern.id === this.selectedPattern);
+    const nextIndex = (currentIndex + 1) % this.options.length;
+    this.selectedPatternChange.emit(this.options[nextIndex].id);
   }
 }
