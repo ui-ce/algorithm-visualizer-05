@@ -1,0 +1,17 @@
+<button
+  type="button"
+  class="algo-option-item"
+  [class.algo-option-item--correct]="state === 'correct'"
+  [class.algo-option-item--incorrect]="state === 'incorrect-selected'"
+  [disabled]="disabled"
+  (click)="onClick()"
+>
+  <span class="algo-option-item__row">
+    <span class="algo-option-item__tag text-body-medium">{{ tag }}</span>
+    <span class="algo-option-item__text text-body-medium">{{ text }}</span>
+  </span>
+
+  @if (explanation) {
+    <span class="algo-option-item__explanation text-body-medium">{{ explanation }}</span>
+  }
+</button>

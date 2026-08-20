@@ -1,0 +1,87 @@
+.algo-test-plan {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100vh;
+  overflow: hidden; // page itself never scrolls, per spec
+
+  &__header {
+    flex-shrink: 0;
+  }
+
+  &__top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex-shrink: 0;
+    flex: 1;
+    margin: 0 4px;
+    padding: 24px;
+
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  &__algo-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+  }
+
+  &__stars {
+    display: flex;
+    gap: 4px;
+    // Both the filled (earned) and outline (not-yet-earned) stars use
+    // the same gold as the XP stat on the results page — the person
+    // asked for outline stars to read as "gold, not lit yet" rather
+    // than a neutral gray, so completed vs. remaining is only ever a
+    // fill difference, never a color difference.
+    color: var(--color-test-summary-xp);
+  }
+
+  &__star-slot {
+    display: inline-flex;
+    cursor: default;
+  }
+
+  &__panel {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin: 16px 12px 12px;
+    padding: 24px 24px;
+    background: var(--color-surface-container);
+    border: 1px solid var(--color-border-default);
+    border-radius: 12px;
+
+    text-align: center;
+  }
+
+  &__panel-title {
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+
+  &__panel-subtitle {
+    margin: 16px 0 0;
+    color: var(--color-text-secondary);
+  }
+
+  &__cards {
+    display: flex;
+    align-items: stretch;
+    gap: 32px;
+    width: 100%;
+    margin-top: 32px;
+    padding: 0 48px;
+    box-sizing: border-box;
+
+  }
+}

@@ -1,0 +1,37 @@
+.algo-test-stats {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+
+  &__box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid var(--color-border-default);
+    border-radius: 8px;
+    background: var(--color-surface-container);
+  }
+
+  &__label {
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  &__value-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__trophy {
+    display: block;
+  }
+
+  &__value {
+    white-space: nowrap;
+    text-align: center;
+  }
+}

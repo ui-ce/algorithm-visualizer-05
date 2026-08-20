@@ -1,0 +1,20 @@
+<button type="button" class="algo-question-status-item">
+  <span class="algo-question-status-item__lead">
+    <span
+      class="algo-question-status-item__dot"
+      [class.algo-question-status-item__dot--filled]="visual.dotFilled"
+      [style.--dot-color]="visual.textColorVar"
+    ></span>
+    <span class="algo-question-status-item__label text-body-medium" [style.color]="visual.textColorVar">
+      {{ label }}
+    </span>
+  </span>
+
+  @if (state === 'correct') {
+    <svg solarCheckCircleLinear class="algo-question-status-item__icon" [style.color]="visual.iconColorVar" [size]="18"></svg>
+  } @else if (state === 'skipped') {
+    <svg solarRewindForwardCircleBroken class="algo-question-status-item__icon" [style.color]="visual.iconColorVar" [size]="18"></svg>
+  } @else if (state === 'incorrect') {
+    <svg solarCloseCircleLinear class="algo-question-status-item__icon" [style.color]="visual.iconColorVar" [size]="18"></svg>
+  }
+</button>

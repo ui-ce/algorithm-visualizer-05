@@ -1,0 +1,49 @@
+<div class="algo-test-page">
+  <algo-header class="algo-test-page__header" [breadcrumbs]="breadcrumbs" />
+
+  @if (questions.length > 0) {
+  <div class="algo-test-page__body">
+    <algo-question-sidebar
+      class="algo-test-page__sidebar"
+      [setNumber]="setNumber"
+      [difficulty]="difficulty"
+      [entries]="sidebarEntries"
+    />
+
+    <div class="algo-test-page__main">
+      <div class="algo-test-page__summary">
+        <div class="algo-test-page__summary-left">
+          <algo-test-progress [current]="currentIndex + 1" [total]="questions.length" />
+          <algo-test-stats [summary]="summary" />
+        </div>
+        <algo-segmented-button [options]="tabs" [selectedIndex]="selectedTabIndex" (selectedIndexChange)="onTabChange($event)" />
+      </div>
+
+      <div class="algo-test-page__card-area">
+        <algo-question-card
+          [questionNumber]="currentIndex + 1"
+          [question]="currentQuestion"
+          [animation]="currentAnimation"
+          [rendererMetadata]="currentRendererMetadata"
+          [selectedOptionId]="selectedOptionId"
+          [isAnswered]="isAnswered"
+          (optionSelect)="onOptionSelect($event)"
+        />
+      </div>
+
+      <div class="algo-test-page__footer">
+        <button
+          type="button"
+          class="algo-test-page__footer-btn"
+          [class.algo-test-page__footer-btn--primary]="isAnswered || isLastQuestion"
+          [disabled]="isFinishing"
+          (click)="onSkipOrNext()"
+        >
+          {{ footerButtonLabel }}
+          <svg solarSkipNextLinear [size]="18"></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+</div>

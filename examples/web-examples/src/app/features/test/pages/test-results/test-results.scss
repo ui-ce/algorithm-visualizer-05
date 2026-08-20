@@ -1,0 +1,305 @@
+.algo-test-results {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden; // this page never scrolls, at any level
+  background-color: var(--color-background);
+
+  &__header {
+    flex-shrink: 0;
+  }
+
+  &__body {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    // Left/right are now two bordered containers in their own right
+    // (see __left / __right below) rather than plain flex columns, so
+    // this gap is the actual 12px spacing between those two containers
+    // — matches every other secondary-container pairing in the app
+    // (surface-container background, border-subtle, radius 4).
+    gap: 12px;
+    padding-inline: 12px;
+    padding-block-start: 10px;
+    padding-block-end: 12px;
+    overflow: hidden;
+  }
+
+  // ---- Left column ----
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    align-items: center; // "همه چی سمت چپ باید وسط‌چین باشه"
+    flex-shrink: 0;
+    width: 520px; // measured off the reference frame
+    height: 100%;
+    padding: 32px 24px;
+    text-align: center;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 4px;
+    background-color: var(--color-surface);
+    overflow-y: auto;
+  }
+
+  &__title {
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+
+  &__hero {
+    display: block;
+    width: 224px;
+    height: 224px;
+    margin-top: 56px;
+  }
+
+  &__score-label {
+    margin: 56px 0 0;
+    color: var(--color-text-secondary);
+  }
+
+  &__score-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 24px; // "بین 7/10 و 70% فاصله 24"
+    margin-top: 8px; // gap between "Your Score" label and the score row wasn't specified — assumed
+  }
+
+  &__score {
+    color: var(--color-text-primary);
+  }
+
+  &__sentence {
+    margin: 28px 0 0; // "بین اسکور و جمله فاصله 28"
+    color: var(--color-text-secondary);
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    margin-top: 32px; // gap between sentence and the button stack wasn't specified — assumed
+    gap: 12px; // "بین باتن‌ها 12"
+  }
+
+  &__btn {
+    padding: 14px 20px; // exact padding wasn't specified — assumed
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+
+    &--primary {
+      border: none;
+      background: var(--color-brand-primary);
+      color: var(--color-text-primary);
+    }
+
+    &--outline {
+      border: 1px solid var(--color-brand-primary);
+      background: transparent;
+      color: var(--color-brand-primary);
+    }
+
+    &--link {
+      border: none;
+      background: transparent;
+      color: var(--color-brand-primary);
+      text-decoration: underline;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  // ---- Right column ----
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: 20px;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 4px;
+    background-color: var(--color-surface);
+    overflow-y: auto;
+  }
+
+  &__top-row {
+    display: flex;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+
+  // Panels sit one layer up from the page background — surface-container
+  // + border-default, matching every other secondary container in the
+  // app (e.g. practice.scss's __sections-layer pattern).
+  &__panel {
+    flex-shrink: 0;
+    margin-top: 12px; // "فاصله بین این بخش‌ها باید 12 باشه"
+    padding: 20px;
+    border: 1px solid var(--color-border-default);
+    border-radius: 12px;
+    background: var(--color-surface-container);
+  }
+
+  &__panel-title {
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+
+  &__summary-cards {
+    display: flex;
+    align-items: stretch;
+    gap: 24px; // "بین 5 کارت 24 فاصله"
+    margin-top: 12px; // "بین متن Performance Summary و کارت‌ها 12"
+  }
+
+  // Cards inside a panel are one layer up from the panel itself —
+  // elevated-surface + border-strong.
+  &__summary-card {
+    display: flex;
+    flex: 1; // "عرض fill container، همه هم‌اندازه"
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 8px;
+    background: var(--color-elevated-surface);
+  }
+
+  &__summary-card-label {
+    color: var(--color-text-tertiary);
+  }
+
+  &__summary-card-value-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__trophy {
+    display: block;
+  }
+
+  &__overview-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 32px;
+    margin-top: 12px;
+  }
+
+  &__insight-label {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-inline-end: 4px;
+  }
+
+  &__insight-link {
+    margin-inline-start: 4px;
+    border: none;
+    background: transparent;
+    color: var(--color-brand-primary);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  &__insight-notice {
+    margin-top: 8px;
+    color: var(--color-text-tertiary);
+  }
+
+  &__locked-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__difficulty-pill {
+    padding: 2px 10px;
+    border: 1px solid;
+    border-radius: 999px;
+    text-transform: capitalize;
+  }
+
+  // Matches the reference Figma frame: a plain bordered box (no fill),
+  // lock icon in a circle, centered text, one primary button.
+  &__locked-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 12px;
+    padding: 32px 20px;
+    border: 1px solid var(--color-border-default);
+    border-radius: 12px;
+    background: transparent;
+    text-align: center;
+  }
+
+  &__locked-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--color-text-tertiary);
+    border-radius: 50%;
+    color: var(--color-text-tertiary);
+  }
+
+  &__locked-text {
+    margin: 16px 0 0;
+    color: var(--color-text-secondary);
+  }
+
+  &__locked-cta {
+    margin-top: 16px;
+  }
+
+  // ---- Progress chart (logged-in state) ----
+
+  &__chart-box {
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+    padding: 16px;
+    border: 1px solid var(--color-border-default);
+    border-radius: 12px;
+    background: var(--color-surface-container);
+  }
+
+  &__chart-delta-row {
+    margin: 0 0 12px;
+    color: var(--color-text-secondary);
+  }
+
+  &__chart-current {
+    margin-inline-start: 6px;
+    font-weight: 600;
+  }
+
+  &__chart-delta {
+    margin-inline-start: 8px;
+    font-weight: 600;
+
+    &--up {
+      color: var(--color-test-summary-pass, #22c55e);
+    }
+
+    &--down {
+      color: var(--color-test-summary-fail, #ef4444);
+    }
+  }
+
+  &__chart-svg {
+    display: block;
+    width: 100%;
+    height: 80px;
+  }
+}

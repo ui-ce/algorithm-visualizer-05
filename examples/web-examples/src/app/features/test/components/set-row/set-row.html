@@ -1,0 +1,21 @@
+<button
+  type="button"
+  class="algo-set-row"
+  [disabled]="disabled || state === 'locked'"
+  [style.--set-row-accent]="accentColorVar"
+>
+  <span
+    class="algo-set-row__badge text-body-medium"
+   [class.algo-set-row__badge--active]="true"
+  >{{ setNumber }}</span>
+
+  <span class="algo-set-row__label text-body-medium">Set {{ setNumber }}</span>
+
+  @if (state === 'done') {
+    <svg solarCheckCircleLinear class="algo-set-row__icon" [style.color]="accentColorVar" [size]="20"></svg>
+  } @else if (state === 'current') {
+    <svg solarClockCircleLinear class="algo-set-row__icon" [style.color]="accentColorVar" [size]="20"></svg>
+  } @else {
+    <svg solarLockKeyholeMinimalisticLinear class="algo-set-row__icon" [style.color]="'var(--color-text-placeholder)'" [size]="20"></svg>
+  }
+</button>

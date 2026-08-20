@@ -1,0 +1,18 @@
+<nav class="algo-question-sidebar">
+  <h2 class="algo-question-sidebar__title text-body-large">
+    Set {{ setNumber }}
+    <span [style.color]="difficultyColorVar">{{ difficultyLabel }}</span>
+  </h2>
+
+  <ul class="algo-question-sidebar__list">
+    @for (entry of entries; track entry.questionNumber) {
+      <li class="algo-question-sidebar__item">
+        <algo-question-status-item
+          [label]="'Question ' + entry.questionNumber"
+          [state]="entry.state"
+          (click)="onSelect(entry.questionNumber)"
+        />
+      </li>
+    }
+  </ul>
+</nav>
