@@ -1,0 +1,95 @@
+.algo-test-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--color-background);
+
+  &__header {
+    flex-shrink: 0;
+  }
+
+  &__body {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+    min-height: 0;
+    // Same values as practice.scss's __main-row — matches the Practice
+    // page's gap/offset from the header exactly instead of inventing a
+    // second set of numbers.
+    gap: 8px;
+    padding-inline-start: 12px;
+    padding-block-start: 10px;
+    overflow: hidden;
+  }
+
+  &__sidebar {
+    flex-shrink: 0;
+    align-self: stretch;
+    border-inline-end: 1px solid var(--color-border-default);
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    // Matches practice.scss's __content inline-end padding.
+    padding-inline-end: 24px;
+    padding-block-start: 0;
+    padding-block-end: 20px;
+    overflow: hidden;
+  }
+
+  &__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    gap: 24px; // "اون xp/correct/... با فاصله 24 از Test Progress"
+  }
+
+  &__summary-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  &__card-area {
+    flex: 1;
+    min-height: 0;
+    margin-top: 24px;
+    overflow-y: auto;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    flex-shrink: 0;
+    margin-top: 16px;
+  }
+
+  &__footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: 1px solid var(--color-button-outline-default);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-button-outline-on-default);
+    cursor: pointer;
+
+    &--primary {
+      border-color: var(--color-button-primary-default);
+      background: var(--color-button-primary-default);
+      color: var(--color-button-primary-on-default);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+  }
+}

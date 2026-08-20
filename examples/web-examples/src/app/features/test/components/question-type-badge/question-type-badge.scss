@@ -1,0 +1,11 @@
+.algo-question-type-badge {
+  display: inline-flex;
+  align-items: center;
+  // Exact padding/radius weren't specified for the pill itself — assumed
+  // to match the other small pill/box patterns already in the design
+  // system. Adjust if Figma says otherwise.
+  padding: 2px 10px;
+  border: 1px solid var(--color-question-type-code);
+  border-radius: 4px;
+  white-space: nowrap;
+}

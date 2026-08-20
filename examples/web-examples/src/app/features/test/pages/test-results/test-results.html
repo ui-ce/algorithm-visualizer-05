@@ -1,0 +1,141 @@
+<div class="algo-test-results">
+  <algo-header class="algo-test-results__header" [breadcrumbs]="breadcrumbs" />
+
+  @if (result) {
+    <div class="algo-test-results__body">
+      <div class="algo-test-results__left">
+        <h1 class="algo-test-results__title text-headline-large-emphasized">{{ titleText }}</h1>
+
+        <img class="algo-test-results__hero" [src]="heroImage" [alt]="titleText" width="224" height="224" />
+
+        <p class="algo-test-results__score-label text-title-large">Your Score</p>
+        <div class="algo-test-results__score-row">
+          <span class="algo-test-results__score text-headline-large-emphasized">{{ correctCount }}/{{ totalCount }}</span>
+          <span class="algo-test-results__score-percent text-headline-large-emphasized" [style.color]="scoreColorVar">({{ scorePercent }}%)</span>
+        </div>
+
+        <p class="algo-test-results__sentence text-body-large">{{ sentence }}</p>
+
+        <div class="algo-test-results__actions">
+          <button type="button" class="algo-test-results__btn algo-test-results__btn--primary" (click)="onReviewAnswers()">
+            Review Answers
+          </button>
+          @if (passed) {
+            <button type="button" class="algo-test-results__btn algo-test-results__btn--outline" (click)="onBackToAlgorithms()">
+              Back to Algorithms
+            </button>
+          } @else {
+            <button type="button" class="algo-test-results__btn algo-test-results__btn--outline" (click)="onTryAgain()">
+              Try Again
+            </button>
+            <button type="button" class="algo-test-results__btn algo-test-results__btn--link" (click)="onBackToAlgorithms()">
+              Back to Algorithms
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="algo-test-results__right">
+        <div class="algo-test-results__top-row">
+          <algo-segmented-button [options]="tabs" [selectedIndex]="selectedTabIndex" (selectedIndexChange)="onTabChange($event)" />
+        </div>
+
+        <section class="algo-test-results__panel">
+          <h2 class="algo-test-results__panel-title text-body-large">Performance Summary</h2>
+          <div class="algo-test-results__summary-cards">
+            @for (box of summaryBoxes; track box.label) {
+              <div class="algo-test-results__summary-card">
+                <span class="text-body-medium algo-test-results__summary-card-label">{{ box.label }}</span>
+                <span class="algo-test-results__summary-card-value-row">
+                  <span class="text-title-large" [style.color]="box.colorVar">{{ box.value }}</span>
+                  @if (box.label === 'XP') {
+                    <img class="algo-test-results__trophy" src="/quiz/quiz-xp-trophy.png" alt="" width="24" height="24" />
+                  }
+                </span>
+              </div>
+            }
+          </div>
+        </section>
+
+        <section class="algo-test-results__panel">
+          <h2 class="algo-test-results__panel-title text-body-large">Question Overview</h2>
+          <div class="algo-test-results__overview-grid">
+            @for (q of questionOverview; track q.questionNumber) {
+              <algo-outcome-badge [questionNumber]="q.questionNumber" [outcome]="q.outcome" />
+            }
+          </div>
+        </section>
+
+        <section class="algo-test-results__panel">
+          <h2 class="algo-test-results__panel-title text-body-large">Performance Insight</h2>
+          <p class="text-body-medium">
+            <span class="algo-test-results__insight-label">Your strongest area:</span>
+            {{ strongestAreaLabel }}
+          </p>
+          <p class="text-body-medium">
+            <span class="algo-test-results__insight-label">Needs improvement:</span>
+            {{ weakestAreaLabel }}
+            <button type="button" class="algo-test-results__insight-link" (click)="onNeedLearningClick()">(need learning?)</button>
+          </p>
+          @if (showInsightNotice) {
+            <p class="algo-test-results__insight-notice text-body-medium">This section isn't available yet.</p>
+          }
+        </section>
+
+        <section class="algo-test-results__panel">
+          <div class="algo-test-results__locked-header">
+            <h2 class="algo-test-results__panel-title text-body-large">Previous Attempt</h2>
+            <span class="algo-test-results__difficulty-pill text-body-medium" [style.color]="'var(--color-quiz-' + difficulty + ')'" [style.border-color]="'var(--color-quiz-' + difficulty + ')'">
+              {{ difficulty }}
+            </span>
+          </div>
+
+          @if (isLoggedIn) {
+            @if (hasChartHistory) {
+              <div class="algo-test-results__chart-box">
+                @if (scoreDeltaFromPrevious !== null) {
+                  <p class="text-body-medium algo-test-results__chart-delta-row">
+                    Current Score:
+                    <span class="algo-test-results__chart-current" [style.color]="scoreColorVar">{{ scorePercent }}%</span>
+                    @if (scoreDeltaFromPrevious !== 0) {
+                      <span
+                        class="algo-test-results__chart-delta"
+                        [class.algo-test-results__chart-delta--up]="scoreDeltaFromPrevious > 0"
+                        [class.algo-test-results__chart-delta--down]="scoreDeltaFromPrevious < 0"
+                      >
+                        {{ scoreDeltaFromPrevious > 0 ? '↑' : '↓' }} {{ absScoreDelta }}% from previous attempt
+                      </span>
+                    }
+                  </p>
+                }
+                <svg class="algo-test-results__chart-svg" viewBox="0 0 100 40" preserveAspectRatio="none">
+                  <polyline [attr.points]="chartPolylinePoints" fill="none" stroke="var(--color-brand-primary)" stroke-width="1.5" />
+                </svg>
+              </div>
+            } @else if (isLoadingHistory) {
+              <div class="algo-test-results__locked-box">
+                <p class="text-body-medium">Loading your progress…</p>
+              </div>
+            } @else {
+              <div class="algo-test-results__locked-box">
+                <p class="text-body-medium">Your progress chart will show up once you've completed this set a couple of times.</p>
+              </div>
+            }
+          } @else {
+            <div class="algo-test-results__locked-box">
+              <span class="algo-test-results__locked-icon-wrap">
+                <svg solarLockKeyholeMinimalisticLinear [size]="24"></svg>
+              </span>
+              <p class="text-body-large algo-test-results__locked-text">
+                This feature will be open when you log in to your account
+              </p>
+              <button type="button" class="algo-test-results__btn algo-test-results__btn--primary algo-test-results__locked-cta">
+                Sign up / Log in
+              </button>
+            </div>
+          }
+        </section>
+      </div>
+    </div>
+  }
+</div>

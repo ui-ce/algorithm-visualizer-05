@@ -1,0 +1,50 @@
+.algo-question-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__number {
+    color: var(--color-text-tertiary);
+  }
+
+  &__prompt {
+    margin: 16px 0 0;
+    color: var(--color-text-tertiary);
+  }
+
+  &__body {
+    // "ارتفاعش رو 200 تا فیکس گذاشتم"
+    height: 200px;
+    margin-top: 16px; // gap between prompt and body wasn't stated separately — reused the 16px from above
+
+    // Override the pseudocode panel's gradient border for Test's Code
+    // questions: solid border-strong, no background layer. Only affects
+    // instances nested here, not the Practice tab's panel.
+    ::ng-deep .algo-pseudocode-panel {
+      border: 1px solid var(--color-border-strong);
+      background-image: none;
+      background-color: transparent;
+    }
+  }
+
+  // Sits right under the fixed-height visualization body — small top
+  // margin, not the full 16px used between other sections, since it
+  // reads as an annotation on the visualization above it rather than a
+  // new section of its own.
+  &__legend {
+    margin-top: 8px;
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px; // gap between body/prompt and the options list wasn't stated — assumed 16px
+  }
+}

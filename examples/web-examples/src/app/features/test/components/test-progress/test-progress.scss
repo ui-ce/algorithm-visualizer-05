@@ -1,0 +1,39 @@
+.algo-test-progress {
+  display: flex;
+  flex-direction: column;
+  height: auto; // hug
+  // Gap between title and the count+bar row wasn't given an exact value
+  // in spec ("auto" inside a hug column doesn't map to a CSS length) —
+  // assumed 8px, adjust if it doesn't match Figma.
+  gap: 8px;
+
+  &__title {
+    color: var(--color-text-primary);
+  }
+
+  &__count-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__count {
+    color: var(--color-text-primary);
+    white-space: nowrap;
+  }
+
+  &__bar {
+    width: 225px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--color-border-default);
+    overflow: hidden;
+  }
+
+  &__bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: var(--color-brand-primary);
+    transition: width 0.2s ease;
+  }
+}

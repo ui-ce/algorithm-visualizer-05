@@ -1,0 +1,44 @@
+.algo-question-status-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  &__lead {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    margin-inline-start: 8px;
+  }
+
+  &__dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid var(--dot-color);
+    background: transparent;
+
+    &--filled {
+      background: var(--dot-color);
+    }
+  }
+
+  &__label {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+  }
+}

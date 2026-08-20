@@ -1,0 +1,123 @@
+:host {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 0;
+}
+.algo-level-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // flex-basis 0 forces truly equal widths from the shared 32px gap,
+  // regardless of how much content each card holds (locked cards have
+  // less content than the unlocked one, which was making them narrower
+  // before — flex: 1 alone isn't enough once basis differs by content).
+
+  // Fills the full stretched height the parent's `align-items: stretch`
+  // already gives the host — without this the card only grew as tall as
+  // its own content, so a locked card (fewer child elements) ended up
+  // visibly shorter than an unlocked one even though the columns were
+  // the same width.
+  height: 100%;
+
+  padding: 24px; // exact card padding wasn't specified — assumed, adjust if needed
+  border: 1px solid var(--level-accent);
+  border-radius: 16px; // exact radius wasn't specified — assumed
+  background: var(--color-elevated-surface);
+  text-align: center;
+
+  &__icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 50%;
+    background: var(--level-badge);
+  }
+
+  &__icon-badge {
+    width: 80px;
+    height: 80px;
+    display: block;
+  }
+
+  &__title {
+    margin: 12px 0 0;
+    color: var(--level-accent);
+  }
+
+  &__star-worth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    margin-top: 4px;
+    color: var(--color-test-summary-xp); // same gold as the title-row stars and the XP stat
+    cursor: default;
+  }
+
+  &__subtitle {
+    margin: 8px 0 0;
+    color: var(--color-text-secondary);
+  }
+
+  &__sets {
+    display: flex;
+    flex: 1; // grows to fill the space __locked-panel would otherwise take on a locked sibling card, keeping the CTA button aligned at the same height across every card
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-top: 12px;
+    padding: 4px; // small inset so the accent border doesn't touch the rows — assumed
+    // border: 1px solid color-mix(in srgb, var(--level-accent) 20%, transparent);
+    border-radius: 12px;
+  }
+
+  &__locked-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex: 1; // matches __sets' flex: 1 so locked and unlocked cards end up the same height
+    margin-top: 12px;
+    padding: 24px; // exact padding wasn't specified — assumed
+    border: 1px solid var(--color-border-strong);
+    border-radius: 12px;
+  }
+
+  &__locked-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border: 1px solid var(--color-text-tertiary);
+    border-radius: 50%;
+    color: var(--color-text-tertiary);
+  }
+
+  &__locked-text {
+    margin: 12px 0 0;
+    color: var(--color-text-secondary);
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: auto; // hug
+    margin-top: 24px;
+    padding: 14px 20px; // exact padding wasn't specified — assumed
+    border: none;
+    border-radius: 8px;
+    background: var(--level-accent);
+    color: var(--color-text-primary);
+    cursor: pointer;
+
+    &:disabled {
+      background: color-mix(in srgb, var(--level-accent) 20%, transparent);
+      cursor: default;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+.algo-question-sidebar {
+  padding: 10px 12px 12px;
+  width: 186px; // 162px fixed item field + 12px*2 side padding, see item width below
+
+  &__title {
+    margin: 0 0 12px;
+    color: var(--color-text-primary);
+    opacity: 1;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    width: 162px;
+    height: auto;
+  }
+}

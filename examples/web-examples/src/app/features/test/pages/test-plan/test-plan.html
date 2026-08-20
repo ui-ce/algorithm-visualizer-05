@@ -1,0 +1,46 @@
+<div class="algo-test-plan">
+  <algo-header class="algo-test-plan__header" [breadcrumbs]="breadcrumbs" />
+
+  <div 
+  class="algo-test-plan__title-row">
+    <div class="algo-test-plan__top-row">
+      <div class="algo-test-plan__algo-name">
+        <h1 class="text-title-large">{{ algorithmDisplayName }}</h1>
+
+        <div class="algo-test-plan__stars">
+          @for (star of starSlots; track star) {
+            <span class="algo-test-plan__star-slot" [attr.title]="starTooltip(star)">
+              @if (star <= earnedStars) {
+                <svg solarStarBold [size]="20"></svg>
+              } @else {
+                <svg solarStarLinear [size]="20"></svg>
+              }
+            </span>
+          }
+        </div>
+      </div>
+
+      <algo-segmented-button [options]="tabs" [selectedIndex]="selectedTabIndex"
+        (selectedIndexChange)="onTabChange($event)" />
+    </div>
+    <section class="algo-test-plan__panel">
+
+      <h2 class="algo-test-plan__panel-title text-title-large-medium">
+        Choose your test plan
+      </h2>
+
+      <p class="algo-test-plan__panel-subtitle text-body-large">
+        Select a difficulty level to start solving questions. Complete all sets
+        in a level to unlock the next one.
+      </p>
+
+      <div class="algo-test-plan__cards">
+        @for (level of levels; track level.difficulty) {
+        <algo-level-card [data]="level" (startLevel)="onStartLevel(level)" (setSelect)="onSetSelect(level, $event)" />
+        }
+      </div>
+
+    </section>
+
+  </div>
+</div>

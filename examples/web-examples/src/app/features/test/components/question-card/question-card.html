@@ -1,0 +1,38 @@
+<article class="algo-question-card">
+  <header class="algo-question-card__header">
+    <span class="algo-question-card__number text-body-large">Question {{ questionNumber }}</span>
+    <algo-question-type-badge [type]="question.type" />
+  </header>
+
+  <p class="algo-question-card__prompt text-body-large">{{ question.prompt }}</p>
+
+  @if (question.type === 'execution' && animation && rendererMetadata) {
+    <div class="algo-question-card__body">
+      <algo-visualization-area
+        [animation]="animation"
+        [rendererMetadata]="rendererMetadata"
+        [frameIndex]="question.visualization!.frameIndex"
+        [hasPlayer]="false"
+        [showTitle]="false"
+      />
+    </div>
+    <algo-visualization-legend class="algo-question-card__legend" [items]="legendItems" />
+  } @else if (question.type === 'code' && question.codeLines) {
+    <div class="algo-question-card__body">
+      <algo-pseudocode-panel [lines]="question.codeLines" [blankFillText]="blankFillText" />
+    </div>
+  }
+
+  <div class="algo-question-card__options">
+    @for (option of question.options; track option.id; let i = $index) {
+      <algo-option-item
+        [tag]="optionTag(i)"
+        [text]="option.text"
+        [state]="optionState(option.id)"
+        [disabled]="isAnswered"
+        [explanation]="optionState(option.id) === 'correct' ? question.explanation : null"
+        (select)="onSelect(option.id)"
+      />
+    }
+  </div>
+</article>

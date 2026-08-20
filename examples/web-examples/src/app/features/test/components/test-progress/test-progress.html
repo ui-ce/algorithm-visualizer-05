@@ -1,0 +1,10 @@
+<div class="algo-test-progress">
+  <span class="algo-test-progress__title text-body-medium-emphasized">Test Progress</span>
+
+  <div class="algo-test-progress__count-row">
+    <span class="algo-test-progress__count text-body-large">{{ current }}/{{ total }}</span>
+    <div class="algo-test-progress__bar">
+      <div class="algo-test-progress__bar-fill" [style.width.%]="percent"></div>
+    </div>
+  </div>
+</div>
