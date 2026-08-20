@@ -47,4 +47,9 @@ export class ControlSection {
 
   @Input()
   public selectedPattern: DataPattern | null = null;
+
+  // Passed straight through to InputControls — see its own comment for
+  // why graph algorithms set this to false.
+  @Input()
+  public showPatternControls = true;
 }

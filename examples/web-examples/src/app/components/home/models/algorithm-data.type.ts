@@ -1,7 +1,7 @@
 export type AlgorithmData = {
-  name: string;
-  class: string;
-  description: string;
+  nameKey: string;
+  classKey: string;
+  descriptionKey: string;
   imgUrl: string;
   route: string;
 };

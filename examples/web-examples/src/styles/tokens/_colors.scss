@@ -133,6 +133,17 @@
   --color-learning-code: #886AE0;
   --color-learning-annotation: #FF9142;
   --color-learning-active-step: #886AE0;
+  --color-learning-explanation: #886AE0;
+
+  // Gradient border, faded — same brand gradient as --gradient-brand but
+  // both stops dropped to 40% opacity uniformly, so the two-tone
+  // purple-to-orange border still reads as two colors, just softer.
+  // Used on the Pseudocode and Explanation panels.
+  --gradient-brand-border: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-brand-primary) 40%, transparent) 0%,
+    color-mix(in srgb, var(--color-brand-accent) 40%, transparent) 100%
+  );
 
   // Visualization bar states
   --color-viz-default: #2C2E33;
@@ -140,6 +151,64 @@
   --color-viz-swapping: #DA1E28;
   --color-viz-sorted: #28BE2A;
   --color-viz-active: #3B82F6;
+
+  // Test tab — question sidebar status icons (Question N item, right-side
+  // icon only; true/skipped/incorrect). Values and 60% opacity given
+  // directly by design, not derived from an existing role token, so they
+  // are declared flat here rather than color-mixed from --color-support-*.
+  --color-question-status-icon-true: color-mix(in srgb, #24A148 60%, transparent);
+  --color-question-status-icon-skipped: color-mix(in srgb, #638CE2 60%, transparent);
+  --color-question-status-icon-incorrect: color-mix(in srgb, #FF9142 60%, transparent);
+
+  // Test tab — question type badge (Conceptual / Execution / Code pill
+  // above the question prompt). Text and border share the same color;
+  // background is that same color at 8% opacity.
+  --color-question-type-conceptual: #A68FE8;
+  // Execution/code badges intentionally reuse the same conceptual purple
+  // for now (per Zahra: "leave them the same as conceptual") instead of
+  // getting their own hex.
+  --color-question-type-execution: #A68FE8;
+  --color-question-type-code: #A68FE8;
+
+  // Test tab — Set N difficulty word color (sidebar title, e.g. "Set 2
+  // Medium"), and the level-select cards' accent (text, set-number
+  // badge, primary button). Confirmed real values:
+  //   Easy   — accent #24A148, icon-badge tint #4DB36A @ 60%
+  //   Medium — accent + icon-badge both #3167D8 (only one hex was given
+  //            for medium, unlike easy's two — see --color-quiz-*-badge
+  //            below for the reasoning)
+  //   Hard   — accent + icon-badge both #E45A45
+  --color-quiz-easy: #24A148;
+  --color-quiz-medium: #3167D8;
+  --color-quiz-hard: #E45A45;
+
+  // Level-select card icon-badge circle behind the emoji (80x80 emoji,
+  // 12px inset ring, color @ 60% opacity). Easy has its own distinct
+  // hex here (#4DB36A) instead of reusing --color-quiz-easy; medium/hard
+  // only had one hex specified so they reuse --color-quiz-medium/-hard.
+  --color-quiz-easy-badge: color-mix(in srgb, #4DB36A 60%, transparent);
+  --color-quiz-medium-badge: color-mix(in srgb, var(--color-quiz-medium) 60%, transparent);
+  --color-quiz-hard-badge: color-mix(in srgb, var(--color-quiz-hard) 60%, transparent);
+
+  // Test tab — summary stat numbers (XP / Correct / Incorrect / Skipped
+  // / Streak row). Flat values, same in both themes, same reasoning as
+  // the question-status icons above.
+  --color-test-summary-xp: #F1C21B;
+  --color-test-summary-correct: #24A148;
+  --color-test-summary-incorrect: #DA1E28;
+  --color-test-summary-skipped: #638CE2;
+  --color-test-summary-streak: #A68FE8;
+
+  // Results page pass/fail score color. Pass value confirmed (#24A148,
+  // same as -correct above). Fail value wasn't given a hex — reusing the
+  // --color-quiz-hard family (#E45A45) as a reasonable guess since it's
+  // already an established "red" in this palette; swap if Figma differs.
+  --color-test-summary-pass: #24A148;
+  --color-test-summary-fail: #E45A45;
+
+  // Test tab — answered-option outline once feedback is shown.
+  --color-option-correct-border: #24A148;
+  --color-option-incorrect-border: #E14B53;
 }
 
 [data-theme='light'] {
@@ -260,6 +329,7 @@
   --color-learning-code: #6A45D8;
   --color-learning-annotation: #D17635;
   --color-learning-active-step: #886AE0;
+  --color-learning-explanation: #6A45D8;
 
   // Visualization bar states
   --color-viz-default: #9CA3AF;

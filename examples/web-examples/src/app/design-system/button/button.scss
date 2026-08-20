@@ -14,7 +14,9 @@
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease,
-    color 0.15s ease;
+    color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 
   &__icon {
     display: inline-flex;
@@ -35,6 +37,33 @@
   &:focus-visible {
     outline: 2px solid var(--color-focus);
     outline-offset: 2px;
+  }
+
+  // Large — marketing CTAs (landing hero, signup section). Bigger
+  // footprint and a hover "lift" so it reads as the thing you're
+  // supposed to click, not just another in-app control.
+  &--large {
+    padding-block: 16px;
+    padding-inline: 32px;
+    border-radius: 12px;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+    gap: 10px;
+  }
+
+  &--large.algo-button--primary:hover:not(.algo-button--disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 32px -16px var(--color-brand-primary);
+  }
+
+  &--large.algo-button--outline:hover:not(.algo-button--disabled) {
+    transform: translateY(-2px);
+  }
+
+  &--large &__icon {
+    width: 20px;
+    height: 20px;
   }
 
   // Primary
@@ -99,9 +128,9 @@
     &.algo-button--selected {
       background-color: var(--color-button-selective-default);
       border-color: var(--color-button-selective-default);
-      color: var    (--color-button-selective-on-default);
+      color: var(--color-button-selective-on-default);
     }
-    
+
     // Persistent selected / pressed state
     &.algo-button--selected {
       border-color: var(--color-button-navigation-pressed);

@@ -4,10 +4,11 @@ import { AlgoPlayPauseButton } from '../../../../design-system/play-pause-button
 // Icon names below follow Solar's naming convention but haven't been
 // checked against the installed package's export list.
 import { SolarSkipPreviousLinear, SolarSkipNextLinear, SolarRestartLinear } from '@solar-icons/angular';
+import { TranslatePipe } from '../../../../core/i18n/translate.pipe';
 
 @Component({
   selector: 'algo-navigation-controls',
-  imports: [AlgoButton, AlgoPlayPauseButton,  SolarSkipPreviousLinear, SolarSkipNextLinear, SolarRestartLinear],
+  imports: [AlgoButton, AlgoPlayPauseButton, SolarSkipPreviousLinear, SolarSkipNextLinear, SolarRestartLinear, TranslatePipe],
   templateUrl: './navigation-controls.html',
   styleUrl: './navigation-controls.scss',
 })

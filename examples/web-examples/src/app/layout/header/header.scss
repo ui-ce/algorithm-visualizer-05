@@ -22,6 +22,12 @@
   &__logo {
     display: inline-flex;
     text-decoration: none;
+    // The three letter-group spans (A / LG / O) are laid out with flex,
+    // which follows the ambient `direction` - under RTL that silently
+    // reverses their visual order to O-LG-A ("OLGA"). The brand mark
+    // itself is a fixed Latin wordmark, not reading content, so it's
+    // pinned to LTR regardless of the page's language/direction.
+    direction: ltr;
   }
 
   &__logo-part--primary {

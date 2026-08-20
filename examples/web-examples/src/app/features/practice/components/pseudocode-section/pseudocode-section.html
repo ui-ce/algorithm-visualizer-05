@@ -1,4 +1,13 @@
-<div class="algo-pseudocode-section">
-  <algo-pseudocode-panel [lines]="lines" [activeLineNumber]="activeLineNumber" />
-  <algo-explanation-panel [title]="explanationTitle" [description]="explanationDescription" />
+<div class="algo-pseudocode-section" [class.algo-pseudocode-section--column]="orientation === 'column'">
+  <algo-pseudocode-panel
+    [lines]="lines"
+    [activeLineNumber]="activeLineNumber"
+  />
+
+  @if (explanationTitle || explanationDescription) {
+    <algo-explanation-panel
+      [title]="explanationTitle"
+      [description]="explanationDescription"
+    />
+  }
 </div>

@@ -8,14 +8,15 @@
   padding-block: 12px;
   border: 2px solid transparent;
   border-radius: 12px;
-  background-image: linear-gradient(var(--color-elevated-surface), var(--color-elevated-surface)), var(--gradient-brand);
+  background-image: linear-gradient(var(--color-elevated-surface), var(--color-elevated-surface)), var(--gradient-brand-border);
   background-origin: border-box;
   background-clip: padding-box, border-box;
+  overflow-y: auto;
 
   &__title {
-    // Learning/Explanation isn't in the color tokens file yet — falls
-    // back to Text/Primary until that token is added.
-    color: var(--color-learning-explanation, var(--color-text-primary));
+    flex-shrink: 0;
+    color: var(--color-learning-explanation);
+    font-weight: 600;
     margin-block-end: 8px;
   }
 

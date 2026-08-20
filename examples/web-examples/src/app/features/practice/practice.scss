@@ -16,7 +16,20 @@
     gap: 8px;
     padding-inline-start: 12px;
     padding-block-start: 10px;
-    overflow-x: auto;
+    // Was `overflow-x: auto`, which directly contradicts the comment at
+    // the top of this file: this row was never meant to scroll — only
+    // the drawer's own panel-content should. A horizontally-scrollable
+    // container like this one will happily absorb a plain vertical
+    // mouse-wheel scroll too (browsers commonly redirect vertical wheel
+    // input into horizontal scroll for x-auto containers once the
+    // scroll reaches the end of whatever's actually consuming it
+    // first — here, the drawer panel). That's exactly what was
+    // happening: scrolling inside the drawer would eventually scroll
+    // this *entire row* sideways, sliding the visualization/bars out of
+    // the viewport (looking like they "disappeared") and leaving every
+    // button positioned somewhere off-screen (looking like the whole
+    // page had frozen, when it had actually just scrolled away).
+    overflow: hidden;
   }
 
   &__content {
@@ -36,11 +49,75 @@
     flex: 1;
     min-height: 0;
     width: 100%;
-    gap: 8px;
+    gap: 10px;
     padding: 8px;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border-subtle);
     border-radius: 4px;
+  }
+
+  // Graph-algorithm main row (DFS/Dijkstra): Visualization on the left
+  // taking whatever width/height is left, fixed-width Pseudocode/
+  // Explanation column on the right. Sits in place of the sorting
+  // layout's separate visualization-section + pseudocode-section rows.
+  &__graph-main-row {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 10px;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+  }
+
+  // Fixed-width right column shared by Pseudocode/Explanation and the
+  // Data Structures aux panel. flex-shrink: 0 is essential here — the
+  // sibling visualization (flex: 1) would otherwise consume the whole
+  // row and squeeze this column down to nothing.
+  &__graph-side-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 0 0 292px;
+    width: 292px;
+    min-height: 0;
+    height: 100%;
+
+    algo-pseudocode-section {
+      display: block;
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
+    }
+  }
+
+  // Compact panel for DFS's Stack / Dijkstra's Open Set, Closed Set,
+  // and Node Costs — deliberately separate from the main graph canvas
+  // so none of them compete with the graph for space the way they did
+  // when everything rendered stacked inside one box.
+  &__graph-aux-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 0 0 auto;
+    max-height: 160px;
+    padding: 8px;
+    background-color: var(--color-surface-container);
+    border: 1px solid var(--color-border-default);
+    border-radius: 12px;
+    overflow: auto;
+  }
+
+  &__graph-aux-panel-title {
+    flex-shrink: 0;
+    color: var(--color-text-tertiary);
+  }
+
+  &__graph-visualization {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    height: 100%;
   }
 
   &__title-row {
@@ -73,6 +150,16 @@
     color: var(--color-text-secondary);
   }
 
+  &__section-heading {
+    margin-block-start: 20px;
+    color: var(--color-text-primary);
+    font-weight: 600;
+
+    &:first-child {
+      margin-block-start: 0;
+    }
+  }
+
   &__complexity-list {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -93,6 +180,10 @@
     li {
       margin-block-end: 4px;
     }
+  }
+
+  &__list--numbered {
+    list-style: decimal;
   }
 
   &__faq {
@@ -202,5 +293,72 @@
     flex: 1;
     min-height: 0;
     width: 100%;
+
+    algo-visualization-area {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+    }
+  }
+}
+
+// Same backdrop + centered-card technique as custom-input-modal.scss —
+// deliberately a separate top-level block (not nested under
+// .algo-practice-page) since the modal is positioned fixed to the
+// viewport, same reasoning as that component's own comment.
+.algo-test-unavailable-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgb(0 0 0 / 60%);
+  z-index: 100;
+}
+
+.algo-test-unavailable-modal {
+  position: fixed;
+  inset-block-start: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 420px;
+  max-width: 90vw;
+  padding: 32px 28px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 12px;
+  background-color: var(--color-elevated-surface);
+  text-align: center;
+
+  &__icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    border: 1px solid var(--color-text-tertiary);
+    border-radius: 50%;
+    color: var(--color-text-tertiary);
+  }
+
+  &__title {
+    margin: 0 0 8px;
+    color: var(--color-text-primary);
+  }
+
+  &__body {
+    margin: 0 0 24px;
+    color: var(--color-text-secondary);
+  }
+
+  &__btn {
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background: var(--color-brand-primary);
+    color: var(--color-text-primary);
+    cursor: pointer;
   }
 }

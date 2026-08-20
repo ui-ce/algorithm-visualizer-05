@@ -17,7 +17,8 @@
               class="algo-pseudocode-panel__token"
               [class.algo-pseudocode-panel__token--keyword]="token.kind === 'keyword'"
               [class.algo-pseudocode-panel__token--number]="token.kind === 'number'"
-            >{{ token.text }}</span>
+              [class.algo-pseudocode-panel__token--blank]="token.kind === 'blank'"
+            >{{ token.kind === 'blank' ? (blankFillText ?? token.text) : token.text }}</span>
           }
         </span>
       </div>

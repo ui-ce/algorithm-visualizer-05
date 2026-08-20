@@ -7,6 +7,20 @@
 // zero regardless of its value. Forcing a real height on web-renderer
 // from the outside — the only thing this wrapper can actually reach —
 // closes that gap.
+// The host element (<algo-visualization-area> itself) has no display/
+// height by default — unknown custom elements render as display:inline
+// and size to content. As a flex child that gets blockified but still
+// sizes to auto, so any parent relying on flex:1 further down (the
+// fullscreen overlay) never got a definite height and the whole chart
+// collapsed to its minimum. Setting it here means every consumer gets a
+// working height chain without having to remember to add it themselves.
+:host {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
 .algo-visualization-area {
   display: flex;
   align-items: center;

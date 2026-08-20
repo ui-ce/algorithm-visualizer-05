@@ -6,3 +6,8 @@
 // circular shape) that they live in their own components instead of
 // being folded into this union.
 export type ButtonVariant = 'primary' | 'outline' | 'navigation';
+
+// 'large' is for high-stakes marketing CTAs (landing hero, signup) where
+// the button needs to visually lead the section rather than sit at the
+// same weight as an in-app control. Everywhere else keeps 'default'.
+export type ButtonSize = 'default' | 'large';

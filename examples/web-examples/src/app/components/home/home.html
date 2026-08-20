@@ -1,4 +1,4 @@
-<algo-header [themeMode]="themeService.themeMode()" (themeToggle)="themeService.toggle()" />
+<!-- <algo-header [themeMode]="themeService.themeMode()" (themeToggle)="themeService.toggle()" />
 <div class="body">
   @for (algorithm of algorithmData; track algorithm.name) {
     <p-card class="algo">
@@ -11,6 +11,29 @@
       <ng-template #footer>
         <div class="flex gap-4 mt-1">
           <p-button label="Visualize" class="w-full" styleClass="w-full" (onClick)="onButtonClicked(algorithm)"/>
+        </div>
+      </ng-template>
+    </p-card>
+  }
+</div> -->
+<algo-header
+  [themeMode]="themeService.themeMode()"
+  (themeToggle)="themeService.toggle()"
+  [currentLanguage]="languageService.currentLanguage()"
+  (languageToggle)="languageService.toggle()"
+/>
+<div class="body">
+  @for (algorithm of algorithmData; track algorithm.nameKey) {
+    <p-card class="algo">
+      <ng-template #header>
+        <img alt="Card" class="w-full algo-image" [src]="algorithm.imgUrl" />
+      </ng-template>
+      <ng-template #title> <p class="algo-text">{{ algorithm.nameKey | translate }}</p> </ng-template>
+      <ng-template #subtitle> <p class="algo-text">{{ algorithm.classKey | translate }}</p> </ng-template>
+      <p class="w-full algo-text"> {{ algorithm.descriptionKey | translate }} </p>
+      <ng-template #footer>
+        <div class="flex gap-4 mt-1">
+          <p-button [label]="'home.visualizeButton' | translate" class="w-full" styleClass="w-full" (onClick)="onButtonClicked(algorithm)"/>
         </div>
       </ng-template>
     </p-card>

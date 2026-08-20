@@ -1,4 +1,4 @@
-<div class="algo-drawer">
+<div class="algo-drawer" [class.algo-drawer--fa]="languageService.currentLanguage() === 'fa'">
   <div class="algo-drawer__icon-column">
     <ng-content select="[icon-buttons]" />
   </div>
@@ -9,7 +9,7 @@
         <button
           type="button"
           class="algo-drawer__close-button"
-          aria-label="Close"
+          [attr.aria-label]="'practice.viz.close' | translate"
           (click)="closed.emit()"
         >
           <svg solarArrowLeftLinear [size]="24"></svg>
@@ -21,7 +21,9 @@
       </div>
 
       <div class="algo-drawer__panel-content">
-        <ng-content select="[panel-content]" />
+        <div class="algo-drawer__panel-content-inner">
+          <ng-content select="[panel-content]" />
+        </div>
       </div>
     </div>
   }

@@ -2,30 +2,34 @@
 
   <algo-button
     variant="primary"
-    text="Custom Input"
+    [text]="'practice.input.customInput' | translate"
     (click)="customInputClick.emit()"
   />
 
   <algo-button
     variant="outline"
-    text="Random Input"
+    [text]="'practice.input.randomInput' | translate"
     (click)="randomInputClick.emit()"
   />
 
   @if (!isDrawerOpen) {
 
-    <algo-data-pattern-controls
-      [selectedPattern]="selectedPattern"
-      (selectedPatternChange)="onPatternChange($event)"
-    />
+    @if (showPatternControls) {
+      <algo-data-pattern-controls
+        [selectedPattern]="selectedPattern"
+        (selectedPatternChange)="onPatternChange($event)"
+      />
+    }
 
   } @else {
 
-    <algo-data-pattern-controls
-      [selectedPattern]="selectedPattern"
-      [compact]="true"
-      (selectedPatternChange)="onPatternChange($event)"
-    />
+    @if (showPatternControls) {
+      <algo-data-pattern-controls
+        [selectedPattern]="selectedPattern"
+        [compact]="true"
+        (selectedPatternChange)="onPatternChange($event)"
+      />
+    }
 
   }
 

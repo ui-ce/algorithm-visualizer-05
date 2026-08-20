@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import type { ButtonVariant } from './button.types';
+import type { ButtonSize, ButtonVariant } from './button.types';
 
 @Component({
   selector: 'algo-button',
@@ -36,6 +36,12 @@ export class AlgoButton {
   @Input()
   public fullWidth = false;
 
+  // 'large' only changes padding/font-size/hover-lift (see button.scss);
+  // color tokens still come from `variant`, so a large primary button
+  // and a default primary button always stay the same brand color.
+  @Input()
+  public size: ButtonSize = 'default';
+
   /**
    * Keeps a Navigation button visually selected/pressed
    * after the click has finished.
@@ -45,7 +51,9 @@ export class AlgoButton {
 
   // Primary and Outline use Label/Medium/Medium. Navigation uses the
   // lighter Label/Medium/Regular. Both classes already exist in the
-  // typography tokens file.
+  // typography tokens file. 'large' buttons override font-size directly
+  // in button.scss, so the base typography class still applies for
+  // line-height/letter-spacing but font-size is bumped there.
   protected get typographyClass(): string {
     return this.variant === 'navigation' ? 'text-label-medium-regular' : 'text-label-medium';
   }

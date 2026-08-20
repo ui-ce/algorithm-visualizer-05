@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 
 import { SolarArrowLeftLinear } from '@solar-icons/angular';
+import { LanguageService } from '../../core/services/language.service';
+import { TranslatePipe } from '../../core/i18n/translate.pipe';
 
 // This component only owns layout and open/close mechanics: the icon
 // button column and the panel's content are both projected in by
@@ -10,11 +12,13 @@ import { SolarArrowLeftLinear } from '@solar-icons/angular';
 // track — the Drawer just needs to know open or closed.
 @Component({
   selector: 'algo-drawer',
-  imports: [SolarArrowLeftLinear],
+  imports: [SolarArrowLeftLinear, TranslatePipe],
   templateUrl: './drawer.html',
   styleUrl: './drawer.scss',
 })
 export class AlgoDrawer {
+  protected readonly languageService = inject(LanguageService);
+
   @Input()
   public isOpen = false;
 

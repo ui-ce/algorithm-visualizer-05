@@ -27,7 +27,9 @@
     <button
       type="button"
       class="algo-header__icon-button"
-      [attr.aria-label]="themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+      [attr.aria-label]="
+        themeMode === 'dark' ? ('header.themeToggle.toLight' | translate) : ('header.themeToggle.toDark' | translate)
+      "
       (click)="themeToggle.emit()"
     >
       @if (themeMode === 'dark') {
@@ -40,7 +42,7 @@
     <button
       type="button"
       class="algo-header__icon-button algo-header__icon-button--language text-label-medium"
-      [attr.aria-label]="'Current language: ' + currentLanguage"
+      [attr.aria-label]="'header.language.ariaLabel' | translate"
       (click)="languageToggle.emit()"
     >
       {{ currentLanguage === 'fa' ? 'FA' : 'EN' }}
@@ -49,7 +51,8 @@
     <button
       type="button"
       class="algo-header__icon-button"
-      aria-label="Account"
+      [attr.aria-label]="'header.account.ariaLabel' | translate"
+      routerLink="/login"
       (click)="accountClick.emit()"
     >
       <svg solarUserCircleLinear [size]="20"></svg>

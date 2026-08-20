@@ -2,6 +2,14 @@
 // Play/Pause button and the shorter Navigation buttons on either side of
 // it — no manual offset needed.
 .algo-navigation-controls {
+  // Media-style transport controls (Prev / Play-Pause / Next / Again)
+  // read as a fixed physical layout everywhere, the same way a video
+  // player's controls don't mirror in RTL apps — Next always points
+  // toward the same physical side. Pinning direction here stops the
+  // ambient `dir="rtl"` from reversing the flex row and swapping each
+  // button's left/right icon position; only the button labels
+  // themselves (via the translate pipe) still switch language.
+  direction: ltr;
   display: inline-flex;
   align-items: center;
   gap: 14px;

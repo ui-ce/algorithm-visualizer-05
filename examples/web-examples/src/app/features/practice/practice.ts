@@ -2,9 +2,24 @@ import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import type { Animation, RendererMetadata } from '@algorithm-visualizer/typescript-angular-renderer';
 import { FramerEngine } from '@algorithm-visualizer/typescript-framer';
+import type { Recording } from '@algorithm-visualizer/typescript-recorder';
 import { bubbleSortVisualization } from '../../algorithm/bubble-sort';
+import { mergeSortVisualization } from '../../algorithm/merge-sort';
+import { quickSortVisualization } from '../../algorithm/quick-sort';
+import { selectionSortVisualization } from '../../algorithm/selection-sort';
+import { insertionSortVisualization } from '../../algorithm/insertion-sort';
+import { binarySearchVisualization } from '../../algorithm/binary-search';
+import { dijkstraVisualization } from '../../algorithm/dijkstra';
+import { dfsVisualization } from '../../algorithm/dfs';
+import { bfsVisualization } from '../../algorithm/bfs';
+import { aStarVisualization } from '../../algorithm/a-start';
+import { linearSearchVisualization } from '../../algorithm/LinearSearch';
 import { AlgoHeader } from '../../layout/header/header';
 import { ThemeService } from '../../core/services/theme.service';
+import { LanguageService } from '../../core/services/language.service';
+import { translate } from '../../core/i18n/translations';
+import { TranslatePipe } from '../../core/i18n/translate.pipe';
+import { TranslateVarPipe } from '../../core/i18n/translate-var.pipe';
 import type { BreadcrumbItem } from '../../layout/header/header-breadcrumb.type';
 import { AlgoDrawer } from '../../design-system/drawer/drawer';
 import { AlgoDrawerIconButton } from '../../design-system/drawer-icon-button/drawer-icon-button';
@@ -15,11 +30,24 @@ import { NavigationControls } from './components/navigation-controls/navigation-
 import { ControlSection } from './components/control-section/control-section';
 import { PseudocodeSection } from './components/pseudocode-section/pseudocode-section';
 import { CustomInputModal } from './components/custom-input-modal/custom-input-modal';
+import type { CustomInputResult, GraphEdgeInput } from './components/custom-input-modal/custom-input-modal.types';
 import type { LegendItem } from './components/visualization-legend/visualization-legend.types';
 import type { DataPattern } from './components/data-pattern-controls/data-pattern-controls.types';
 import type { PseudocodeLine } from './components/pseudocode-panel/pseudocode-panel.types';
 import { ALGORITHM_CONTENT } from './data/algorithm-content.registry';
+import { ALGORITHM_CONTENT_FA } from './data/algorithm-content.registry.fa';
 import type { AlgorithmContent } from './data/algorithm-content.types';
+import { PSEUDOCODE_REGISTRY } from './data/pseudocode.registry';
+import { isTestAvailable } from '../test/data/test-question-bank';
+import {
+  SAMPLE_DFS_GRAPH,
+  SAMPLE_DIJKSTRA_GRAPHS,
+  SAMPLE_BFS_GRAPH,
+  SAMPLE_ASTAR_GRAPHS,
+  randomBfsGraph,
+  randomAStarSample,
+  type DijkstraSample,
+} from './data/sample-graphs';
 // Confirmed against the installed package.
 import {
   SolarInfoCircleLinear,
@@ -32,20 +60,148 @@ import {
 } from '@solar-icons/angular';
 import type { DrawerSectionId } from './practice.types';
 
-// Display names for the algorithms reachable from the card list on the
-// current entry page. Only Bubble Sort has real recorder/framer data
-// wired in below — the others show the page structure with an empty
-// Visualization Area until their own recorder functions are connected
-// the same way.
-const ALGORITHM_DISPLAY_NAMES: Record<string, string> = {
-  'bubble-sort': 'Bubble Sort',
-  'merge-sort': 'Merge Sort',
-  'binary-search': 'Binary Search',
-  dijkstra: 'Dijkstra',
-  dfs: 'Depth-First Search (DFS)',
+// Reuses the same translation keys already defined for the algorithm
+// name on the home page cards (core/i18n/home.translations.ts), so the
+// name isn't translated twice in two different places.
+const ALGORITHM_NAME_KEYS: Record<string, string> = {
+  'bubble-sort': 'home.algorithm.bubbleSort.name',
+  'merge-sort': 'home.algorithm.mergeSort.name',
+  'quick-sort': 'home.algorithm.quickSort.name',
+  'selection-sort': 'home.algorithm.selectionSort.name',
+  'insertion-sort': 'home.algorithm.insertionSort.name',
+  'binary-search': 'home.algorithm.binarySearch.name',
+  'linear-search': 'home.algorithm.linearSearch.name',
+  dijkstra: 'home.algorithm.dijkstra.name',
+  dfs: 'home.algorithm.dfs.name',
+  bfs: 'home.algorithm.bfs.name',
+  'a-star': 'home.algorithm.aStar.name',
 };
 
-const PLAYBACK_BASE_INTERVAL_MS = 400;
+// Array-based algorithms get the array input grid, Random button, and
+// data-pattern buttons. Linear Search belongs here alongside Binary
+// Search — it runs on a plain array like every sort, it just doesn't
+// require the array to be sorted first (see setLinearSearchData).
+const ARRAY_ALGORITHM_IDS = new Set([
+  'bubble-sort',
+  'merge-sort',
+  'quick-sort',
+  'selection-sort',
+  'insertion-sort',
+  'binary-search',
+  'linear-search',
+]);
+
+// Graph-based algorithms get the Graph-canvas layout (see
+// isGraphAlgorithm below) instead of the array Chart layout, and pull
+// their data from sample-graphs.ts instead of a generated array.
+const GRAPH_ALGORITHM_IDS = new Set(['dijkstra', 'dfs', 'bfs', 'a-star']);
+
+// The two array-based *search* algorithms — used to pick the search
+// legend (Search Range / Checking / Eliminated / Found) instead of the
+// sort legend (Active / Comparing / Swapping / Sorted), since neither
+// one ever emits a 'swap' or 'sorted' tag (see CHART_METADATA_ENTRY).
+const SEARCH_ALGORITHM_IDS = new Set(['binary-search', 'linear-search']);
+
+// Was 400ms — felt too fast at the default 1x speed. Every speed level
+// (0.5x / 1x / 1.5x / 2x, see speed-button.ts) divides this same base,
+// so bumping it slows all of them proportionally instead of just one.
+const PLAYBACK_BASE_INTERVAL_MS = 550;
+
+// Shared highlight-tag → color mappings, reused across every algorithm's
+// renderer metadata. Algorithms only ever apply a subset of these tags
+// to their own data, so handing every algorithm the full set is
+// harmless — unused tags just never get looked up.
+const CHART_METADATA_ENTRY = {
+  type: 'Chart' as const,
+  metadata: {
+    defaultColor: 'var(--color-viz-default)',
+    highlightTags: [
+      { tag: 'active', color: 'var(--color-viz-active)' },
+      { tag: 'compare', color: 'var(--color-viz-comparing)' },
+      { tag: 'swap', color: 'var(--color-viz-swapping)' },
+      { tag: 'sorted', color: 'var(--color-viz-sorted)' },
+      { tag: 'section', color: 'var(--color-viz-active)' },
+      { tag: 'sorting', color: 'var(--color-viz-comparing)' },
+      // The element currently being checked (Binary Search's mid
+      // element) — was mapped to the red "swapping" color, which reads
+      // as an error/removal rather than "this is being examined now".
+      // Comparing (orange) matches every other "currently checking"
+      // tag below ('compare', 'sorting').
+      { tag: 'middle', color: 'var(--color-viz-comparing)' },
+      { tag: 'target', color: 'var(--color-viz-sorted)' },
+      // Binary Search's out-of-range half and Linear Search's
+      // already-checked-and-rejected elements. This tag is applied by
+      // both recorders (see algorithm/binary-search.ts and
+      // algorithm/LinearSearch.ts) but previously had no color entry
+      // here at all, so eliminated cells silently rendered with the
+      // default color instead of a distinct one.
+      { tag: 'eliminated', color: 'var(--color-viz-swapping)' },
+      // "This cost just got cheaper" (Dijkstra/A* relaxing an edge).
+      // --color-viz-updated exists specifically for this ("Momentary
+      // flash for 'this value just changed for the better'" — see
+      // styles/tokens/_colors.scss) but was never actually wired up;
+      // 'changed' was falling back to the orange "comparing" color,
+      // which is indistinguishable from an in-progress comparison.
+      { tag: 'changed', color: 'var(--color-viz-updated)' },
+      // Quick Sort's pivot element for the current section.
+      { tag: 'pivot', color: 'var(--color-viz-active)' },
+      // Selection Sort's current best (smallest) candidate this pass.
+      { tag: 'min', color: 'var(--color-viz-swapping)' },
+      // Insertion Sort's element being shifted right to make room.
+      { tag: 'shift', color: 'var(--color-viz-swapping)' },
+    ],
+  },
+};
+
+const GRAPH_METADATA_ENTRY = {
+  type: 'Graph' as const,
+  metadata: {
+    defaultNodeColor: 'var(--color-viz-default)',
+    defaultEdgeColor: 'var(--color-viz-default)',
+    nodeHighlightTags: [
+      { tag: 'open', color: 'var(--color-viz-active)' },
+      { tag: 'current', color: 'var(--color-viz-comparing)' },
+      { tag: 'closed', color: 'var(--color-viz-sorted)' },
+      // Momentarily flashed when DFS/BFS mark a node visited (see
+      // dfs.ts / bfs.ts). --color-viz-explored was defined specifically
+      // for this ("DFS visited nodes ... deliberately distinct from
+      // --color-viz-sorted" — styles/tokens/_colors.scss) but was
+      // never referenced anywhere; this tag was using the red
+      // "swapping" color instead, which reads as an error rather than
+      // "this node has been visited".
+      { tag: 'visit', color: 'var(--color-viz-explored)' },
+    ],
+    edgeHighlightTags: [
+      { tag: 'compare', color: 'var(--color-viz-comparing)' },
+      { tag: 'path', color: 'var(--color-viz-active)' },
+      { tag: 'final-path', color: 'var(--color-viz-sorted)' },
+    ],
+  },
+};
+
+// compact: true — this panel (DFS's call stack, Dijkstra's priority
+// queue) sits underneath the main Graph visualization rather than
+// being the main visualization, per the requirement that it stay a
+// small strip and never take over the Graph's space.
+const ARRAY_2D_METADATA_ENTRY = {
+  type: 'Array2D' as const,
+  metadata: {
+    compact: true,
+    defaultColor: 'var(--color-viz-default)',
+    highlightTags: [
+      { tag: 'sorting', color: 'var(--color-viz-comparing)' },
+      { tag: 'remove', color: 'var(--color-viz-swapping)' },
+      { tag: 'new', color: 'var(--color-viz-active)' },
+      // Dijkstra's priority queue: node about to be popped, and an
+      // existing entry whose distance just got a cheaper update.
+      { tag: 'selected', color: 'var(--color-viz-comparing)' },
+      // Same "cheaper cost just found" moment as the Chart's 'changed'
+      // tag above — uses the same dedicated --color-viz-updated token
+      // instead of the red "swapping" color it had before.
+      { tag: 'updated', color: 'var(--color-viz-updated)' },
+    ],
+  },
+};
 
 @Component({
   selector: 'algo-practice-page',
@@ -67,31 +223,117 @@ const PLAYBACK_BASE_INTERVAL_MS = 400;
     SolarWidget2Linear,
     SolarCloseCircleLinear,
     SolarCopyLinear,
+    TranslatePipe,
+    TranslateVarPipe,
   ],
   templateUrl: './practice.html',
   styleUrl: './practice.scss',
 })
 export class PracticePage implements OnDestroy {
   protected readonly algorithmId: string;
-  protected readonly algorithmDisplayName: string;
-  protected readonly breadcrumbs: BreadcrumbItem[];
-  protected readonly content: AlgorithmContent | null;
+  // Bubble/Merge/Binary Search accept array input and the Best/Worst/
+  // Nearly-Sorted/Reverse pattern controls make sense for them; DFS and
+  // Dijkstra run on graphs, where those buttons have nothing to do —
+  // used to hide that row instead of leaving dead controls on screen
+  // just to keep every algorithm page visually identical.
+  protected readonly isArrayAlgorithm: boolean;
+  protected readonly isGraphAlgorithm: boolean;
 
-  protected readonly tabs = ['Learn', 'Practice', 'Test'];
+  // Name/breadcrumbs/tabs/legend/content are getters (not fields set once
+  // in the constructor) because they must re-resolve when the language
+  // toggle fires — there's no page reload, so a field frozen at
+  // construction time would keep showing the old language.
+  protected get algorithmDisplayName(): string {
+    const nameKey = ALGORITHM_NAME_KEYS[this.algorithmId];
+    return nameKey ? translate(nameKey, this.languageService.currentLanguage()) : this.algorithmId;
+  }
+
+  protected get breadcrumbs(): BreadcrumbItem[] {
+    const language = this.languageService.currentLanguage();
+    return [
+      { label: translate('practice.breadcrumb.home', language), route: '/' },
+      { label: translate('practice.breadcrumb.algorithms', language), route: '/algorithms' },
+      { label: this.algorithmDisplayName, route: '' },
+    ];
+  }
+
+  protected get content(): AlgorithmContent | null {
+    const language = this.languageService.currentLanguage();
+    if (language === 'fa') {
+      return ALGORITHM_CONTENT_FA[this.algorithmId] ?? ALGORITHM_CONTENT[this.algorithmId] ?? null;
+    }
+    return ALGORITHM_CONTENT[this.algorithmId] ?? null;
+  }
+
+  protected get tabs(): string[] {
+    const language = this.languageService.currentLanguage();
+    return [
+      translate('practice.tabs.learn', language),
+      translate('practice.tabs.practice', language),
+      translate('practice.tabs.test', language),
+    ];
+  }
+
+  // Badges are chosen per algorithm family from the actual highlight
+  // tags that family's recorder emits (see CHART_METADATA_ENTRY /
+  // GRAPH_METADATA_ENTRY above) instead of always showing the same
+  // five sort-only labels — Dijkstra/DFS/BFS/A* never emit 'swap' or
+  // 'sorted', and Binary/Linear Search never emit 'active' or 'swap',
+  // so showing those labels there was always description of a state
+  // that could never actually appear on screen.
+  protected get legendItems(): LegendItem[] {
+    const language = this.languageService.currentLanguage();
+    const t = (key: string) => translate(key, language);
+
+    if (this.isGraphAlgorithm) {
+      return [
+        { label: t('practice.legend.default'), colorToken: 'viz-default' },
+        { label: t('practice.legend.graph.frontier'), colorToken: 'viz-active' },
+        { label: t('practice.legend.graph.current'), colorToken: 'viz-comparing' },
+        { label: t('practice.legend.graph.visited'), colorToken: 'viz-explored' },
+        { label: t('practice.legend.graph.finalPath'), colorToken: 'viz-sorted' },
+      ];
+    }
+
+    if (SEARCH_ALGORITHM_IDS.has(this.algorithmId)) {
+      return [
+        { label: t('practice.legend.default'), colorToken: 'viz-default' },
+        { label: t('practice.legend.search.range'), colorToken: 'viz-active' },
+        { label: t('practice.legend.search.comparing'), colorToken: 'viz-comparing' },
+        { label: t('practice.legend.search.eliminated'), colorToken: 'viz-swapping' },
+        { label: t('practice.legend.search.found'), colorToken: 'viz-sorted' },
+      ];
+    }
+
+    return [
+      { label: t('practice.legend.default'), colorToken: 'viz-default' },
+      { label: t('practice.legend.active'), colorToken: 'viz-active' },
+      { label: t('practice.legend.comparing'), colorToken: 'viz-comparing' },
+      { label: t('practice.legend.swapping'), colorToken: 'viz-swapping' },
+      { label: t('practice.legend.sorted'), colorToken: 'viz-sorted' },
+    ];
+  }
+
   protected selectedTabIndex = 1;
-
   protected activeDrawerSection: DrawerSectionId | null = null;
+  protected isTestUnavailableModalOpen = false;
 
-  private static readonly DRAWER_SECTION_TITLES: Record<DrawerSectionId, string> = {
-    overview: 'What is it?',
-    complexity: 'Time and space complexity',
-    'pros-cons': 'Pros and cons',
-    implementation: 'Implementation',
-    usage: 'Where is it used?',
+  private static readonly DRAWER_SECTION_TITLE_KEYS: Record<DrawerSectionId, string> = {
+    overview: 'practice.drawer.overview',
+    complexity: 'practice.drawer.complexity',
+    'pros-cons': 'practice.drawer.prosCons',
+    implementation: 'practice.drawer.implementation',
+    usage: 'practice.drawer.usage',
   };
 
   protected get drawerPanelTitle(): string {
-    return this.activeDrawerSection ? PracticePage.DRAWER_SECTION_TITLES[this.activeDrawerSection] : '';
+    if (!this.activeDrawerSection) {
+      return '';
+    }
+    return translate(
+      PracticePage.DRAWER_SECTION_TITLE_KEYS[this.activeDrawerSection],
+      this.languageService.currentLanguage(),
+    );
   }
 
   protected animation: Animation | null = null;
@@ -104,90 +346,37 @@ export class PracticePage implements OnDestroy {
   protected selectedPattern: DataPattern | null = null;
   protected isCustomInputModalOpen = false;
 
-  protected readonly legendItems: LegendItem[] = [
-    { label: 'Default', colorToken: 'viz-default' },
-    { label: 'Active', colorToken: 'viz-active' },
-    { label: 'Comparing', colorToken: 'viz-comparing' },
-    { label: 'Swapping', colorToken: 'viz-swapping' },
-    { label: 'Sorted', colorToken: 'viz-sorted' },
-  ];
+  // Which value the current search run is looking for — Binary Search
+  // and Linear Search both need this visible on screen (not just
+  // buried in the Log messages), so a person can tell at a glance
+  // whether a given run's "not found" result is actually correct. Null
+  // for every non-search algorithm.
+  protected searchTarget: number | null = null;
 
-  // Placeholder pseudocode for Bubble Sort until this reads from the
-  // same per-algorithm data source the visualization does.
-  protected readonly pseudocodeLines: PseudocodeLine[] = [
-    {
-      lineNumber: 1,
-      indentLevel: 0,
-      tokens: [
-        { text: 'function', kind: 'keyword' },
-        { text: ' bubbleSort(arr):', kind: 'plain' },
-      ],
-    },
-    {
-      lineNumber: 2,
-      indentLevel: 1,
-      tokens: [
-        { text: 'for', kind: 'keyword' },
-        { text: ' i = 0 ', kind: 'plain' },
-        { text: 'to', kind: 'keyword' },
-        { text: ' length(arr) - ', kind: 'plain' },
-        { text: '1', kind: 'number' },
-        { text: ':', kind: 'plain' },
-      ],
-    },
-    {
-      lineNumber: 3,
-      indentLevel: 2,
-      tokens: [
-        { text: 'if', kind: 'keyword' },
-        { text: ' arr[i] > arr[i + ', kind: 'plain' },
-        { text: '1', kind: 'number' },
-        { text: ']:', kind: 'plain' },
-      ],
-    },
-    {
-      lineNumber: 4,
-      indentLevel: 3,
-      tokens: [
-        { text: 'swap(arr[i], arr[i + ', kind: 'plain' },
-        { text: '1', kind: 'number' },
-        { text: '])', kind: 'plain' },
-      ],
-    },
-    {
-      lineNumber: 5,
-      indentLevel: 0,
-      tokens: [
-        { text: 'return', kind: 'keyword' },
-        { text: ' arr', kind: 'plain' },
-      ],
-    },
-  ];
+  // Sourced from the per-algorithm registry instead of being hardcoded
+  // to Bubble Sort's shape, so every algorithm gets its own pseudocode
+  // and — since each algorithm's Log messages carry a matching `line`
+  // number — the active line actually tracks the step being played.
+  protected readonly pseudocodeLines: PseudocodeLine[];
 
-  protected activeLineNumber: number | null = 3;
-  protected explanationTitle = 'Comparing elements';
-  protected explanationDescription =
-    'Placeholder — replaced with real step-by-step explanations once the algorithm is wired in.';
+  protected activeLineNumber: number | null = null;
+  protected explanationTitle = '';
+  protected explanationDescription = '';
 
   private playbackIntervalId: ReturnType<typeof setInterval> | null = null;
 
   public constructor(
     private readonly router: Router,
     protected readonly themeService: ThemeService,
+    protected readonly languageService: LanguageService,
     route: ActivatedRoute,
   ) {
     this.algorithmId = route.snapshot.paramMap.get('id') ?? 'bubble-sort';
-    this.algorithmDisplayName = ALGORITHM_DISPLAY_NAMES[this.algorithmId] ?? this.algorithmId;
-    this.content = ALGORITHM_CONTENT[this.algorithmId] ?? null;
-    this.breadcrumbs = [
-      { label: 'Home', route: '/' },
-      { label: 'Algorithms', route: '/algorithms' },
-      { label: this.algorithmDisplayName, route: '' },
-    ];
+    this.isArrayAlgorithm = ARRAY_ALGORITHM_IDS.has(this.algorithmId);
+    this.isGraphAlgorithm = GRAPH_ALGORITHM_IDS.has(this.algorithmId);
+    this.pseudocodeLines = PSEUDOCODE_REGISTRY[this.algorithmId] ?? [];
 
-    if (this.algorithmId === 'bubble-sort') {
-      this.setBubbleSortData(this.randomArray(20));
-    }
+    this.generateInitialData();
   }
 
   public ngOnDestroy(): void {
@@ -203,11 +392,30 @@ export class PracticePage implements OnDestroy {
   }
 
   protected onTabChange(index: number): void {
+    if (index === 2) {
+      if (!isTestAvailable(this.algorithmId)) {
+        this.isTestUnavailableModalOpen = true;
+        return;
+      }
+
+      this.selectedTabIndex = index;
+
+      this.router.navigate([
+        '/algorithms',
+        this.algorithmId,
+        'test',
+      ]);
+
+      return;
+    }
+
     this.selectedTabIndex = index;
-    // Route navigation to the corresponding Learn/Test page for this
-    // algorithm is added once those pages exist.
   }
 
+  protected closeTestUnavailableModal(): void {
+    this.isTestUnavailableModalOpen = false;
+  }
+  
   protected onSpeedChange(speed: number): void {
     this.speed = speed;
     if (this.isPlaying) {
@@ -216,6 +424,7 @@ export class PracticePage implements OnDestroy {
   }
 
   protected onPrevious(): void {
+    this.hasInteracted = true;
     this.stepTo(this.frameIndex - 1);
   }
 
@@ -249,33 +458,177 @@ export class PracticePage implements OnDestroy {
     this.isCustomInputModalOpen = false;
   }
 
-  protected onCustomInputApplied(values: number[]): void {
-    if (this.algorithmId === 'bubble-sort') {
-      this.setBubbleSortData(values);
+  // What this does now depends on which fields the modal actually
+  // showed, which in turn depends on algorithmId (passed into the
+  // modal as an @Input) — see CustomInputModal for the field logic
+  // itself.
+  protected onCustomInputApplied(result: CustomInputResult): void {
+    if (result.kind === 'array') {
+      this.setArrayData(result.values);
+      return;
+    }
+
+    if (result.kind === 'array-with-target') {
+      if (this.algorithmId === 'linear-search') {
+        // Unlike binary search, linear search doesn't require (or
+        // want) the array sorted first.
+        const recording = linearSearchVisualization([...result.values], result.target);
+        this.applyRecording(recording, [CHART_METADATA_ENTRY]);
+        this.searchTarget = result.target;
+        return;
+      }
+
+      // Binary search requires a sorted array; the target the person
+      // typed is used as-is, including the "not found" case where it
+      // isn't actually one of the array's values.
+      const sortedArray = [...result.values].sort((a, b) => a - b);
+      const recording = binarySearchVisualization(sortedArray, result.target);
+      this.applyRecording(recording, [CHART_METADATA_ENTRY]);
+      this.searchTarget = result.target;
+      return;
+    }
+
+    // result.kind === 'graph'
+    if (this.algorithmId === 'dijkstra') {
+      const graph = this.buildDijkstraGraph(result.edges);
+      this.setDijkstraData({ graph, start: result.start, end: result.end ?? result.start });
+      return;
+    }
+
+    if (this.algorithmId === 'a-star') {
+      // Same weighted-edge shape as Dijkstra — see buildDijkstraGraph.
+      const graph = this.buildDijkstraGraph(result.edges);
+      this.setAStarData({ graph, start: result.start, end: result.end ?? result.start });
+      return;
+    }
+
+    if (this.algorithmId === 'dfs') {
+      const graph = this.buildDfsGraph(result.edges);
+      this.setDfsData(graph);
+      return;
+    }
+
+    if (this.algorithmId === 'bfs') {
+      // Same undirected-edge shape as DFS — see buildDfsGraph. BFS's
+      // recorder hardcodes its start to 'A' exactly like DFS's does
+      // (see algorithm/bfs.ts), which is also why the modal fixes the
+      // start field for both instead of making it editable.
+      const graph = this.buildDfsGraph(result.edges);
+      this.setBfsData(graph);
     }
   }
 
+  // Dijkstra's recorder wants Record<string, Record<string, number>[]> —
+  // every node reachable from an edge needs its own (possibly empty)
+  // entry, since the node list and initial cost table are both built
+  // from Object.keys(graph). Edges are treated as directed, matching
+  // how they're typed into the modal ("from to weight").
+  private buildDijkstraGraph(edges: GraphEdgeInput[]): Record<string, Record<string, number>[]> {
+    const graph: Record<string, Record<string, number>[]> = {};
+    for (const edge of edges) {
+      graph[edge.from] ??= [];
+      graph[edge.to] ??= [];
+      graph[edge.from].push({ [edge.to]: edge.weight ?? 0 });
+    }
+    return graph;
+  }
+
+  // DFS's recorder wants Record<string, string[]> and treats the graph
+  // as undirected (see sample-graphs.ts), so each typed edge is added
+  // to both endpoints' adjacency lists.
+  private buildDfsGraph(edges: GraphEdgeInput[]): Record<string, string[]> {
+    const graph: Record<string, string[]> = {};
+    for (const edge of edges) {
+      graph[edge.from] ??= [];
+      graph[edge.to] ??= [];
+      if (!graph[edge.from].includes(edge.to)) {
+        graph[edge.from].push(edge.to);
+      }
+      if (!graph[edge.to].includes(edge.from)) {
+        graph[edge.to].push(edge.from);
+      }
+    }
+    return graph;
+  }
+
   protected onRandomInputClick(): void {
-    if (this.algorithmId !== 'bubble-sort') {
+    if (this.algorithmId === 'dijkstra') {
+      const sample = SAMPLE_DIJKSTRA_GRAPHS[Math.floor(Math.random() * SAMPLE_DIJKSTRA_GRAPHS.length)];
+      this.setDijkstraData(sample);
       return;
     }
+
+    if (this.algorithmId === 'a-star') {
+      // A* has the same random-directed-weighted-graph generator
+      // Dijkstra uses (randomAStarSample is an alias for
+      // randomDijkstraSample — see sample-graphs.ts), so unlike DFS/BFS
+      // below, "Random" here actually produces a fresh graph each time
+      // rather than replaying the same one.
+      this.setAStarData(randomAStarSample());
+      return;
+    }
+
+    if (this.algorithmId === 'dfs') {
+      // Only one curated sample graph exists for DFS today — re-running
+      // it still resets playback to the start, which is the useful part
+      // of "Random" here until more sample graphs are added.
+      this.setDfsData(SAMPLE_DFS_GRAPH);
+      return;
+    }
+
+    if (this.algorithmId === 'bfs') {
+      // Same random-connected-graph generator DFS's "Random" comment
+      // above wants (randomBfsGraph is an alias for randomDfsGraph —
+      // see sample-graphs.ts): a fresh graph every time.
+      this.setBfsData(randomBfsGraph());
+      return;
+    }
+
+    if (!ARRAY_ALGORITHM_IDS.has(this.algorithmId)) {
+      return;
+    }
+
     const count = Math.floor(Math.random() * 15) + 10;
-    this.setBubbleSortData(this.randomArray(count));
+
+    if (this.algorithmId === 'binary-search') {
+      this.setBinarySearchData(this.sortedRandomArray(count));
+      return;
+    }
+
+    if (this.algorithmId === 'linear-search') {
+      this.setLinearSearchData(this.randomArray(count));
+      return;
+    }
+
+    this.setArrayData(this.randomArray(count));
   }
 
   protected onPatternChange(pattern: DataPattern | null): void {
     this.selectedPattern = pattern;
 
-    if (this.algorithmId !== 'bubble-sort') {
+    if (!ARRAY_ALGORITHM_IDS.has(this.algorithmId)) {
       return;
     }
 
-    if (pattern === null) {
-      this.setBubbleSortData(this.randomArray(20));
+    const array = pattern === null ? this.randomArray(20) : this.patternedArray(pattern, 20);
+
+    if (this.algorithmId === 'binary-search') {
+      // Whatever pattern was picked, binary search still needs the
+      // result sorted to behave correctly.
+      this.setBinarySearchData([...array].sort((a, b) => a - b));
       return;
     }
 
-    this.setBubbleSortData(this.patternedArray(pattern, 20));
+    if (this.algorithmId === 'linear-search') {
+      // Unlike binary search, linear search doesn't need the pattern
+      // sorted — 'reversed' and 'nearly-sorted' are still perfectly
+      // valid, meaningful arrays to scan linearly; forcing a sort here
+      // would make every pattern look identical to binary search's.
+      this.setLinearSearchData(array);
+      return;
+    }
+
+    this.setArrayData(array);
   }
 
   protected onCompareClick(): void {
@@ -319,18 +672,35 @@ export class PracticePage implements OnDestroy {
     this.updateExplanationFromLog(clamped);
   }
 
-  // The recording already carries a human-readable message per step
-  // (see LogRecorder.setMessage in bubble-sort.ts) — this just surfaces
-  // that same text in the Explanation panel instead of duplicating it
-  // with new copy. Title stays generic since the log only has a message,
-  // not a short/long split.
+  // Every algorithm's recorder now tags each Log entry with a short
+  // `title`, the human-readable `message`, and the pseudocode `line`
+  // it corresponds to (see bubble-sort.ts / merge-sort.ts / etc.) —
+  // this just surfaces that same per-step data in the Explanation
+  // panel and the pseudocode panel's active-line highlight, instead of
+  // the two staying hardcoded to whatever the last placeholder was.
   private updateExplanationFromLog(index: number): void {
+    // Frame 0 always carries a real log entry (the first recorded
+    // operation's message), so without this guard it would render in
+    // the Explanation panel the instant the page loads — before the
+    // person has pressed Play/Next/Previous and before anything has
+    // actually happened on screen. The panel should stay empty until
+    // there's a real step to explain.
+    if (!this.hasInteracted) {
+      return;
+    }
+
     const frame = this.animation?.[index];
     const logState = frame?.find((frameState) => frameState.type === 'Log')?.state as
-      | { message?: string }
+      | { message?: string; title?: string; line?: number }
       | undefined;
 
-    this.explanationDescription = logState?.message ?? this.explanationDescription;
+    if (!logState) {
+      return;
+    }
+
+    this.explanationDescription = logState.message ?? this.explanationDescription;
+    this.explanationTitle = logState.title ?? this.explanationTitle;
+    this.activeLineNumber = logState.line ?? this.activeLineNumber;
   }
 
   private startPlayback(): void {
@@ -352,34 +722,155 @@ export class PracticePage implements OnDestroy {
     }
   }
 
-  private setBubbleSortData(array: number[]): void {
-    const recording = bubbleSortVisualization(array);
+  private generateInitialData(): void {
+    switch (this.algorithmId) {
+      case 'binary-search':
+        this.setBinarySearchData(this.sortedRandomArray(20));
+        break;
+
+      case 'linear-search':
+        // Unlike Binary Search, Linear Search doesn't need (or want)
+        // a sorted array — sortedness isn't part of what it's
+        // demonstrating, and always sorting it would make every run
+        // look identical to Binary Search's input.
+        this.setLinearSearchData(this.randomArray(20));
+        break;
+
+      case 'dijkstra':
+        this.setDijkstraData(SAMPLE_DIJKSTRA_GRAPHS[0]);
+        break;
+
+      case 'dfs':
+        this.setDfsData(SAMPLE_DFS_GRAPH);
+        break;
+
+      case 'bfs':
+        this.setBfsData(SAMPLE_BFS_GRAPH);
+        break;
+
+      case 'a-star':
+        this.setAStarData(SAMPLE_ASTAR_GRAPHS[0]);
+        break;
+
+      case 'bubble-sort':
+      case 'merge-sort':
+      case 'quick-sort':
+      case 'selection-sort':
+      case 'insertion-sort':
+      default:
+        // setArrayData itself picks the right recorder based on
+        // algorithmId, so every array-sorting algorithm lands here.
+        this.setArrayData(this.randomArray(20));
+        break;
+    }
+  }
+
+  private setArrayData(array: number[]): void {
+    // Every recorder sorts its input array in place, so each call gets
+    // its own copy rather than sharing the caller's array reference.
+    const recording = this.buildArraySortRecording([...array]);
+    this.applyRecording(recording, [CHART_METADATA_ENTRY]);
+  }
+
+  private buildArraySortRecording(array: number[]): Recording {
+    switch (this.algorithmId) {
+      case 'merge-sort':
+        return mergeSortVisualization(array);
+      case 'quick-sort':
+        return quickSortVisualization(array);
+      case 'selection-sort':
+        return selectionSortVisualization(array);
+      case 'insertion-sort':
+        return insertionSortVisualization(array);
+      case 'bubble-sort':
+      default:
+        return bubbleSortVisualization(array);
+    }
+  }
+
+  private setBinarySearchData(sortedArray: number[]): void {
+    const target = this.pickSearchTarget(sortedArray);
+    const recording = binarySearchVisualization([...sortedArray], target);
+    this.applyRecording(recording, [CHART_METADATA_ENTRY]);
+    this.searchTarget = target;
+  }
+
+  // Linear Search never sorts its input — that's the whole point of
+  // the contrast with Binary Search — so this intentionally skips the
+  // sort step setBinarySearchData does.
+  private setLinearSearchData(array: number[]): void {
+    const target = this.pickSearchTarget(array);
+    const recording = linearSearchVisualization([...array], target);
+    this.applyRecording(recording, [CHART_METADATA_ENTRY]);
+    this.searchTarget = target;
+  }
+
+  private setDijkstraData(sample: DijkstraSample): void {
+    const recording = dijkstraVisualization(sample.graph, sample.start, sample.end);
+    // dijkstra.ts still records three panels: the Graph, the Open/
+    // Closed Set (Array2D), and the Node Costs chart. The comment that
+    // used to be here said the chart had been removed — it hadn't —
+    // and CHART_METADATA_ENTRY was missing from this list as a result,
+    // so the Node Costs panel's 'changed' highlight had no color
+    // metadata to resolve against.
+    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY, CHART_METADATA_ENTRY]);
+  }
+
+  private setDfsData(graph: Record<string, string[]>): void {
+    const recording = dfsVisualization(graph);
+    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY]);
+  }
+
+  // Same recorder shape as DFS (Graph + one Array2D queue panel), just
+  // a queue instead of a stack — see algorithm/bfs.ts.
+  private setBfsData(graph: Record<string, string[]>): void {
+    const recording = bfsVisualization(graph);
+    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY]);
+  }
+
+  // Same recorder shape as Dijkstra (Graph + Open/Closed Set + Node
+  // Costs chart) — see algorithm/a-start.ts.
+  private setAStarData(sample: DijkstraSample): void {
+    const recording = aStarVisualization(sample.graph, sample.start, sample.end);
+    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY, CHART_METADATA_ENTRY]);
+  }
+
+  private applyRecording(recording: Recording, objectMetaData: RendererMetadata['objectMetaData']): void {
+    // Reset here, not just at construction — every setXData method
+    // (setArrayData, setDfsData, ...) funnels through this method, so
+    // this is the one place guaranteed to run on every data change.
+    // setBinarySearchData/setLinearSearchData re-set it right after
+    // calling this.
+    this.searchTarget = null;
     this.animation = new FramerEngine().getAnimation(recording);
     this.totalSteps = this.animation.length;
     this.rendererMetadata = {
-      documentName: 'Bubble Sort',
-      objectMetaData: [
-        {
-          type: 'Chart',
-          metadata: {
-            defaultColor: 'var(--color-viz-default)',
-            highlightTags: [
-              { tag: 'active', color: 'var(--color-viz-active)' },
-              { tag: 'compare', color: 'var(--color-viz-comparing)' },
-              { tag: 'swap', color: 'var(--color-viz-swapping)' },
-              { tag: 'sorted', color: 'var(--color-viz-sorted)' },
-            ],
-          },
-        },
-      ],
+      documentName: this.algorithmDisplayName,
+      objectMetaData,
     };
     this.stopPlayback();
     this.isPlaying = false;
     this.stepTo(0);
   }
 
+  // Picks a value to search for. Most of the time it's one already in
+  // the array, so playback actually reaches the "found" step; roughly
+  // one search in five targets a value just past the array's range so
+  // the "not found" ending is reachable too.
+  private pickSearchTarget(sortedArray: number[]): number {
+    if (sortedArray.length > 0 && Math.random() < 0.8) {
+      return sortedArray[Math.floor(Math.random() * sortedArray.length)];
+    }
+    const max = Math.max(...sortedArray, 0);
+    return max + Math.floor(Math.random() * 10) + 1;
+  }
+
   private randomArray(count: number): number[] {
     return Array.from({ length: count }, () => Math.floor(Math.random() * 70) + 10);
+  }
+
+  private sortedRandomArray(count: number): number[] {
+    return this.randomArray(count).sort((a, b) => a - b);
   }
 
   // Builds an array that actually matches the chosen pattern, rather
@@ -391,9 +882,6 @@ export class PracticePage implements OnDestroy {
     const base = Array.from({ length: count }, (_, i) => (i + 1) * 4);
 
     switch (pattern) {
-      case 'sorted':
-        return base;
-
       case 'reversed':
         return [...base].reverse();
 

@@ -7,6 +7,17 @@ import {
   Recording,
 } from '@algorithm-visualizer/typescript-recorder';
 
+// Pseudocode line numbers referenced below correspond to:
+//   1  function dijkstra(graph, start, end):
+//   2    cost[start] = 0, open = [start]
+//   3    while open is not empty:
+//   4      sort open by cost, current = open.shift()
+//   5      if current == end: return path
+//   6      for neighbor in graph[current]:
+//   7        newCost = cost[current] + weight
+//   8        if newCost < cost[neighbor]:
+//   9          cost[neighbor] = newCost, open.push(neighbor)
+//   10   return no path
 export function dijkstraVisualization(
   graph: Record<string, Record<string, number>[]>,
   start: string,
@@ -16,7 +27,12 @@ export function dijkstraVisualization(
 
   recorderEngine.beginGroup();
 
-  const logRecorder = new LogRecorder(recorderEngine, { name: 'Log', message: 'Initial state' });
+  const logRecorder = new LogRecorder(recorderEngine, {
+    name: 'Log',
+    message: 'Initial state',
+    title: 'Getting started',
+    line: 2,
+  });
 
   const graphRecorder = new GraphRecorder(recorderEngine, {
     name: 'Graph',
@@ -55,7 +71,11 @@ export function dijkstraVisualization(
   while (openList.length > 0) {
     openList.sort((x, y) => costs[x] - costs[y]);
 
-    logRecorder.setMessage({ message: `Sorting open set` });
+    logRecorder.setMessage({
+      title: 'Picking the next node',
+      message: 'Sorting the open set so the lowest-cost node comes first.',
+      line: 4,
+    });
     openRecorder.setCells({
       rowIndex: 0,
       startIndex: 0,
@@ -75,7 +95,11 @@ export function dijkstraVisualization(
     closedList.push(current);
 
     recorderEngine.beginGroup();
-    logRecorder.setMessage({ message: `Grabbing first node from open set` });
+    logRecorder.setMessage({
+      title: 'Picking the next node',
+      message: 'Grabbing the lowest-cost node from the open set.',
+      line: 4,
+    });
     openRecorder.setCellsHighlight({
       rowIndex: 0,
       startIndex: 0,
@@ -85,7 +109,11 @@ export function dijkstraVisualization(
     recorderEngine.endGroup();
 
     recorderEngine.beginGroup();
-    logRecorder.setMessage({ message: `Visiting node ${current} and adding it to closed set` });
+    logRecorder.setMessage({
+      title: 'Visiting a node',
+      message: `Visiting node ${current} and moving it to the closed set.`,
+      line: 3,
+    });
     graphRecorder.setNodeHighlight({ id: current, highlightTags: ['current'] });
     openRecorder.shiftCells({ rowIndex: 0, count: 1 });
     closedRecorder.pushCells({ rowIndex: 0, values: [current] });
@@ -101,7 +129,11 @@ export function dijkstraVisualization(
 
     if (current === end) {
       recorderEngine.beginGroup();
-      logRecorder.setMessage({ message: `Destination ${end} reached!` });
+      logRecorder.setMessage({
+        title: 'Destination reached!',
+        message: `Reached the destination ${end} — tracing back the shortest path.`,
+        line: 5,
+      });
       const bestPath = getBestPathSoFar(end, parents);
       graphRecorder.clearAllEdgesHighlight({});
       bestPath.forEach((edge) =>
@@ -119,7 +151,11 @@ export function dijkstraVisualization(
       const tentativeCost = costs[current] + weight;
 
       recorderEngine.beginGroup();
-      logRecorder.setMessage({ message: `Checking neighbor ${neighbor}` });
+      logRecorder.setMessage({
+        title: 'Checking a neighbor',
+        message: `Looking at neighbor ${neighbor} — is going through ${current} cheaper than what we already know?`,
+        line: 7,
+      });
       graphRecorder.setEdgeHighlight({ id: `${current}${neighbor}`, highlightTags: ['compare'] });
       recorderEngine.endGroup();
 
@@ -133,7 +169,11 @@ export function dijkstraVisualization(
           openList.push(neighbor);
 
           recorderEngine.beginGroup();
-          logRecorder.setMessage({ message: `Adding neighbor ${neighbor} to open set` });
+          logRecorder.setMessage({
+            title: 'Discovering a new node',
+            message: `Neighbor ${neighbor} hasn't been seen yet — adding it to the open set.`,
+            line: 9,
+          });
           openRecorder.pushCells({ rowIndex: 0, values: [neighbor] });
           openRecorder.setCellsHighlight({
             rowIndex: 0,
@@ -149,7 +189,9 @@ export function dijkstraVisualization(
 
         recorderEngine.beginGroup();
         logRecorder.setMessage({
-          message: `Updating cost for neighbor ${neighbor} (cost: ${tentativeCost})`,
+          title: 'Updating the shortest known cost',
+          message: `Found a cheaper path to ${neighbor} through ${current} — updating its cost to ${tentativeCost}.`,
+          line: 9,
         });
         costChart.setCells({
           startIndex: Object.keys(graph).indexOf(neighbor),
@@ -179,7 +221,11 @@ export function dijkstraVisualization(
     graphRecorder.setNodeHighlight({ id: current, highlightTags: ['closed'] });
   }
 
-  logRecorder.setMessage({ message: `Complex A* simulation complete` });
+  logRecorder.setMessage({
+    title: 'Done!',
+    message: "Dijkstra's algorithm has finished exploring the graph.",
+    line: 10,
+  });
 
   return recorderEngine.getRecording();
 }

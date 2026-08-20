@@ -2,71 +2,154 @@
   <div class="algo-custom-input-modal__backdrop" (click)="onCancel()"></div>
 
   <div class="algo-custom-input-modal" role="dialog" aria-modal="true">
-    <p class="algo-custom-input-modal__title text-headline-large-emphasized">Custom Input</p>
+    <p class="algo-custom-input-modal__title text-headline-large-emphasized">{{ 'practice.modal.title' | translate }}</p>
 
-    <label class="algo-custom-input-modal__label text-body-medium">Number of elements</label>
-    <input
-      type="text"
-      class="algo-custom-input-modal__count-input text-label-medium-regular"
-      placeholder="Example 10"
-      [value]="elementCountText"
-      (input)="onElementCountChange($any($event.target).value)"
-    />
-    @if (countErrorMessage) {
-      <p class="algo-custom-input-modal__error text-label-medium-regular">{{ countErrorMessage }}</p>
-    }
-    @if (maxCountNotice) {
-      <p class="algo-custom-input-modal__notice text-label-medium-regular">{{ maxCountNotice }}</p>
-    }
-
-    <p class="algo-custom-input-modal__label algo-custom-input-modal__label--elements text-body-medium">
-      Elements
-    </p>
-
-    <div class="algo-custom-input-modal__rows">
-      @for (row of rows; track $index) {
-        <div class="algo-custom-input-modal__row">
-          @for (index of row; track index) {
-            <div class="algo-custom-input-modal__field">
-              <span class="algo-custom-input-modal__field-number text-label-medium-regular">
-                #{{ index + 1 }}
-              </span>
-              <input
-                type="text"
-                class="algo-custom-input-modal__field-input"
-                [disabled]="!fieldsAreEnabled"
-                [value]="elementValues[index] ?? ''"
-                (input)="onElementValueChange(index, $any($event.target).value)"
-              />
-            </div>
-          }
-        </div>
+    @if (mode !== 'graph') {
+      <label class="algo-custom-input-modal__label text-body-medium">{{ 'practice.modal.numberOfElements' | translate }}</label>
+      <input
+        type="text"
+        class="algo-custom-input-modal__count-input text-label-medium-regular"
+        [placeholder]="'practice.modal.countPlaceholder' | translate"
+        [value]="elementCountText"
+        (input)="onElementCountChange($any($event.target).value)"
+      />
+      @if (countErrorMessage) {
+        <p class="algo-custom-input-modal__error text-label-medium-regular">{{ countErrorMessage }}</p>
       }
-    </div>
+      @if (maxCountNotice) {
+        <p class="algo-custom-input-modal__notice text-label-medium-regular">{{ maxCountNotice }}</p>
+      }
+
+      <p class="algo-custom-input-modal__label algo-custom-input-modal__label--elements text-body-medium">
+        {{ 'practice.modal.elements' | translate }} <span class="algo-custom-input-modal__label-hint">{{ 'practice.modal.elementsHint' | translate }}</span>
+      </p>
+
+      <div class="algo-custom-input-modal__rows">
+        @for (row of rows; track $index) {
+          <div class="algo-custom-input-modal__row">
+            @for (index of row; track index) {
+              <div class="algo-custom-input-modal__field">
+                <span class="algo-custom-input-modal__field-number text-label-medium-regular">
+                  #{{ index + 1 }}
+                </span>
+                <input
+                  type="text"
+                  class="algo-custom-input-modal__field-input"
+                  [disabled]="!fieldsAreEnabled"
+                  [value]="elementValues[index] ?? ''"
+                  (input)="onElementValueChange(index, $any($event.target).value)"
+                />
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    @if (mode === 'array-with-target') {
+      <label class="algo-custom-input-modal__label text-body-medium">
+        {{ 'practice.modal.searchTarget' | translate }} <span class="algo-custom-input-modal__label-hint">{{ 'practice.modal.searchTargetHint' | translate }}</span>
+      </label>
+      <input
+        type="text"
+        class="algo-custom-input-modal__count-input text-label-medium-regular"
+        [placeholder]="'practice.modal.targetPlaceholder' | translate"
+        [value]="targetText"
+        (input)="onTargetChange($any($event.target).value)"
+      />
+      @if (targetErrorMessage) {
+        <p class="algo-custom-input-modal__error text-label-medium-regular">{{ targetErrorMessage }}</p>
+      }
+    }
+
+    @if (mode === 'graph') {
+      <label class="algo-custom-input-modal__label text-body-medium">
+        {{ 'practice.modal.edges' | translate }}
+        <span class="algo-custom-input-modal__label-hint">
+          @if (isWeightedGraph) {
+            {{ 'practice.modal.edgesHintDijkstra' | translate }}
+          } @else {
+            {{ 'practice.modal.edgesHintDefault' | translate }}
+          }
+        </span>
+      </label>
+      <textarea
+        class="algo-custom-input-modal__edges-input text-label-medium-regular"
+        rows="6"
+        [placeholder]="isWeightedGraph ? 'A B 4\nB C 5\nC E 3' : 'A B\nA C\nB D'"
+        [value]="edgesText"
+        (input)="onEdgesChange($any($event.target).value)"
+      ></textarea>
+      @if (edgesErrorMessage) {
+        <p class="algo-custom-input-modal__error text-label-medium-regular">{{ edgesErrorMessage }}</p>
+      }
+
+      @if (isWeightedGraph) {
+        <div class="algo-custom-input-modal__row">
+          <div class="algo-custom-input-modal__field">
+            <label class="algo-custom-input-modal__label text-body-medium">{{ 'practice.modal.startNode' | translate }}</label>
+            <input
+              type="text"
+              class="algo-custom-input-modal__field-input"
+              placeholder="A"
+              [value]="startNodeText"
+              (input)="onStartNodeChange($any($event.target).value)"
+            />
+          </div>
+          <div class="algo-custom-input-modal__field">
+            <label class="algo-custom-input-modal__label text-body-medium">{{ 'practice.modal.endNode' | translate }}</label>
+            <input
+              type="text"
+              class="algo-custom-input-modal__field-input"
+              placeholder="F"
+              [value]="endNodeText"
+              (input)="onEndNodeChange($any($event.target).value)"
+            />
+          </div>
+        </div>
+        @if (startNodeErrorMessage) {
+          <p class="algo-custom-input-modal__error text-label-medium-regular">{{ startNodeErrorMessage }}</p>
+        }
+        @if (endNodeErrorMessage) {
+          <p class="algo-custom-input-modal__error text-label-medium-regular">{{ endNodeErrorMessage }}</p>
+        }
+      } @else {
+        <p class="algo-custom-input-modal__notice text-label-medium-regular">
+          {{ 'practice.modal.dfsFixedStartNotice' | translate | translateVar: { start: dfsFixedStart } }}
+        </p>
+        @if (dfsMissingStartNode) {
+          <p class="algo-custom-input-modal__error text-label-medium-regular">
+            {{ 'practice.modal.dfsMissingStartError' | translate | translateVar: { start: dfsFixedStart } }}
+          </p>
+        }
+      }
+    }
 
     <div class="algo-custom-input-modal__actions">
-  <algo-button
-    variant="primary"
-    text="Apply"
-    [fullWidth]="true"
-    [disabled]="!canApply"
-    (click)="onApply()"
-  />
+      <algo-button
+        variant="primary"
+        [text]="'practice.modal.apply' | translate"
+        [fullWidth]="true"
+        [disabled]="!canApply"
+        (click)="onApply()"
+      />
 
-  <algo-button
-    variant="outline"
-    text="Generate Random"
-    [fullWidth]="true"
-    [disabled]="!fieldsAreEnabled"
-    (click)="onGenerateRandom()"
-  />
+      @if (mode !== 'graph') {
+        <algo-button
+          variant="outline"
+          [text]="'practice.modal.generateRandom' | translate"
+          [fullWidth]="true"
+          [disabled]="!fieldsAreEnabled"
+          (click)="onGenerateRandom()"
+        />
+      }
 
-  <algo-button
-    variant="outline"
-    text="Cancel"
-    [fullWidth]="true"
-    (click)="onCancel()"
-  />
-</div>
+      <algo-button
+        variant="outline"
+        [text]="'practice.modal.cancel' | translate"
+        [fullWidth]="true"
+        (click)="onCancel()"
+      />
+    </div>
   </div>
 }

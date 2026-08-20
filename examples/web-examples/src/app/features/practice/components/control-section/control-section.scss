@@ -1,8 +1,17 @@
 .algo-control-section {
+  // Whole control bar (Navigation / Input / Compare cards) is app
+  // chrome, not reading content — like the navigation controls inside
+  // it, its layout stays physically fixed across languages so buttons
+  // don't reshuffle position when only their labels change.
+  direction: ltr;
   display: flex;
   flex-direction: row;
   align-items: stretch;
   justify-content: space-between;
+  // space-between alone can collapse to 0 once the row is tight enough —
+  // this guarantees the three cards (Navigation / Data / Compare) never
+  // touch, while space-between still spreads any extra width beyond it.
+  gap: 12px;
   flex-wrap: nowrap;
   width: 100%;
   height: fit-content;
@@ -14,6 +23,18 @@
   // actually on screen instead of to whatever width happens to be left.
   &--drawer-open {
     justify-content: flex-start;
-    gap: 16px;
+    gap: 10px;
+
+    // Each card (Navigation / Input / Compare) carries its own 20px
+    // padding-inline regardless of how narrow the row gets — with the
+    // drawer open that padding alone eats most of the reclaimed width,
+    // so the gap above reads as nothing and the three cards look like
+    // they're touching. Trimming it here (only in this narrower state)
+    // is what actually gives them breathing room.
+    ::ng-deep .algo-navigation-controls,
+    ::ng-deep .algo-input-controls,
+    ::ng-deep .algo-compare-control {
+      padding-inline: 12px;
+    }
   }
 }

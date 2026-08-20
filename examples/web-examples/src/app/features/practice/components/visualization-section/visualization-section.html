@@ -1,16 +1,22 @@
 <div class="algo-visualization-section">
   <div class="algo-visualization-section__header">
     <span class="algo-visualization-section__step text-body-large">
-      Step {{ currentStep }} of {{ totalSteps }}
+      {{ 'practice.viz.step' | translate }} {{ currentStep + 1 }} {{ 'practice.viz.of' | translate }} {{ totalSteps }}
     </span>
 
+    @if (searchTarget !== null) {
+      <span class="algo-visualization-section__target text-body-large">
+        {{ 'practice.viz.searchTarget' | translate }}: <strong>{{ searchTarget }}</strong>
+      </span>
+    }
+
     <div class="algo-visualization-section__header-right">
-      <span class="algo-visualization-section__speed-label text-body-large">Speed:</span>
+      <span class="algo-visualization-section__speed-label text-body-large">{{ 'practice.viz.speed' | translate }}</span>
       <algo-speed-button [speed]="speed" (speedChange)="speedChange.emit($event)" />
       <button
         type="button"
         class="algo-visualization-section__fullscreen-button"
-        aria-label="Toggle fullscreen"
+        [attr.aria-label]="'practice.viz.toggleFullscreen' | translate"
         (click)="fullscreenToggle.emit()"
       >
         <svg solarFullScreenLinear [size]="24"></svg>
@@ -23,21 +29,22 @@
       [animation]="animation"
       [rendererMetadata]="rendererMetadata"
       [frameIndex]="frameIndex"
+      [includeTypes]="includeTypes"
     />
+
+    <algo-visualization-legend [items]="legendItems" />
 
     @if (showHint) {
       <div class="algo-visualization-section__hint">
-        <p class="algo-visualization-section__hint-title text-title-medium">Ready to see it in action?</p>
+        <p class="algo-visualization-section__hint-title text-title-medium">{{ 'practice.viz.hintTitle' | translate }}</p>
         <p class="algo-visualization-section__hint-description text-body-medium">
-          Press Play to run the algorithm on this random array, or enter your own numbers first.
+          {{ 'practice.viz.hintDescription' | translate }}
         </p>
         <div class="algo-visualization-section__hint-actions">
-          <algo-button variant="primary" text="Play" (click)="hintPlayClick.emit()" />
-          <algo-button variant="outline" text="Enter custom data" (click)="hintGenerateClick.emit()" />
+          <algo-play-pause-button type="play" (click)="hintPlayClick.emit()" />
+          <algo-button variant="primary" [text]="'practice.input.customInput' | translate" (click)="hintGenerateClick.emit()" />
         </div>
       </div>
     }
   </div>
-
-  <algo-visualization-legend [items]="legendItems" />
 </div>

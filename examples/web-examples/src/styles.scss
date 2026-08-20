@@ -100,3 +100,34 @@ select {
     scroll-behavior: auto !important;
   }
 }
+
+/* Thin, theme-aware scrollbar everywhere (pseudocode panel, drawer
+   panel content, etc.) instead of the browser's thick default, which
+   also never picked up dark/light mode. --color-border-strong already
+   flips value between [data-theme='dark'] and [data-theme='light'], so
+   the thumb follows theme automatically with no extra rules needed. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-strong);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-border-primary);
+  background-clip: padding-box;
+}

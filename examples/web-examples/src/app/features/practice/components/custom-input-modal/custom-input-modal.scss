@@ -12,7 +12,14 @@
 .algo-custom-input-modal {
   position: fixed;
   inset-block-start: 50%;
-  inset-inline-start: 50%;
+  // Physical `left` (not `inset-inline-start`) on purpose: this is
+  // paired with `translate(-50%, -50%)` below to center the modal on
+  // the viewport, a placement that has nothing to do with reading
+  // direction. `inset-inline-start` flips to the right edge under RTL
+  // while `translate(-50%, ...)` still always shifts left (transform
+  // is a physical operation) — that mismatch pushed the modal off the
+  // left edge of the screen under Persian instead of centering it.
+  left: 50%;
   transform: translate(-50%, -50%);
   z-index: 101;
   display: flex;
@@ -60,6 +67,23 @@
     border: 1px solid var(--color-text-tertiary);
     border-radius: 4px;
     color: var(--color-text-primary);
+
+    &::placeholder {
+      color: var(--color-text-placeholder);
+    }
+  }
+
+  &__edges-input {
+    display: block;
+    width: 100%;
+    margin-block-start: 8px;
+    padding: 8px;
+    background: none;
+    border: 1px solid var(--color-text-tertiary);
+    border-radius: 4px;
+    color: var(--color-text-primary);
+    font-family: monospace;
+    resize: vertical;
 
     &::placeholder {
       color: var(--color-text-placeholder);

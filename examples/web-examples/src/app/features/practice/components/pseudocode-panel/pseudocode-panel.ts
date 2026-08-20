@@ -19,6 +19,13 @@ export class PseudocodePanel {
   @Input()
   public activeLineNumber: number | null = null;
 
+  // Test feature only: once the person picks an option for a Cloze-style
+  // code question, the chosen option's text is passed in here and swapped
+  // in for the blank token's placeholder. Left null on the Practice tab,
+  // where no line ever contains a 'blank' token to begin with.
+  @Input()
+  public blankFillText: string | null = null;
+
   protected indentGuides(level: number): unknown[] {
     return Array.from({ length: level });
   }

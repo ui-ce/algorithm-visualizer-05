@@ -38,7 +38,9 @@ export function mergeSortVisualization(arr: number[]): Recording {
       highlightTags: ['section'],
     });
     logRecorder.setMessage({
-      message: `Sorting section from index ${start} to ${end}`,
+      title: 'Sorting a section',
+      message: `Recursively sorting the section from index ${start} to ${end}.`,
+      line: 1,
     });
     recorderEngine.endGroup();
 
@@ -60,7 +62,9 @@ export function mergeSortVisualization(arr: number[]): Recording {
       highlightTags: ['sorting'],
     });
     logRecorder.setMessage({
-      message: `Merging section from index ${start} to ${end}`,
+      title: 'Merging two sorted halves',
+      message: `Both halves of the section from index ${start} to ${end} are sorted — combining them back together in order.`,
+      line: 6,
     });
     recorderEngine.endGroup();
 
@@ -89,7 +93,11 @@ export function mergeSortVisualization(arr: number[]): Recording {
 
   mergeSort(0, arr.length - 1);
 
-  logRecorder.setMessage({ message: `End of Merge Sort` });
+  logRecorder.setMessage({
+    title: 'Done!',
+    message: 'Every section has been merged back together — the array is fully sorted.',
+    line: 7,
+  });
 
   return recorderEngine.getRecording();
 }

@@ -5,13 +5,14 @@ import { RouterLink } from '@angular/router';
 // against the installed package's export list yet.
 import { SolarMoonLinear, SolarSunLinear, SolarUserCircleLinear } from '@solar-icons/angular';
 import type { BreadcrumbItem } from './header-breadcrumb.type';
+import { TranslatePipe } from '../../core/i18n/translate.pipe';
 
 // Shared across every page (landing, algorithm pages, compare, profile),
 // not specific to any one feature — that's why it lives under layout/
 // rather than inside a feature folder.
 @Component({
   selector: 'algo-header',
-  imports: [RouterLink, SolarMoonLinear, SolarSunLinear, SolarUserCircleLinear],
+  imports: [RouterLink, SolarMoonLinear, SolarSunLinear, SolarUserCircleLinear, TranslatePipe],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })

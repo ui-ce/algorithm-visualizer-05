@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { LanguageService } from '../../core/services/language.service';
 
 // Generic three-way switch, driven entirely by the labels array rather
 // than being hard-wired to Learn/Practice/Test — that keeps this reusable
@@ -11,6 +12,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './segmented-button.scss',
 })
 export class AlgoSegmentedButton {
+  private readonly _languageService = inject(LanguageService);
+
   @Input()
   public options: string[] = [];
 
@@ -29,11 +32,17 @@ export class AlgoSegmentedButton {
     this.selectedIndexChange.emit(index);
   }
 
-  // The sliding thumb moves by its own width plus the segment gap for
-  // each step. Using a percentage of the thumb's own box (rather than
-  // the container's) means this stays correct regardless of how many
-  // options there are or how wide the container ends up.
+  // The thumb sits at inset-inline-start: 0 (logical - the visual left
+  // edge in LTR, the visual right edge in RTL), and needs to slide
+  // toward each segment from there. translateX itself always moves
+  // along the physical axis (positive = visually right) no matter what
+  // `direction` says, so a positive step in RTL would push the thumb
+  // off the *wrong* edge of the control entirely instead of under
+  // segment 1. Flipping the sign for RTL keeps "move `selectedIndex`
+  // segments forward" pointed at the physical side the segments
+  // actually render on.
   protected get thumbTransform(): string {
-    return `translateX(calc(${this.selectedIndex} * (100% + 4px)))`;
+    const direction = this._languageService.currentLanguage() === 'fa' ? -1 : 1;
+    return `translateX(calc(${direction * this.selectedIndex} * (100% + 4px)))`;
   }
 }
