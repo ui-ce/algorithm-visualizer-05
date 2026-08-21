@@ -2,22 +2,67 @@
   display: block;
   width: 100%;
 
+  .graph-renderer-root {
+    position: relative;
+    width: 100%;
+  }
+
   .graph {
     width: 100%;
   }
 
-  .header {
+  // Floating pill toggle for the layout switcher (Circle / Concentric /
+  // Breadth First), styled to match the app's own algo-segmented-button
+  // rather than PrimeNG's default selectbutton look. This library can't
+  // import that component directly (it lives in the consuming app, not
+  // this package), so the same visual language is reproduced here with
+  // plain CSS custom properties that the host page already defines
+  // globally — they cascade in through the DOM regardless of the
+  // Angular library boundary.
+  .layout-toolbar {
+    position: absolute;
+    inset-block-start: 12px;
+    inset-inline-end: 12px;
+    z-index: 2;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
+    width: fit-content;
+    height: fit-content;
+    gap: 4px;
+    background-color: var(--color-surface, #0d0e10);
+    border: 1px solid var(--color-button-primary-default, #402982);
+    border-radius: 999px;
+    padding-inline: 0;
 
-    .title {
-      font-size: 1.5rem;
-      font-weight: bold;
+    &__thumb {
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 0;
+      width: calc((100% - 8px) / 3);
+      background-color: var(--color-button-primary-default, #402982);
+      border-radius: 999px;
+      transition: transform 0.25s ease;
+    }
+
+    &__segment {
+      position: relative;
+      z-index: 1;
+      flex: 1 1 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-block: 4px;
+      padding-inline: 12px;
+      background: none;
+      border: none;
+      font-size: 0.8rem;
+      color: var(--color-text-tertiary, #acb1bb);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.25s ease;
+
+      &--selected {
+        color: var(--color-text-on-primary, #ffffff);
+      }
     }
   }
 }
-
-

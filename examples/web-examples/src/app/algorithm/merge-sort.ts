@@ -20,7 +20,7 @@ export function mergeSortVisualization(arr: number[]): Recording {
 
   const chartInitParams: ChartInitParams = {
     name: 'Chart',
-    values: arr.map((item) => ({ value: item, label: item.toString() })),
+    values: arr.map((item, index) => ({ value: item, label: index.toString() })),
   };
   const chartRecorder = new ChartRecorder(recorderEngine, chartInitParams);
 
@@ -85,7 +85,10 @@ export function mergeSortVisualization(arr: number[]): Recording {
 
     chartRecorder.setCells({
       startIndex: start,
-      values: merged.map((item) => ({ value: item, label: item.toString() })),
+      // Labels track array position (like bubble sort), not the value
+      // passing through that position — otherwise the bottom label would
+      // show the value again instead of the index.
+      values: merged.map((item, i) => ({ value: item, label: (start + i).toString() })),
     });
 
     for (let i = 0; i < merged.length; i++) arr[start + i] = merged[i];

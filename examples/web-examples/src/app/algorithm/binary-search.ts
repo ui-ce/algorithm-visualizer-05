@@ -26,7 +26,10 @@ export function binarySearchVisualization(array: number[], target: number): Reco
   });
   const chartRecorder = new ChartRecorder(recorderEngine, {
     name: 'Array',
-    values: array.map((item) => ({ value: item })),
+    values: array.map((value, index) => ({
+      value,
+      label: index.toString(),
+    })),
   });
   recorderEngine.endGroup();
 

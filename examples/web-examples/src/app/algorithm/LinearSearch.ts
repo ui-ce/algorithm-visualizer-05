@@ -29,8 +29,9 @@ export function linearSearchVisualization(
 
   const chartRecorder = new ChartRecorder(recorderEngine, {
     name: 'Array',
-    values: array.map((value) => ({
+    values: array.map((value, index) => ({
       value,
+      label: index.toString(),
     })),
   });
 

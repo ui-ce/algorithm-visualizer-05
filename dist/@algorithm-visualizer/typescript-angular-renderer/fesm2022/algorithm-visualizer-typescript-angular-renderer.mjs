@@ -13,8 +13,6 @@ import { CardModule } from 'primeng/card';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import cytoscape from 'cytoscape';
-import * as i1$2 from 'primeng/selectbutton';
-import { SelectButtonModule } from 'primeng/selectbutton';
 
 class WebPlayer {
     animationLength;
@@ -215,13 +213,22 @@ class GraphRenderer {
     layoutOptions = [
         { label: 'Circle', value: this.circleLayout },
         { label: 'Concentric', value: this.concentricLayout },
-        { label: 'Breadth First ', value: this.breadthFirstLayout },
+        { label: 'Breadth First', value: this.breadthFirstLayout },
     ];
+    // Own lightweight segmented-toggle state instead of PrimeNG's
+    // p-selectbutton + ngModel — see graph-renderer.html/scss. Index-based
+    // (rather than tracking the LayoutOptions object itself) so the sliding
+    // thumb position can be derived the same way algo-segmented-button
+    // does it in the app.
+    selectedLayoutIndex = 0;
     _currentLayout = this.circleLayout;
     _isInitialized = false;
     _cy;
     get minHeight() {
         return this.metadata?.minHeight ?? '400px';
+    }
+    get layoutThumbTransform() {
+        return `translateX(calc(${this.selectedLayoutIndex} * (100% + 4px)))`;
     }
     ngAfterViewInit() {
         this.renderGraph();
@@ -236,6 +243,13 @@ class GraphRenderer {
         this._cy?.destroy();
         this._cy = undefined;
     }
+    selectLayout(index) {
+        if (index === this.selectedLayoutIndex) {
+            return;
+        }
+        this.selectedLayoutIndex = index;
+        this.changeLayout(this.layoutOptions[index].value);
+    }
     changeLayout(layout) {
         this._currentLayout = layout;
         if (this._cy) {
@@ -244,15 +258,41 @@ class GraphRenderer {
                 .run();
         }
     }
+    // Cytoscape has its own internal stylesheet engine — it is NOT the
+    // browser's CSS engine, so style values only ever get matched against
+    // Cytoscape's own color regexes (hex/rgb/hsl/named colors). It has no
+    // concept of `var(--custom-property)` and silently falls back to the
+    // property's default (a flat gray) for anything it can't parse. Every
+    // color this renderer receives from rendererMetadata is written as
+    // `var(--color-viz-...)` (see practice.ts), so without this resolution
+    // step every node/edge — regardless of highlight tag — rendered as the
+    // exact same fallback color, which is why the graph never appeared to
+    // visually react to the algorithm running. Resolving through
+    // getComputedStyle here (real DOM, so var() works normally) turns each
+    // token into the flat color Cytoscape can actually parse.
+    //
+    // Re-resolved on every renderGraph() call (i.e. every frame) rather
+    // than cached once, so a dark/light theme toggle mid-run still picks
+    // up the new resolved values immediately instead of keeping stale
+    // colors from whichever theme was active on first render.
+    resolveColor(color) {
+        if (!color)
+            return color;
+        const match = color.trim().match(/^var\((--[\w-]+)\)$/);
+        if (!match || !this.cyContainer)
+            return color;
+        const resolved = getComputedStyle(this.cyContainer.nativeElement).getPropertyValue(match[1]).trim();
+        return resolved || color;
+    }
     renderGraph() {
         if (!this.state || !this.cyContainer)
             return;
         const nodeTagColors = {};
-        this.metadata?.nodeHighlightTags?.forEach((tag) => (nodeTagColors[tag.tag] = tag.color));
+        this.metadata?.nodeHighlightTags?.forEach((tag) => (nodeTagColors[tag.tag] = this.resolveColor(tag.color)));
         const edgeTagColors = {};
-        this.metadata?.edgeHighlightTags?.forEach((tag) => (edgeTagColors[tag.tag] = tag.color));
-        const defaultNodeColor = this.metadata?.defaultNodeColor ?? '#ffffff';
-        const defaultEdgeColor = this.metadata?.defaultEdgeColor ?? '#000000';
+        this.metadata?.edgeHighlightTags?.forEach((tag) => (edgeTagColors[tag.tag] = this.resolveColor(tag.color)));
+        const defaultNodeColor = this.resolveColor(this.metadata?.defaultNodeColor) ?? '#ffffff';
+        const defaultEdgeColor = this.resolveColor(this.metadata?.defaultEdgeColor) ?? '#000000';
         const elements = [
             ...this.state.nodes.map((n) => {
                 const highlightTag = n.highlightTags.at(-1);
@@ -347,11 +387,11 @@ class GraphRenderer {
         });
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.2.4", ngImport: i0, type: GraphRenderer, deps: [], target: i0.ɵɵFactoryTarget.Component });
-    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "20.2.4", type: GraphRenderer, isStandalone: true, selector: "graph-renderer", inputs: { state: "state", metadata: "metadata" }, viewQueries: [{ propertyName: "cyContainer", first: true, predicate: ["cyContainer"], descendants: true, static: true }], usesOnChanges: true, ngImport: i0, template: "<p-card>\r\n  <ng-template #header>\r\n    <div class=\"header\">\r\n      <span class=\"title\">{{ state?.name }}</span>\r\n\r\n      <div class=\"layout-toolbar p-fluid p-formgrid p-grid\" style=\"gap: 1rem;\">\r\n        <div class=\"p-field p-col-12 p-md-4\">\r\n          <p-selectbutton [options]=\"layoutOptions\" [ngModel]=\"circleLayout\" (ngModelChange)=\"changeLayout($event)\" optionLabel=\"label\" optionValue=\"value\" aria-labelledby=\"basic\"/>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </ng-template>\r\n\r\n  <div #cyContainer class=\"graph\" [style.height]=\"minHeight\"></div>\r\n</p-card>\r\n", styles: [":host{display:block;width:100%}:host .graph{width:100%}:host .header{display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding:1rem}:host .header .title{font-size:1.5rem;font-weight:700}\n"], dependencies: [{ kind: "ngmodule", type: CommonModule }, { kind: "ngmodule", type: SelectButtonModule }, { kind: "component", type: i1$2.SelectButton, selector: "p-selectButton, p-selectbutton, p-select-button", inputs: ["options", "optionLabel", "optionValue", "optionDisabled", "unselectable", "tabindex", "multiple", "allowEmpty", "styleClass", "ariaLabelledBy", "dataKey", "autofocus", "size", "fluid"], outputs: ["onOptionClick", "onChange"] }, { kind: "ngmodule", type: CardModule }, { kind: "component", type: i1$1.Card, selector: "p-card", inputs: ["header", "subheader", "style", "styleClass"] }, { kind: "ngmodule", type: FormsModule }, { kind: "directive", type: i1.NgControlStatus, selector: "[formControlName],[ngModel],[formControl]" }, { kind: "directive", type: i1.NgModel, selector: "[ngModel]:not([formControlName]):not([formControl])", inputs: ["name", "disabled", "ngModel", "ngModelOptions"], outputs: ["ngModelChange"], exportAs: ["ngModel"] }] });
+    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "20.2.4", type: GraphRenderer, isStandalone: true, selector: "graph-renderer", inputs: { state: "state", metadata: "metadata" }, viewQueries: [{ propertyName: "cyContainer", first: true, predicate: ["cyContainer"], descendants: true, static: true }], usesOnChanges: true, ngImport: i0, template: "<div class=\"graph-renderer-root\">\r\n  <div class=\"layout-toolbar\" role=\"group\" aria-label=\"Graph layout\">\r\n    <div class=\"layout-toolbar__thumb\" [style.transform]=\"layoutThumbTransform\"></div>\r\n\r\n    @for (option of layoutOptions; track option.label; let i = $index) {\r\n      <button\r\n        type=\"button\"\r\n        class=\"layout-toolbar__segment\"\r\n        [class.layout-toolbar__segment--selected]=\"i === selectedLayoutIndex\"\r\n        [attr.aria-pressed]=\"i === selectedLayoutIndex\"\r\n        (click)=\"selectLayout(i)\"\r\n      >\r\n        {{ option.label }}\r\n      </button>\r\n    }\r\n  </div>\r\n\r\n  <div #cyContainer class=\"graph\" [style.height]=\"minHeight\"></div>\r\n</div>\r\n", styles: [":host{display:block;width:100%}:host .graph-renderer-root{position:relative;width:100%}:host .graph{width:100%}:host .layout-toolbar{position:absolute;inset-block-start:12px;inset-inline-end:12px;z-index:2;display:flex;width:fit-content;height:fit-content;gap:4px;background-color:var(--color-surface, #0d0e10);border:1px solid var(--color-button-primary-default, #402982);border-radius:999px;padding-inline:0}:host .layout-toolbar__thumb{position:absolute;inset-block:0;inset-inline-start:0;width:calc((100% - 8px) / 3);background-color:var(--color-button-primary-default, #402982);border-radius:999px;transition:transform .25s ease}:host .layout-toolbar__segment{position:relative;z-index:1;flex:1 1 0;display:flex;align-items:center;justify-content:center;padding-block:4px;padding-inline:12px;background:none;border:none;font-size:.8rem;color:var(--color-text-tertiary, #acb1bb);cursor:pointer;white-space:nowrap;transition:color .25s ease}:host .layout-toolbar__segment--selected{color:var(--color-text-on-primary, #ffffff)}\n"], dependencies: [{ kind: "ngmodule", type: CommonModule }] });
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.4", ngImport: i0, type: GraphRenderer, decorators: [{
             type: Component,
-            args: [{ selector: 'graph-renderer', standalone: true, imports: [CommonModule, SelectButtonModule, CardModule, FormsModule], template: "<p-card>\r\n  <ng-template #header>\r\n    <div class=\"header\">\r\n      <span class=\"title\">{{ state?.name }}</span>\r\n\r\n      <div class=\"layout-toolbar p-fluid p-formgrid p-grid\" style=\"gap: 1rem;\">\r\n        <div class=\"p-field p-col-12 p-md-4\">\r\n          <p-selectbutton [options]=\"layoutOptions\" [ngModel]=\"circleLayout\" (ngModelChange)=\"changeLayout($event)\" optionLabel=\"label\" optionValue=\"value\" aria-labelledby=\"basic\"/>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </ng-template>\r\n\r\n  <div #cyContainer class=\"graph\" [style.height]=\"minHeight\"></div>\r\n</p-card>\r\n", styles: [":host{display:block;width:100%}:host .graph{width:100%}:host .header{display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding:1rem}:host .header .title{font-size:1.5rem;font-weight:700}\n"] }]
+            args: [{ selector: 'graph-renderer', standalone: true, imports: [CommonModule], template: "<div class=\"graph-renderer-root\">\r\n  <div class=\"layout-toolbar\" role=\"group\" aria-label=\"Graph layout\">\r\n    <div class=\"layout-toolbar__thumb\" [style.transform]=\"layoutThumbTransform\"></div>\r\n\r\n    @for (option of layoutOptions; track option.label; let i = $index) {\r\n      <button\r\n        type=\"button\"\r\n        class=\"layout-toolbar__segment\"\r\n        [class.layout-toolbar__segment--selected]=\"i === selectedLayoutIndex\"\r\n        [attr.aria-pressed]=\"i === selectedLayoutIndex\"\r\n        (click)=\"selectLayout(i)\"\r\n      >\r\n        {{ option.label }}\r\n      </button>\r\n    }\r\n  </div>\r\n\r\n  <div #cyContainer class=\"graph\" [style.height]=\"minHeight\"></div>\r\n</div>\r\n", styles: [":host{display:block;width:100%}:host .graph-renderer-root{position:relative;width:100%}:host .graph{width:100%}:host .layout-toolbar{position:absolute;inset-block-start:12px;inset-inline-end:12px;z-index:2;display:flex;width:fit-content;height:fit-content;gap:4px;background-color:var(--color-surface, #0d0e10);border:1px solid var(--color-button-primary-default, #402982);border-radius:999px;padding-inline:0}:host .layout-toolbar__thumb{position:absolute;inset-block:0;inset-inline-start:0;width:calc((100% - 8px) / 3);background-color:var(--color-button-primary-default, #402982);border-radius:999px;transition:transform .25s ease}:host .layout-toolbar__segment{position:relative;z-index:1;flex:1 1 0;display:flex;align-items:center;justify-content:center;padding-block:4px;padding-inline:12px;background:none;border:none;font-size:.8rem;color:var(--color-text-tertiary, #acb1bb);cursor:pointer;white-space:nowrap;transition:color .25s ease}:host .layout-toolbar__segment--selected{color:var(--color-text-on-primary, #ffffff)}\n"] }]
         }], propDecorators: { state: [{
                 type: Input
             }], metadata: [{
@@ -425,7 +465,7 @@ class WebRenderer {
         return metadata;
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.2.4", ngImport: i0, type: WebRenderer, deps: [], target: i0.ɵɵFactoryTarget.Component });
-    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "20.2.4", type: WebRenderer, isStandalone: true, selector: "web-renderer", inputs: { animation: "animation", rendererMetadata: "rendererMetadata", frameIndex: "frameIndex", hasPlayer: "hasPlayer", showTitle: "showTitle" }, ngImport: i0, template: "@if (hasPlayer) {\r\n  <web-player [animationLength]=\"animation?.length\" (frameIndexChange)=\"onFrameIndexChange($event)\"></web-player>\r\n}\r\n\r\n@if (showTitle) {\n  <span class=\"title\">{{ getDocumentName() }}</span>\n}\r\n\r\n@if (currentFrame; as frame) {\r\n  @for (frameState of frame; track $index) {\r\n    @switch (frameState.type) {\r\n      @case ('Graph') {\r\n        <graph-renderer [state]=\"convertToGraphState(frameState.state)\" [metadata]=\"convertToGraphMetadata(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n\r\n      @case ('Log') {\r\n        <log-renderer [state]=\"convertToLogState(frameState.state)\" [metadata]=\"convertToLogMetaData(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n\r\n      @case ('Array2D') {\r\n        <array-2d-renderer [state]=\"convertToArray2dState(frameState.state)\" [metadata]=\"convertToArray2DMetaData(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n\r\n      @case ('Chart') {\r\n        <chart-renderer [state]=\"convertToChartState(frameState.state)\" [metadata]=\"convertToChartMetaData(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n    }\r\n  }\r\n}\r\n", styles: [":host{padding:.5rem;display:flex;flex-direction:column;gap:.5rem}:host .title{text-align:left;font-size:1.5rem;font-weight:700;color:#555;padding-inline:.5rem}\n"], dependencies: [{ kind: "ngmodule", type: FormsModule }, { kind: "component", type: GraphRenderer, selector: "graph-renderer", inputs: ["state", "metadata"] }, { kind: "ngmodule", type: KnobModule }, { kind: "ngmodule", type: SliderModule }, { kind: "ngmodule", type: ButtonModule }, { kind: "component", type: LogRenderer, selector: "log-renderer", inputs: ["state", "metadata"] }, { kind: "component", type: Array2DRenderer, selector: "array-2d-renderer", inputs: ["state", "metadata"] }, { kind: "component", type: ChartRenderer, selector: "chart-renderer", inputs: ["state", "metadata"] }, { kind: "component", type: WebPlayer, selector: "web-player", inputs: ["animationLength", "frameIndex", "frameTime"], outputs: ["frameIndexChange"] }] });
+    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "20.2.4", type: WebRenderer, isStandalone: true, selector: "web-renderer", inputs: { animation: "animation", rendererMetadata: "rendererMetadata", frameIndex: "frameIndex", hasPlayer: "hasPlayer", showTitle: "showTitle" }, ngImport: i0, template: "@if (hasPlayer) {\r\n  <web-player [animationLength]=\"animation?.length\" (frameIndexChange)=\"onFrameIndexChange($event)\"></web-player>\r\n}\r\n\r\n@if (showTitle) {\r\n  <span class=\"title\">{{ getDocumentName() }}</span>\r\n}\r\n\r\n@if (currentFrame; as frame) {\r\n  @for (frameState of frame; track $index) {\r\n    @switch (frameState.type) {\r\n      @case ('Graph') {\r\n        <graph-renderer [state]=\"convertToGraphState(frameState.state)\" [metadata]=\"convertToGraphMetadata(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n\r\n      @case ('Log') {\r\n        <log-renderer [state]=\"convertToLogState(frameState.state)\" [metadata]=\"convertToLogMetaData(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n\r\n      @case ('Array2D') {\r\n        <array-2d-renderer [state]=\"convertToArray2dState(frameState.state)\" [metadata]=\"convertToArray2DMetaData(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n\r\n      @case ('Chart') {\r\n        <chart-renderer [state]=\"convertToChartState(frameState.state)\" [metadata]=\"convertToChartMetaData(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n    }\r\n  }\r\n}\r\n", styles: [":host{padding:.5rem;display:flex;flex-direction:column;gap:.5rem}:host .title{text-align:left;font-size:1.5rem;font-weight:700;color:#555;padding-inline:.5rem}\n"], dependencies: [{ kind: "ngmodule", type: FormsModule }, { kind: "component", type: GraphRenderer, selector: "graph-renderer", inputs: ["state", "metadata"] }, { kind: "ngmodule", type: KnobModule }, { kind: "ngmodule", type: SliderModule }, { kind: "ngmodule", type: ButtonModule }, { kind: "component", type: LogRenderer, selector: "log-renderer", inputs: ["state", "metadata"] }, { kind: "component", type: Array2DRenderer, selector: "array-2d-renderer", inputs: ["state", "metadata"] }, { kind: "component", type: ChartRenderer, selector: "chart-renderer", inputs: ["state", "metadata"] }, { kind: "component", type: WebPlayer, selector: "web-player", inputs: ["animationLength", "frameIndex", "frameTime"], outputs: ["frameIndexChange"] }] });
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.4", ngImport: i0, type: WebRenderer, decorators: [{
             type: Component,
@@ -439,7 +479,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.4", ngImpor
                         Array2DRenderer,
                         ChartRenderer,
                         WebPlayer,
-                    ], template: "@if (hasPlayer) {\r\n  <web-player [animationLength]=\"animation?.length\" (frameIndexChange)=\"onFrameIndexChange($event)\"></web-player>\r\n}\r\n\r\n@if (showTitle) {\n  <span class=\"title\">{{ getDocumentName() }}</span>\n}\r\n\r\n@if (currentFrame; as frame) {\r\n  @for (frameState of frame; track $index) {\r\n    @switch (frameState.type) {\r\n      @case ('Graph') {\r\n        <graph-renderer [state]=\"convertToGraphState(frameState.state)\" [metadata]=\"convertToGraphMetadata(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n\r\n      @case ('Log') {\r\n        <log-renderer [state]=\"convertToLogState(frameState.state)\" [metadata]=\"convertToLogMetaData(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n\r\n      @case ('Array2D') {\r\n        <array-2d-renderer [state]=\"convertToArray2dState(frameState.state)\" [metadata]=\"convertToArray2DMetaData(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n\r\n      @case ('Chart') {\r\n        <chart-renderer [state]=\"convertToChartState(frameState.state)\" [metadata]=\"convertToChartMetaData(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n    }\r\n  }\r\n}\r\n", styles: [":host{padding:.5rem;display:flex;flex-direction:column;gap:.5rem}:host .title{text-align:left;font-size:1.5rem;font-weight:700;color:#555;padding-inline:.5rem}\n"] }]
+                    ], template: "@if (hasPlayer) {\r\n  <web-player [animationLength]=\"animation?.length\" (frameIndexChange)=\"onFrameIndexChange($event)\"></web-player>\r\n}\r\n\r\n@if (showTitle) {\r\n  <span class=\"title\">{{ getDocumentName() }}</span>\r\n}\r\n\r\n@if (currentFrame; as frame) {\r\n  @for (frameState of frame; track $index) {\r\n    @switch (frameState.type) {\r\n      @case ('Graph') {\r\n        <graph-renderer [state]=\"convertToGraphState(frameState.state)\" [metadata]=\"convertToGraphMetadata(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n\r\n      @case ('Log') {\r\n        <log-renderer [state]=\"convertToLogState(frameState.state)\" [metadata]=\"convertToLogMetaData(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n\r\n      @case ('Array2D') {\r\n        <array-2d-renderer [state]=\"convertToArray2dState(frameState.state)\" [metadata]=\"convertToArray2DMetaData(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n\r\n      @case ('Chart') {\r\n        <chart-renderer [state]=\"convertToChartState(frameState.state)\" [metadata]=\"convertToChartMetaData(getMetaData(frameState.type, frameState.id))\"/>\r\n      }\r\n    }\r\n  }\r\n}\r\n", styles: [":host{padding:.5rem;display:flex;flex-direction:column;gap:.5rem}:host .title{text-align:left;font-size:1.5rem;font-weight:700;color:#555;padding-inline:.5rem}\n"] }]
         }], propDecorators: { animation: [{
                 type: Input
             }], rendererMetadata: [{

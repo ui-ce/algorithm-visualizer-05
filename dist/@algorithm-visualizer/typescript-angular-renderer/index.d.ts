@@ -1,6 +1,6 @@
 import * as i0 from '@angular/core';
 import { OnDestroy, EventEmitter, AfterViewInit, OnChanges, ElementRef, SimpleChanges } from '@angular/core';
-import cytoscape, { CircleLayoutOptions, ConcentricLayoutOptions, BreadthFirstLayoutOptions, LayoutOptions } from 'cytoscape';
+import { CircleLayoutOptions, ConcentricLayoutOptions, BreadthFirstLayoutOptions, LayoutOptions } from 'cytoscape';
 
 declare class WebPlayer implements OnDestroy {
     animationLength: number;
@@ -153,24 +153,22 @@ declare class GraphRenderer implements AfterViewInit, OnChanges, OnDestroy {
     protected readonly circleLayout: CircleLayoutOptions;
     protected readonly concentricLayout: ConcentricLayoutOptions;
     protected readonly breadthFirstLayout: BreadthFirstLayoutOptions;
-    protected readonly layoutOptions: ({
+    protected readonly layoutOptions: {
         label: string;
-        value: cytoscape.CircleLayoutOptions;
-    } | {
-        label: string;
-        value: cytoscape.ConcentricLayoutOptions;
-    } | {
-        label: string;
-        value: cytoscape.BreadthFirstLayoutOptions;
-    })[];
+        value: LayoutOptions;
+    }[];
+    protected selectedLayoutIndex: number;
     private _currentLayout;
     private _isInitialized;
     private _cy;
     get minHeight(): string;
+    protected get layoutThumbTransform(): string;
     ngAfterViewInit(): void;
     ngOnChanges(changes: SimpleChanges): void;
     ngOnDestroy(): void;
+    protected selectLayout(index: number): void;
     changeLayout(layout: LayoutOptions): void;
+    private resolveColor;
     private renderGraph;
     static ɵfac: i0.ɵɵFactoryDeclaration<GraphRenderer, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<GraphRenderer, "graph-renderer", never, { "state": { "alias": "state"; "required": false; }; "metadata": { "alias": "metadata"; "required": false; }; }, {}, never, never, true, never>;

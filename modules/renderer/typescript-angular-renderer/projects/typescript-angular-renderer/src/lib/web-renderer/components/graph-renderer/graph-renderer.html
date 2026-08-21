@@ -1,15 +1,19 @@
-<p-card>
-  <ng-template #header>
-    <div class="header">
-      <span class="title">{{ state?.name }}</span>
+<div class="graph-renderer-root">
+  <div class="layout-toolbar" role="group" aria-label="Graph layout">
+    <div class="layout-toolbar__thumb" [style.transform]="layoutThumbTransform"></div>
 
-      <div class="layout-toolbar p-fluid p-formgrid p-grid" style="gap: 1rem;">
-        <div class="p-field p-col-12 p-md-4">
-          <p-selectbutton [options]="layoutOptions" [ngModel]="circleLayout" (ngModelChange)="changeLayout($event)" optionLabel="label" optionValue="value" aria-labelledby="basic"/>
-        </div>
-      </div>
-    </div>
-  </ng-template>
+    @for (option of layoutOptions; track option.label; let i = $index) {
+      <button
+        type="button"
+        class="layout-toolbar__segment"
+        [class.layout-toolbar__segment--selected]="i === selectedLayoutIndex"
+        [attr.aria-pressed]="i === selectedLayoutIndex"
+        (click)="selectLayout(i)"
+      >
+        {{ option.label }}
+      </button>
+    }
+  </div>
 
   <div #cyContainer class="graph" [style.height]="minHeight"></div>
-</p-card>
+</div>
