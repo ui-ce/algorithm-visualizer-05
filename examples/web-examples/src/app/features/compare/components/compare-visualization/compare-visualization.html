@@ -1,0 +1,60 @@
+<div class="algo-compare-visualization">
+  @if (run) {
+    <div class="algo-compare-visualization__header">
+      <span class="algo-compare-visualization__step text-body-medium">
+        {{ 'practice.viz.step' | translate }} {{ clampedFrameIndex + 1 }} {{ 'practice.viz.of' | translate }}
+        {{ run.totalSteps }}
+      </span>
+
+      @if (run.searchTarget !== null) {
+        <span class="algo-compare-visualization__target text-body-medium">
+          {{ 'practice.viz.searchTarget' | translate }}: <strong>{{ run.searchTarget }}</strong>
+        </span>
+      }
+    </div>
+
+    <div class="algo-compare-visualization__chart-wrapper">
+      <algo-visualization-area
+        [animation]="run.animation"
+        [rendererMetadata]="run.rendererMetadata"
+        [frameIndex]="clampedFrameIndex"
+        [includeTypes]="run.includeTypes"
+        [hasPlayer]="false"
+        [showTitle]="false"
+      />
+    </div>
+
+    <algo-visualization-legend [items]="legendItems" />
+
+    @if (run.auxIncludeTypes) {
+      <!-- DFS's Stack, or Dijkstra/A*'s Open Set / Closed Set / Node
+           Costs — same separate "data structures" panel Practice shows
+           underneath its own graph canvas (see practice.html's second
+           <algo-visualization-area>), kept out of the main chart above
+           instead of squeezing it down. -->
+      <div class="algo-compare-visualization__aux-panel">
+        <p class="algo-compare-visualization__aux-panel-title text-label-medium-regular">
+          {{ 'practice.viz.dataStructures' | translate }}
+        </p>
+        <algo-visualization-area
+          [animation]="run.animation"
+          [rendererMetadata]="run.rendererMetadata"
+          [frameIndex]="clampedFrameIndex"
+          [includeTypes]="run.auxIncludeTypes"
+          [hasPlayer]="false"
+          [showTitle]="false"
+        />
+      </div>
+    }
+  } @else {
+    <div class="algo-compare-visualization__locked">
+      <svg solarLockKeyholeMinimalisticLinear [size]="28"></svg>
+      <p class="algo-compare-visualization__locked-title text-body-medium-emphasized">
+        {{ 'compare.noData.title' | translate }}
+      </p>
+      <p class="algo-compare-visualization__locked-subtitle text-body-medium">
+        {{ 'compare.noData.subtitle' | translate }}
+      </p>
+    </div>
+  }
+</div>

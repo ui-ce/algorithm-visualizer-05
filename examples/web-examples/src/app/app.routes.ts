@@ -7,6 +7,7 @@ import { Test } from './features/test/test';
 import { TestResults } from './features/test/pages/test-results/test-results';
 import { LoginPage } from './features/auth/login/login';
 import { RegisterPage } from './features/auth/register/register';
+import { ComparePage } from './features/compare/comapre';
 
 
 // '' is the Landing page (hero, algorithm picker, features, product
@@ -54,6 +55,10 @@ export const routes: Routes = [
   {
     path: 'algorithms/:id',
     component: PracticePage,
+  },
+   {
+    path: 'compare/:id',
+    component: ComparePage,
   },
   {
     path: 'algorithms/:id/test',

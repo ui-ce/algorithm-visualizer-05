@@ -32,8 +32,7 @@ import { PseudocodeSection } from './components/pseudocode-section/pseudocode-se
 import { CustomInputModal } from './components/custom-input-modal/custom-input-modal';
 import type { CustomInputResult, GraphEdgeInput } from './components/custom-input-modal/custom-input-modal.types';
 import type { LegendItem } from './components/visualization-legend/visualization-legend.types';
-import type { DataPattern, PatternOption } from './components/data-pattern-controls/data-pattern-controls.types';
-import { DEFAULT_ARRAY_PATTERN_OPTIONS } from './components/data-pattern-controls/data-pattern-controls.types';
+import type { DataPattern } from './components/data-pattern-controls/data-pattern-controls.types';
 import type { PseudocodeLine } from './components/pseudocode-panel/pseudocode-panel.types';
 import { ALGORITHM_CONTENT } from './data/algorithm-content.registry';
 import { ALGORITHM_CONTENT_FA } from './data/algorithm-content.registry.fa';
@@ -47,12 +46,7 @@ import {
   SAMPLE_ASTAR_GRAPHS,
   randomBfsGraph,
   randomAStarSample,
-  patternedDfsGraph,
-  patternedBfsGraph,
-  patternedWeightedGraphSample,
-  patternedAStarSample,
   type DijkstraSample,
-  type GraphPattern,
 } from './data/sample-graphs';
 // Confirmed against the installed package.
 import {
@@ -359,23 +353,6 @@ export class PracticePage implements OnDestroy {
   // for every non-search algorithm.
   protected searchTarget: number | null = null;
 
-  // Same idea as selectedPattern, for the graph-algorithm pattern row
-  // (Chain / Dense / Disconnected) — see onGraphPatternChange and
-  // graphPatternOptions below.
-  protected selectedGraphPattern: GraphPattern | null = null;
-
-  // Passed to ControlSection's patternOptions input for every graph
-  // algorithm — Chain/Dense/Disconnected instead of the array-sorting
-  // Nearly Sorted/Reversed/Many Duplicates, rendered through the exact
-  // same DataPatternControls component so the row looks identical to a
-  // sort page's, just with different buttons.
-  protected readonly graphPatternOptions: PatternOption<GraphPattern | null>[] = [
-    { id: null, labelKey: 'practice.pattern.none' },
-    { id: 'chain', labelKey: 'practice.pattern.graph.chain' },
-    { id: 'dense', labelKey: 'practice.pattern.graph.dense' },
-    { id: 'disconnected', labelKey: 'practice.pattern.graph.disconnected' },
-  ];
-
   // Sourced from the per-algorithm registry instead of being hardcoded
   // to Bubble Sort's shape, so every algorithm gets its own pseudocode
   // and — since each algorithm's Log messages carry a matching `line`
@@ -576,7 +553,6 @@ export class PracticePage implements OnDestroy {
 
   protected onRandomInputClick(): void {
     if (this.algorithmId === 'dijkstra') {
-      this.selectedGraphPattern = null;
       const sample = SAMPLE_DIJKSTRA_GRAPHS[Math.floor(Math.random() * SAMPLE_DIJKSTRA_GRAPHS.length)];
       this.setDijkstraData(sample);
       return;
@@ -588,18 +564,15 @@ export class PracticePage implements OnDestroy {
       // randomDijkstraSample — see sample-graphs.ts), so unlike DFS/BFS
       // below, "Random" here actually produces a fresh graph each time
       // rather than replaying the same one.
-      this.selectedGraphPattern = null;
       this.setAStarData(randomAStarSample());
       return;
     }
 
     if (this.algorithmId === 'dfs') {
-      // Same random-connected-graph generator BFS's "Random" uses
-      // below (randomBfsGraph is an alias for randomDfsGraph — see
-      // sample-graphs.ts): a fresh graph every time, instead of always
-      // replaying the one curated sample.
-      this.selectedGraphPattern = null;
-      this.setDfsData(randomBfsGraph());
+      // Only one curated sample graph exists for DFS today — re-running
+      // it still resets playback to the start, which is the useful part
+      // of "Random" here until more sample graphs are added.
+      this.setDfsData(SAMPLE_DFS_GRAPH);
       return;
     }
 
@@ -607,7 +580,6 @@ export class PracticePage implements OnDestroy {
       // Same random-connected-graph generator DFS's "Random" comment
       // above wants (randomBfsGraph is an alias for randomDfsGraph —
       // see sample-graphs.ts): a fresh graph every time.
-      this.selectedGraphPattern = null;
       this.setBfsData(randomBfsGraph());
       return;
     }
@@ -631,20 +603,14 @@ export class PracticePage implements OnDestroy {
     this.setArrayData(this.randomArray(count));
   }
 
-  // Takes string | null (not DataPattern | null) because it's now bound
-  // to the same generic patternChange event graph pages use too — see
-  // onGraphPatternChange below and ControlSection's identical comment.
-  // The cast is safe because DataPatternControls only ever emits one of
-  // the ids from whichever options list this page handed it.
-  protected onPatternChange(pattern: string | null): void {
-    const typedPattern = pattern as DataPattern | null;
-    this.selectedPattern = typedPattern;
+  protected onPatternChange(pattern: DataPattern | null): void {
+    this.selectedPattern = pattern;
 
     if (!ARRAY_ALGORITHM_IDS.has(this.algorithmId)) {
       return;
     }
 
-    const array = typedPattern === null ? this.randomArray(20) : this.patternedArray(typedPattern, 20);
+    const array = pattern === null ? this.randomArray(20) : this.patternedArray(pattern, 20);
 
     if (this.algorithmId === 'binary-search') {
       // Whatever pattern was picked, binary search still needs the
@@ -663,39 +629,6 @@ export class PracticePage implements OnDestroy {
     }
 
     this.setArrayData(array);
-  }
-
-  // Graph counterpart of onPatternChange — same idea (pick a pattern,
-  // regenerate data from it), but for Chain/Dense/Disconnected instead
-  // of Nearly Sorted/Reversed/Many Duplicates. Every graph algorithm
-  // uses one of these two branches: DFS/BFS take a plain adjacency
-  // list, Dijkstra/A* take the weighted graph + start/end shape.
-  protected onGraphPatternChange(pattern: string | null): void {
-    const typedPattern = pattern as GraphPattern | null;
-    this.selectedGraphPattern = typedPattern;
-
-    if (this.algorithmId === 'dfs') {
-      this.setDfsData(typedPattern === null ? randomBfsGraph() : patternedDfsGraph(typedPattern));
-      return;
-    }
-
-    if (this.algorithmId === 'bfs') {
-      this.setBfsData(typedPattern === null ? randomBfsGraph() : patternedBfsGraph(typedPattern));
-      return;
-    }
-
-    if (this.algorithmId === 'dijkstra') {
-      const sample =
-        typedPattern === null
-          ? SAMPLE_DIJKSTRA_GRAPHS[Math.floor(Math.random() * SAMPLE_DIJKSTRA_GRAPHS.length)]
-          : patternedWeightedGraphSample(typedPattern);
-      this.setDijkstraData(sample);
-      return;
-    }
-
-    if (this.algorithmId === 'a-star') {
-      this.setAStarData(typedPattern === null ? randomAStarSample() : patternedAStarSample(typedPattern));
-    }
   }
 
   protected onCompareClick(): void {

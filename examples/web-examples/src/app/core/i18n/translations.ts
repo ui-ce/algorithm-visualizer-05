@@ -3,6 +3,7 @@ import type { TranslationDictionary } from './translations.type';
 import { HEADER_TRANSLATIONS, HOME_TRANSLATIONS } from './home.translation';
 import { PRACTICE_TRANSLATIONS } from './practice.translation';
 import { LANDING_TRANSLATIONS } from './landing.translations';
+import { COMPARE_TRANSLATIONS } from './compare.translation';
 
 // Stage checklist (update as features are translated):
 //   [x] layout/header (shared aria-labels)
@@ -21,6 +22,7 @@ export const TRANSLATIONS: TranslationDictionary = {
   ...HOME_TRANSLATIONS,
   ...PRACTICE_TRANSLATIONS,
   ...LANDING_TRANSLATIONS,
+  ...COMPARE_TRANSLATIONS,
 };
 
 

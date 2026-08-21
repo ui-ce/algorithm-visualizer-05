@@ -1,0 +1,43 @@
+<div class="algo-algorithm-select" [class.algo-algorithm-select--accent]="variant === 'accent'">
+  <button
+    type="button"
+    class="algo-algorithm-select__trigger"
+    [class.algo-algorithm-select__trigger--open]="isOpen"
+    (click)="toggleOpen()"
+  >
+    <span class="algo-algorithm-select__value text-body-medium">
+      <span class="algo-algorithm-select__prefix">{{ labelKey | translate }} :</span>
+      @if (value && valueNameKey) {
+        <span class="algo-algorithm-select__selected">{{ valueNameKey | translate }}</span>
+      } @else {
+        <span class="algo-algorithm-select__placeholder">{{ placeholderKey | translate }}</span>
+      }
+    </span>
+
+    <svg
+      solarAltArrowDownLinear
+      [size]="18"
+      class="algo-algorithm-select__chevron"
+      [class.algo-algorithm-select__chevron--open]="isOpen"
+    ></svg>
+  </button>
+
+  @if (isOpen) {
+    <ul class="algo-algorithm-select__list">
+      @for (option of options; track option.id) {
+        <li>
+          <button
+            type="button"
+            class="algo-algorithm-select__option text-body-medium"
+            [class.algo-algorithm-select__option--selected]="option.id === value"
+            (click)="selectOption(option)"
+          >
+            {{ option.nameKey | translate }}
+          </button>
+        </li>
+      } @empty {
+        <li class="algo-algorithm-select__empty text-body-medium">—</li>
+      }
+    </ul>
+  }
+</div>

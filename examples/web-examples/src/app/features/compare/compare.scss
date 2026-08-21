@@ -1,0 +1,52 @@
+.algo-compare-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-surface);
+}
+
+// The intro block right under the header — its own surface/border-subtle
+// band, full width, not a rounded card (it sits flush under the header
+// the same way Practice's page header row does).
+.algo-compare-page__container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-block: 10px;
+  padding-inline: 24px;
+  background-color: var(--color-surface);
+  border-block-end: 1px solid var(--color-border-subtle);
+}
+
+.algo-compare-page__intro {
+  display: flex;
+  flex-direction: column;
+}
+
+.algo-compare-page__title {
+  color: var(--color-text-primary);
+}
+
+.algo-compare-page__subtitle {
+  margin-block-start: 4px;
+  color: var(--color-text-tertiary);
+}
+
+.algo-compare-page__row {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  padding-block: 16px;
+}
+
+.algo-compare-page__column {
+  flex: 1;
+  min-width: 0;
+}
+
+.algo-compare-page__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}

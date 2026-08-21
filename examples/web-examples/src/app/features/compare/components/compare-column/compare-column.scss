@@ -1,0 +1,54 @@
+.algo-compare-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding-block: 16px;
+  padding-inline: 24px;
+  background-color: var(--color-surface-container);
+  // The border itself is brand-primary (Algorithm-1 / left) by default;
+  // the --right modifier below switches it to brand-accent. Both sit at
+  // 40% opacity per spec — color-mix keeps this one line instead of a
+  // second full color token just for "brand-primary at 40%".
+  border: 1px solid color-mix(in srgb, var(--color-brand-primary) 40%, transparent);
+  border-radius: 8px;
+
+  &--right {
+    border-color: color-mix(in srgb, var(--color-brand-accent) 40%, transparent);
+  }
+}
+
+.algo-compare-column__complexity-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--color-text-tertiary);
+
+  &--better {
+    color: var(--color-text-success);
+  }
+
+  &--worse {
+    color: var(--color-text-error);
+  }
+}
+
+.algo-compare-column__bullet {
+  position: relative;
+  padding-inline-start: 14px;
+  color: var(--color-text-tertiary);
+
+  // Manual bullet glyph rather than a <ul>/<li> — the rest of the app's
+  // bulleted lists (see Practice's explanation content) use the same
+  // plain "• " prefix approach instead of native list markup.
+  &::before {
+    content: '•';
+    position: absolute;
+    inset-inline-start: 0;
+  }
+
+  &--placeholder {
+    color: var(--color-text-placeholder);
+  }
+}

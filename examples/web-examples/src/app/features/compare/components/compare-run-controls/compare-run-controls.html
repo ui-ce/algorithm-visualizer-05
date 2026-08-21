@@ -1,0 +1,13 @@
+<div class="algo-compare-run-controls" [class.algo-compare-run-controls--disabled]="!isEnabled">
+  <algo-play-pause-button [type]="isPlaying ? 'pause' : 'play'" (click)="isEnabled && playToggle.emit()" />
+
+  <algo-button
+    variant="navigation"
+    [text]="'compare.controls.again' | translate"
+    [hasRightIcon]="true"
+    [disabled]="!isEnabled"
+    (click)="again.emit()"
+  >
+    <svg right-icon solarRestartLinear [size]="16"></svg>
+  </algo-button>
+</div>

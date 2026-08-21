@@ -1,0 +1,56 @@
+<div class="algo-compare-page">
+  <algo-header
+    [breadcrumbs]="breadcrumbs"
+    [themeMode]="themeService.themeMode()"
+    (themeToggle)="themeService.toggle()"
+    [currentLanguage]="languageService.currentLanguage()"
+    (languageToggle)="languageService.toggle()"
+  />
+
+  <div class="algo-compare-page__container">
+    <div class="algo-compare-page__intro">
+      <h1 class="algo-compare-page__title text-title-large">{{ 'compare.title' | translate }}</h1>
+      <p class="algo-compare-page__subtitle text-body-large">{{ 'compare.subtitle' | translate }}</p>
+    </div>
+
+    <div class="algo-compare-page__row">
+      <algo-compare-column
+        class="algo-compare-page__column"
+        side="left"
+        labelKey="compare.algorithm1.label"
+        placeholderKey="compare.algorithm2.placeholder"
+        [options]="algorithm1Options"
+        [selectedId]="algorithm1Id"
+        [selectedNameKey]="algorithm1Meta?.nameKey ?? null"
+        [content]="content(algorithm1Id)"
+        [run]="run1"
+        [frameIndex]="currentStep"
+        [verdicts]="verdicts"
+        (algorithmChange)="onAlgorithm1Change($event)"
+      />
+
+      <algo-compare-run-controls
+        class="algo-compare-page__controls"
+        [isPlaying]="isPlaying"
+        [isEnabled]="bothSelected"
+        (playToggle)="onPlayToggle()"
+        (again)="onAgain()"
+      />
+
+      <algo-compare-column
+        class="algo-compare-page__column"
+        side="right"
+        labelKey="compare.algorithm2.label"
+        placeholderKey="compare.algorithm2.placeholder"
+        [options]="algorithm2Options"
+        [selectedId]="algorithm2Id"
+        [selectedNameKey]="algorithm2Meta?.nameKey ?? null"
+        [content]="content(algorithm2Id)"
+        [run]="run2"
+        [frameIndex]="currentStep"
+        [verdicts]="verdicts"
+        (algorithmChange)="onAlgorithm2Change($event)"
+      />
+    </div>
+  </div>
+</div>

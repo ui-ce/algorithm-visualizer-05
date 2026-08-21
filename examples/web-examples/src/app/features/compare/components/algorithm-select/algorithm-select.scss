@@ -1,0 +1,121 @@
+.algo-algorithm-select {
+  position: relative;
+  width: 100%; // fill width
+  height: fit-content; // hug height
+
+  &--accent &__trigger {
+    // Algorithm-2's field: stays brand-accent regardless of whether a
+    // value has been picked yet — see algorithm-select.ts's `variant`
+    // doc comment.
+    border-color: var(--color-brand-accent);
+  }
+}
+
+.algo-algorithm-select__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding-block: 12px;
+  padding-inline: 16px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-default);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+
+  &--open {
+    border-color: var(--color-border-primary);
+  }
+}
+
+.algo-algorithm-select__value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// The "Algorithm-1 :" / "Algorithm-2 :" prefix always stays in the
+// placeholder color, even once a value is selected — only the value
+// itself switches to text-primary (see .algo-algorithm-select__selected
+// below).
+.algo-algorithm-select__prefix {
+  flex-shrink: 0;
+  color: var(--color-text-placeholder);
+}
+
+.algo-algorithm-select__placeholder {
+  overflow: hidden;
+  color: var(--color-text-placeholder);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.algo-algorithm-select__selected {
+  overflow: hidden;
+  color: var(--color-text-primary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.algo-algorithm-select__chevron {
+  flex-shrink: 0;
+  color: var(--color-text-tertiary);
+  transition: transform 0.15s ease;
+
+  &--open {
+    transform: rotate(180deg);
+  }
+}
+
+.algo-algorithm-select__list {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(100% + 6px);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 260px;
+  padding: 6px;
+  overflow-y: auto;
+  list-style: none;
+  background-color: var(--color-elevated-surface);
+  border: 1px solid var(--color-border-default);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px color-mix(in srgb, black 40%, transparent);
+}
+
+.algo-algorithm-select__option {
+  width: 100%;
+  padding-block: 8px;
+  padding-inline: 10px;
+  text-align: start;
+  color: var(--color-text-secondary);
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-surface-container);
+  }
+
+  &--selected {
+    color: var(--color-text-on-outline);
+    background-color: var(--color-surface-container);
+  }
+}
+
+.algo-algorithm-select__empty {
+  padding-block: 8px;
+  text-align: center;
+  color: var(--color-text-tertiary);
+}
