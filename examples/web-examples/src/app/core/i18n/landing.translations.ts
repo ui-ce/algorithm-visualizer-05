@@ -4,36 +4,44 @@ import type { TranslationDictionary } from './translations.type';
 // name/class/description keys are intentionally NOT duplicated here —
 // the landing page's algorithm picker section reuses the existing
 // `home.algorithm.*` keys from home.translation.ts so both places stay
-// in sync from one source.
+// in sync from one source. The mini-demo's reset button also reuses
+// `practice.nav.again` from practice.translation.ts rather than having
+// its own key, so it reads identically to the real practice controls.
 //
-// Revision note (round 2): the small uppercase "eyebrow" kicker labels
-// from stage 1 (landing.hero.eyebrow, landing.picker.eyebrow, etc.) were
-// removed per feedback — sections now lead with just the title/subtitle
-// plus a decorative accent mark instead of a text label.
+// Revision note (round 3): rewrote the marketing copy to talk to the
+// visitor as someone capable, not someone struggling ("Interactive
+// visualizations... to help you truly understand" instead of "for a
+// lot of students who find X hard"). Also removed a line that was
+// actually a note to the developer, not real site copy.
 export const LANDING_TRANSLATIONS: TranslationDictionary = {
+  // Header center section-nav
+  'landing.nav.algorithms': { fa: 'الگوریتم‌ها', en: 'Algorithms' },
+  'landing.nav.features': { fa: 'مسیر یادگیری', en: 'How it works' },
+  'landing.nav.tour': { fa: 'محیط برنامه', en: 'Product tour' },
+  'landing.nav.quiz': { fa: 'آزمون', en: 'Testing' },
+  'landing.nav.compare': { fa: 'مقایسه', en: 'Compare' },
+
   // Hero
   'landing.hero.title.line1': { fa: 'الگوریتم‌ها رو دیگه', en: 'Stop reading algorithms.' },
   'landing.hero.title.highlight': { fa: 'حفظ نکن، ببینشون', en: 'Start watching them.' },
   'landing.hero.subtitle': {
-    fa: 'برای خیلی از دانشجوها، الگوریتم فقط چند خط شبه‌کد روی تخته‌ست. اینجا هر قدم از اجرا رو قدم‌به‌قدم می‌بینی، باهاش تمرین می‌کنی و در آخر با یه تست واقعی می‌سنجی چقدر یاد گرفتی.',
-    en: 'For a lot of students, an algorithm is just pseudocode on a whiteboard. Here you watch every step run live, practice it yourself, then prove what you learned with a real test.',
+    fa: 'تجسم‌های تعاملی و آزمون‌هایی که کمکت می‌کنن الگوریتم‌ها رو واقعاً بفهمی.',
+    en: 'Interactive visualizations and quizzes to help you truly understand how algorithms work.',
   },
   'landing.hero.cta.start': { fa: 'شروع یادگیری', en: 'Start learning' },
   'landing.hero.cta.watch': { fa: 'ببین چطور کار می‌کنه', en: 'See it in action' },
   'landing.hero.demo.label': { fa: 'مرتب‌سازی حبابی — زنده', en: 'Bubble Sort — live' },
-  'landing.hero.demo.reset': { fa: 'از اول', en: 'Reset' },
   'landing.hero.demo.sorted': { fa: 'مرتب شد ✓', en: 'Sorted ✓' },
 
   // Algorithm picker section
-  'landing.picker.title': { fa: 'از کجا شروع کنیم؟', en: 'Where do you want to start?' },
+  'landing.picker.title': { fa: 'الگوریتمت رو انتخاب کن', en: 'Pick your algorithm' },
   'landing.picker.subtitle': {
-    fa: 'یازده الگوریتم، سه دسته. موس رو ببر روی هرکارت تا ببینی خودِ الگوریتم چطور کار می‌کنه، بعد بزن بریم تمرین.',
-    en: 'Eleven algorithms, three categories. Hover a card to see the algorithm itself move, then tap it to practice.',
+    fa: 'قبل از شروع، ببین چطور کار می‌کنه — بعد بزن بریم تمرین واقعی.',
+    en: 'See it move before you dive in — then jump straight into real practice.',
   },
   'landing.picker.category.sorting': { fa: 'مرتب‌سازی', en: 'Sorting' },
   'landing.picker.category.searching': { fa: 'جست‌وجو', en: 'Searching' },
   'landing.picker.category.graph': { fa: 'گراف و مسیریابی', en: 'Graph & Pathfinding' },
-  'landing.picker.viewAll': { fa: 'مشاهده همه الگوریتم‌ها', en: 'View all algorithms' },
 
   // Features / learning journey — numbers now live only in the big
   // decorative numeral badge in the template, not duplicated in the text.
@@ -70,8 +78,8 @@ export const LANDING_TRANSLATIONS: TranslationDictionary = {
   // broken image icon).
   'landing.tour.title': { fa: 'محیط واقعی رو ببین', en: 'See the real thing' },
   'landing.tour.subtitle': {
-    fa: 'این‌ها اسکرین‌شات‌های واقعی خودِ اپن — نه یه شبیه‌سازی از یه محصول دیگه.',
-    en: 'These are real screenshots of the actual product — not a mockup of something else.',
+    fa: 'همون چیزی که خوندی، همین‌جا واقعاً داره اجرا می‌شه.',
+    en: 'Everything you just read about, actually running.',
   },
   'landing.tour.learn.title': { fa: 'یادگیری قدم‌به‌قدم', en: 'Step-by-step learning' },
   'landing.tour.learn.description': {
@@ -94,7 +102,7 @@ export const LANDING_TRANSLATIONS: TranslationDictionary = {
   'landing.quiz.title': { fa: 'وقتی فکر می‌کنی بلدی، بسنجش', en: "Think you've got it? Prove it." },
   'landing.quiz.subtitle': {
     fa: 'برای هر الگوریتم یه آزمون واقعی داری، نه یه کوییز تزئینی.',
-    en: "Every algorithm has a real test behind it, not a decorative quiz.",
+    en: 'Every algorithm has a real test behind it, not a decorative quiz.',
   },
   'landing.quiz.stat.levels.value': { fa: '۳', en: '3' },
   'landing.quiz.stat.levels.label': { fa: 'سطح سختی', en: 'difficulty levels' },
@@ -105,7 +113,7 @@ export const LANDING_TRANSLATIONS: TranslationDictionary = {
   'landing.quiz.cta': { fa: 'برو سراغ آزمون', en: 'Go take a test' },
 
   // Comparison / "battle" section
-  'landing.battle.title': { fa: 'کتاب درسی در برابر ALGO', en: 'Textbook vs. ALGO' },
+  'landing.battle.title': { fa: 'بقیه در مقابل ALGO', en: 'Everyone else vs. ALGO' },
   'landing.battle.subtitle': {
     fa: 'همون الگوریتم، دو تا تجربه‌ی کاملاً متفاوت.',
     en: 'Same algorithm, two completely different experiences.',
@@ -129,10 +137,10 @@ export const LANDING_TRANSLATIONS: TranslationDictionary = {
   // CTA — that destination is already covered by the picker section
   // above, so the last thing on the page is the one CTA that isn't
   // covered anywhere else: creating an account).
-  'landing.signup.title': { fa: 'پیشرفتت رو ذخیره کن', en: 'Save your progress' },
+  'landing.signup.title': { fa: 'پیشرفتت گم نشه', en: 'Never lose your progress' },
   'landing.signup.subtitle': {
-    fa: 'با حساب کاربری، ستاره‌ها و نتیجه آزمون‌هات همیشه می‌مونن — هر وقت برگردی، از همونجا ادامه می‌دی.',
-    en: 'With an account, your stars and test results stick around — pick up right where you left off, any time.',
+    fa: 'با ساختن حساب کاربری، ستاره‌ها و نتیجه آزمون‌هات همیشه همون‌جا می‌مونن که ولش کردی.',
+    en: 'Create an account and your stars, streaks, and test scores stay right where you left them.',
   },
   'landing.signup.cta.register': { fa: 'ثبت‌نام رایگان', en: 'Create free account' },
   'landing.signup.cta.login': { fa: 'قبلاً حساب داری؟ وارد شو', en: 'Already have an account? Log in' },

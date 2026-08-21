@@ -7,6 +7,11 @@ import { SolarMoonLinear, SolarSunLinear, SolarUserCircleLinear } from '@solar-i
 import type { BreadcrumbItem } from './header-breadcrumb.type';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 
+export interface HeaderNavLink {
+  readonly label: string;
+  readonly targetId: string;
+}
+
 // Shared across every page (landing, algorithm pages, compare, profile),
 // not specific to any one feature — that's why it lives under layout/
 // rather than inside a feature folder.
@@ -22,6 +27,26 @@ export class AlgoHeader {
   @Input()
   public breadcrumbs: BreadcrumbItem[] = [];
 
+  // Optional center section-nav (e.g. the landing page's "Algorithms /
+  // Features / Test / Compare" jump links). Empty by default so every
+  // other page that renders AlgoHeader is unaffected — the center grid
+  // column just stays empty. Labels are passed in already-translated
+  // (the consumer knows its own current language) rather than as
+  // translation keys, since a generic layout component shouldn't need
+  // to know about a specific page's translation dictionary.
+  @Input()
+  public centerNavLinks: HeaderNavLink[] = [];
+
+  // Landing hides both of these (see landing.ts) — the page's dark,
+  // gradient-heavy visual language wasn't designed against a light
+  // variant, and the marketing copy is only maintained in one
+  // language. Every other page keeps both visible (the defaults).
+  @Input()
+  public showThemeToggle = true;
+
+  @Input()
+  public showLanguageToggle = true;
+
   @Input()
   public themeMode: 'light' | 'dark' = 'dark';
 
@@ -36,4 +61,8 @@ export class AlgoHeader {
 
   @Output()
   public readonly accountClick = new EventEmitter<void>();
+
+  protected scrollToSection(targetId: string): void {
+    document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }

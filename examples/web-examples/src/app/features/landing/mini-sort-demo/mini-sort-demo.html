@@ -1,0 +1,56 @@
+<div
+  class="mini-demo-frame"
+  #demoCard
+  [style.transform]="tiltTransform"
+  (pointermove)="onPointerMove($event, demoCard)"
+  (pointerleave)="onPointerLeave()"
+>
+  <span class="mini-demo-frame__sparkle" aria-hidden="true"></span>
+  <span class="mini-demo-frame__sparkle" aria-hidden="true"></span>
+  <span class="mini-demo-frame__sparkle" aria-hidden="true"></span>
+  <span class="mini-demo-frame__sparkle" aria-hidden="true"></span>
+  <span class="mini-demo-frame__sparkle" aria-hidden="true"></span>
+  <span class="mini-demo-frame__sparkle" aria-hidden="true"></span>
+
+  <div class="mini-demo">
+    <div class="mini-demo__head">
+      <span class="mini-demo__label text-label-medium">{{ 'landing.hero.demo.label' | translate }}</span>
+      @if (isSorted()) {
+        <span class="mini-demo__sorted-badge text-label-medium">{{ 'landing.hero.demo.sorted' | translate }}</span>
+      }
+    </div>
+
+    <div class="mini-demo__stage">
+      @for (bar of bars(); track $index) {
+        <div class="mini-demo__bar-column">
+          <span class="mini-demo__bar-value text-label-medium">{{ bar.value }}</span>
+          <div
+            class="mini-demo__bar"
+            [class.mini-demo__bar--comparing]="bar.state === 'comparing'"
+            [class.mini-demo__bar--swapping]="bar.state === 'swapping'"
+            [class.mini-demo__bar--sorted]="bar.state === 'sorted'"
+            [style.background]="bar.state === 'default' ? bar.color : null"
+            [style.height.%]="bar.value"
+          ></div>
+          <span class="mini-demo__bar-index text-label-medium">{{ $index }}</span>
+        </div>
+      }
+    </div>
+
+    <div class="mini-demo__controls">
+      <algo-button variant="navigation" [text]="'practice.nav.prev' | translate" [hasLeftIcon]="true" (click)="previous()">
+        <svg left-icon solarSkipPreviousLinear [size]="16"></svg>
+      </algo-button>
+
+      <algo-play-pause-button [type]="isPlaying() ? 'pause' : 'play'" (click)="togglePlay()" />
+
+      <algo-button variant="navigation" [text]="'practice.nav.next' | translate" [hasRightIcon]="true" (click)="next()">
+        <svg right-icon solarSkipNextLinear [size]="16"></svg>
+      </algo-button>
+
+      <algo-button variant="navigation" [text]="'practice.nav.again' | translate" [hasRightIcon]="true" (click)="reset()">
+        <svg right-icon solarRestartLinear [size]="16"></svg>
+      </algo-button>
+    </div>
+  </div>
+</div>

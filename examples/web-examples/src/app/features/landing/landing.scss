@@ -1,3 +1,38 @@
+// ---------- Category field background animations ----------
+// These run continuously on the whole field's background (behind the
+// cards, low opacity) — not on a small icon next to the heading, and
+// not tied to hover. Deliberately slow/smooth so they read as ambient
+// texture rather than something competing for attention.
+
+@keyframes landing-field-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -400px 0;
+  }
+}
+
+@keyframes landing-field-sweep {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes landing-field-pulse {
+  0%,
+  100% {
+    opacity: 0.05;
+  }
+  50% {
+    opacity: 0.16;
+  }
+}
+
 // Shared section rhythm: every section gets the same horizontal gutter
 // as the header/footer (64px) and a generous vertical rhythm so the
 // page reads as distinct chapters, not one long scroll.
@@ -27,17 +62,6 @@
     gap: 16px;
     max-width: 640px;
     margin-bottom: 48px;
-  }
-
-  // Replaces the old text "eyebrow" label with a small decorative
-  // brand-gradient mark — keeps the section head from feeling flat
-  // without resorting to another line of generic marketing copy.
-  &__accent-mark {
-    display: block;
-    width: 48px;
-    height: 5px;
-    border-radius: 999px;
-    background: var(--gradient-brand);
   }
 
   &__section-title {
@@ -128,7 +152,7 @@
   &__hero-demo {
     position: relative;
     z-index: 1;
-    flex: 0 0 440px;
+    flex: 0 0 620px;
   }
 
   // ---------- 2. ALGORITHM PICKER ----------
@@ -137,48 +161,93 @@
     background-color: var(--color-surface);
   }
 
-  &__picker-groups {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+  // Each category gets its own bordered container. The animation lives
+  // on the container's own background (::before, absolutely positioned,
+  // low opacity, slow) rather than a small icon next to the heading —
+  // it's meant to read as ambient texture behind the whole field, not a
+  // thing that blinks in the same spot forever.
+  &__category-field {
+    position: relative;
+    overflow: hidden;
+    padding: 36px;
+    border-radius: 20px;
+    background: var(--color-surface-container);
+    border: 1px solid var(--color-border-default);
+    margin-bottom: 32px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    &--sorting::before {
+      background-image: repeating-linear-gradient(
+        110deg,
+        var(--color-brand-primary) 0,
+        var(--color-brand-primary) 2px,
+        transparent 2px,
+        transparent 34px
+      );
+      background-size: 400px 100%;
+      animation: landing-field-drift 22s linear infinite;
+    }
+
+    &--searching::before {
+      background-image: radial-gradient(circle at 30% 40%, var(--color-brand-primary) 0%, transparent 45%);
+      background-size: 220% 220%;
+      animation: landing-field-sweep 16s ease-in-out infinite;
+    }
+
+    &--graph::before {
+      background-image: radial-gradient(var(--color-border-strong) 1.5px, transparent 1.5px);
+      background-size: 30px 30px;
+      animation: landing-field-pulse 10s ease-in-out infinite;
+    }
   }
 
-  &__picker-group-title {
+  &__category-field-head {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 20px;
+  }
+
+  &__category-title {
     color: var(--color-text-primary);
-    margin-bottom: 16px;
   }
 
-  &__picker-grid {
+  // All cards for a category shown together, wrapping to as many rows
+  // as needed — five Sorting algorithms, two Searching, four Graph, all
+  // visible at once, nothing hidden behind a slider.
+  &__category-cards {
+    position: relative;
+    z-index: 1;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 16px;
   }
 
   &__algo-card {
+    flex: 1 1 220px;
+    max-width: 280px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-    width: 100%;
-    padding: 18px;
-    border-radius: 14px;
-    background: var(--color-surface-container);
+    gap: 10px;
+    padding: 20px;
+    border-radius: 16px;
+    background: var(--color-elevated-surface);
     border: 1px solid var(--color-border-default);
-    color: var(--color-text-primary);
-    cursor: pointer;
-    text-align: start;
-    transition: border-color 0.15s ease, transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    transition: border-color 0.15s ease;
 
     &:hover {
-      border-color: var(--color-brand-primary);
-      background: var(--color-elevated-surface);
-      transform: translateY(-3px);
-      box-shadow: 0 16px 32px -20px var(--color-brand-primary);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--color-focus);
-      outline-offset: 2px;
+      border-color: var(--color-border-strong);
     }
   }
 
@@ -187,14 +256,13 @@
     font-weight: 600;
   }
 
-  &__algo-card-class {
+  &__algo-card-desc {
     color: var(--color-text-secondary);
-  }
-
-  &__picker-footer {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   // ---------- 3. FEATURES ----------
@@ -243,6 +311,11 @@
     font-size: 1.25rem;
     color: var(--color-test-summary-xp);
     letter-spacing: 4px;
+  }
+
+  &__feature-card--accent {
+    align-items: center;
+    text-align: center;
   }
 
   // ---------- 3.5 PRODUCT TOUR ----------
@@ -307,10 +380,17 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 14px;
+    gap: 16px;
 
     h3 {
       color: var(--color-text-primary);
+    }
+
+    // The CTA button needs more air above it than the 16px column gap
+    // gives everything else — otherwise it reads as glued to the
+    // paragraph right above it.
+    algo-button {
+      margin-top: 10px;
     }
   }
 
@@ -320,17 +400,37 @@
   }
 
   &__quiz-panel {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 64px;
-    padding: 56px;
-    border-radius: 24px;
-    background: color-mix(in srgb, var(--color-brand-primary) 14%, var(--color-surface-container));
-    border: 1px solid var(--color-border-primary);
-    box-shadow: 0 32px 80px -40px var(--color-brand-primary);
+    padding: 64px;
+    border-radius: 28px;
+    background: var(--color-surface-container);
+    border: 1px solid var(--color-border-default);
+    overflow: hidden;
+
+    // A soft glow blob behind the content — the same brand-gradient
+    // language as the hero's corner glow — instead of a flat tinted
+    // background or a left accent bar.
+    &::before {
+      content: '';
+      position: absolute;
+      top: -35%;
+      inset-inline-end: -12%;
+      width: 440px;
+      height: 440px;
+      border-radius: 50%;
+      background: var(--gradient-brand);
+      opacity: 0.16;
+      filter: blur(90px);
+      pointer-events: none;
+    }
   }
 
   &__quiz-copy {
+    position: relative;
+    z-index: 1;
     flex: 1 1 50%;
     display: flex;
     flex-direction: column;
@@ -341,22 +441,43 @@
     .landing__section-subtitle {
       max-width: 460px;
     }
+
+    // Same reasoning as the tour section's CTA: needs more air above it
+    // than the column gap alone gives, so it doesn't read as glued to
+    // the stats row right above it.
+    algo-button {
+      margin-top: 8px;
+    }
   }
 
   &__quiz-stats {
     display: flex;
-    gap: 32px;
+    gap: 28px;
+    margin-top: 4px;
   }
 
   &__quiz-stat {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
   }
 
-  &__quiz-stat-value {
+  // Circular badge instead of a bare stacked number — reads as an
+  // achievement/stat chip, consistent with the stars-and-progress
+  // language used in the Features section.
+  &__quiz-stat-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-brand-primary) 16%, var(--color-surface));
+    border: 1px solid var(--color-border-primary);
     font-family: var(--font-family-base);
-    font-size: 2rem;
+    font-size: 1.375rem;
     font-weight: 800;
     color: var(--color-brand-primary);
     direction: ltr;
@@ -367,6 +488,8 @@
   }
 
   &__quiz-frame {
+    position: relative;
+    z-index: 1;
     flex: 1 1 50%;
     aspect-ratio: 16 / 11;
     border-radius: 18px;
@@ -471,54 +594,77 @@
   }
 
   // ---------- 5. SIGN-UP ----------
+  // Deliberately not a bordered/backgrounded card — every other section
+  // on the page is plain content on the page background, and the
+  // sign-up section should read the same way, not like a separate
+  // "promo box" dropped at the end.
   &__signup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
     padding: 40px 64px 96px;
   }
 
-  &__signup-card {
+  &__signup-copy {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 16px;
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 64px 48px;
-    border-radius: 24px;
-    background: var(--color-elevated-surface);
-    border: 1px solid var(--color-border-default);
-    position: relative;
-    overflow: hidden;
-
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      padding: 1px;
-      border-radius: inherit;
-      background: var(--gradient-brand);
-      opacity: 0.5;
-      -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-    }
+    align-items: flex-start;
+    gap: 14px;
+    max-width: 460px;
   }
 
-  &__signup-title {
-    color: var(--color-text-primary);
-    font-family: var(--font-family-base);
-    font-size: 2rem;
-    font-weight: 800;
-    margin: 0;
+  &__signup-graphic {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+
+  // A small, always-looping mini sort — same visual language as the
+  // hero demo and the category fields — instead of a generic floating
+  // decoration. Five bars that continuously bubble-sort themselves.
+  &__signup-graphic {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 100px;
+    flex-shrink: 0;
+    direction: ltr;
+  }
+
+  &__signup-bar {
+    width: 22px;
+    border-radius: 6px 6px 3px 3px;
+    background: var(--color-brand-primary);
+    animation: landing-signup-sort 3.6s ease-in-out infinite;
+
+    &:nth-child(1) {
+      height: 45%;
+      animation-delay: 0s;
+    }
+    &:nth-child(2) {
+      height: 75%;
+      animation-delay: 0.15s;
+    }
+    &:nth-child(3) {
+      height: 30%;
+      animation-delay: 0.3s;
+    }
+    &:nth-child(4) {
+      height: 95%;
+      animation-delay: 0.45s;
+    }
+    &:nth-child(5) {
+      height: 60%;
+      animation-delay: 0.6s;
+    }
   }
 
   &__signup-actions {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 14px;
     margin-top: 8px;
   }
@@ -533,115 +679,20 @@
   }
 }
 
-// ---------- Algorithm card hover glyphs ----------
-// Same markup (5 generic "bits") for every category — only the CSS
-// treatment changes, so the picker doesn't need three separate
-// templates. Hovering a card runs a small staggered animation on the
-// glyph that loosely mimics that category of algorithm actually doing
-// something: bars settle into a sorted color for Sorting, cells scan
-// left-to-right and the target lights up for Searching, nodes light up
-// along their connecting line for Graph.
-.algo-card__glyph {
-  display: flex;
-  align-items: flex-end;
-  gap: 6px;
-  height: 56px;
-  margin-bottom: 16px;
-  width: 100%;
-}
-
-.algo-card__glyph-bit {
-  flex: 1;
-  border-radius: 4px;
-  background: var(--color-viz-default);
-  transition: background-color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-}
-
-@for $i from 1 through 5 {
-  .landing__algo-card:hover .algo-card__glyph-bit:nth-child(#{$i}) {
-    transition-delay: #{($i - 1) * 70}ms;
+@keyframes landing-signup-sort {
+  0%,
+  100% {
+    background: var(--color-brand-primary);
+    transform: translateY(0);
   }
-}
-
-// Sorting: bar heights, cascades to the "sorted" color on hover.
-.algo-card__glyph--sorting .algo-card__glyph-bit {
-  &:nth-child(1) {
-    height: 35%;
+  40% {
+    background: var(--color-viz-comparing);
+    transform: translateY(-6px);
   }
-  &:nth-child(2) {
-    height: 70%;
+  70% {
+    background: var(--color-viz-sorted);
+    transform: translateY(0);
   }
-  &:nth-child(3) {
-    height: 50%;
-  }
-  &:nth-child(4) {
-    height: 90%;
-  }
-  &:nth-child(5) {
-    height: 60%;
-  }
-}
-
-.landing__algo-card:hover .algo-card__glyph--sorting .algo-card__glyph-bit {
-  background: var(--color-viz-sorted);
-}
-
-// Searching: flat cells, one pre-marked as the target; on hover the
-// scan color sweeps across and the target resolves to "found".
-.algo-card__glyph--searching .algo-card__glyph-bit {
-  height: 42%;
-  border: 1px solid var(--color-border-default);
-  background: var(--color-surface-container);
-
-  &:nth-child(4) {
-    border-color: var(--color-brand-accent);
-  }
-}
-
-.landing__algo-card:hover .algo-card__glyph--searching .algo-card__glyph-bit {
-  background: var(--color-viz-comparing);
-}
-
-.landing__algo-card:hover .algo-card__glyph--searching .algo-card__glyph-bit:nth-child(4) {
-  background: var(--color-viz-sorted);
-  transition-delay: 340ms;
-}
-
-// Graph: nodes on a shared connecting line; on hover nodes pulse and
-// the line picks up the brand gradient, mimicking a traversal.
-.algo-card__glyph--graph {
-  position: relative;
-  align-items: center;
-  justify-content: space-between;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset-inline: 4px;
-    top: 50%;
-    height: 2px;
-    background: var(--color-border-strong);
-    transition: background 0.3s ease;
-    z-index: 0;
-  }
-}
-
-.algo-card__glyph--graph .algo-card__glyph-bit {
-  flex: 0 0 auto;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  position: relative;
-  z-index: 1;
-}
-
-.landing__algo-card:hover .algo-card__glyph--graph .algo-card__glyph-bit {
-  background: var(--color-brand-primary);
-  transform: scale(1.3);
-}
-
-.landing__algo-card:hover .algo-card__glyph--graph::before {
-  background: var(--gradient-brand);
 }
 
 // ---------- Responsive ----------
@@ -666,7 +717,7 @@
     &__hero-demo {
       flex: 1 1 auto;
       width: 100%;
-      max-width: 440px;
+      max-width: 620px;
     }
 
     &__picker,
@@ -677,12 +728,22 @@
       padding-inline: 24px;
     }
 
+    &__signup {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    &__signup-copy {
+      align-items: center;
+    }
+
     &__quiz {
       padding-inline: 24px;
     }
 
-    &__picker-groups {
-      grid-template-columns: 1fr;
+    &__algo-card {
+      flex: 1 1 100%;
+      max-width: none;
     }
 
     &__feature-grid {

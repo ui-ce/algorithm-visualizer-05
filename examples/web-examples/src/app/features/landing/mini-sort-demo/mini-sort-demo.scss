@@ -1,0 +1,178 @@
+// Outer frame: a 2px ring that's an animated conic-gradient cycling
+// between the two brand accent colors, plus a handful of small sparkle
+// particles drifting outward from the edge. The actual card content
+// sits in `.mini-demo` nested inside, with its own solid background —
+// keeping the ring as a separate padded wrapper avoids fighting the
+// card's own background/box-shadow with masks or negative z-index.
+.mini-demo-frame {
+  direction: ltr;
+  position: relative;
+  padding: 2px;
+  border-radius: 24px;
+  background: conic-gradient(from 0deg, var(--color-brand-primary), var(--color-brand-accent), var(--color-brand-primary));
+  animation: mini-demo-ring-spin 6s linear infinite;
+  transition: transform 0.15s ease;
+  will-change: transform;
+}
+
+@keyframes mini-demo-ring-spin {
+  to {
+    background: conic-gradient(from 360deg, var(--color-brand-primary), var(--color-brand-accent), var(--color-brand-primary));
+  }
+}
+
+.mini-demo-frame__sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-brand-accent);
+  box-shadow: 0 0 6px 1px var(--color-brand-accent);
+  opacity: 0;
+  pointer-events: none;
+  animation: mini-demo-sparkle 3.6s ease-in infinite;
+
+  // Six sparkles spread around the ring's perimeter, each starting from
+  // a different edge point and staggered in time so they never all fire
+  // together.
+  &:nth-child(1) {
+    top: -4px;
+    left: 12%;
+    animation-delay: 0s;
+  }
+  &:nth-child(2) {
+    top: 20%;
+    right: -4px;
+    animation-delay: 0.6s;
+  }
+  &:nth-child(3) {
+    bottom: 30%;
+    right: -4px;
+    animation-delay: 1.2s;
+  }
+  &:nth-child(4) {
+    bottom: -4px;
+    right: 18%;
+    animation-delay: 1.8s;
+  }
+  &:nth-child(5) {
+    bottom: -4px;
+    left: 22%;
+    animation-delay: 2.4s;
+  }
+  &:nth-child(6) {
+    top: 40%;
+    left: -4px;
+    animation-delay: 3s;
+  }
+}
+
+@keyframes mini-demo-sparkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) translate(0, 0);
+  }
+  15% {
+    opacity: 1;
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.2) translate(10px, -10px);
+  }
+}
+
+.mini-demo {
+  direction: ltr;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 26px;
+  border-radius: 22px;
+  background: var(--color-elevated-surface);
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.55);
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__label {
+    color: var(--color-text-tertiary);
+  }
+
+  &__sorted-badge {
+    color: var(--color-viz-sorted);
+    border: 1px solid var(--color-viz-sorted);
+    border-radius: 999px;
+    padding: 2px 10px;
+  }
+
+  &__stage {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8px;
+    height: 220px;
+    padding: 0 4px;
+  }
+
+  &__bar-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  // Bold, saturated fill by default (see bar.color in the component,
+  // bound via [style.background]) — comparing/swapping/sorted still
+  // override to the semantic viz colors during the actual animation.
+  &__bar {
+    width: 100%;
+    max-width: 34px;
+    min-height: 4%;
+    border-radius: 6px 6px 3px 3px;
+    transition: height 0.35s ease, background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+
+    &--comparing {
+      background: var(--color-viz-comparing) !important;
+      box-shadow: 0 0 16px -2px var(--color-viz-comparing);
+      transform: translateY(-4px);
+    }
+
+    &--swapping {
+      background: var(--color-viz-swapping) !important;
+      box-shadow: 0 0 18px -2px var(--color-viz-swapping);
+      transform: translateY(-4px) scale(1.03);
+    }
+
+    &--sorted {
+      background: var(--color-viz-sorted) !important;
+      box-shadow: 0 0 14px -3px var(--color-viz-sorted);
+    }
+  }
+
+  &__bar-value {
+    color: var(--color-text-primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  &__bar-index {
+    color: var(--color-text-tertiary);
+    font-size: 0.6875rem;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+}

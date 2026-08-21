@@ -23,30 +23,44 @@
     </nav>
   </div>
 
-  <div class="algo-header__right">
-    <button
-      type="button"
-      class="algo-header__icon-button"
-      [attr.aria-label]="
-        themeMode === 'dark' ? ('header.themeToggle.toLight' | translate) : ('header.themeToggle.toDark' | translate)
-      "
-      (click)="themeToggle.emit()"
-    >
-      @if (themeMode === 'dark') {
-        <svg solarMoonLinear [size]="18"></svg>
-      } @else {
-        <svg solarSunLinear [size]="18"></svg>
+  @if (centerNavLinks.length) {
+    <nav class="algo-header__center text-label-medium" aria-label="Section navigation">
+      @for (link of centerNavLinks; track link.targetId) {
+        <button type="button" class="algo-header__center-link" (click)="scrollToSection(link.targetId)">
+          {{ link.label }}
+        </button>
       }
-    </button>
+    </nav>
+  }
 
-    <button
-      type="button"
-      class="algo-header__icon-button algo-header__icon-button--language text-label-medium"
-      [attr.aria-label]="'header.language.ariaLabel' | translate"
-      (click)="languageToggle.emit()"
-    >
-      {{ currentLanguage === 'fa' ? 'FA' : 'EN' }}
-    </button>
+  <div class="algo-header__right">
+    @if (showThemeToggle) {
+      <button
+        type="button"
+        class="algo-header__icon-button"
+        [attr.aria-label]="
+          themeMode === 'dark' ? ('header.themeToggle.toLight' | translate) : ('header.themeToggle.toDark' | translate)
+        "
+        (click)="themeToggle.emit()"
+      >
+        @if (themeMode === 'dark') {
+          <svg solarMoonLinear [size]="18"></svg>
+        } @else {
+          <svg solarSunLinear [size]="18"></svg>
+        }
+      </button>
+    }
+
+    @if (showLanguageToggle) {
+      <button
+        type="button"
+        class="algo-header__icon-button algo-header__icon-button--language text-label-medium"
+        [attr.aria-label]="'header.language.ariaLabel' | translate"
+        (click)="languageToggle.emit()"
+      >
+        {{ currentLanguage === 'fa' ? 'FA' : 'EN' }}
+      </button>
+    }
 
     <button
       type="button"

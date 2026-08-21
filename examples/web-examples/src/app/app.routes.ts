@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { Landing } from './components/landing/landing';
+import { Landing } from './features/landing/landing';
 import { Home } from './components/home/home';
 import { PracticePage } from './features/practice/practice';
 import { TestPlan } from './features/test/pages/test-plan/test-plan';

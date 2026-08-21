@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AlgoHeader } from '../../layout/header/header';
+import { AlgoHeader, type HeaderNavLink } from '../../layout/header/header';
 import { AlgoFooter } from '../../layout/footer/footer';
 import { AlgoButton } from '../../design-system/button/button';
 import { MiniSortDemo } from './mini-sort-demo/mini-sort-demo';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
+import { translate } from '../../core/i18n/translations';
 import { ThemeService } from '../../core/services/theme.service';
 import { LanguageService } from '../../core/services/language.service';
-import type { AlgorithmData } from '../home/models/algorithm-data.type';
+import type { AlgorithmData } from '../../components/home/models/algorithm-data.type';
 
 type AlgorithmCategory = 'sorting' | 'searching' | 'graph';
 
@@ -18,9 +19,12 @@ interface LandingAlgorithm extends AlgorithmData {
 // Reuses the exact translation keys already defined in home.translation.ts
 // (home.algorithm.*) so algorithm names/descriptions stay in sync with the
 // existing /home grid instead of forking into a second copy that could
-// drift out of translation. Only the `category` field is new here, used
-// to group the picker into three columns and to pick the right hover
-// glyph (bars / cells / dots) per card in landing.scss.
+// drift out of translation.
+//
+// Revision note (round 4): dropped the per-algorithm `visualVariant`
+// field from round 3 — the animation now happens once at the category
+// level (see .landing__category-anim in landing.scss), not per card, so
+// there's nothing left for individual algorithms to configure here.
 const ALGORITHMS: LandingAlgorithm[] = [
   {
     nameKey: 'home.algorithm.bubbleSort.name',
@@ -113,10 +117,12 @@ const ALGORITHMS: LandingAlgorithm[] = [
 ];
 
 // Product tour cards (section 3.5, between Features and the Battle
-// section). `image` is a filename under src/assets/screenshots/ — drop
-// real screenshots there with these exact names and they'll render;
-// until then the mockup frame falls back to a plain gradient instead of
-// a broken-image icon (see landing.scss .landing__tour-frame).
+// section). `image` is a filename under public/screenshots/ — this
+// project serves static files straight from the top-level `public/`
+// folder (see angular.json's assets glob), not `src/assets/`, so the
+// path is just `screenshots/<file>` with no `assets/` prefix — same
+// convention already used by algorithm-data.type's `imgUrl` field
+// elsewhere in the app (e.g. 'bubble-sort.jpg', not '/assets/bubble-sort.jpg').
 interface TourItem {
   readonly titleKey: string;
   readonly descriptionKey: string;
@@ -163,16 +169,27 @@ export class Landing {
     protected readonly languageService: LanguageService,
   ) {}
 
+  // Built from a getter (not a stored field) so it recomputes with the
+  // translated label whenever currentLanguage() changes, without extra
+  // wiring — cheap enough for five short strings evaluated on change
+  // detection.
+  protected get navLinks(): HeaderNavLink[] {
+    const lang = this.languageService.currentLanguage();
+    return [
+      { label: translate('landing.nav.algorithms', lang), targetId: 'landing-picker' },
+      { label: translate('landing.nav.features', lang), targetId: 'landing-features' },
+      { label: translate('landing.nav.tour', lang), targetId: 'landing-tour' },
+      { label: translate('landing.nav.quiz', lang), targetId: 'landing-quiz' },
+      { label: translate('landing.nav.compare', lang), targetId: 'landing-battle' },
+    ];
+  }
+
   protected goToAlgorithm(algorithm: AlgorithmData): void {
     this._router.navigateByUrl(`/${algorithm.route}`);
   }
 
   protected goToRoute(route: string): void {
     this._router.navigateByUrl(`/${route}`);
-  }
-
-  protected goToAllAlgorithms(): void {
-    this._router.navigateByUrl('/home');
   }
 
   protected goToRegister(): void {
@@ -192,9 +209,9 @@ export class Landing {
   }
 
   // Background image path for a tour frame, built here rather than
-  // inline in the template so a future real-asset-pipeline swap (e.g. a
-  // CDN prefix) only touches one place.
+  // inline in the template so a future real-asset-pipeline swap only
+  // touches one place.
   protected tourImagePath(image: string): string {
-    return `assets/screenshots/${image}`;
+    return `/screenshots/${image}`;
   }
 }
