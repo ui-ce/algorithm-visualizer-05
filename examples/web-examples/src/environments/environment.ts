@@ -1,3 +1,4 @@
+
 // Supabase connection info.
 //
 // The anon/public key below is NOT a secret the way an API password
@@ -7,11 +8,8 @@
 // every row to its own owner (auth.uid() = user_id) regardless of what
 // the client asks for. Never add the "service_role" key here — that one
 // bypasses RLS entirely and must only ever live on a trusted server.
-//
-// Fill these two values in after creating the Supabase project
-// (Project Settings → API in the Supabase dashboard).
+
 export const environment = {
-  production: false,
-  supabaseUrl: 'https://YOUR-PROJECT-REF.supabase.co',
-  supabaseAnonKey: 'YOUR-ANON-PUBLIC-KEY',
+  supabaseUrl: 'https://bzkyltrvfegwlugzsuhf.supabase.co',
+  supabaseAnonKey: 'sb_publishable_eKp0QXj8G4TySsIVsT-bqw_Y0DXb_pp',
 };

@@ -13,63 +13,71 @@
 
     <nav class="algo-header__breadcrumb text-body-medium" aria-label="Breadcrumb">
       @for (item of breadcrumbs; track item.label; let last = $last) {
-        @if (!last) {
-          <a [routerLink]="item.route" class="algo-header__breadcrumb-link">{{ item.label }}</a>
-          <span class="algo-header__breadcrumb-separator">/</span>
-        } @else {
-          <span class="algo-header__breadcrumb-current">{{ item.label }}</span>
-        }
+      @if (!last) {
+      <a [routerLink]="item.route" class="algo-header__breadcrumb-link">{{ item.label }}</a>
+      <span class="algo-header__breadcrumb-separator">/</span>
+      } @else {
+      <span class="algo-header__breadcrumb-current">{{ item.label }}</span>
+      }
       }
     </nav>
   </div>
 
   @if (centerNavLinks.length) {
-    <nav class="algo-header__center text-label-medium" aria-label="Section navigation">
-      @for (link of centerNavLinks; track link.targetId) {
-        <button type="button" class="algo-header__center-link" (click)="scrollToSection(link.targetId)">
-          {{ link.label }}
-        </button>
-      }
-    </nav>
+  <nav class="algo-header__center text-label-medium" aria-label="Section navigation">
+    @for (link of centerNavLinks; track link.targetId) {
+    <button type="button" class="algo-header__center-link" (click)="scrollToSection(link.targetId)">
+      {{ link.label }}
+    </button>
+    }
+  </nav>
   }
 
   <div class="algo-header__right">
     @if (showThemeToggle) {
-      <button
-        type="button"
-        class="algo-header__icon-button"
-        [attr.aria-label]="
+    <button type="button" class="algo-header__icon-button" [attr.aria-label]="
           themeMode === 'dark' ? ('header.themeToggle.toLight' | translate) : ('header.themeToggle.toDark' | translate)
-        "
-        (click)="themeToggle.emit()"
-      >
-        @if (themeMode === 'dark') {
-          <svg solarMoonLinear [size]="18"></svg>
-        } @else {
-          <svg solarSunLinear [size]="18"></svg>
-        }
-      </button>
+        " (click)="themeToggle.emit()">
+      @if (themeMode === 'dark') {
+      <svg solarMoonLinear [size]="18"></svg>
+      } @else {
+      <svg solarSunLinear [size]="18"></svg>
+      }
+    </button>
     }
 
     @if (showLanguageToggle) {
-      <button
-        type="button"
-        class="algo-header__icon-button algo-header__icon-button--language text-label-medium"
-        [attr.aria-label]="'header.language.ariaLabel' | translate"
-        (click)="languageToggle.emit()"
-      >
-        {{ currentLanguage === 'fa' ? 'FA' : 'EN' }}
-      </button>
+    <button type="button" class="algo-header__icon-button algo-header__icon-button--language text-label-medium"
+      [attr.aria-label]="'header.language.ariaLabel' | translate" (click)="languageToggle.emit()">
+      {{ currentLanguage === 'fa' ? 'FA' : 'EN' }}
+    </button>
     }
 
-    <button
-      type="button"
-      class="algo-header__icon-button"
-      [attr.aria-label]="'header.account.ariaLabel' | translate"
-      routerLink="/login"
-      (click)="accountClick.emit()"
-    >
+    @if (authService.currentUser(); as user) {
+    <div class="algo-header__account">
+      <button type="button" class="algo-header__account-button" [attr.aria-expanded]="isAccountMenuOpen"
+        (click)="toggleAccountMenu()">
+        <svg solarUserCircleLinear [size]="20"></svg>
+
+        <span class="algo-header__account-name">
+          {{ user.fullName }}
+        </span>
+      </button>
+
+      @if (isAccountMenuOpen) {
+      <div class="algo-header__account-menu">
+        <button type="button" class="algo-header__logout-button" (click)="logout()">
+          <span class="algo-header__logout-icon">↪</span>
+          <span>Log out</span>
+        </button>
+      </div>
+      }
+    </div>
+    } @else {
+    <button type="button" class="algo-header__icon-button" [attr.aria-label]="'header.account.ariaLabel' | translate"
+      routerLink="/login" (click)="accountClick.emit()">
       <svg solarUserCircleLinear [size]="20"></svg>
     </button>
+    }
   </div>
 </header>

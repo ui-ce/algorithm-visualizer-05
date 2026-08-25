@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { SolarMoonLinear, SolarSunLinear, SolarUserCircleLinear } from '@solar-icons/angular';
 import type { BreadcrumbItem } from './header-breadcrumb.type';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
+import { AuthService } from '../../core/services/auth.service';
 
 export interface HeaderNavLink {
   readonly label: string;
@@ -22,6 +23,13 @@ export interface HeaderNavLink {
   styleUrl: './header.scss',
 })
 export class AlgoHeader {
+
+  //constructor
+  public constructor(public readonly authService: AuthService) { }
+  
+  public isAccountMenuOpen = false;
+
+
   // Last item in the list is treated as the current page and renders as
   // plain text; every item before it is a working link.
   @Input()
@@ -64,5 +72,12 @@ export class AlgoHeader {
 
   protected scrollToSection(targetId: string): void {
     document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  protected toggleAccountMenu(): void {
+    this.isAccountMenuOpen = !this.isAccountMenuOpen;
+  }
+  protected async logout(): Promise<void> {
+    this.isAccountMenuOpen = false;
+    await this.authService.logout();
   }
 }

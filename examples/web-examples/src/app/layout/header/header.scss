@@ -156,6 +156,113 @@
     width: 20px;
     height: 20px;
   }
+
+  &__account {
+    position: relative;
+  }
+
+  &__account-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    min-height: 36px;
+    padding: 0 12px;
+
+    border-radius: 999px;
+    border: 1px solid var(--color-button-navigation-default);
+
+    background: none;
+    color: var(--color-button-navigation-on-default);
+
+    cursor: pointer;
+
+    transition:
+      border-color 0.15s ease,
+      color 0.15s ease,
+      background-color 0.15s ease;
+
+    &:hover {
+      border-color: var(--color-button-navigation-hover);
+      color: var(--color-button-navigation-on-hover);
+    }
+
+    &:active {
+      border-color: var(--color-button-navigation-pressed);
+      color: var(--color-button-navigation-on-pressed);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  &__account-name {
+    white-space: nowrap;
+  }
+
+  &__account-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    inset-inline-end: 0;
+
+    min-width: 150px;
+    padding: 6px;
+
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+
+    background: var(--color-background);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
+
+    z-index: 1000;
+  }
+
+  &__logout-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    width: 100%;
+    min-height: 36px;
+
+    padding: 8px 10px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: transparent;
+    color: #d64545;
+
+    cursor: pointer;
+    text-align: start;
+
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+
+    &:hover {
+      background: rgb(214 69 69 / 10%);
+    }
+
+    &:focus-visible {
+      outline: 2px solid #d64545;
+      outline-offset: 2px;
+    }
+  }
+
+  &__logout-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 20px;
+    height: 20px;
+
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 1024px) {
