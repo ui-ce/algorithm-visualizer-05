@@ -32,38 +32,58 @@
   pointer-events: none;
   animation: mini-demo-sparkle 3.6s ease-in infinite;
 
-  // Six sparkles spread around the ring's perimeter, each starting from
+  // Ten sparkles spread around the ring's perimeter, each starting from
   // a different edge point and staggered in time so they never all fire
   // together.
   &:nth-child(1) {
     top: -4px;
-    left: 12%;
+    left: 8%;
     animation-delay: 0s;
   }
   &:nth-child(2) {
-    top: 20%;
+    top: 8%;
     right: -4px;
-    animation-delay: 0.6s;
+    animation-delay: 0.4s;
   }
   &:nth-child(3) {
+    top: 34%;
+    right: -6px;
+    animation-delay: 0.8s;
+  }
+  &:nth-child(4) {
     bottom: 30%;
     right: -4px;
     animation-delay: 1.2s;
   }
-  &:nth-child(4) {
-    bottom: -4px;
-    right: 18%;
-    animation-delay: 1.8s;
-  }
   &:nth-child(5) {
     bottom: -4px;
-    left: 22%;
-    animation-delay: 2.4s;
+    right: 20%;
+    animation-delay: 1.6s;
   }
   &:nth-child(6) {
-    top: 40%;
+    bottom: -6px;
+    left: 42%;
+    animation-delay: 2s;
+  }
+  &:nth-child(7) {
+    bottom: -4px;
+    left: 14%;
+    animation-delay: 2.4s;
+  }
+  &:nth-child(8) {
+    bottom: 22%;
     left: -4px;
-    animation-delay: 3s;
+    animation-delay: 2.8s;
+  }
+  &:nth-child(9) {
+    top: 38%;
+    left: -6px;
+    animation-delay: 3.2s;
+  }
+  &:nth-child(10) {
+    top: 10%;
+    left: 44%;
+    animation-delay: 3.6s;
   }
 }
 
@@ -174,5 +194,40 @@
     justify-content: center;
     gap: 10px;
     flex-wrap: wrap;
+  }
+
+  &__legend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  &__legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-text-tertiary);
+    font-size: 0.75rem;
+  }
+
+  &__legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+
+    &--default {
+      background: var(--color-viz-default);
+    }
+    &--comparing {
+      background: var(--color-viz-comparing);
+    }
+    &--swapping {
+      background: var(--color-viz-swapping);
+    }
+    &--sorted {
+      background: var(--color-viz-sorted);
+    }
   }
 }

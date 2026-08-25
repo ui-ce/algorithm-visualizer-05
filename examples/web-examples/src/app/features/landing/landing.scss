@@ -1,35 +1,70 @@
-// ---------- Category field background animations ----------
-// These run continuously on the whole field's background (behind the
-// cards, low opacity) — not on a small icon next to the heading, and
-// not tied to hover. Deliberately slow/smooth so they read as ambient
-// texture rather than something competing for attention.
+// ---------- Shared sparkle utility ----------
+// Reused wherever a small celebratory accent fits: the Features "stars"
+// card, the Quiz panel, and the sign-up progress graphic. Host element
+// needs `position: relative; overflow: hidden`.
+.landing__sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-brand-accent);
+  box-shadow: 0 0 6px 1px var(--color-brand-accent);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+  animation: landing-sparkle-pop 3.6s ease-in infinite;
 
-@keyframes landing-field-drift {
-  from {
-    background-position: 0 0;
+  &:nth-child(1) {
+    top: 6%;
+    left: 10%;
+    animation-delay: 0s;
   }
-  to {
-    background-position: -400px 0;
+
+  &:nth-child(2) {
+    top: 14%;
+    left: 88%;
+    animation-delay: 0.6s;
+  }
+
+  &:nth-child(3) {
+    top: 80%;
+    left: 92%;
+    animation-delay: 1.2s;
+  }
+
+  &:nth-child(4) {
+    top: 90%;
+    left: 18%;
+    animation-delay: 1.8s;
+  }
+
+  &:nth-child(5) {
+    top: 58%;
+    left: 4%;
+    animation-delay: 2.4s;
+  }
+
+  &:nth-child(6) {
+    top: 32%;
+    left: 50%;
+    animation-delay: 3s;
   }
 }
 
-@keyframes landing-field-sweep {
-  0%,
-  100% {
-    background-position: 0% 50%;
+@keyframes landing-sparkle-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
   }
-  50% {
-    background-position: 100% 50%;
-  }
-}
 
-@keyframes landing-field-pulse {
-  0%,
-  100% {
-    opacity: 0.05;
+  15% {
+    opacity: 1;
+    transform: scale(1);
   }
-  50% {
-    opacity: 0.16;
+
+  100% {
+    opacity: 0;
+    transform: scale(0.2);
   }
 }
 
@@ -39,20 +74,16 @@
 .landing {
   display: flex;
   flex-direction: column;
+  background: var(--color-background);
 
-  // Bigger, heavier-weight body copy for marketing sections. Regular
-  // Body/Large (16px/400) reads fine inside the app's own UI, but next
-  // to big headlines on a landing page — especially in light mode,
-  // where thin weights lose contrast against the lighter surface
-  // tokens — it looked washed out. This stays on the same font family
-  // and uses --color-text-secondary (near-black in light mode, not the
+  // Color-only now — the actual type style (size/weight/line-height)
+  // comes from the shared .text-body-large-emphasized utility class
+  // (added in _typography.scss) applied alongside this in the template.
+  // Uses --color-text-secondary (near-black in light mode, not the
   // dimmer tertiary token) specifically to keep it readable in both
-  // themes.
+  // themes — regular-weight body copy at this size looked washed out
+  // against the lighter surface tokens in light mode otherwise.
   &__lead {
-    font-family: var(--font-family-base);
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-    font-weight: 500;
     color: var(--color-text-secondary);
   }
 
@@ -64,12 +95,12 @@
     margin-bottom: 48px;
   }
 
+  // Color-only — type style comes from .text-headline-large-emphasized
+  // (existing design-system class) applied alongside this in the
+  // template, so section titles use the same Headline/Large style as
+  // any other page header in the app rather than a one-off landing size.
   &__section-title {
     color: var(--color-text-primary);
-    font-family: var(--font-family-base);
-    font-size: 2.25rem;
-    line-height: 2.75rem;
-    font-weight: 800;
   }
 
   &__section-subtitle {
@@ -90,16 +121,7 @@
     // Fine geometric dot-grid, confined to the top-right corner via a
     // mask so it reads as a deliberate accent rather than noise across
     // the whole hero.
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(var(--color-border-strong) 1px, transparent 1px);
-      background-size: 28px 28px;
-      -webkit-mask-image: radial-gradient(ellipse 65% 65% at 85% 15%, black 0%, transparent 70%);
-      mask-image: radial-gradient(ellipse 65% 65% at 85% 15%, black 0%, transparent 70%);
-      pointer-events: none;
-    }
+
 
     &::after {
       content: '';
@@ -125,12 +147,11 @@
     max-width: 580px;
   }
 
+  // Color/margin only — type style comes from the new
+  // .text-display-large-emphasized utility class (see _typography.scss)
+  // applied alongside this in the template.
   &__hero-title {
     color: var(--color-text-primary);
-    font-family: var(--font-family-base);
-    font-size: 3.25rem;
-    line-height: 3.75rem;
-    font-weight: 800;
     margin: 0;
 
     &-highlight {
@@ -156,66 +177,34 @@
   }
 
   // ---------- 2. ALGORITHM PICKER ----------
+  // No background-color here — the whole page uses one consistent
+  // background (var(--color-background), set globally). An earlier
+  // version banded alternating sections with --color-surface, which is
+  // a visibly different (if close) shade and showed up as a seam
+  // against the rest of the page.
   &__picker {
     padding: 96px 64px;
-    background-color: var(--color-surface);
   }
 
   // Each category gets its own bordered container. The animation lives
-  // on the container's own background (::before, absolutely positioned,
-  // low opacity, slow) rather than a small icon next to the heading —
-  // it's meant to read as ambient texture behind the whole field, not a
-  // thing that blinks in the same spot forever.
+  // on the container's own background — a single subtle, static dot
+  // texture (same treatment as the hero's corner accent), confined to
+  // one corner. Deliberately not animated and not colored per category
+  // — a previous version cycled through semantic viz colors across the
+  // whole background, which read as "off"/uncanny rather than elegant.
   &__category-field {
-    position: relative;
-    overflow: hidden;
     padding: 36px;
     border-radius: 20px;
-    background: var(--color-surface-container);
+    background: var(--color-surface);
     border: 1px solid var(--color-border-default);
     margin-bottom: 32px;
 
     &:last-child {
       margin-bottom: 0;
     }
-
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0.08;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    &--sorting::before {
-      background-image: repeating-linear-gradient(
-        110deg,
-        var(--color-brand-primary) 0,
-        var(--color-brand-primary) 2px,
-        transparent 2px,
-        transparent 34px
-      );
-      background-size: 400px 100%;
-      animation: landing-field-drift 22s linear infinite;
-    }
-
-    &--searching::before {
-      background-image: radial-gradient(circle at 30% 40%, var(--color-brand-primary) 0%, transparent 45%);
-      background-size: 220% 220%;
-      animation: landing-field-sweep 16s ease-in-out infinite;
-    }
-
-    &--graph::before {
-      background-image: radial-gradient(var(--color-border-strong) 1.5px, transparent 1.5px);
-      background-size: 30px 30px;
-      animation: landing-field-pulse 10s ease-in-out infinite;
-    }
   }
 
   &__category-field-head {
-    position: relative;
-    z-index: 1;
     margin-bottom: 20px;
   }
 
@@ -223,46 +212,110 @@
     color: var(--color-text-primary);
   }
 
+  &__category-subtitle {
+    margin: 4px 0 0;
+    color: var(--color-text-secondary);
+  }
+
   // All cards for a category shown together, wrapping to as many rows
   // as needed — five Sorting algorithms, two Searching, four Graph, all
-  // visible at once, nothing hidden behind a slider.
+  // visible at once, nothing hidden behind a slider. Card styling itself
+  // lives in algo-picker-card.scss.
   &__category-cards {
-    position: relative;
-    z-index: 1;
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
   }
 
-  &__algo-card {
-    flex: 1 1 220px;
-    max-width: 280px;
+  // Sits alongside the real algorithm cards (see algo-picker-card) in
+  // the Searching field, which only has two real entries — without it,
+  // that field looked noticeably emptier than Sorting/Graph. Same
+  // footprint as a real card so the row lines up, but dashed and
+  // static so it visually reads as "not a real card" rather than a
+  // broken one.
+  &__missing-algo-card {
+    flex: 0 0 260px;
+    width: 260px;
+    min-height: 300px;
+    box-sizing: border-box;
+
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 20px;
-    border-radius: 16px;
-    background: var(--color-elevated-surface);
-    border: 1px solid var(--color-border-default);
-    transition: border-color 0.15s ease;
+    align-items: center;
+    justify-content: center;
+
+    padding: 28px 24px;
+    border-radius: 20px;
+
+    background: var(--color-surface-container);
+    border: 1px dashed var(--color-border-strong);
+
+    text-align: center;
+    color: var(--color-text-secondary);
+
+    transition:
+      border-color 180ms ease,
+      background-color 180ms ease,
+      transform 180ms ease;
 
     &:hover {
-      border-color: var(--color-border-strong);
+      border-color: var(--color-border-primary);
+      background: color-mix(in srgb,
+          var(--color-brand-primary) 5%,
+          var(--color-background));
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 1024px) {
+      flex: 1 1 100%;
+      width: 100%;
     }
   }
 
-  &__algo-card-name {
-    color: var(--color-text-primary);
-    font-weight: 600;
+  &__missing-algo-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
   }
 
-  &__algo-card-desc {
+  &__missing-algo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+    margin-bottom: 4px;
+
+    border-radius: 50%;
+    border: 1px solid var(--color-border-primary);
+
+    background: color-mix(in srgb,
+        var(--color-brand-primary) 10%,
+        var(--color-background));
+
+    color: var(--color-brand-primary);
+
+    font-family: var(--font-family-base);
+    font-size: 1.25rem;
+    font-weight: 800;
+  }
+
+  &__missing-algo-title {
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+
+  &__missing-algo-desc {
+    margin: 0;
+    max-width: 220px;
     color: var(--color-text-secondary);
-    flex: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  }
+
+  &__missing-algo-content algo-button {
+    margin-top: 10px;
   }
 
   // ---------- 3. FEATURES ----------
@@ -294,6 +347,12 @@
     }
 
     &--accent {
+      position: relative;
+      overflow: hidden;
+      align-items: center;
+      text-align: center;
+      gap: 14px;
+      padding-block: 32px;
       background: color-mix(in srgb, var(--color-brand-primary) 12%, var(--color-surface-container));
       border-color: var(--color-border-primary);
     }
@@ -308,20 +367,30 @@
   }
 
   &__feature-stars {
-    font-size: 1.25rem;
-    color: var(--color-test-summary-xp);
-    letter-spacing: 4px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 6px;
   }
 
-  &__feature-card--accent {
-    align-items: center;
-    text-align: center;
+  &__feature-star {
+    font-size: 1.75rem;
+    line-height: 1;
+    color: var(--color-test-summary-xp);
+    text-shadow: 0 0 20px currentColor;
+    opacity: 0.75;
+
+    &--mid {
+      font-size: 2.5rem;
+      opacity: 1;
+    }
   }
 
   // ---------- 3.5 PRODUCT TOUR ----------
   &__tour {
     padding: 96px 64px;
-    background-color: var(--color-surface);
   }
 
   &__tour-list {
@@ -348,11 +417,9 @@
     aspect-ratio: 16 / 10;
     border-radius: 16px;
     background-color: var(--color-elevated-surface);
-    background-image: linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--color-brand-primary) 18%, var(--color-elevated-surface)) 0%,
-      color-mix(in srgb, var(--color-brand-accent) 12%, var(--color-elevated-surface)) 100%
-    );
+    background-image: linear-gradient(135deg,
+        color-mix(in srgb, var(--color-brand-primary) 18%, var(--color-elevated-surface)) 0%,
+        color-mix(in srgb, var(--color-brand-accent) 12%, var(--color-elevated-surface)) 100%);
     background-size: cover;
     background-position: center;
     border: 1px solid var(--color-border-default);
@@ -406,7 +473,13 @@
     gap: 64px;
     padding: 64px;
     border-radius: 28px;
-    background: var(--color-surface-container);
+    // Matches the page's own background exactly — not
+    // --color-surface-container, which is a visibly different shade and
+    // was showing up as a distinct rectangle against the rest of the
+    // page. The border + corner glow below are what set this section
+    // apart, not a flat color change; the site's background color
+    // itself should never shift between sections.
+    background: var(--color-background);
     border: 1px solid var(--color-border-default);
     overflow: hidden;
 
@@ -494,11 +567,9 @@
     aspect-ratio: 16 / 11;
     border-radius: 18px;
     background-color: var(--color-elevated-surface);
-    background-image: linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--color-brand-primary) 22%, var(--color-elevated-surface)) 0%,
-      color-mix(in srgb, var(--color-brand-accent) 14%, var(--color-elevated-surface)) 100%
-    );
+    background-image: linear-gradient(135deg,
+        color-mix(in srgb, var(--color-brand-primary) 22%, var(--color-elevated-surface)) 0%,
+        color-mix(in srgb, var(--color-brand-accent) 14%, var(--color-elevated-surface)) 100%);
     background-size: cover;
     background-position: center;
     border: 1px solid var(--color-border-default);
@@ -509,7 +580,6 @@
   // ---------- 4. BATTLE / COMPARISON ----------
   &__battle {
     padding: 96px 64px;
-    background-color: var(--color-surface);
   }
 
   &__battle-arena {
@@ -594,77 +664,105 @@
   }
 
   // ---------- 5. SIGN-UP ----------
-  // Deliberately not a bordered/backgrounded card — every other section
-  // on the page is plain content on the page background, and the
-  // sign-up section should read the same way, not like a separate
-  // "promo box" dropped at the end.
+  // Now a centered banner using the exact same panel language as the
+  // Quiz Spotlight section above it: bordered, a soft corner glow, and
+  // background set to var(--color-background) — never a different
+  // shade like --color-surface-container, which would show up as a
+  // visibly mismatched rectangle against the rest of the page.
   &__signup {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 48px;
     padding: 40px 64px 96px;
   }
 
-  &__signup-copy {
+  &__signup-panel {
+    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-    max-width: 460px;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px;
+    border-radius: 28px;
+    background: var(--color-background);
+    border: 1px solid var(--color-border-default);
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -35%;
+      inset-inline-start: -12%;
+      width: 440px;
+      height: 440px;
+      border-radius: 50%;
+      background: var(--gradient-brand);
+      opacity: 0.16;
+      filter: blur(90px);
+      pointer-events: none;
+    }
   }
 
+  &__signup-panel>* {
+    position: relative;
+    z-index: 1;
+  }
+
+  // A circular progress ring that fills up and resolves into a star —
+  // literally depicting "progress", instead of a generic decoration.
+  // Sparkles (shared utility, see top of file) burst around it as it
+  // completes each loop. Sits above the title now instead of beside it,
+  // matching the panel's centered layout.
   &__signup-graphic {
+    position: relative;
     display: flex;
-    align-items: flex-end;
-    gap: 14px;
-    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 140px;
+    margin-bottom: 8px;
+    overflow: visible;
   }
 
-  // A small, always-looping mini sort — same visual language as the
-  // hero demo and the category fields — instead of a generic floating
-  // decoration. Five bars that continuously bubble-sort themselves.
-  &__signup-graphic {
-    display: flex;
-    align-items: flex-end;
-    gap: 8px;
-    height: 100px;
-    flex-shrink: 0;
-    direction: ltr;
+  &__progress-ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg); // start the fill from the top
   }
 
-  &__signup-bar {
-    width: 22px;
-    border-radius: 6px 6px 3px 3px;
-    background: var(--color-brand-primary);
-    animation: landing-signup-sort 3.6s ease-in-out infinite;
+  &__progress-ring-track {
+    fill: none;
+    stroke: var(--color-border-default);
+    stroke-width: 8;
+  }
 
-    &:nth-child(1) {
-      height: 45%;
-      animation-delay: 0s;
-    }
-    &:nth-child(2) {
-      height: 75%;
-      animation-delay: 0.15s;
-    }
-    &:nth-child(3) {
-      height: 30%;
-      animation-delay: 0.3s;
-    }
-    &:nth-child(4) {
-      height: 95%;
-      animation-delay: 0.45s;
-    }
-    &:nth-child(5) {
-      height: 60%;
-      animation-delay: 0.6s;
-    }
+  &__progress-ring-fill {
+    fill: none;
+    stroke: var(--color-brand-primary);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 327; // 2 * π * 52
+    stroke-dashoffset: 327;
+    animation: landing-progress-fill 4.5s ease-in-out infinite;
+  }
+
+  &__progress-star {
+    position: relative;
+    z-index: 1;
+    font-size: 2.25rem;
+    color: var(--color-test-summary-xp);
+    text-shadow: 0 0 20px currentColor;
+    opacity: 0;
+    transform: scale(0.6);
+    animation: landing-progress-star 4.5s ease-in-out infinite;
   }
 
   &__signup-actions {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 14px;
     margin-top: 8px;
   }
@@ -679,19 +777,40 @@
   }
 }
 
-@keyframes landing-signup-sort {
-  0%,
-  100% {
-    background: var(--color-brand-primary);
-    transform: translateY(0);
+@keyframes landing-progress-fill {
+  0% {
+    stroke-dashoffset: 327;
+    stroke: var(--color-brand-primary);
   }
-  40% {
-    background: var(--color-viz-comparing);
-    transform: translateY(-6px);
-  }
+
   70% {
-    background: var(--color-viz-sorted);
-    transform: translateY(0);
+    stroke-dashoffset: 0;
+    stroke: var(--color-viz-sorted);
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    stroke: var(--color-viz-sorted);
+  }
+}
+
+@keyframes landing-progress-star {
+
+  0%,
+  62% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  75% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+
+  90%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -728,22 +847,12 @@
       padding-inline: 24px;
     }
 
-    &__signup {
-      flex-direction: column;
-      text-align: center;
-    }
-
-    &__signup-copy {
-      align-items: center;
+    &__signup-panel {
+      padding: 40px 28px;
     }
 
     &__quiz {
       padding-inline: 24px;
-    }
-
-    &__algo-card {
-      flex: 1 1 100%;
-      max-width: none;
     }
 
     &__feature-grid {

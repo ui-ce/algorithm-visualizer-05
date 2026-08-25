@@ -30,13 +30,13 @@ interface Step {
 // while testing. Ten bars: wide enough to feel like a real dataset.
 const INITIAL_VALUES: readonly number[] = [62, 28, 95, 47, 73, 15, 88, 34, 56, 8];
 
-// Each bar keeps its own color as it moves through swaps (the color
-// travels with the value, like a real element being tracked through the
-// sort), cycling through this palette by starting index. Deliberately
-// avoids orange/red/green — those are reserved for the
-// comparing/swapping/sorted highlight states below, so a bar's "resting"
-// color never gets confused with what the algorithm is doing to it.
-const BAR_PALETTE: readonly string[] = ['#6A45D8', '#886AE0', '#A68FE8', '#3B82F6', '#638CE2', '#F1C21B'];
+// Every bar uses the same resting color: the project's actual
+// "default" bar token, the same color a bar shows at rest on the real
+// practice page — not brand purple. Referencing the CSS custom property
+// directly (rather than a hardcoded hex) means this automatically stays
+// correct if that token's value ever changes, and it resolves at
+// render time via the inline [style.background] binding in the template.
+const DEFAULT_BAR_COLOR = 'var(--color-viz-default)';
 
 const STEP_DURATION_MS = 700;
 const AUTOPLAY_DELAY_MS = 500;
@@ -89,9 +89,9 @@ export class MiniSortDemo implements OnInit, OnDestroy {
   private _autoplayTimeoutId?: ReturnType<typeof setTimeout>;
 
   private static _freshBars(): Bar[] {
-    return INITIAL_VALUES.map((value, i) => ({
+    return INITIAL_VALUES.map((value) => ({
       value,
-      color: BAR_PALETTE[i % BAR_PALETTE.length],
+      color: DEFAULT_BAR_COLOR,
       state: 'default' as BarState,
     }));
   }
@@ -222,7 +222,7 @@ export class MiniSortDemo implements OnInit, OnDestroy {
   // comparison sits at targetIndex, matching what _applyStep would show
   // if played forward to that point.
   private _renderAtStep(targetIndex: number): void {
-    const arr = INITIAL_VALUES.map((value, i) => ({ value, color: BAR_PALETTE[i % BAR_PALETTE.length] }));
+    const arr = INITIAL_VALUES.map((value) => ({ value, color: DEFAULT_BAR_COLOR }));
     const sortedIndices = new Set<number>();
 
     for (let s = 0; s < targetIndex; s++) {

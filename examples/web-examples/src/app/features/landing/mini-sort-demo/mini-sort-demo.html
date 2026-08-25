@@ -11,6 +11,10 @@
   <span class="mini-demo-frame__sparkle" aria-hidden="true"></span>
   <span class="mini-demo-frame__sparkle" aria-hidden="true"></span>
   <span class="mini-demo-frame__sparkle" aria-hidden="true"></span>
+  <span class="mini-demo-frame__sparkle" aria-hidden="true"></span>
+  <span class="mini-demo-frame__sparkle" aria-hidden="true"></span>
+  <span class="mini-demo-frame__sparkle" aria-hidden="true"></span>
+  <span class="mini-demo-frame__sparkle" aria-hidden="true"></span>
 
   <div class="mini-demo">
     <div class="mini-demo__head">
@@ -51,6 +55,25 @@
       <algo-button variant="navigation" [text]="'practice.nav.again' | translate" [hasRightIcon]="true" (click)="reset()">
         <svg right-icon solarRestartLinear [size]="16"></svg>
       </algo-button>
+    </div>
+
+    <div class="mini-demo__legend">
+      <span class="mini-demo__legend-item">
+        <span class="mini-demo__legend-dot mini-demo__legend-dot--default"></span>
+        {{ 'landing.hero.demo.legend.default' | translate }}
+      </span>
+      <span class="mini-demo__legend-item">
+        <span class="mini-demo__legend-dot mini-demo__legend-dot--comparing"></span>
+        {{ 'landing.hero.demo.legend.comparing' | translate }}
+      </span>
+      <span class="mini-demo__legend-item">
+        <span class="mini-demo__legend-dot mini-demo__legend-dot--swapping"></span>
+        {{ 'landing.hero.demo.legend.swapping' | translate }}
+      </span>
+      <span class="mini-demo__legend-item">
+        <span class="mini-demo__legend-dot mini-demo__legend-dot--sorted"></span>
+        {{ 'landing.hero.demo.legend.sorted' | translate }}
+      </span>
     </div>
   </div>
 </div>

@@ -3,28 +3,31 @@ import { Router, RouterLink } from '@angular/router';
 import { AlgoHeader, type HeaderNavLink } from '../../layout/header/header';
 import { AlgoFooter } from '../../layout/footer/footer';
 import { AlgoButton } from '../../design-system/button/button';
+import { AlgoPickerCard } from './algo-picker-card/algo-picker-card';
 import { MiniSortDemo } from './mini-sort-demo/mini-sort-demo';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { translate } from '../../core/i18n/translations';
 import { ThemeService } from '../../core/services/theme.service';
 import { LanguageService } from '../../core/services/language.service';
+// NOTE: this file lives at src/app/features/landing/landing.ts, so
+// reaching home/ (under components/, a sibling of features/, not of
+// landing/) needs an extra '../' compared to when landing.ts used to
+// live at src/app/components/landing/landing.ts.
 import type { AlgorithmData } from '../../components/home/models/algorithm-data.type';
 
-type AlgorithmCategory = 'sorting' | 'searching' | 'graph';
+export type AlgorithmCategory = 'sorting' | 'searching' | 'graph';
 
-interface LandingAlgorithm extends AlgorithmData {
+export interface LandingAlgorithm extends AlgorithmData {
   readonly category: AlgorithmCategory;
 }
 
 // Reuses the exact translation keys already defined in home.translation.ts
 // (home.algorithm.*) so algorithm names/descriptions stay in sync with the
 // existing /home grid instead of forking into a second copy that could
-// drift out of translation.
-//
-// Revision note (round 4): dropped the per-algorithm `visualVariant`
-// field from round 3 — the animation now happens once at the category
-// level (see .landing__category-anim in landing.scss), not per card, so
-// there's nothing left for individual algorithms to configure here.
+// drift out of translation. Only `category` is added here — the card's
+// icon and hover reveal are keyed off category now (bars for
+// sorting/searching, a small tree for graph), not a per-algorithm
+// variant, matching the reference design.
 const ALGORITHMS: LandingAlgorithm[] = [
   {
     nameKey: 'home.algorithm.bubbleSort.name',
@@ -119,10 +122,7 @@ const ALGORITHMS: LandingAlgorithm[] = [
 // Product tour cards (section 3.5, between Features and the Battle
 // section). `image` is a filename under public/screenshots/ — this
 // project serves static files straight from the top-level `public/`
-// folder (see angular.json's assets glob), not `src/assets/`, so the
-// path is just `screenshots/<file>` with no `assets/` prefix — same
-// convention already used by algorithm-data.type's `imgUrl` field
-// elsewhere in the app (e.g. 'bubble-sort.jpg', not '/assets/bubble-sort.jpg').
+// folder (see angular.json's assets glob), not `src/assets/`.
 interface TourItem {
   readonly titleKey: string;
   readonly descriptionKey: string;
@@ -153,7 +153,7 @@ const TOUR_ITEMS: TourItem[] = [
 
 @Component({
   selector: 'algo-landing',
-  imports: [AlgoHeader, AlgoFooter, AlgoButton, MiniSortDemo, TranslatePipe, RouterLink],
+  imports: [AlgoHeader, AlgoFooter, AlgoButton, AlgoPickerCard, MiniSortDemo, TranslatePipe, RouterLink],
   templateUrl: './landing.html',
   styleUrl: './landing.scss',
 })
@@ -182,10 +182,6 @@ export class Landing {
       { label: translate('landing.nav.quiz', lang), targetId: 'landing-quiz' },
       { label: translate('landing.nav.compare', lang), targetId: 'landing-battle' },
     ];
-  }
-
-  protected goToAlgorithm(algorithm: AlgorithmData): void {
-    this._router.navigateByUrl(`/${algorithm.route}`);
   }
 
   protected goToRoute(route: string): void {

@@ -4,15 +4,16 @@ import type { TranslationDictionary } from './translations.type';
 // name/class/description keys are intentionally NOT duplicated here —
 // the landing page's algorithm picker section reuses the existing
 // `home.algorithm.*` keys from home.translation.ts so both places stay
-// in sync from one source. The mini-demo's reset button also reuses
-// `practice.nav.again` from practice.translation.ts rather than having
-// its own key, so it reads identically to the real practice controls.
+// in sync from one source. The mini-demo's Prev/Next/Again buttons also
+// reuse `practice.nav.*` from practice.translation.ts rather than having
+// their own keys, so they read identically to the real practice controls.
 //
-// Revision note (round 3): rewrote the marketing copy to talk to the
-// visitor as someone capable, not someone struggling ("Interactive
-// visualizations... to help you truly understand" instead of "for a
-// lot of students who find X hard"). Also removed a line that was
-// actually a note to the developer, not real site copy.
+// This file has gone through several revisions — if you're comparing
+// against an older copy of this file elsewhere in the project, this one
+// is current: no "eyebrow" kicker keys (removed), no numbered feature
+// titles (numbers live in the template's decorative badge only), and it
+// includes the header center-nav, product tour, quiz spotlight, and
+// sign-up keys that a very first draft of this file didn't have yet.
 export const LANDING_TRANSLATIONS: TranslationDictionary = {
   // Header center section-nav
   'landing.nav.algorithms': { fa: 'الگوریتم‌ها', en: 'Algorithms' },
@@ -32,6 +33,10 @@ export const LANDING_TRANSLATIONS: TranslationDictionary = {
   'landing.hero.cta.watch': { fa: 'ببین چطور کار می‌کنه', en: 'See it in action' },
   'landing.hero.demo.label': { fa: 'مرتب‌سازی حبابی — زنده', en: 'Bubble Sort — live' },
   'landing.hero.demo.sorted': { fa: 'مرتب شد ✓', en: 'Sorted ✓' },
+  'landing.hero.demo.legend.default': { fa: 'عادی', en: 'Default' },
+  'landing.hero.demo.legend.comparing': { fa: 'مقایسه', en: 'Comparing' },
+  'landing.hero.demo.legend.swapping': { fa: 'جابه‌جایی', en: 'Swapping' },
+  'landing.hero.demo.legend.sorted': { fa: 'مرتب‌شده', en: 'Sorted' },
 
   // Algorithm picker section
   'landing.picker.title': { fa: 'الگوریتمت رو انتخاب کن', en: 'Pick your algorithm' },
@@ -40,8 +45,34 @@ export const LANDING_TRANSLATIONS: TranslationDictionary = {
     en: 'See it move before you dive in — then jump straight into real practice.',
   },
   'landing.picker.category.sorting': { fa: 'مرتب‌سازی', en: 'Sorting' },
+  'landing.picker.category.sorting.subtitle': {
+    fa: 'الگوریتم‌هایی برای چیدن داده به ترتیب.',
+    en: 'Explore different sorting algorithms and how they work.',
+  },
   'landing.picker.category.searching': { fa: 'جست‌وجو', en: 'Searching' },
+  'landing.picker.category.searching.subtitle': {
+    fa: 'پیدا کردن یه مقدار مشخص توی داده.',
+    en: 'Explore different searching algorithms and how they work.',
+  },
   'landing.picker.category.graph': { fa: 'گراف و مسیریابی', en: 'Graph & Pathfinding' },
+  'landing.picker.category.graph.subtitle': {
+    fa: 'پیمایش و پیدا کردن مسیر بین نودها.',
+    en: 'Explore different graph and pathfinding algorithms and how they work.',
+  },
+  // Card CTA in the new reference-matched card design (algo-picker-card).
+  // Kept separate from 'landing.tour.cta' ("Try it") since that key is
+  // still used by the Product Tour section's buttons — the two read
+  // fine with different wording in their own contexts.
+  'landing.picker.cta': { fa: 'کاوش کن', en: 'Explore' },
+  'landing.picker.missing.title': { fa: 'دنبال یه الگوریتم دیگه‌ای؟', en: "Looking for another one?" },
+  'landing.picker.missing.description': {
+    fa: 'بهمون بگو دنبال کدوم الگوریتمی می‌گشتی که پیداش نکردی — سریع‌تر اضافه‌اش می‌کنیم.',
+    en: "Tell us which algorithm you couldn't find — we'll get it added faster.",
+  },
+  'landing.picker.missing.cta': {
+    fa: 'درخواست الگوریتم',
+    en: 'Request an algorithm',
+  },
 
   // Features / learning journey — numbers now live only in the big
   // decorative numeral badge in the template, not duplicated in the text.
@@ -71,11 +102,7 @@ export const LANDING_TRANSLATIONS: TranslationDictionary = {
     en: 'Earn up to 3 stars per algorithm — a simple way to see what still needs review.',
   },
 
-  // Product tour — mockup frames for Learn / Practice / Test. `image`
-  // filenames are referenced from landing.ts; drop real screenshots at
-  // src/assets/screenshots/<file> and they render automatically — until
-  // then the frame still looks intentional (gradient placeholder, not a
-  // broken image icon).
+  // Product tour — mockup frames for Learn / Practice / Test.
   'landing.tour.title': { fa: 'محیط واقعی رو ببین', en: 'See the real thing' },
   'landing.tour.subtitle': {
     fa: 'همون چیزی که خوندی، همین‌جا واقعاً داره اجرا می‌شه.',
@@ -133,10 +160,7 @@ export const LANDING_TRANSLATIONS: TranslationDictionary = {
   'landing.battle.right.item4': { fa: 'کنترل کامل روی سرعت و مراحل', en: 'Full control over speed and steps' },
   'landing.battle.vs': { fa: 'مقابل', en: 'VS' },
 
-  // Sign-up section (replaces the old generic "go to algorithms" final
-  // CTA — that destination is already covered by the picker section
-  // above, so the last thing on the page is the one CTA that isn't
-  // covered anywhere else: creating an account).
+  // Sign-up section
   'landing.signup.title': { fa: 'پیشرفتت گم نشه', en: 'Never lose your progress' },
   'landing.signup.subtitle': {
     fa: 'با ساختن حساب کاربری، ستاره‌ها و نتیجه آزمون‌هات همیشه همون‌جا می‌مونن که ولش کردی.',
