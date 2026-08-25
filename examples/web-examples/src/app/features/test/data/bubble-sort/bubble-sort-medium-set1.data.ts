@@ -1,4 +1,4 @@
-import type { TestQuestion } from '../models/test.types';
+import type { TestQuestion } from '../../models/test.types';
 
 // Set 1 / Medium for Bubble Sort. Mixes execution (predict-the-next-step)
 // with analytical/conceptual questions, matching the "Medium — Mixed"

@@ -1,4 +1,4 @@
-import type { TestQuestion } from '../models/test.types';
+import type { TestQuestion } from '../../models/test.types';
 
 export const BUBBLE_SORT_EASY_SET_2: TestQuestion[] = [
   {

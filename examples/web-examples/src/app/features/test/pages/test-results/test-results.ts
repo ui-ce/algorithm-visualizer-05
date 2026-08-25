@@ -25,10 +25,16 @@ const FAIL_SENTENCES = [
 
 const ALGORITHM_DISPLAY_NAMES: Record<string, string> = {
   'bubble-sort': 'Bubble Sort',
+  'selection-sort': 'Selection Sort',
+  'insertion-sort': 'Insertion Sort',
+  'quick-sort': 'Quick Sort',
   'merge-sort': 'Merge Sort',
+  'linear-search': 'Linear Search',
   'binary-search': 'Binary Search',
-  dijkstra: 'Dijkstra',
-  dfs: 'DFS',
+  'dijkstra': 'Dijkstra',
+  'dfs': 'DFS',
+  'bfs': 'BFS',
+  'a-star': 'A*'
 };
 
 // Human-readable label for the type-breakdown in "Performance Insight" —

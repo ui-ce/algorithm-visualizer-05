@@ -1,4 +1,4 @@
-import type { TestQuestion } from '../models/test.types';
+import type { TestQuestion } from '../../models/test.types';
 
 // Set 1 / Easy for Bubble Sort — content from the quiz-content pass,
 // reshaped into TestQuestion. frameIndex values were verified by

@@ -1,4 +1,4 @@
-import type { TestQuestion } from '../models/test.types';
+import type { TestQuestion } from '../../models/test.types';
 
 // Set 3 / Hard for Bubble Sort.
 //

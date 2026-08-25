@@ -5,6 +5,10 @@ import type { Animation, RendererMetadata } from '@algorithm-visualizer/typescri
 import { SolarSkipNextLinear } from '@solar-icons/angular';
 import { AlgoSegmentedButton } from '../../design-system/segmented-button/segmented-button';
 import { bubbleSortVisualization } from '../../algorithm/bubble-sort';
+import { selectionSortVisualization } from '../../algorithm/selection-sort';
+import { insertionSortVisualization } from '../../algorithm/insertion-sort';
+import { quickSortVisualization } from '../../algorithm/quick-sort';
+import { mergeSortVisualization } from '../../algorithm/merge-sort';
 import { AlgoHeader } from '../../layout/header/header';
 import type { BreadcrumbItem } from '../../layout/header/header-breadcrumb.type';
 import { QuestionSidebar, type QuestionSidebarEntry } from './components/question-sidebar/question-sidebar';
@@ -50,10 +54,16 @@ const PASS_THRESHOLD = 0.7;
 
 const ALGORITHM_DISPLAY_NAMES: Record<string, string> = {
   'bubble-sort': 'Bubble Sort',
+  'selection-sort': 'Selection Sort',
+  'insertion-sort': 'Insertion Sort',
+  'quick-sort': 'Quick Sort',
   'merge-sort': 'Merge Sort',
+  'linear-search': 'Linear Search',
   'binary-search': 'Binary Search',
-  dijkstra: 'Dijkstra',
-  dfs: 'DFS',
+  'dijkstra': 'Dijkstra',
+  'dfs': 'DFS',
+  'bfs' : 'BFS',
+  'a-star' : 'A*'
 };
 
 @Component({
@@ -137,10 +147,29 @@ export class Test {
 
     for (const question of this.questions) {
       if (question.type !== 'execution' || !question.visualization) continue;
-      const recording = bubbleSortVisualization([...question.visualization.inputArray]);
+      const recording = this.buildExecutionRecording([...question.visualization.inputArray]);
       const animation = new FramerEngine().getAnimation(recording);
       const rendererMetadata: RendererMetadata = { objectMetaData: [CHART_METADATA_ENTRY] };
       this.executionCache.set(question.id, { animation, rendererMetadata });
+    }
+  }
+
+  // Same per-algorithm recorder dispatch Practice uses (see practice.ts's
+  // buildArraySortRecording) — every execution-type question in the
+  // question bank names an array-sorting algorithm, so this only needs
+  // to grow in lockstep with which algorithms get real TEST_QUESTION_BANK
+  // entries. Was hardcoded to bubbleSortVisualization for every
+  // algorithm, which produced the wrong animation frames the moment a
+  // non-Bubble-Sort question set existed.
+  private buildExecutionRecording(array: number[]) {
+    switch (this.algorithmId) {
+      //add others
+      case 'selection-sort':
+        return selectionSortVisualization(array);
+      case 'bubble-sort':
+        return bubbleSortVisualization(array);
+      default:
+        return bubbleSortVisualization(array);
     }
   }
 

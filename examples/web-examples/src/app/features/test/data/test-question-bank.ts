@@ -1,14 +1,23 @@
 import type { TestDifficulty, TestQuestion } from '../models/test.types';
 import type { LevelCardData, SetRowData } from '../components/level-card/level-card.types';
-import { BUBBLE_SORT_EASY_SET_1 } from './bubble-sort-easy-set1.data';
-import { BUBBLE_SORT_EASY_SET_2 } from './bubble-sort-easy-set2.data';
-import { BUBBLE_SORT_EASY_SET_3 } from './bubble-sort-easy-set3.data';
-import { BUBBLE_SORT_MEDIUM_SET_1 } from './bubble-sort-medium-set1.data';
-import { BUBBLE_SORT_MEDIUM_SET_2 } from './bubble-sort-medium-set2.data';
-import { BUBBLE_SORT_MEDIUM_SET_3 } from './bubble-sort-medium-set3.data';
-import { BUBBLE_SORT_HARD_SET_1 } from './bubble-sort-hard-set1.data';
-import { BUBBLE_SORT_HARD_SET_2 } from './bubble-sort-hard-set2.data';
-import { BUBBLE_SORT_HARD_SET_3 } from './bubble-sort-hard-set3.data';
+import { BUBBLE_SORT_EASY_SET_1 } from './bubble-sort/bubble-sort-easy-set1.data';
+import { BUBBLE_SORT_EASY_SET_2 } from './bubble-sort/bubble-sort-easy-set2.data';
+import { BUBBLE_SORT_EASY_SET_3 } from './bubble-sort/bubble-sort-easy-set3.data';
+import { BUBBLE_SORT_MEDIUM_SET_1 } from './bubble-sort/bubble-sort-medium-set1.data';
+import { BUBBLE_SORT_MEDIUM_SET_2 } from './bubble-sort/bubble-sort-medium-set2.data';
+import { BUBBLE_SORT_MEDIUM_SET_3 } from './bubble-sort/bubble-sort-medium-set3.data';
+import { BUBBLE_SORT_HARD_SET_1 } from './bubble-sort/bubble-sort-hard-set1.data';
+import { BUBBLE_SORT_HARD_SET_2 } from './bubble-sort/bubble-sort-hard-set2.data';
+import { BUBBLE_SORT_HARD_SET_3 } from './bubble-sort/bubble-sort-hard-set3.data';
+import { SELECTION_SORT_EASY_SET_1 } from './selection-sort/selection-sort-easy-set1.data';
+import { SELECTION_SORT_EASY_SET_2 } from './selection-sort/selection-sort-easy-set2.data';
+import { SELECTION_SORT_EASY_SET_3 } from './selection-sort/selection-sort-easy-set3.data';
+import { SELECTION_SORT_MEDIUM_SET_1 } from './selection-sort/selection-sort-medium-set1.data';
+import { SELECTION_SORT_MEDIUM_SET_2 } from './selection-sort/selection-sort-medium-set2.data';
+import { SELECTION_SORT_MEDIUM_SET_3 } from './selection-sort/selection-sort-medium-set3.data';
+import { SELECTION_SORT_HARD_SET_1 } from './selection-sort/selection-sort-hard-set1.data';
+import { SELECTION_SORT_HARD_SET_2 } from './selection-sort/selection-sort-hard-set2.data';
+import { SELECTION_SORT_HARD_SET_3 } from './selection-sort/selection-sort-hard-set3.data';
 
 // Single source of truth for "which question set does algorithm +
 // difficulty + set number map to". Both TestPlan (level-select) and
@@ -20,8 +29,9 @@ import { BUBBLE_SORT_HARD_SET_3 } from './bubble-sort-hard-set3.data';
 // A missing algorithm entry means "no test content exists yet" — the
 // caller (practice.ts's onTabChange) is responsible for checking
 // isTestAvailable() BEFORE navigating here and showing the
-// not-available modal instead, so this map only ever needs to serve
-// Bubble Sort for now.
+// not-available modal instead. Adding an algorithm here is the only
+// step needed to light up its Test tab — practice.ts's gating already
+// reads isTestAvailable() generically, it doesn't hardcode 'bubble-sort'.
 export const TEST_QUESTION_BANK: Record<string, Partial<Record<TestDifficulty, Record<number, TestQuestion[]>>>> = {
   'bubble-sort': {
     easy: {
@@ -38,6 +48,23 @@ export const TEST_QUESTION_BANK: Record<string, Partial<Record<TestDifficulty, R
       1: BUBBLE_SORT_HARD_SET_1,
       2: BUBBLE_SORT_HARD_SET_2,
       3: BUBBLE_SORT_HARD_SET_3,
+    },
+  },
+  'selection-sort': {
+    easy: {
+      1: SELECTION_SORT_EASY_SET_1,
+      2: SELECTION_SORT_EASY_SET_2,
+      3: SELECTION_SORT_EASY_SET_3,
+    },
+    medium: {
+      1: SELECTION_SORT_MEDIUM_SET_1,
+      2: SELECTION_SORT_MEDIUM_SET_2,
+      3: SELECTION_SORT_MEDIUM_SET_3,
+    },
+    hard: {
+      1: SELECTION_SORT_HARD_SET_1,
+      2: SELECTION_SORT_HARD_SET_2,
+      3: SELECTION_SORT_HARD_SET_3,
     },
   },
 };
