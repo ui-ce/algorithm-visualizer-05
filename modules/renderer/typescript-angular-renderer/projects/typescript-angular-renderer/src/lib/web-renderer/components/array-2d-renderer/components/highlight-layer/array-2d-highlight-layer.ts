@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { toLocaleDigits } from '../../../../utils/locale-digits.util';
 
 @Component({
   selector: 'array-2d-highlight-layer',
@@ -12,4 +13,8 @@ export class Array2DHighlightLayer {
 
   @Input()
   public value: string;
+
+  protected formatDigits(value: string): string {
+    return toLocaleDigits(value);
+  }
 }

@@ -14,7 +14,7 @@
     <nav class="algo-header__breadcrumb text-body-medium" aria-label="Breadcrumb">
       @for (item of breadcrumbs; track item.label; let last = $last) {
       @if (!last) {
-      <a [routerLink]="item.route" class="algo-header__breadcrumb-link">{{ item.label }}</a>
+      <a [routerLink]="item.route" [fragment]="item.fragment" class="algo-header__breadcrumb-link">{{ item.label }}</a>
       <span class="algo-header__breadcrumb-separator">/</span>
       } @else {
       <span class="algo-header__breadcrumb-current">{{ item.label }}</span>

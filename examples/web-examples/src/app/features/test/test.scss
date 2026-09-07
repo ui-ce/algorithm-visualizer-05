@@ -26,19 +26,38 @@
   &__sidebar {
     flex-shrink: 0;
     align-self: stretch;
-    border-inline-end: 1px solid var(--color-border-default);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 12px;
   }
 
+  // &__main {
+  //   display: flex;
+  //   flex-direction: column;
+  //   flex: 1;
+  //   min-width: 0;
+  //   min-height: 0;
+  //   // Matches practice.scss's __content inline-end padding.
+  //   padding-inline-end: 24px;
+  //   padding-block-start: 0;
+  //   padding-block-end: 20px;
+  //   overflow: hidden;
+  //   background-color: var(--color-surface);
+  //   border: 1px solid var(--color-border-subtle);
+  // }
   &__main {
     display: flex;
     flex-direction: column;
     flex: 1;
     min-width: 0;
     min-height: 0;
-    // Matches practice.scss's __content inline-end padding.
-    padding-inline-end: 24px;
-    padding-block-start: 0;
-    padding-block-end: 20px;
+
+    padding: 16px 24px 20px;
+
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 12px;
+
     overflow: hidden;
   }
 
@@ -60,6 +79,11 @@
     flex: 1;
     min-height: 0;
     margin-top: 24px;
+    padding-inline: 24px;
+    padding-block: 12px;
+    border-radius: 12px;
+    background-color: var(--color-surface-container);
+    border: 1px solid var(--color-border-default);
     overflow-y: auto;
   }
 
@@ -90,6 +114,17 @@
     &:disabled {
       opacity: 0.6;
       cursor: default;
+    }
+
+    // The icon is a forward-pointing "skip next" arrow, which reads
+    // backwards once the surrounding text is right-to-left (the arrow
+    // should point the direction reading actually continues in). Mirror
+    // it whenever the page is Persian rather than reordering the icon
+    // in the template — this is a glyph-direction fix, not a layout
+    // reorder, and :host-context checks <html>'s dir attribute directly
+    // (see language.service.ts) without needing a class binding here.
+    :host-context([dir='rtl']) & svg {
+      transform: scaleX(-1);
     }
   }
 }

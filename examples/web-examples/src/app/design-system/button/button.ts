@@ -49,6 +49,19 @@ export class AlgoButton {
   @Input()
   public selected = false;
 
+  // Opt-in background override for the Navigation variant, which is
+  // transparent by default everywhere (Practice's Prev/Next/Again row).
+  // Some pages need it to pick up a surface color instead (Learn's own
+  // Prev/Next row, so the buttons read against the page rather than
+  // the drawer) without changing the variant's default anywhere else.
+  // Bound as an inline style rather than left to a CSS class override,
+  // since a plain class-selector override from outside this component
+  // has to out-specificity button.scss's own `.algo-button--navigation`
+  // rule — which is fragile and exactly what wasn't working before;
+  // an inline style always wins regardless of any class specificity.
+  @Input()
+  public backgroundColorVar: string | null = null;
+
   // Primary and Outline use Label/Medium/Medium. Navigation uses the
   // lighter Label/Medium/Regular. Both classes already exist in the
   // typography tokens file. 'large' buttons override font-size directly

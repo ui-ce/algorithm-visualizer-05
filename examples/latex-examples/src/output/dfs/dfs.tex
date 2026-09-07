@@ -1,41 +1,56 @@
 \documentclass{article}
 \usepackage{tikz}
+\usepackage{xcolor}
+\definecolor{vizDefault}{HTML}{9CA3AF}
+\definecolor{vizComparing}{HTML}{FFA768}
+\definecolor{vizSwapping}{HTML}{E14B53}
+\definecolor{vizSorted}{HTML}{5BF15D}
+\definecolor{vizActive}{HTML}{629BF8}
+\definecolor{vizExplored}{HTML}{7C4FDB}
+\definecolor{vizUpdated}{HTML}{E0A400}
 \usetikzlibrary{matrix}
 \usepackage[margin=1in]{geometry}
 \begin{document}
 % --- Frame 0 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping last node from stack}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizDefault, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizDefault, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0.8cm, -1cm);
-  \filldraw[fill=red!50] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \filldraw[fill=vizSwapping] (0cm,-0.8cm) rectangle (0.8cm,0cm);
   \node at (0.4cm,-0.4cm) {A};
 \end{tikzpicture}
 \end{center}
@@ -43,33 +58,40 @@
 % --- Frame 1 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Visiting node A.}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Node A hasn't been visited yet — marking it visited now.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=blue!60] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizExplored] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizDefault, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizDefault, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0cm, -1cm);
 \end{tikzpicture}
@@ -78,38 +100,45 @@
 % --- Frame 2 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Adding node A's neighbors to stack.}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Pushing node A's neighbors onto the stack to visit next.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=blue!60] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizDefault, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizDefault, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
-  \filldraw[fill=green!50] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \filldraw[fill=vizActive] (0cm,-0.8cm) rectangle (0.8cm,0cm);
   \node at (0.4cm,-0.4cm) {C};
-  \filldraw[fill=green!50] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \filldraw[fill=vizActive] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
   \node at (1.2000000000000002cm,-0.4cm) {B};
 \end{tikzpicture}
 \end{center}
@@ -117,38 +146,45 @@
 % --- Frame 3 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping last node from stack}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizDefault, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizDefault, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
-  \filldraw[fill=white] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \filldraw[fill=vizActive] (0cm,-0.8cm) rectangle (0.8cm,0cm);
   \node at (0.4cm,-0.4cm) {C};
-  \filldraw[fill=red!50] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \filldraw[fill=vizActive] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
   \node at (1.2000000000000002cm,-0.4cm) {B};
 \end{tikzpicture}
 \end{center}
@@ -156,553 +192,2486 @@
 % --- Frame 4 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Visiting node B.}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=blue!60] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizDefault, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizDefault, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
-  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0.8cm, -1cm);
-  \filldraw[fill=white] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
   \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {B};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 5 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Adding node B's neighbors to stack.}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=blue!60] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizDefault, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizDefault, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
-  \filldraw[fill=white] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
   \node at (0.4cm,-0.4cm) {C};
-  \filldraw[fill=green!50] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
-  \node at (1.2000000000000002cm,-0.4cm) {D};
+  \filldraw[fill=vizSwapping] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {B};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 6 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping last node from stack}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Node B hasn't been visited yet — marking it visited now.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizExplored] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizDefault, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
-  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
-  \filldraw[fill=white] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0.8cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
   \node at (0.4cm,-0.4cm) {C};
-  \filldraw[fill=red!50] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
-  \node at (1.2000000000000002cm,-0.4cm) {D};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 7 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Visiting node D.}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Pushing node B's neighbors onto the stack to visit next.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=blue!60] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizDefault, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
-  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0.8cm, -1cm);
-  \filldraw[fill=white] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (3.2cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
   \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizActive] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizActive] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {D};
+  \filldraw[fill=vizActive] (2.4000000000000004cm,-0.8cm) rectangle (3.2cm,0cm);
+  \node at (2.8000000000000003cm,-0.4cm) {A};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 8 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Adding node D's neighbors to stack.}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=blue!60] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizDefault, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
-  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0.8cm, -1cm);
-  \filldraw[fill=white] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (3.2cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
   \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizActive] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizActive] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {D};
+  \filldraw[fill=vizActive] (2.4000000000000004cm,-0.8cm) rectangle (3.2cm,0cm);
+  \node at (2.8000000000000003cm,-0.4cm) {A};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 9 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping last node from stack}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizDefault, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
-  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0.8cm, -1cm);
-  \filldraw[fill=red!50] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (3.2cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
   \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizDefault] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {D};
+  \filldraw[fill=vizDefault] (2.4000000000000004cm,-0.8cm) rectangle (3.2cm,0cm);
+  \node at (2.8000000000000003cm,-0.4cm) {A};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 10 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Visiting node C.}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=blue!60] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizDefault, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
-  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0cm, -1cm);
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (3.2cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizDefault] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {D};
+  \filldraw[fill=vizSwapping] (2.4000000000000004cm,-0.8cm) rectangle (3.2cm,0cm);
+  \node at (2.8000000000000003cm,-0.4cm) {A};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 11 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Adding node C's neighbors to stack.}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Node A was already visited — skipping it.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=blue!60] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizDefault, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
-  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
-  \filldraw[fill=green!50] (0cm,-0.8cm) rectangle (0.8cm,0cm);
-  \node at (0.4cm,-0.4cm) {F};
-  \filldraw[fill=green!50] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
   \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizDefault] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {D};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 12 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping last node from stack}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizDefault, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
-  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
-  \filldraw[fill=white] (0cm,-0.8cm) rectangle (0.8cm,0cm);
-  \node at (0.4cm,-0.4cm) {F};
-  \filldraw[fill=red!50] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
   \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizDefault] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {D};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 13 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Visiting node E.}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=blue!60] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizDefault, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
-  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0.8cm, -1cm);
-  \filldraw[fill=white] (0cm,-0.8cm) rectangle (0.8cm,0cm);
-  \node at (0.4cm,-0.4cm) {F};
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizDefault] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {D};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 14 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Adding node E's neighbors to stack.}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=blue!60] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizDefault, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
-  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0.8cm, -1cm);
-  \filldraw[fill=white] (0cm,-0.8cm) rectangle (0.8cm,0cm);
-  \node at (0.4cm,-0.4cm) {F};
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizSwapping] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {D};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 15 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping last node from stack}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Node D hasn't been visited yet — marking it visited now.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizExplored] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
-  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0.8cm, -1cm);
-  \filldraw[fill=red!50] (0cm,-0.8cm) rectangle (0.8cm,0cm);
-  \node at (0.4cm,-0.4cm) {F};
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 16 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Visiting node F.}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Pushing node D's neighbors onto the stack to visit next.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=blue!60] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
-  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0cm, -1cm);
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizActive] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {B};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 17 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Adding node F's neighbors to stack.}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=blue!60] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
-  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0cm, -1cm);
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizActive] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {B};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 18 ---
 \begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{End of DFS.}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Graph}\\[2mm]\end{flushleft}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
-  \node[circle, draw, minimum size=8mm, fill=white] (A) at (0.0:3cm) {A};
-  \node[circle, draw, minimum size=8mm, fill=white] (B) at (60.0:3cm) {B};
-  \node[circle, draw, minimum size=8mm, fill=white] (C) at (120.0:3cm) {C};
-  \node[circle, draw, minimum size=8mm, fill=white] (D) at (180.0:3cm) {D};
-  \node[circle, draw, minimum size=8mm, fill=white] (E) at (240.0:3cm) {E};
-  \node[circle, draw, minimum size=8mm, fill=white] (F) at (300.0:3cm) {F};
-  \draw[black, line width=1.2pt] (A) -- (B);
-  \draw[black, line width=1.2pt] (A) -- (C);
-  \draw[black, line width=1.2pt] (B) -- (D);
-  \draw[black, line width=1.2pt] (C) -- (E);
-  \draw[black, line width=1.2pt] (C) -- (F);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Stack}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizDefault] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {B};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 19 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizSwapping] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {B};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 20 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Node B was already visited — skipping it.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 21 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 22 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 23 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizDefault, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizSwapping] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 24 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Node E hasn't been visited yet — marking it visited now.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizExplored] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizDefault] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0.8cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 25 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Pushing node E's neighbors onto the stack to visit next.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizActive] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {F};
+  \filldraw[fill=vizActive] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {B};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 26 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizActive] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {F};
+  \filldraw[fill=vizActive] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {B};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 27 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {F};
+  \filldraw[fill=vizDefault] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {B};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 28 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {F};
+  \filldraw[fill=vizSwapping] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {B};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 29 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Node B was already visited — skipping it.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {F};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 30 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {F};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 31 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {F};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 32 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizSwapping] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {F};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 33 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Node F hasn't been visited yet — marking it visited now.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizExplored] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0.8cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 34 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Pushing node F's neighbors onto the stack to visit next.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizActive] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizActive] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {C};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 35 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizActive] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizActive] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {C};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 36 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizDefault] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {C};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 37 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizActive] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizDefault, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizSwapping] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {C};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 38 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Node C hasn't been visited yet — marking it visited now.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizExplored] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 39 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Pushing node C's neighbors onto the stack to visit next.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (3.2cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizActive] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {F};
+  \filldraw[fill=vizActive] (2.4000000000000004cm,-0.8cm) rectangle (3.2cm,0cm);
+  \node at (2.8000000000000003cm,-0.4cm) {A};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 40 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (3.2cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizActive] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {F};
+  \filldraw[fill=vizActive] (2.4000000000000004cm,-0.8cm) rectangle (3.2cm,0cm);
+  \node at (2.8000000000000003cm,-0.4cm) {A};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 41 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (3.2cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizDefault] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {F};
+  \filldraw[fill=vizDefault] (2.4000000000000004cm,-0.8cm) rectangle (3.2cm,0cm);
+  \node at (2.8000000000000003cm,-0.4cm) {A};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 42 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (3.2cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizDefault] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {F};
+  \filldraw[fill=vizSwapping] (2.4000000000000004cm,-0.8cm) rectangle (3.2cm,0cm);
+  \node at (2.8000000000000003cm,-0.4cm) {A};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 43 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Node A was already visited — skipping it.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizDefault] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {F};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 44 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizDefault] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {F};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 45 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizDefault] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {F};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 46 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (2.4000000000000004cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+  \filldraw[fill=vizSwapping] (1.6cm,-0.8cm) rectangle (2.4000000000000004cm,0cm);
+  \node at (2cm,-0.4cm) {F};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 47 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Node F was already visited — skipping it.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 48 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 49 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizDefault] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 50 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (1.6cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+  \filldraw[fill=vizSwapping] (0.8cm,-0.8cm) rectangle (1.6cm,0cm);
+  \node at (1.2000000000000002cm,-0.4cm) {E};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 51 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Node E was already visited — skipping it.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0.8cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 52 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0.8cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 53 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0.8cm, -1cm);
+  \filldraw[fill=vizDefault] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 54 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Popping the last node pushed onto the stack.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0.8cm, -1cm);
+  \filldraw[fill=vizSwapping] (0cm,-0.8cm) rectangle (0.8cm,0cm);
+  \node at (0.4cm,-0.4cm) {C};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 55 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Node C was already visited — skipping it.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0cm, -1cm);
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 56 ---
+\begin{center}\LARGE\textbf{DFS}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Every reachable node has been visited.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Graph}\\[2mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (-4cm,0) rectangle (4cm, -3cm);
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (A) at (0.0:3cm) {A};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (B) at (60.0:3cm) {B};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (C) at (120.0:3cm) {C};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (D) at (180.0:3cm) {D};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (E) at (240.0:3cm) {E};
+  \node[circle, draw, minimum size=8mm, fill=vizSorted] (F) at (300.0:3cm) {F};
+  \draw[vizSorted, line width=1.2pt] (A) -- (B);
+  \draw[vizSorted, line width=1.2pt] (A) -- (C);
+  \draw[vizDefault, line width=1.2pt] (B) -- (A);
+  \draw[vizSorted, line width=1.2pt] (B) -- (D);
+  \draw[vizSorted, line width=1.2pt] (B) -- (E);
+  \draw[vizDefault, line width=1.2pt] (C) -- (A);
+  \draw[vizDefault, line width=1.2pt] (C) -- (F);
+  \draw[vizDefault, line width=1.2pt] (D) -- (B);
+  \draw[vizDefault, line width=1.2pt] (E) -- (B);
+  \draw[vizSorted, line width=1.2pt] (E) -- (F);
+  \draw[vizDefault, line width=1.2pt] (F) -- (C);
+  \draw[vizDefault, line width=1.2pt] (F) -- (E);
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Stack}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0cm,0cm) rectangle (0cm, -1cm);
 \end{tikzpicture}

@@ -2,159 +2,146 @@ import type { AlgorithmContent } from './algorithm-content.types';
 
 export const LINEAR_SEARCH_CONTENT: AlgorithmContent = {
   overview:
-    "Binary Search is an efficient algorithm for finding a target value within a sorted array. Instead of checking every element one by one, it repeatedly cuts the search space in half by comparing the target with the middle element and discarding the half that cannot contain the target. This makes it much faster than Linear Search on large sorted datasets.",
+    "Linear Search is a simple searching algorithm that finds a target value by checking each element in a collection one by one from the beginning until the target is found or all elements have been examined. Unlike Binary Search, Linear Search does not require the data to be sorted, making it useful for small or unsorted arrays and lists. Its simplicity comes at the cost of O(n) time complexity in the average and worst cases.",
 
   intuition:
-    "Think of looking for a word in a dictionary. You do not start at the first page and check every word. You open somewhere near the middle, compare the word you want with the words on that page, and then ignore the half where the word cannot possibly be. You repeat the same process until you find the word or determine that it is not there. Binary Search applies this same idea to a sorted array.",
+    "Imagine looking for a specific book on a shelf where the books are not arranged in any particular order. You start with the first book, check its title, then move to the next one, continuing one book at a time until you find the one you want or reach the end of the shelf. Linear Search works exactly this way: it checks elements sequentially without making assumptions about their order.",
 
   howItWorks: [
-    "Set two pointers, low and high, to the first and last index of the array.",
-    "Calculate the middle index between low and high.",
-    "Compare the target value with the element at the middle index.",
-    "If the middle element equals the target, the search is complete.",
-    "If the target is smaller than the middle element, discard the right half and move high to mid - 1.",
-    "If the target is larger than the middle element, discard the left half and move low to mid + 1.",
-    "Repeat the process until the target is found or low becomes greater than high.",
+    "Start at the first element of the array.",
+    "Compare the current element with the target value.",
+    "If they match, stop the search and return the current element's index.",
+    "If they do not match, move to the next element.",
+    "Continue comparing elements one by one until the target is found.",
+    "If the end of the array is reached without finding the target, return a not-found result such as -1.",
   ],
 
   keyCharacteristic:
-    "Binary Search requires the data to be sorted. Its defining characteristic is that every comparison eliminates roughly half of the remaining search space, giving it O(log n) time complexity.",
+    "Linear Search examines elements sequentially and does not require the data to be sorted. Its defining characteristic is that each element may need to be checked individually, giving it O(n) time complexity in the average and worst cases.",
 
   overviewFaq: [
     {
-      question: "Why does the array need to be sorted?",
+      question: "Does Linear Search require the array to be sorted?",
       answer:
-        "Binary Search decides which half of the array can be discarded by comparing the target with the middle element. This decision is only valid when the elements are ordered, because sorted data guarantees that everything on one side of the middle is smaller and everything on the other side is larger.",
+        "No. Linear Search can work directly on unsorted data because it does not rely on the relative order of elements. It simply checks each element until it finds the target or reaches the end of the collection.",
     },
     {
-      question: "Why is Binary Search O(log n)?",
+      question: "Why is Linear Search O(n)?",
       answer:
-        "Each comparison removes about half of the remaining elements from consideration. After one comparison, roughly n/2 elements remain; after two, n/4 remain; and so on. The number of times the search space can be halved is logarithmic, giving O(log n) time.",
+        "In the worst case, Linear Search may need to inspect every element in the array before finding the target or determining that it is not present. If the array contains n elements, this requires up to n comparisons, giving O(n) time complexity.",
     },
     {
       question: "What happens when the target is found?",
       answer:
-        "When the middle element equals the target, the algorithm stops immediately and returns the target's index. In the visualization, the target and the matching element can be given a distinct success state so the result is immediately visible.",
+        "As soon as the current element matches the target, Linear Search stops and returns that element's index. The visualization can highlight the matching element with a success state so the result is immediately visible.",
     },
     {
       question: "What happens when the target is not in the array?",
       answer:
-        "The search range keeps getting smaller until low becomes greater than high. At that point there are no elements left to check, so the algorithm concludes that the target is not present and returns a not-found result such as -1.",
+        "The algorithm continues checking every element until it reaches the end of the array. If no element matches the target, it returns a not-found result, commonly represented by -1.",
     },
     {
-      question: "How is Binary Search different from Linear Search?",
+      question: "How is Linear Search different from Binary Search?",
       answer:
-        "Linear Search checks elements one by one and can require O(n) comparisons. Binary Search repeatedly removes half of the search space and requires O(log n) comparisons, but it can only make this decision efficiently when the data is sorted.",
+        "Linear Search checks elements one by one and works on unsorted data, while Binary Search repeatedly divides the search space in half and requires sorted data. Linear Search takes O(n) time in the average and worst cases, whereas Binary Search takes O(log n).",
     },
     {
-      question: "Can Binary Search find duplicate values?",
+      question: "Can Linear Search find duplicate values?",
       answer:
-        "Yes, but a basic Binary Search usually returns one matching occurrence rather than guaranteeing the first or last occurrence. Modified versions can continue searching after finding a match to locate the first or last position of a duplicated value.",
+        "Yes. A basic Linear Search usually returns the first occurrence of the target because it stops as soon as it finds a match. Modified versions can continue searching to find all occurrences or the last occurrence.",
+    },
+    {
+      question: "When is Linear Search faster than Binary Search?",
+      answer:
+        "Linear Search can be preferable when the data is unsorted, when the collection is very small, or when only a single search is needed and sorting the data first would cost more than simply scanning it. It can also be useful for data structures such as linked lists where random access is inefficient.",
     },
   ],
 
   complexity: {
     bestTime: "O(1)",
-    averageTime: "O(log n)",
-    worstTime: "O(log n)",
+    averageTime: "O(n)",
+    worstTime: "O(n)",
     space: "O(1)",
     stable: "N/A — not a sorting algorithm",
     inPlace: "N/A — not a sorting algorithm",
     note:
-      "The best case occurs when the target is exactly the middle element on the first comparison. In the average and worst cases, the search repeatedly halves the remaining range, so the number of comparisons grows logarithmically with the size of the array.",
+      "The best case occurs when the target is the first element, requiring only one comparison. In the average case, the algorithm examines roughly half of the elements. In the worst case, the target is the last element or is not present, so every element must be checked.",
   },
 
   pros: [
-    "Very fast for searching large sorted arrays because each comparison eliminates about half of the remaining elements.",
-    "Runs in O(log n) time in the average and worst cases.",
-    "Uses O(1) extra space in its iterative implementation.",
-    "Works especially well when the same sorted dataset needs to be searched many times.",
+    "Works directly on unsorted data and does not require preprocessing.",
+    "Very simple to understand and implement, making it a useful introductory searching algorithm.",
+    "Uses O(1) extra space in its basic implementation.",
+    "Works with arrays, lists, and other sequential data structures without requiring random access.",
+    "Can be efficient for very small collections where the overhead of more complex algorithms is unnecessary.",
   ],
 
   cons: [
-    "Requires the data to be sorted before searching.",
-    "Sorting an unsorted dataset can cost O(n log n), which may make Binary Search less useful for a single search.",
-    "The basic algorithm does not directly work efficiently with data structures that lack random access, such as linked lists.",
-    "Handling duplicates requires additional logic when the goal is to find the first or last occurrence rather than any matching element.",
+    "O(n) average and worst-case time makes it slow for large datasets.",
+    "May need to inspect every element when the target is near the end or not present.",
+    "Does not take advantage of sorted data to eliminate large portions of the search space.",
+    "Repeated searches on the same large dataset can become expensive compared with algorithms such as Binary Search.",
   ],
 
   whenToUse: [
-    "Searching for a value in a large sorted array.",
-    "Performing many searches against the same sorted dataset.",
-    "Finding boundaries, insertion positions, or ranges in sorted data.",
-    "Working with problems where the possible answer space is ordered or monotonic.",
+    "Searching for a value in a small collection where simplicity is more important than asymptotic performance.",
+    "Searching an unsorted array or list without first sorting the data.",
+    "Performing a single search where sorting the collection would cost more than scanning it.",
+    "Searching data structures such as linked lists where efficient random access is not available.",
+    "Checking whether a particular value exists in a collection when the dataset is small or inexpensive to scan.",
   ],
 
   whenNotToUse: [
-    "Searching an unsorted array only once, where sorting first would cost more than simply scanning the data.",
-    "Working with data structures that do not provide efficient random access, such as linked lists.",
-    "Working with data that changes frequently and would require constant re-sorting.",
-    "Problems where every element must be inspected regardless of its position.",
+    "Searching large sorted arrays repeatedly; Binary Search is generally more efficient.",
+    "Performing many searches on a large static dataset where preprocessing or indexing can significantly reduce search time.",
+    "Problems where the data has a useful ordering that can be exploited to eliminate large parts of the search space.",
+    "Performance-critical applications involving very large collections where O(n) searches would become a bottleneck.",
   ],
 
   applications: [
     {
-      title: "Searching sorted arrays",
+      title: "Searching unsorted arrays",
       description:
-        "Binary Search is commonly used to quickly locate a value inside a large sorted array or list.",
+        "Linear Search can directly find a value in an array without requiring the elements to be sorted first.",
     },
     {
-      title: "Dictionary and lookup systems",
+      title: "Small collections",
       description:
-        "The same divide-and-discard principle can be used whenever information is stored in sorted order and needs to be located efficiently.",
+        "For small datasets, Linear Search is often simple and fast enough that using a more complex searching algorithm provides little practical benefit.",
     },
     {
-      title: "Finding insertion positions",
+      title: "Finding an item in a list",
       description:
-        "Binary Search can determine where a new value should be inserted while keeping an array sorted, as used by lower_bound and upper_bound style operations.",
+        "Linear Search can locate a specific item in sequential collections such as lists, where elements are naturally examined from one position to the next.",
     },
     {
-      title: "Finding boundaries",
+      title: "Searching linked lists",
       description:
-        "Modified Binary Search can locate the first or last position satisfying a condition, making it useful for range and boundary queries.",
+        "Because linked lists do not provide efficient random access, checking nodes sequentially with Linear Search is a natural approach.",
     },
     {
-      title: "Binary Search on the answer",
+      title: "Finding the first occurrence",
       description:
-        "The same halving strategy can be applied to an ordered range of possible answers when a problem has a monotonic yes-or-no condition.",
+        "Linear Search naturally returns the first matching element when scanning from the beginning and stopping at the first match.",
     },
   ],
 
   implementations: [
     {
       language: "Python",
-      code: `def binary_search(arr, target):
-    low, high = 0, len(arr) - 1
-
-    while low <= high:
-        mid = low + (high - low) // 2
-
-        if arr[mid] == target:
-            return mid
-        elif arr[mid] < target:
-            low = mid + 1
-        else:
-            high = mid - 1
+      code: `def linear_search(arr, target):
+    for i in range(len(arr)):
+        if arr[i] == target:
+            return i
 
     return -1`,
     },
     {
       language: "JavaScript",
-      code: `function binarySearch(arr, target) {
-  let low = 0;
-  let high = arr.length - 1;
-
-  while (low <= high) {
-    const mid = low + Math.floor((high - low) / 2);
-
-    if (arr[mid] === target) {
-      return mid;
-    }
-
-    if (arr[mid] < target) {
-      low = mid + 1;
-    } else {
-      high = mid - 1;
+      code: `function linearSearch(arr, target) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === target) {
+      return i;
     }
   }
 
@@ -163,21 +150,10 @@ export const LINEAR_SEARCH_CONTENT: AlgorithmContent = {
     },
     {
       language: "Java",
-      code: `public static int binarySearch(int[] arr, int target) {
-    int low = 0;
-    int high = arr.length - 1;
-
-    while (low <= high) {
-        int mid = low + (high - low) / 2;
-
-        if (arr[mid] == target) {
-            return mid;
-        }
-
-        if (arr[mid] < target) {
-            low = mid + 1;
-        } else {
-            high = mid - 1;
+      code: `public static int linearSearch(int[] arr, int target) {
+    for (int i = 0; i < arr.length; i++) {
+        if (arr[i] == target) {
+            return i;
         }
     }
 
@@ -186,21 +162,10 @@ export const LINEAR_SEARCH_CONTENT: AlgorithmContent = {
     },
     {
       language: "C++",
-      code: `int binarySearch(const std::vector<int>& arr, int target) {
-    int low = 0;
-    int high = static_cast<int>(arr.size()) - 1;
-
-    while (low <= high) {
-        int mid = low + (high - low) / 2;
-
-        if (arr[mid] == target) {
-            return mid;
-        }
-
-        if (arr[mid] < target) {
-            low = mid + 1;
-        } else {
-            high = mid - 1;
+      code: `int linearSearch(const std::vector<int>& arr, int target) {
+    for (int i = 0; i < static_cast<int>(arr.size()); i++) {
+        if (arr[i] == target) {
+            return i;
         }
     }
 

@@ -33,7 +33,7 @@
   }
 
   &__content {
-     display: flex;
+    display: flex;
     flex-direction: column;
     flex: 1;
     min-width: 0;
@@ -61,12 +61,16 @@
   // Structures panel are each their own fixed-width column next to it
   // — three columns side by side, not two stacked under one.
   &__graph-main-row {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
     align-items: stretch;
+
     gap: 10px;
+
     flex: 1;
+    min-width: 0;
     min-height: 0;
+
     width: 100%;
   }
 
@@ -95,30 +99,16 @@
   // Costs. Its own column at full row height (not a short strip
   // squeezed under the pseudocode column anymore), with its own
   // internal scroll for when there's more content than fits.
-  &__graph-aux-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    flex: 0 0 260px;
-    width: 260px;
-    height: 100%;
-    padding: 8px;
-    background-color: var(--color-surface-container);
-    border: 1px solid var(--color-border-default);
-    border-radius: 12px;
-    overflow: auto;
-  }
-
-  &__graph-aux-panel-title {
-    flex-shrink: 0;
-    color: var(--color-text-tertiary);
-  }
 
   &__graph-visualization {
     display: flex;
-    flex: 1;
+
     min-width: 0;
+    min-height: 0;
+    width: 100%;
     height: 100%;
+
+    overflow: hidden;
   }
 
   &__title-row {
@@ -136,6 +126,92 @@
     gap: 12px;
   }
 
+  &__export-anchor {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  // Physical (not logical) left/right on purpose: this popover lives
+  // inside algo-drawer's icon column, which is fixed chrome pinned to
+  // the page's right edge regardless of language (see drawer.scss's
+  // own `direction: ltr` comment for the same reasoning) — it must
+  // always open toward the main content on the left, never off-screen
+  // to the right, in both Persian and English.
+  &__export-popover {
+
+    position: absolute;
+    left: calc(100% + 8px);
+    bottom: 0;
+
+    width: 196px;
+    padding: 6px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 8px;
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+
+    z-index: 1000;
+
+    &--fa {
+      left: auto;
+      right: calc(100% + 8px);
+    }
+  }
+
+  &__export-option {
+    width: 100%;
+    min-height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    padding: 8px 12px;
+
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    transition:
+      background-color 120ms ease,
+      color 120ms ease;
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-icon-button-bg-hover);
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--color-icon-button-bg-pressed);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  &__export-option-name {
+    color: var(--color-text-secondary);
+  }
+
+  &__export-option:disabled &__export-option-name {
+    color: var(--color-text-secondary);
+  }
+
+  &__export-soon {
+    color: var(--color-brand-accent);
+    white-space: nowrap;
+  }
+
   &__title {
     color: var(--color-text-primary);
   }
@@ -144,6 +220,15 @@
     display: flex;
     align-items: center;
     gap: 4px;
+    // Same gold as test-plan.scss's star row / the results page's XP
+    // stat — earned and not-yet-earned stars only differ by fill, not
+    // color, so this page's rating reads identically to Test's.
+    color: var(--color-test-summary-xp);
+  }
+
+  &__star-slot {
+    display: inline-flex;
+    cursor: default;
   }
 
   &__panel-description {
@@ -154,7 +239,7 @@
   &__section-heading {
     margin-block-start: 20px;
     color: var(--color-text-primary);
-    font-weight: 600;
+    font-weight: var(--font-weight-body-large-emphasized); // was a hardcoded 600 (SemiBold) - her type scale's actual "emphasized" weight is 500 (Medium), which is what text-body-large-emphasized itself uses elsewhere
 
     &:first-child {
       margin-block-start: 0;
@@ -202,7 +287,7 @@
   &__faq-question {
     margin-block-end: 4px;
     color: var(--color-text-primary);
-    font-weight: 600;
+    font-weight: var(--font-weight-body-large-emphasized); // was a hardcoded 600 (SemiBold) - her type scale's actual "emphasized" weight is 500 (Medium), which is what text-body-large-emphasized itself uses elsewhere
   }
 
   &__code-language {
@@ -210,6 +295,9 @@
     color: var(--color-text-tertiary);
   }
 
+  // Source code isn't translated content — pin it to LTR/left-aligned
+  // regardless of the app's language, the same way pseudocode-panel.scss
+  // and navigation-controls.scss already pin their own "chrome".
   &__code-block {
     margin: 0;
     padding: 12px;
@@ -220,6 +308,8 @@
     color: var(--color-text-secondary);
     white-space: pre-wrap;
     overflow-wrap: anywhere;
+    direction: ltr;
+    text-align: left;
   }
 
   &__code-header {
@@ -256,9 +346,24 @@
   // Section is the one region in this column that's Fill, so it's the
   // only child that grows to take up whatever space the other sections
   // (added in later stages) don't need.
+  // `algo-visualization-section` is a custom element placed as a flex
+  // item (title-row's sibling in `&__sections-layer`, and — for graph
+  // algorithms — as the grid item filling `&__graph-visualization`'s
+  // `minmax(0, 1fr)` track). Flex/grid items default to `min-width:
+  // auto`, i.e. they refuse to shrink below their own content's natural
+  // width. Without overriding that here, the element ignored how much
+  // space the grid track actually computed for it and kept its
+  // intrinsic width instead — which is exactly what made it overflow
+  // its column and collide with (or overlap under) the fixed 292px
+  // pseudocode column the moment the drawer opened and ate into the
+  // row's available width. `min-width: 0` lets it actually honor the
+  // width the layout gives it, the same fix already applied deeper in
+  // this same chain (visualization-area, web-renderer, graph-renderer).
   algo-visualization-section {
     flex: 1;
+    min-width: 0;
     min-height: 0;
+    width: 100%;
   }
 
   &__fullscreen-overlay {
@@ -369,7 +474,7 @@
     border: none;
     border-radius: 8px;
     background: var(--color-brand-primary);
-    color: var(--color-text-primary);
+    color: #ffffff;
     cursor: pointer;
   }
 }

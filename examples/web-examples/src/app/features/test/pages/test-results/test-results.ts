@@ -1,69 +1,89 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SolarLockKeyholeMinimalisticLinear } from '@solar-icons/angular';
+import { SolarLockKeyholeMinimalisticLinear, SolarArrowRightLinear } from '@solar-icons/angular';
 import { AlgoHeader } from '../../../../layout/header/header';
 import { AlgoSegmentedButton } from '../../../../design-system/segmented-button/segmented-button';
+import { AlgoButton } from '../../../../design-system/button/button';
 import { OutcomeBadge } from '../../components/outcome-badge/outcome-badge';
 import { AuthService } from '../../../../core/services/auth.service';
 import { QuizResultsService } from '../../../../core/services/quiz-results.service';
+import { getNextSet } from '../../data/test-question-bank';
+import { ThemeService } from '../../../../core/services/theme.service';
+import { LanguageService } from '../../../../core/services/language.service';
+import { translate } from '../../../../core/i18n/translations';
+import { toLocaleDigitsForLanguage, LocaleDigitsPipe } from '../../../../core/i18n/locale-digits.pipe';
+import { TranslatePipe } from '../../../../core/i18n/translate.pipe';
 import type { QuizAttemptRecord } from '../../../../core/models/quiz-attempt.model';
-import type { QuestionOutcome, QuestionType, TestDifficulty, TestResultState } from '../../models/test.types';
+import type { QuestionOutcome, QuestionType, TestDifficulty, TestResultState } from '../../test.types';
+import type { BreadcrumbItem } from '../../../../layout/header/header-breadcrumb.type';
 
 const PASS_THRESHOLD = 0.7;
 
-const PASS_SENTENCES = [
-  'Great job! Keep practicing to improve even better.',
-  "Nicely done — you've got a solid handle on this one.",
-  'Solid work! This level is officially yours.',
+// Matches the segmented button's own transform transition duration
+// (segmented-button.scss) — see onTabChange's comment below.
+const TAB_SLIDE_DELAY_MS = 250;
+
+// Translation keys, resolved (with digit-free, static text) via
+// translate() — see the `sentence` getter below for why the *pick* is
+// still made once in the constructor while the *text* stays reactive
+// to the language toggle.
+const PASS_SENTENCE_KEYS = [
+  'test.results.sentence.pass.0',
+  'test.results.sentence.pass.1',
+  'test.results.sentence.pass.2',
 ];
 
-const FAIL_SENTENCES = [
-  'Not quite there yet. Keep practicing and try again!',
-  "So close — one more round and you'll have it.",
-  "Don't worry, review the answers and give it another shot.",
+const FAIL_SENTENCE_KEYS = [
+  'test.results.sentence.fail.0',
+  'test.results.sentence.fail.1',
+  'test.results.sentence.fail.2',
 ];
 
-const ALGORITHM_DISPLAY_NAMES: Record<string, string> = {
-  'bubble-sort': 'Bubble Sort',
-  'selection-sort': 'Selection Sort',
-  'insertion-sort': 'Insertion Sort',
-  'quick-sort': 'Quick Sort',
-  'merge-sort': 'Merge Sort',
-  'linear-search': 'Linear Search',
-  'binary-search': 'Binary Search',
-  'dijkstra': 'Dijkstra',
-  'dfs': 'DFS',
-  'bfs': 'BFS',
-  'a-star': 'A*'
+// Reuses the same translation keys already defined for the algorithm
+// name on the home page cards (core/i18n/home.translations.ts) — see
+// practice.ts's identical ALGORITHM_NAME_KEYS for why.
+const ALGORITHM_NAME_KEYS: Record<string, string> = {
+  'bubble-sort': 'home.algorithm.bubbleSort.name',
+  'merge-sort': 'home.algorithm.mergeSort.name',
+  'quick-sort': 'home.algorithm.quickSort.name',
+  'selection-sort': 'home.algorithm.selectionSort.name',
+  'insertion-sort': 'home.algorithm.insertionSort.name',
+  'binary-search': 'home.algorithm.binarySearch.name',
+  'linear-search': 'home.algorithm.linearSearch.name',
+  dijkstra: 'home.algorithm.dijkstra.name',
+  dfs: 'home.algorithm.dfs.name',
+  bfs: 'home.algorithm.bfs.name',
+  'a-star': 'home.algorithm.aStar.name',
+};
+
+const DIFFICULTY_LABEL_KEY: Record<string, string> = {
+  easy: 'test.difficulty.easy',
+  medium: 'test.difficulty.medium',
+  hard: 'test.difficulty.hard',
 };
 
 // Human-readable label for the type-breakdown in "Performance Insight" —
 // deliberately generic (not per-algorithm topic names like the Figma
 // mock's "Understanding the Divide step") since that level of detail
 // would need real per-question topic tagging, which doesn't exist yet.
-const TYPE_LABEL: Record<QuestionType, string> = {
-  conceptual: 'Conceptual questions',
-  execution: 'Execution / step-tracing questions',
-  code: 'Code (pseudocode) questions',
+const TYPE_LABEL_KEY: Record<QuestionType, string> = {
+  conceptual: 'test.results.insight.type.conceptual',
+  execution: 'test.results.insight.type.execution',
+  code: 'test.results.insight.type.code',
 };
 
 @Component({
   selector: 'algo-test-results',
-  imports: [AlgoHeader, AlgoSegmentedButton, OutcomeBadge, SolarLockKeyholeMinimalisticLinear],
+  imports: [AlgoHeader, AlgoSegmentedButton, AlgoButton, OutcomeBadge, SolarLockKeyholeMinimalisticLinear, SolarArrowRightLinear, TranslatePipe, LocaleDigitsPipe],
   templateUrl: './test-results.html',
   styleUrl: './test-results.scss',
 })
 export class TestResults {
   protected readonly algorithmId: string;
-  protected readonly algorithmDisplayName: string;
   protected readonly difficulty: TestDifficulty;
   protected readonly result: TestResultState | null;
-  protected readonly breadcrumbs: { label: string; route: string }[];
 
-  protected readonly tabs = ['Learn', 'Practice', 'Test'];
   protected selectedTabIndex = 2;
-
-  protected showInsightNotice = false;
 
   // Real auth state now (see core/services/auth.service.ts) — the
   // locked "Previous Attempt" panel only shows for guests, and the
@@ -71,6 +91,34 @@ export class TestResults {
   // plot.
   protected get isLoggedIn(): boolean {
     return !!this.authService.currentUser();
+  }
+
+  protected get algorithmDisplayName(): string {
+    const nameKey = ALGORITHM_NAME_KEYS[this.algorithmId];
+    return nameKey ? translate(nameKey, this.languageService.currentLanguage()) : this.algorithmId;
+  }
+
+  protected get breadcrumbs(): BreadcrumbItem[] {
+    const language = this.languageService.currentLanguage();
+    return [
+      { label: translate('practice.breadcrumb.home', language), route: '/' },
+      { label: translate('practice.breadcrumb.algorithms', language), route: '/', fragment: 'landing-picker' },
+      { label: this.algorithmDisplayName, route: '/algorithms/' + this.algorithmId },
+      { label: translate('practice.tabs.test', language), route: '' },
+    ];
+  }
+
+  protected get tabs(): string[] {
+    const language = this.languageService.currentLanguage();
+    return [
+      translate('practice.tabs.learn', language),
+      translate('practice.tabs.practice', language),
+      translate('practice.tabs.test', language),
+    ];
+  }
+
+  protected get difficultyLabel(): string {
+    return translate(DIFFICULTY_LABEL_KEY[this.difficulty], this.languageService.currentLanguage());
   }
 
   // Populated asynchronously in the constructor once Supabase responds —
@@ -85,16 +133,14 @@ export class TestResults {
     private readonly router: Router,
     private readonly authService: AuthService,
     private readonly quizResultsService: QuizResultsService,
+    protected readonly themeService: ThemeService,
+    protected readonly languageService: LanguageService,
   ) {
     this.algorithmId = this.route.snapshot.paramMap.get('id') ?? 'bubble-sort';
-    this.algorithmDisplayName = ALGORITHM_DISPLAY_NAMES[this.algorithmId] ?? this.algorithmId;
+    // algorithmDisplayName/breadcrumbs/tabs are getters (not fields set
+    // once here), so they re-resolve when the language toggle fires —
+    // see practice.ts's identical comment on why.
     this.difficulty = (this.route.snapshot.paramMap.get('difficulty') as TestDifficulty) ?? 'easy';
-    this.breadcrumbs = [
-      { label: 'Home', route: '/home' },
-      { label: 'Algorithms', route: '/algorithms' },
-      { label: this.algorithmDisplayName, route: '/algorithms/' + this.algorithmId },
-      { label: 'Test', route: '' },
-    ];
 
     const navigation = this.router.getCurrentNavigation();
     this.result = (navigation?.extras.state as TestResultState | undefined) ?? null;
@@ -111,6 +157,9 @@ export class TestResults {
     if (this.authService.currentUser()) {
       this.loadHistory();
     }
+
+    const sentenceKeyPool = this.passed ? PASS_SENTENCE_KEYS : FAIL_SENTENCE_KEYS;
+    this.sentenceKey = sentenceKeyPool[Math.floor(Math.random() * sentenceKeyPool.length)];
   }
 
   // Fetches this algorithm+difficulty's past attempts (oldest → newest,
@@ -188,16 +237,28 @@ export class TestResults {
   }
 
   protected get titleText(): string {
-    return this.passed ? 'Test Completed!' : 'Keep Practicing!';
+    const key = this.passed ? 'test.results.title.passed' : 'test.results.title.failed';
+    return translate(key, this.languageService.currentLanguage());
   }
 
   protected get scoreColorVar(): string {
     return this.passed ? 'var(--color-test-summary-pass)' : 'var(--color-test-summary-fail)';
   }
 
+  // Was a getter that picked a new random line every time Angular
+  // re-evaluated it — which happens more than once per render (Angular
+  // re-checks bindings after the initial check in dev mode), so two
+  // calls could return two different sentences within the same cycle.
+  // That's exactly what NG0100 (ExpressionChangedAfterItHasBeenChecked)
+  // was catching. Picking once, in the constructor, and reading a
+  // plain field from then on fixes it. The field itself now stores the
+  // translation *key* (picked once) rather than resolved text, so the
+  // `sentence` getter below still follows the language toggle without
+  // re-rolling which sentence was picked.
+  protected readonly sentenceKey: string;
+
   protected get sentence(): string {
-    const pool = this.passed ? PASS_SENTENCES : FAIL_SENTENCES;
-    return pool[Math.floor(Math.random() * pool.length)];
+    return translate(this.sentenceKey, this.languageService.currentLanguage());
   }
 
   protected get incorrectCount(): number {
@@ -208,13 +269,16 @@ export class TestResults {
     return this.result?.outcomes.filter((o) => o === 'skipped').length ?? 0;
   }
 
-  protected get summaryBoxes(): { label: string; value: number; colorVar: string }[] {
+  protected get summaryBoxes(): { key: string; label: string; value: string; colorVar: string }[] {
+    const language = this.languageService.currentLanguage();
+    const t = (key: string) => translate(key, language);
+    const n = (value: number) => toLocaleDigitsForLanguage(value, language);
     return [
-      { label: 'XP', value: this.result?.xpEarned ?? 0, colorVar: 'var(--color-test-summary-xp)' },
-      { label: 'Correct', value: this.correctCount, colorVar: 'var(--color-test-summary-correct)' },
-      { label: 'Incorrect', value: this.incorrectCount, colorVar: 'var(--color-test-summary-incorrect)' },
-      { label: 'Skipped', value: this.skippedCount, colorVar: 'var(--color-test-summary-skipped)' },
-      { label: 'Best Streak', value: this.result?.bestStreak ?? 0, colorVar: 'var(--color-test-summary-streak)' },
+      { key: 'xp', label: t('test.stats.xp'), value: n(this.result?.totalXp ?? 0), colorVar: 'var(--color-test-summary-xp)' },
+      { key: 'correct', label: t('test.stats.correct'), value: n(this.correctCount), colorVar: 'var(--color-test-summary-correct)' },
+      { key: 'incorrect', label: t('test.stats.incorrect'), value: n(this.incorrectCount), colorVar: 'var(--color-test-summary-incorrect)' },
+      { key: 'skipped', label: t('test.stats.skipped'), value: n(this.skippedCount), colorVar: 'var(--color-test-summary-skipped)' },
+      { key: 'bestStreak', label: t('test.stats.bestStreak'), value: n(this.result?.bestStreak ?? 0), colorVar: 'var(--color-test-summary-streak)' },
     ];
   }
 
@@ -239,32 +303,69 @@ export class TestResults {
   }
 
   protected get strongestAreaLabel(): string {
+    const language = this.languageService.currentLanguage();
     const rows = this.accuracyByType().filter((r) => r.total > 0);
-    if (!rows.length) return '—';
-    const best = rows.reduce((a, b) => (b.correct / b.total > a.correct / a.total ? b : a));
-    return TYPE_LABEL[best.type];
+    if (!rows.length) return translate('test.results.insight.empty', language);
+
+    const best = rows.reduce((a, b) =>
+      b.correct / b.total > a.correct / a.total ? b : a
+    );
+
+    return translate(TYPE_LABEL_KEY[best.type], language);
   }
 
   protected get weakestAreaLabel(): string {
+    const language = this.languageService.currentLanguage();
     const rows = this.accuracyByType().filter((r) => r.total > 0);
-    if (!rows.length) return '—';
-    const worst = rows.reduce((a, b) => (b.correct / b.total < a.correct / a.total ? b : a));
-    return TYPE_LABEL[worst.type];
+    if (!rows.length) return translate('test.results.insight.empty', language);
+
+    const worst = rows.reduce((a, b) =>
+      b.correct / b.total < a.correct / a.total ? b : a
+    );
+
+    return translate(TYPE_LABEL_KEY[worst.type], language);
   }
 
-  protected onNeedLearningClick(): void {
-    // The Learn tab doesn't exist yet — surface an inline notice instead
-    // of navigating to a broken route.
-    this.showInsightNotice = true;
+  protected get hasMeaningfulWeakArea(): boolean {
+    const rows = this.accuracyByType().filter((r) => r.total > 0);
+
+    if (rows.length < 2) return false;
+
+    const accuracies = rows.map((r) => r.correct / r.total);
+
+    const best = Math.max(...accuracies);
+    const worst = Math.min(...accuracies);
+
+    return best !== worst;
   }
 
+  protected get weakAreaActionLabel(): string {
+    return translate(
+      'test.results.insight.action',
+      this.languageService.currentLanguage()
+    );
+  }
+
+  protected onNeedMoreClick(): void {
+    this.router.navigate(['/algorithms', this.algorithmId, 'learn']);
+  }
+
+  // See practice.ts's onTabChange for why the index updates before the
+  // navigate call: it lets the segmented button's thumb visibly slide
+  // to the clicked tab before this whole page (and that thumb) gets
+  // torn down for the new route, instead of jumping straight there.
   protected onTabChange(index: number): void {
     this.selectedTabIndex = index;
-    if (index === 1) {
-      this.router.navigate(['/algorithms', this.algorithmId]);
-    } else if (index === 2) {
-      this.router.navigate(['/algorithms', this.algorithmId, 'test']);
-    }
+
+    setTimeout(() => {
+      if (index === 0) {
+        this.router.navigate(['/algorithms', this.algorithmId, 'learn']);
+      } else if (index === 1) {
+        this.router.navigate(['/algorithms', this.algorithmId]);
+      } else if (index === 2) {
+        this.router.navigate(['/algorithms', this.algorithmId, 'test']);
+      }
+    }, TAB_SLIDE_DELAY_MS);
   }
 
   protected onReviewAnswers(): void {
@@ -273,7 +374,9 @@ export class TestResults {
     // exists (it would need the actual question+answer content, not
     // just the outcome array this page has).
     if (!this.result) return;
-    this.router.navigate(['/algorithms', this.algorithmId, 'test', this.result.difficulty, this.result.setNumber]);
+    this.router.navigate(['/algorithms', this.algorithmId, 'test', this.result.difficulty, this.result.setNumber], {
+      state: { review: true, result: this.result },
+    });
   }
 
   protected onTryAgain(): void {
@@ -281,7 +384,31 @@ export class TestResults {
     this.router.navigate(['/algorithms', this.algorithmId, 'test', this.result.difficulty, this.result.setNumber]);
   }
 
+  // Only meaningful when passed — the next set/difficulty is only
+  // actually unlocked once this one is passed (see buildLevelPlan),
+  // so offering "Next Test" on a fail would just bounce the person
+  // right back to a locked level.
+  protected get hasNextTest(): boolean {
+    return !!this.result && this.passed && getNextSet(this.algorithmId, this.result.difficulty, this.result.setNumber) !== null;
+  }
+
+  protected onNextTest(): void {
+    if (!this.result) return;
+    const next = getNextSet(this.algorithmId, this.result.difficulty, this.result.setNumber);
+    if (!next) return;
+    this.router.navigate(['/algorithms', this.algorithmId, 'test', next.difficulty, next.setNumber]);
+  }
+
   protected onBackToAlgorithms(): void {
     this.router.navigate(['/algorithms', this.algorithmId, 'test']);
+  }
+
+  // "Sign up / Log in" CTA on the locked "Previous Attempt" panel — was
+  // a plain <button> with no click handler at all, so it visibly did
+  // nothing. /login also links to /register for someone who doesn't
+  // have an account yet (see LoginPage), so this doesn't need its own
+  // signup-vs-login branching.
+  protected onSignIn(): void {
+    this.router.navigate(['/login']);
   }
 }

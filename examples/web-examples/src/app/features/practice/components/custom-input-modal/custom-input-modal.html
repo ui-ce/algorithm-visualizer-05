@@ -2,7 +2,7 @@
   <div class="algo-custom-input-modal__backdrop" (click)="onCancel()"></div>
 
   <div class="algo-custom-input-modal" role="dialog" aria-modal="true">
-    <p class="algo-custom-input-modal__title text-headline-large-emphasized">{{ 'practice.modal.title' | translate }}</p>
+    <p class="algo-custom-input-modal__title text-body-large">{{ 'practice.modal.title' | translate }}</p>
 
     @if (mode !== 'graph') {
       <label class="algo-custom-input-modal__label text-body-medium">{{ 'practice.modal.numberOfElements' | translate }}</label>
@@ -30,7 +30,7 @@
             @for (index of row; track index) {
               <div class="algo-custom-input-modal__field">
                 <span class="algo-custom-input-modal__field-number text-label-medium-regular">
-                  #{{ index + 1 }}
+                  #{{ index + 1 | localeDigits }}
                 </span>
                 <input
                   type="text"

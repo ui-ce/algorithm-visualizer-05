@@ -1,4 +1,4 @@
-import type { TestDifficulty } from '../../models/test.types';
+import type { TestDifficulty } from '../../test.types';
 
 export type { TestDifficulty };
 

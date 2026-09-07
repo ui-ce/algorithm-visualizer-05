@@ -1,4 +1,4 @@
-import type { TestOption, TestQuestion } from '../models/test.types';
+import type { TestOption, TestQuestion } from '../test.types';
 
 // Fisher-Yates. Re-labels tags after shuffling (1/2/3/4 or A/B/C/D — the
 // question card just uses option.id.toUpperCase() as the visible tag, so
@@ -37,6 +37,19 @@ function seedFromId(id: string): number {
   return hash;
 }
 
-export function withShuffledOptions(question: TestQuestion): TestQuestion {
-  return { ...question, options: shuffledOptions(question.options, seedFromId(question.id)) };
+// `attemptSeed` was missing entirely before: the shuffle was seeded
+// purely from the question's own (fixed) id, which is deterministic
+// BY DESIGN — that was meant to stop the options from re-shuffling on
+// every Angular change-detection pass within a single render, but it
+// had the side effect of making every attempt at the same question
+// land in the exact same shuffled order, forever. Mixing in a value
+// that's generated once per attempt (see Test's constructor) keeps the
+// "stable within one render" property while actually varying between
+// attempts, so retrying a failed set doesn't show the identical option
+// order every time.
+export function withShuffledOptions(question: TestQuestion, attemptSeed: number): TestQuestion {
+  return {
+    ...question,
+    options: shuffledOptions(question.options, (seedFromId(question.id) ^ attemptSeed) | 0),
+  };
 }

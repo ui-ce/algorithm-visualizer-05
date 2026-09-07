@@ -1,5 +1,4 @@
 -- ALGO — database schema
--- Run this once in the Supabase project's SQL editor (Dashboard → SQL Editor → New query).
 --
 -- Auth (login/register) needs no table here: Supabase's built-in
 -- `auth.users` already stores the account (email, hashed password via

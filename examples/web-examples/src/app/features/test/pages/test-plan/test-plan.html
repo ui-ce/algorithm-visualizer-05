@@ -1,5 +1,5 @@
 <div class="algo-test-plan">
-  <algo-header class="algo-test-plan__header" [breadcrumbs]="breadcrumbs" />
+  <algo-header class="algo-test-plan__header" [breadcrumbs]="breadcrumbs" [themeMode]="themeService.themeMode()" (themeToggle)="themeService.toggle()" [currentLanguage]="languageService.currentLanguage()" (languageToggle)="languageService.toggle()" />
 
   <div 
   class="algo-test-plan__title-row">
@@ -26,12 +26,11 @@
     <section class="algo-test-plan__panel">
 
       <h2 class="algo-test-plan__panel-title text-title-large-medium">
-        Choose your test plan
+        {{ 'test.plan.chooseTitle' | translate }}
       </h2>
 
       <p class="algo-test-plan__panel-subtitle text-body-large">
-        Select a difficulty level to start solving questions. Complete all sets
-        in a level to unlock the next one.
+        {{ 'test.plan.subtitle' | translate }}
       </p>
 
       <div class="algo-test-plan__cards">

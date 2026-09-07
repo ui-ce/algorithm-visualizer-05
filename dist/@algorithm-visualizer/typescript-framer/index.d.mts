@@ -172,7 +172,9 @@ declare class GraphFramer implements IFramer {
 
 type LogState = {
     name: string;
+    title?: string | null;
     message: string;
+    line?: number | null;
 };
 
 type LogInitParams = {
@@ -234,7 +236,9 @@ type Graph = {
 
 type Log = {
     name: string;
+    title?: string | null;
     message: string;
+    line?: number | null;
 };
 
 declare enum Array2DAction {
@@ -458,7 +462,9 @@ declare enum LogAction {
 type LogClearMessageParams = {};
 
 type LogSetMessageParams = {
+    title?: string;
     message: string;
+    line?: number;
 };
 
 export { type Animation, Array2DAction, type Array2DClearAllCellsHighlightParams, type Array2DClearAllRowsHighlightParams, type Array2DClearCellsHighlightParams, Array2DFramer, type Array2DInitParams, type Array2DInsertCellsParams, type Array2DInsertRowsParams, type Array2DPopCellsParams, type Array2DPopRowParams, type Array2DPushCellsParams, type Array2DPushRowsParams, type Array2DRemoveCellsParams, type Array2DSetCellsHighlightParams, type Array2DSetCellsParams, type Array2DShiftCellsParams, type Array2DShiftRowsParams, type Array2DUnshiftCellsParams, type Array2DUnshiftRowsParams, type Array2d, type Array2dCell, type Array2dCellState, type Array2dState, type Chart, ChartAction, type ChartBar, type ChartBarState, type ChartClearCellsHighlightParams, type ChartEntry, ChartFramer, type ChartInitParams, type ChartInsertCellsParams, type ChartPopCellsParams, type ChartPushCellsParams, type ChartRemoveCellsParams, type ChartSetCellsHighlightParams, type ChartSetCellsParams, type ChartShiftCellsParams, type ChartState, type ChartUnshiftCellsParams, type Command, type CommandGroup, type Frame, type FrameState, FramerEngine, type Graph, GraphAction, type GraphAddEdgeParams, type GraphAddNodeParams, type GraphClearAllEdgesHighlightParams, type GraphClearAllNodesHighlightParams, type GraphClearEdgeHighlightParams, type GraphClearEdgesHighlightParams, type GraphClearNodeHighlightParams, type GraphEdge, type GraphEdgeState, GraphFramer, type GraphInitParams, type GraphNode, type GraphNodeState, type GraphRemoveEdgeParams, type GraphRemoveEdgesParams, type GraphRemoveNodeParams, type GraphSetEdgeHighlightParams, type GraphSetEdgesHighlightParams, type GraphSetNodeHighlightParams, type GraphState, type IFramer, type Log, LogAction, type LogClearMessageParams, LogFramer, type LogInitParams, type LogSetMessageParams, type LogState, type Recording };

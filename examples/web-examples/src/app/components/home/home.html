@@ -1,41 +1,50 @@
-<!-- <algo-header [themeMode]="themeService.themeMode()" (themeToggle)="themeService.toggle()" />
-<div class="body">
-  @for (algorithm of algorithmData; track algorithm.name) {
-    <p-card class="algo">
-      <ng-template #header>
-        <img alt="Card" class="w-full algo-image" [src]="algorithm.imgUrl" />
-      </ng-template>
-      <ng-template #title> <p class="algo-text">{{ algorithm.name }}</p> </ng-template>
-      <ng-template #subtitle> <p class="algo-text">{{ algorithm.class }}</p> </ng-template>
-      <p class="w-full algo-text"> {{ algorithm.description }} </p>
-      <ng-template #footer>
-        <div class="flex gap-4 mt-1">
-          <p-button label="Visualize" class="w-full" styleClass="w-full" (onClick)="onButtonClicked(algorithm)"/>
-        </div>
-      </ng-template>
-    </p-card>
-  }
-</div> -->
-<algo-header
-  [themeMode]="themeService.themeMode()"
-  (themeToggle)="themeService.toggle()"
-  [currentLanguage]="languageService.currentLanguage()"
-  (languageToggle)="languageService.toggle()"
-/>
-<div class="body">
-  @for (algorithm of algorithmData; track algorithm.nameKey) {
-    <p-card class="algo">
-      <ng-template #header>
-        <img alt="Card" class="w-full algo-image" [src]="algorithm.imgUrl" />
-      </ng-template>
-      <ng-template #title> <p class="algo-text">{{ algorithm.nameKey | translate }}</p> </ng-template>
-      <ng-template #subtitle> <p class="algo-text">{{ algorithm.classKey | translate }}</p> </ng-template>
-      <p class="w-full algo-text"> {{ algorithm.descriptionKey | translate }} </p>
-      <ng-template #footer>
-        <div class="flex gap-4 mt-1">
-          <p-button [label]="'home.visualizeButton' | translate" class="w-full" styleClass="w-full" (onClick)="onButtonClicked(algorithm)"/>
-        </div>
-      </ng-template>
-    </p-card>
-  }
+<div class="algo-home-page">
+  <algo-header [breadcrumbs]="breadcrumbs" [themeMode]="themeService.themeMode()" (themeToggle)="themeService.toggle()"
+    [currentLanguage]="languageService.currentLanguage()" (languageToggle)="languageService.toggle()" />
+
+  <div class="algo-home-page__content">
+    <div class="algo-home-page__section-head">
+      <h1 class="algo-home-page__title text-headline-large-emphasized">{{ 'home.title' | translate }}</h1>
+      <p class="algo-home-page__subtitle text-body-large-emphasized">{{ 'home.subtitle' | translate }}</p>
+    </div>
+
+    <!-- Same category fields + algo-picker-card as the Landing page's
+         own "Pick your algorithm" section (see landing.html) — reused
+         as-is rather than a second card design, per request. -->
+    <div class="algo-home-page__category-field">
+      <div class="algo-home-page__category-field-head">
+        <h2 class="algo-home-page__category-title text-title-large">{{ 'landing.picker.category.sorting' | translate }}</h2>
+        <p class="algo-home-page__category-subtitle text-body-medium">{{ 'landing.picker.category.sorting.subtitle' | translate }}</p>
+      </div>
+      <div class="algo-home-page__category-cards">
+        @for (algo of sortingAlgorithms; track algo.route) {
+        <algo-picker-card [algorithm]="algo" />
+        }
+      </div>
+    </div>
+
+    <div class="algo-home-page__category-field">
+      <div class="algo-home-page__category-field-head">
+        <h2 class="algo-home-page__category-title text-title-large">{{ 'landing.picker.category.graph' | translate }}</h2>
+        <p class="algo-home-page__category-subtitle text-body-medium">{{ 'landing.picker.category.graph.subtitle' | translate }}</p>
+      </div>
+      <div class="algo-home-page__category-cards">
+        @for (algo of graphAlgorithms; track algo.route) {
+        <algo-picker-card [algorithm]="algo" />
+        }
+      </div>
+    </div>
+
+    <div class="algo-home-page__category-field">
+      <div class="algo-home-page__category-field-head">
+        <h2 class="algo-home-page__category-title text-title-large">{{ 'landing.picker.category.searching' | translate }}</h2>
+        <p class="algo-home-page__category-subtitle text-body-medium">{{ 'landing.picker.category.searching.subtitle' | translate }}</p>
+      </div>
+      <div class="algo-home-page__category-cards">
+        @for (algo of searchingAlgorithms; track algo.route) {
+        <algo-picker-card [algorithm]="algo" />
+        }
+      </div>
+    </div>
+  </div>
 </div>

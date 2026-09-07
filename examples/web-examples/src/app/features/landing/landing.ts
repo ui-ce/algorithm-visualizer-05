@@ -9,10 +9,6 @@ import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { translate } from '../../core/i18n/translations';
 import { ThemeService } from '../../core/services/theme.service';
 import { LanguageService } from '../../core/services/language.service';
-// NOTE: this file lives at src/app/features/landing/landing.ts, so
-// reaching home/ (under components/, a sibling of features/, not of
-// landing/) needs an extra '../' compared to when landing.ts used to
-// live at src/app/components/landing/landing.ts.
 import type { AlgorithmData } from '../../components/home/models/algorithm-data.type';
 
 export type AlgorithmCategory = 'sorting' | 'searching' | 'graph';
@@ -28,7 +24,9 @@ export interface LandingAlgorithm extends AlgorithmData {
 // icon and hover reveal are keyed off category now (bars for
 // sorting/searching, a small tree for graph), not a per-algorithm
 // variant, matching the reference design.
-const ALGORITHMS: LandingAlgorithm[] = [
+// Exported so the Home page (/home, the full algorithm catalog) can
+// reuse this exact list instead of maintaining its own duplicate copy.
+export const LANDING_ALGORITHMS: LandingAlgorithm[] = [
   {
     nameKey: 'home.algorithm.bubbleSort.name',
     classKey: 'home.algorithm.bubbleSort.class',
@@ -158,9 +156,9 @@ const TOUR_ITEMS: TourItem[] = [
   styleUrl: './landing.scss',
 })
 export class Landing {
-  protected readonly sortingAlgorithms = ALGORITHMS.filter((a) => a.category === 'sorting');
-  protected readonly searchingAlgorithms = ALGORITHMS.filter((a) => a.category === 'searching');
-  protected readonly graphAlgorithms = ALGORITHMS.filter((a) => a.category === 'graph');
+  protected readonly sortingAlgorithms = LANDING_ALGORITHMS.filter((a) => a.category === 'sorting');
+  protected readonly searchingAlgorithms = LANDING_ALGORITHMS.filter((a) => a.category === 'searching');
+  protected readonly graphAlgorithms = LANDING_ALGORITHMS.filter((a) => a.category === 'graph');
   protected readonly tourItems = TOUR_ITEMS;
 
   public constructor(

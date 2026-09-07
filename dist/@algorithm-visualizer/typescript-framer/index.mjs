@@ -507,7 +507,9 @@ var LogFramer = class {
     this._id = id;
     this._log = {
       name: param.name,
-      message: param.message ?? null
+      title: null,
+      message: param.message ?? null,
+      line: null
     };
   }
   applyAction(action, param) {
@@ -522,11 +524,15 @@ var LogFramer = class {
         throw new Error(`Unknown LogAction: ${action}`);
     }
   }
-  setMessage({ message }) {
+  setMessage({ title, message, line }) {
+    this._log.title = title ?? null;
     this._log.message = message;
+    this._log.line = line ?? null;
   }
   clearMessage() {
+    this._log.title = null;
     this._log.message = null;
+    this._log.line = null;
   }
   getFrameState() {
     return {

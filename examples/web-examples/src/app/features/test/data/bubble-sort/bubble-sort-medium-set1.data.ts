@@ -1,18 +1,5 @@
-import type { TestQuestion } from '../../models/test.types';
+import type { TestQuestion } from '../../test.types';
 
-// Set 1 / Medium for Bubble Sort. Mixes execution (predict-the-next-step)
-// with analytical/conceptual questions, matching the "Medium — Mixed"
-// spec in سفر_کاربر و گزارش_نیازمندی_ها. Harder than Easy in two ways:
-// (1) conceptual questions require reasoning about complexity/behavior
-// instead of definitions, (2) execution questions are placed mid-pass
-// (not the first comparison) so the learner has to track array state
-// across several prior steps, not just read the first frame.
-//
-// All frameIndex values were verified against the real recorder output
-// for bubbleSortVisualization([9, 3, 6, 1, 5]) (46 frames total) — traced
-// with a standalone script that mirrors the algorithm's own array
-// mutations frame-by-frame, not guessed. See the trace below each
-// execution question for the exact frame contents used to write it.
 export const BUBBLE_SORT_MEDIUM_SET_1: TestQuestion[] = [
   {
     id: 'bs-medium-s1-q1',

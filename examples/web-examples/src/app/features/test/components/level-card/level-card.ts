@@ -2,8 +2,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SolarArrowRightLinear, SolarLockKeyholeMinimalisticLinear, SolarStarBold } from '@solar-icons/angular';
 import { SetRow } from '../set-row/set-row';
 import { QUESTIONS_PER_SET } from '../../data/test-question-bank';
+import { LanguageService } from '../../../../core/services/language.service';
+import { translate } from '../../../../core/i18n/translations';
+import { toLocaleDigitsForLanguage } from '../../../../core/i18n/locale-digits.pipe';
 import type { LevelCardData } from './level-card.types';
-import type { TestDifficulty } from '../../models/test.types';
+import type { TestDifficulty } from '../../test.types';
 
 const FACE_IMAGE: Record<TestDifficulty, string> = {
   easy: '/quiz/quiz-easy-face.png',
@@ -11,7 +14,13 @@ const FACE_IMAGE: Record<TestDifficulty, string> = {
   hard: '/quiz/quiz-hard-face.png',
 };
 
-const LABEL: Record<TestDifficulty, string> = { easy: 'Easy', medium: 'Medium', hard: 'Hard' };
+// Translation keys, not display strings — the actual word is resolved
+// through translate() below so it follows the language toggle.
+const LABEL_KEY: Record<TestDifficulty, string> = {
+  easy: 'test.difficulty.easy',
+  medium: 'test.difficulty.medium',
+  hard: 'test.difficulty.hard',
+};
 
 // How many of the 3 title-row stars a person has once THIS level is
 // done — Easy alone is worth 1, finishing Medium (which needs Easy
@@ -27,6 +36,8 @@ const STAR_WORTH: Record<TestDifficulty, number> = { easy: 1, medium: 2, hard: 3
   styleUrl: './level-card.scss',
 })
 export class LevelCard {
+  public constructor(private readonly _languageService: LanguageService) {}
+
   @Input()
   public data!: LevelCardData;
 
@@ -60,7 +71,7 @@ export class LevelCard {
   }
 
   protected get label(): string {
-    return LABEL[this.data.difficulty];
+    return translate(LABEL_KEY[this.data.difficulty], this._languageService.currentLanguage());
   }
 
   protected get accentColorVar(): string {
@@ -76,7 +87,53 @@ export class LevelCard {
   }
 
   protected get unlocksAfterLabel(): string {
-    return this.data.unlocksAfter ? LABEL[this.data.unlocksAfter] : '';
+    return this.data.unlocksAfter ? translate(LABEL_KEY[this.data.unlocksAfter], this._languageService.currentLanguage()) : '';
+  }
+
+  // Kept out of the template's `[attr.title]` string-concat so this
+  // reads through the same translate()+substitution path as everything
+  // else, instead of always being English regardless of language.
+  protected get starWorthTitle(): string {
+    const language = this._languageService.currentLanguage();
+    return translate('test.level.starWorthTitle', language)
+      .replaceAll('{level}', this.label)
+      .replaceAll('{count}', toLocaleDigitsForLanguage(this.starWorth, language))
+      .replaceAll('{plural}', this.starWorth > 1 ? 's' : '');
+  }
+
+  // {sets}/{questions} are raw numbers, not translated words — resolved
+  // here (with digit localization) instead of via the translateVar pipe
+  // in the template, since object-literal pipe chaining in an Angular
+  // template expression is fragile to get right.
+  protected get setsSubtitle(): string {
+    const language = this._languageService.currentLanguage();
+    return translate('test.level.setsSubtitle', language)
+      .replaceAll('{sets}', toLocaleDigitsForLanguage(this.data.sets.length, language))
+      .replaceAll('{questions}', toLocaleDigitsForLanguage(this.questionsPerSet, language));
+  }
+
+  // All three of these were plain hardcoded English in the template
+  // before (a raw "Locked" / "Start {{ label }}" / "Complete all 3
+  // sets in ..." string-concat) — resolved as getters here, same as
+  // starWorthTitle/setsSubtitle above, rather than `| translate` pipes
+  // in the template, so this component has no dependency on
+  // TranslatePipe/TranslateVarPipe actually being registered in the
+  // @Component `imports` array to work correctly.
+  protected get lockedCtaLabel(): string {
+    return translate('test.level.cta.locked', this._languageService.currentLanguage());
+  }
+
+  protected get startCtaLabel(): string {
+    return translate('test.level.cta.start', this._languageService.currentLanguage()).replaceAll(
+      '{level}',
+      this.label,
+    );
+  }
+
+  protected get lockedText(): string {
+    return translate('test.level.lockedText', this._languageService.currentLanguage())
+      .replaceAll('{unlocksAfter}', this.unlocksAfterLabel)
+      .replaceAll('{level}', this.label);
   }
 
   protected onStart(): void {

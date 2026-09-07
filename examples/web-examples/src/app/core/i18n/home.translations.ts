@@ -77,7 +77,12 @@ export const HOME_TRANSLATIONS: TranslationDictionary = {
     en: 'A simple search algorithm that checks each element one by one until the target value is found or the entire array has been searched.',
   },
 
-  'home.algorithm.bfs.name': { fa: 'جست‌وجوی اول-بهترین (BFS)', en: 'Best-First Search (BFS)' },
+  // Was 'Best-First Search' — BFS is Breadth-First Search (a
+  // different, unrelated algorithm from Best-First Search). Fixed
+  // while building the Learn tab, whose "What is BFS?" content
+  // describes breadth-first search and would otherwise contradict the
+  // name shown right next to it.
+  'home.algorithm.bfs.name': { fa: 'جست‌وجوی اول-سطح (BFS)', en: 'Breadth-First Search (BFS)' },
   'home.algorithm.bfs.class': { fa: 'گراف', en: 'Graph' },
   'home.algorithm.bfs.description': {
     fa: 'الگوریتم پیمایش گراف که گره‌ها را سطح‌به‌سطح بررسی می‌کند و پیش از رفتن به سطح بعدی، همه‌ی گره‌های همسایه را بازدید می‌کند.',
@@ -89,5 +94,12 @@ export const HOME_TRANSLATIONS: TranslationDictionary = {
   'home.algorithm.aStar.description': {
     fa: 'الگوریتم مسیریابی‌ای که با ترکیب هزینه‌ی طی‌شده تا این لحظه و برآوردی از فاصله‌ی باقی‌مانده تا هدف، مسیری کارآمد پیدا می‌کند.',
     en: 'A pathfinding algorithm that finds an efficient route by combining the cost already traveled with an estimate of the remaining distance to the goal.',
+  },
+};
+
+export const PRACTICE_TRANSLATIONS: TranslationDictionary = {
+  'practice.export.tex': {
+    fa: 'خروجی LaTeX',
+    en: 'Export LaTeX',
   },
 };

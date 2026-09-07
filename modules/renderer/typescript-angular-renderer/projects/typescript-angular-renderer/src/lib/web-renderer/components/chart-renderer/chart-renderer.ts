@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { ChartHighlightLayer } from './chart-highlight-layer/chart-highlight-layer';
+import { toLocaleDigits } from '../../utils/locale-digits.util';
 
 @Component({
   selector: 'chart-renderer',
@@ -54,5 +55,12 @@ export class ChartRenderer {
 
   protected getShowValue(): boolean {
     return this.metadata?.showValue ?? true;
+  }
+
+  // Bar order/position stays left-to-right always (see chart-renderer.scss's
+  // `direction: ltr` pin) — this only swaps how the digits themselves are
+  // drawn (Persian numerals) when the page is in Persian.
+  protected formatDigits(value: number | string): string {
+    return toLocaleDigits(value);
   }
 }

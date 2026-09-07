@@ -3,8 +3,10 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
+  min-height: 0;
   padding-inline: 24px;
   padding-block: 12px;
+
   background-color: var(--color-surface-container);
   border: 1px solid var(--color-border-default);
   border-radius: 12px;
@@ -14,7 +16,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: fit-content;
+    flex-shrink: 0;
     margin-block-end: 8px;
   }
 
@@ -22,15 +24,13 @@
     color: var(--color-text-secondary);
   }
 
-  // Only rendered for Binary/Linear Search — a highlighted pill instead
-  // of plain text so it doesn't read as just another status label next
-  // to the step counter; the target value is the one thing on this
-  // page a person needs to keep in view the whole time a search runs.
   &__target {
     display: inline-flex;
     align-items: center;
     gap: 4px;
+
     padding: 2px 10px;
+
     color: var(--color-text-secondary);
     background-color: var(--color-surface);
     border: 1px solid var(--color-border-default);
@@ -53,12 +53,18 @@
 
   &__fullscreen-button {
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
     width: 24px;
     height: 24px;
+
     margin-inline-start: 12px;
     padding: 0;
+
     background: none;
     border: none;
+
     color: var(--color-text-tertiary);
     cursor: pointer;
   }
@@ -68,40 +74,489 @@
     height: 100%;
   }
 
-  // Column flex so the legend sits right under the chart instead of
-  // below this whole wrapper — that way the hint overlay below (which
-  // covers this wrapper via inset: 0) sits on top of the legend too,
-  // not just the bars.
-  &__chart-wrapper {
-    position: relative;
+  /*
+   * Main visualization layout.
+   *
+   * Normal algorithms:
+   *   [ Visualization ]
+   *   [ Legend         ]
+   *
+   * Graph algorithms — Data Structures is row-aligned with the whole
+   * left column (graph + legend stacked), not just the graph:
+   *   [ Graph Visualization  ] [               ]
+   *   [        Legend        ] [ Data Structures]
+   */
+  &__body {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    flex: 1;
+
+    flex: 1 1 auto;
+
+    min-width: 0;
     min-height: 0;
-    margin-block-end: 8px;
+
+    width: 100%;
+    height: 100%;
+
+    gap: 10px;
+  }
+
+  &__body--graph {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  // Row that the left column (graph + legend) and Data Structures
+  // share. Default align-items: stretch means Data Structures
+  // (&__side-column) is always exactly as tall as &__left-column's
+  // rendered height — graph plus legend plus the gap between them.
+  &__main-row {
+    display: flex;
+    flex-direction: row;
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+    min-height: 0;
+
+    width: 100%;
+
+    gap: 10px;
+  }
+
+  // Graph visualization stacked with the main legend — kept together
+  // so &__side-column can stretch to match their combined height (see
+  // &__main-row above) rather than the graph's alone.
+  &__left-column {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+    min-height: 0;
+
+    width: 100%;
+
+    gap: 10px;
+  }
+
+  &__chart-wrapper {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+    min-height: 0;
+
+    width: 100%;
+
+    gap: 10px;
+  }
+
+  &__body--graph &__left-column {
+    min-width: 0;
   }
 
   algo-visualization-area {
     flex: 1;
+    min-width: 0;
     min-height: 0;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   algo-visualization-legend {
     flex-shrink: 0;
   }
 
+  // Column shared by the graph layout toggle (top) and Data Structures
+  // (bottom). justify-content: space-between pins the toggle to the
+  // top and Data Structures to the bottom of this column, which is
+  // itself exactly as tall as &__left-column — graph + legend combined
+  // (default align-items: stretch on &__main-row, see above).
+  &__side-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    flex: 0 0 220px;
+
+    width: 220px;
+    min-width: 220px;
+    max-width: 220px;
+
+    min-height: 0;
+  }
+
+  // Same visual language as algo-segmented-button (Learn/Practice/Test)
+  // and graph-renderer's old internal toggle: fixed width so
+  // `flex: 1 1 0` actually gives three genuinely equal segments (see
+  // the long comment on graph-renderer.scss's version of this control
+  // for why that matters for the thumb's calc() to line up), gap: 4px,
+  // `calc((100% - 8px) / 3)` thumb width.
+  &__graph-layout-toolbar {
+    position: relative;
+
+    display: flex;
+
+    width: 100%;
+    height: fit-content;
+
+    gap: 4px;
+
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-button-primary-default);
+    border-radius: 999px;
+  }
+
+  &__graph-layout-thumb {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+
+    width: calc((100% - 8px) / 3);
+
+    background-color: var(--color-button-primary-default);
+    border-radius: 999px;
+
+    transition: transform 0.25s ease;
+  }
+
+  &__graph-layout-segment {
+    position: relative;
+    z-index: 1;
+
+    flex: 1 1 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding-block: 5px;
+
+    background: none;
+    border: none;
+
+    // Sizing/weight now comes from the text-label-medium(-regular)
+    // utility classes bound in the template (same
+    // regular-unselected / medium-selected pattern as
+    // algo-segmented-button), not a hardcoded value — this was
+    // previously font-size: 0.65rem with no matching typography token,
+    // which is why it didn't read as this app's own type scale. Label
+    // (12px) rather than Body (14px, what algo-segmented-button uses)
+    // because this toolbar sits in the 220px side column, not the full
+    // width algo-segmented-button gets.
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+    white-space: nowrap;
+
+    transition: color 0.25s ease;
+  }
+
+  &__graph-layout-segment--selected {
+    color: var(--color-text-on-primary);
+  }
+
+  /*
+   * Data Structures panel
+   *
+   * One shared bordered field for everything (already had its own
+   * background/border below — that's the "field" that's meant to hold
+   * all of Open Set / Closed Set / Queue / Stack / etc., not a
+   * container each of *them* gets its own copy of). The renderer
+   * components underneath (array-2d-renderer, chart-renderer) render
+   * fully transparent by design, so no extra per-item card should be
+   * showing here — the ::ng-deep rule below makes that explicit rather
+   * than relying on it staying transparent by accident.
+   */
+  &__data-structures {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    max-width: 100%;
+    width: 100%;
+
+    // Hug its own content instead of stretching to fill &__side-column
+    // (whatever's left after the layout toolbar above it) — an
+    // algorithm with just a Queue or just a Stack should size to that
+    // alone, not to the graph's height. &__side-column's own
+    // justify-content: space-between is what pins this to the bottom
+    // of the column now, so this no longer needs its own align-self
+    // trick the way it did before the toggle moved into this same
+    // column.
+    height: fit-content;
+    max-height: 100%;
+    min-height: 0;
+
+    gap: 6px;
+    padding: 8px;
+
+    box-sizing: border-box;
+
+    background-color: var(--color-surface-container);
+    border: 1px solid var(--color-border-default);
+    border-radius: 12px;
+
+    overflow: hidden;
+
+
+    // Overrides the generic `algo-visualization-area { flex: 1; ... }`
+    // rule above (which is meant for the main chart, filling all
+    // available height) — inside this panel the host itself needs to
+    // hug its own content too, not grow to fill the column.
+    algo-visualization-area {
+      flex: 0 0 auto;
+      height: auto;
+    }
+
+    /*
+     * Everything from here down pierces into the renderer library's
+     * own component templates (algo-visualization-area's inner
+     * markup, web-renderer, array-2d-renderer, chart-renderer), which
+     * is what ::ng-deep is for.
+     *
+     * IMPORTANT: every selector below is written as its own separate
+     * `::ng-deep .foo { ... }` rule, never grouped with a comma
+     * (`::ng-deep .a, ::ng-deep .b { ... }` or `::ng-deep { .a, .b {
+     * ... } }`). Verified directly against the compiled output (not
+     * just the Sass output, which looks fine on its own) that Angular's
+     * own ::ng-deep post-processing — a separate step that runs after
+     * Sass has already expanded the nesting — mishandles comma-
+     * separated selector lists: it keeps this rule's ancestor scoping
+     * (the `.algo-visualization-section__data-structures` prefix) on
+     * every selector *after* the first, but the first branch silently
+     * loses its scoping and compiles as a completely unscoped global
+     * rule. That's the actual reason the background/font overrides
+     * that used to live here never visibly took effect for Array2D
+     * specifically — every one of them had `.array-2d-renderer-root`
+     * listed first in a comma group.
+     */
+    ::ng-deep .algo-visualization-area {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      height: auto;
+    }
+
+    ::ng-deep web-renderer {
+      display: flex;
+      flex-direction: column;
+      height: auto !important;
+      gap: 6px;
+    }
+
+    // array-2d-renderer / log-renderer hug their own small content
+    // fine at height: auto. chart-renderer can't: its bars are
+    // positioned with percentage heights relative to this
+    // component's own height (see chart-renderer.ts's getBarHeight —
+    // `max(2px, calc(${percent}% - 2rem))`), and percentages need a
+    // *definite* height to resolve against. Leaving it at `auto`
+    // here (inherited from the `height: auto !important` above) gave
+    // it 0 usable height, so every bar clamped to the `max(2px, ...)`
+    // floor regardless of value — the "just numbers, no bars" bug.
+    //
+    // The fixed height also needs to be tall enough for that formula
+    // to produce a visible *difference* between bars, not just any
+    // fixed height: the `- 2rem` (32px) is a flat deduction baked into
+    // every bar regardless of container size, so at a too-short
+    // height (64px was tried first) it eats most of the available
+    // range and every bar — regardless of value — ends up within a
+    // couple of pixels of the same height. 110px leaves roughly 78px
+    // of real range above that floor, enough for values like the
+    // 0–13 range Dijkstra/A*'s distance table actually shows to read
+    // as visually distinct bars again, while still being far more
+    // compact than the main chart's own height.
+    ::ng-deep chart-renderer {
+      display: block !important;
+      height: 110px !important;
+      flex-shrink: 0;
+    }
+
+    ::ng-deep array-2d-renderer {
+      height: auto !important;
+      flex-shrink: 0;
+    }
+
+    ::ng-deep log-renderer {
+      height: auto !important;
+      flex-shrink: 0;
+    }
+
+    // Belt-and-suspenders: the library components already render
+    // transparent with no border by design, but pinning it here too
+    // means this panel can never end up with a stray per-item card
+    // background regardless of what changes in the library later —
+    // everything sits directly on this one shared field.
+    ::ng-deep .array-2d-renderer-root {
+      background: transparent;
+      border: none;
+    }
+
+    ::ng-deep .chart-renderer-root {
+      background: transparent;
+      border: none;
+    }
+
+    // Renderer-generated Array2D titles (e.g. "Open Set", "Closed
+    // Set") — array-2d-renderer actually renders these through a
+    // PrimeNG p-card header (`.header .title` in its own template),
+    // not a `data-name` attribute on an `.array-2d-renderer-root`
+    // element — that class/attribute don't exist anywhere in its
+    // markup, so the rule that used to target them never matched
+    // anything. That's the actual cause of the extra gap above "Open
+    // Set": with no override reaching it, the title kept the
+    // library's own default `.header { padding: 8px 12px }` plus
+    // text-body-large-medium sizing instead of this panel's compact
+    // typography. Targeting the real elements and collapsing that
+    // padding is what closes the gap.
+    ::ng-deep array-2d-renderer .header {
+      padding: 0 0 2px;
+    }
+
+    ::ng-deep array-2d-renderer .header .title {
+      color: var(--color-text-tertiary);
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-label-medium);
+      line-height: var(--line-height-label-medium);
+      font-weight: var(--font-weight-label-medium-medium);
+      letter-spacing: var(--letter-spacing-none);
+    }
+
+    // chart-renderer has no title/header in its own template at all
+    // (no data-name attribute either), so this rule is a no-op today —
+    // left in place in case a future chart-renderer version adds one,
+    // kept consistent with the array2d title styling above.
+    ::ng-deep .chart-renderer-root[data-name]:not([data-name=""])::before {
+      content: attr(data-name);
+
+      display: block;
+
+      margin-block-end: 2px;
+
+      color: var(--color-text-tertiary);
+      font-family: var(--font-family-base);
+      font-size: 0.625rem;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    ::ng-deep .array2d-table td {
+      width: 22px !important;
+      height: 22px !important;
+
+      font-family: var(--font-family-base);
+      font-size: 0.625rem;
+    }
+
+    ::ng-deep .chart {
+      gap: 4px !important;
+    }
+
+    ::ng-deep .chart .bar-container .value {
+      margin-top: 1px;
+      font-family: var(--font-family-base);
+      font-size: 0.625rem;
+    }
+
+    ::ng-deep .chart .bar-container .label {
+      margin-top: 1px;
+      font-family: var(--font-family-base);
+      font-size: 0.625rem;
+    }
+
+    // array-2d-renderer's p-card defaults to min-height: 100px (its own
+    // getMinHeight() fallback, meant for a main-visualization-sized
+    // array). Stack/Queue/Open Set/Closed Set here are usually just 1-2
+    // cells, so that 100px floor was forcing a tall, centered card with
+    // a lot of empty space below the cell and above the legend — this
+    // panel should hug exactly the header + cell height instead.
+    ::ng-deep array-2d-renderer .p-card {
+      min-height: 0 !important;
+    }
+  }
+
+  // A plain centered flex-wrap (the base component's default) looks
+  // fine for the main legend, which always has room for every item on
+  // one line. Here it doesn't: this panel is 220px wide, and the item
+  // count varies per algorithm (4 for Dijkstra/A*, 2 for DFS/BFS), so
+  // centered wrapping produced a different, sometimes lopsided layout
+  // per algorithm (e.g. 3 items on one row + 1 centered alone below).
+  // A fixed 2-column grid gives every count (2, 3, or 4 items) the same
+  // predictable, left-aligned shape instead.
+  &__data-structures-legend {
+    width: 100%;
+    min-width: 0;
+
+    ::ng-deep .algo-visualization-legend {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 12px;
+      row-gap: 4px;
+      width: 100%;
+    }
+
+    ::ng-deep .algo-visualization-legend__item {
+      width: auto;
+    }
+
+    // Same rounded-square swatch as the main legend (border-radius: 4px
+    // there, see the base component's __square), just scaled down to
+    // fit this narrower panel — a circle read as a different visual
+    // language for the same color meaning.
+    ::ng-deep .algo-visualization-legend__square {
+      width: 10px;
+      height: 10px;
+      flex-basis: 10px;
+      border-radius: 4px;
+    }
+
+    ::ng-deep .algo-visualization-legend__label {
+      font-family: var(--font-family-base);
+      // Was --font-size-label-medium-regular, which doesn't exist as a
+      // token (see _typography.scss: the size token is
+      // --font-size-label-medium, weight is the separate
+      // --font-weight-label-medium-regular below). An undefined custom
+      // property makes font-size invalid at computed-value time, so it
+      // was falling back to the inherited size instead of the label
+      // typography this panel is meant to use.
+      font-size: var(--font-size-label-medium);
+      line-height: var(--line-height-label-medium);
+      font-weight: var(--font-weight-label-medium-regular);
+      letter-spacing: var(--letter-spacing-none);
+    }
+  }
+
+  /*
+   * Hint overlay
+   */
   &__hint {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
     gap: 12px;
+
     position: absolute;
     inset: 0;
+
     padding: 24px;
+
     text-align: center;
-    background-color: color-mix(in srgb, var(--color-surface-container) 88%, transparent);
+
+    background-color: color-mix(in srgb,
+        var(--color-surface-container) 88%,
+        transparent);
+
     backdrop-filter: blur(2px);
     border-radius: 12px;
   }
@@ -115,14 +570,13 @@
     color: var(--color-text-secondary);
   }
 
-  // These are the real Play and Custom Input controls, just shown at a
-  // smaller scale here — the point is to familiarize the person with
-  // the actual buttons they'll use below, not to introduce new ones.
   &__hint-actions {
     display: flex;
     align-items: center;
+
     gap: 12px;
     margin-block-start: 8px;
+
     transform: scale(0.85);
   }
 }

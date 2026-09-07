@@ -30,6 +30,9 @@ export class VisualizationArea {
   @Input()
   public showTitle: boolean = true;
 
+  @Input() 
+  public compact = false;
+
   // When set, only frame states whose type is in this list render here
   // — e.g. ['Graph'] for the main graph box, ['Array2D', 'Chart'] for a
   // separate compact panel showing Dijkstra's Open Set / Closed Set /

@@ -1,5 +1,5 @@
 <div class="algo-test-results">
-  <algo-header class="algo-test-results__header" [breadcrumbs]="breadcrumbs" />
+  <algo-header class="algo-test-results__header" [breadcrumbs]="breadcrumbs" [themeMode]="themeService.themeMode()" (themeToggle)="themeService.toggle()" [currentLanguage]="languageService.currentLanguage()" (languageToggle)="languageService.toggle()" />
 
   @if (result) {
     <div class="algo-test-results__body">
@@ -8,28 +8,27 @@
 
         <img class="algo-test-results__hero" [src]="heroImage" [alt]="titleText" width="224" height="224" />
 
-        <p class="algo-test-results__score-label text-title-large">Your Score</p>
+        <p class="algo-test-results__score-label text-title-large">{{ 'test.results.scoreLabel' | translate }}</p>
         <div class="algo-test-results__score-row">
-          <span class="algo-test-results__score text-headline-large-emphasized">{{ correctCount }}/{{ totalCount }}</span>
-          <span class="algo-test-results__score-percent text-headline-large-emphasized" [style.color]="scoreColorVar">({{ scorePercent }}%)</span>
+          <span class="algo-test-results__score text-headline-large-emphasized">{{ correctCount | localeDigits }}/{{ totalCount | localeDigits }}</span>
+          <span class="algo-test-results__score-percent text-headline-large-emphasized" [style.color]="scoreColorVar">({{ scorePercent | localeDigits }}%)</span>
         </div>
 
         <p class="algo-test-results__sentence text-body-large">{{ sentence }}</p>
 
         <div class="algo-test-results__actions">
-          <button type="button" class="algo-test-results__btn algo-test-results__btn--primary" (click)="onReviewAnswers()">
-            Review Answers
-          </button>
           @if (passed) {
-            <button type="button" class="algo-test-results__btn algo-test-results__btn--outline" (click)="onBackToAlgorithms()">
-              Back to Algorithms
-            </button>
+            @if (hasNextTest) {
+              <algo-button variant="primary" [fullWidth]="true" [text]="'test.results.action.nextTest' | translate" [hasRightIcon]="true" (click)="onNextTest()">
+                <svg right-icon solarArrowRightLinear [size]="16"></svg>
+              </algo-button>
+            }
+            <algo-button variant="outline" [fullWidth]="true" [text]="'test.results.action.backToAlgorithms' | translate" (click)="onBackToAlgorithms()" />
           } @else {
-            <button type="button" class="algo-test-results__btn algo-test-results__btn--outline" (click)="onTryAgain()">
-              Try Again
-            </button>
-            <button type="button" class="algo-test-results__btn algo-test-results__btn--link" (click)="onBackToAlgorithms()">
-              Back to Algorithms
+            <algo-button variant="primary" [fullWidth]="true" [text]="'test.results.action.reviewAnswers' | translate" (click)="onReviewAnswers()" />
+            <algo-button variant="outline" [fullWidth]="true" [text]="'test.results.action.tryAgain' | translate" (click)="onTryAgain()" />
+            <button type="button" class="algo-test-results__btn algo-test-results__btn--link text-body-medium-emphasized" (click)="onBackToAlgorithms()">
+              {{ 'test.results.action.backToAlgorithms' | translate }}
             </button>
           }
         </div>
@@ -41,14 +40,14 @@
         </div>
 
         <section class="algo-test-results__panel">
-          <h2 class="algo-test-results__panel-title text-body-large">Performance Summary</h2>
+          <h2 class="algo-test-results__panel-title text-body-large">{{ 'test.results.panel.performanceSummary' | translate }}</h2>
           <div class="algo-test-results__summary-cards">
-            @for (box of summaryBoxes; track box.label) {
+            @for (box of summaryBoxes; track box.key) {
               <div class="algo-test-results__summary-card">
                 <span class="text-body-medium algo-test-results__summary-card-label">{{ box.label }}</span>
                 <span class="algo-test-results__summary-card-value-row">
                   <span class="text-title-large" [style.color]="box.colorVar">{{ box.value }}</span>
-                  @if (box.label === 'XP') {
+                  @if (box.key === 'xp') {
                     <img class="algo-test-results__trophy" src="/quiz/quiz-xp-trophy.png" alt="" width="24" height="24" />
                   }
                 </span>
@@ -58,7 +57,7 @@
         </section>
 
         <section class="algo-test-results__panel">
-          <h2 class="algo-test-results__panel-title text-body-large">Question Overview</h2>
+          <h2 class="algo-test-results__panel-title text-body-large">{{ 'test.results.panel.questionOverview' | translate }}</h2>
           <div class="algo-test-results__overview-grid">
             @for (q of questionOverview; track q.questionNumber) {
               <algo-outcome-badge [questionNumber]="q.questionNumber" [outcome]="q.outcome" />
@@ -67,26 +66,25 @@
         </section>
 
         <section class="algo-test-results__panel">
-          <h2 class="algo-test-results__panel-title text-body-large">Performance Insight</h2>
+          <h2 class="algo-test-results__panel-title text-body-large">{{ 'test.results.panel.performanceInsight' | translate }}</h2>
           <p class="text-body-medium">
-            <span class="algo-test-results__insight-label">Your strongest area:</span>
-            {{ strongestAreaLabel }}
+            <span class="algo-test-results__insight-label">{{ 'test.results.insight.strongest' | translate }}</span>
+            <span class="algo-test-results__insight-value">{{ strongestAreaLabel }}</span>
           </p>
-          <p class="text-body-medium">
-            <span class="algo-test-results__insight-label">Needs improvement:</span>
-            {{ weakestAreaLabel }}
-            <button type="button" class="algo-test-results__insight-link" (click)="onNeedLearningClick()">(need learning?)</button>
-          </p>
-          @if (showInsightNotice) {
-            <p class="algo-test-results__insight-notice text-body-medium">This section isn't available yet.</p>
+          @if (hasMeaningfulWeakArea) {
+            <p class="text-body-medium">
+              <span class="algo-test-results__insight-label">{{ 'test.results.insight.weakest' | translate }}</span>
+              <span class="algo-test-results__insight-value">{{ weakestAreaLabel }}</span>
+              <button type="button" class="algo-test-results__insight-link text-body-medium-emphasized" (click)="onNeedMoreClick()">{{ weakAreaActionLabel }}</button>
+            </p>
           }
         </section>
 
         <section class="algo-test-results__panel">
           <div class="algo-test-results__locked-header">
-            <h2 class="algo-test-results__panel-title text-body-large">Previous Attempt</h2>
+            <h2 class="algo-test-results__panel-title text-body-large">{{ 'test.results.panel.previousAttempt' | translate }}</h2>
             <span class="algo-test-results__difficulty-pill text-body-medium" [style.color]="'var(--color-quiz-' + difficulty + ')'" [style.border-color]="'var(--color-quiz-' + difficulty + ')'">
-              {{ difficulty }}
+              {{ difficultyLabel }}
             </span>
           </div>
 
@@ -95,15 +93,15 @@
               <div class="algo-test-results__chart-box">
                 @if (scoreDeltaFromPrevious !== null) {
                   <p class="text-body-medium algo-test-results__chart-delta-row">
-                    Current Score:
-                    <span class="algo-test-results__chart-current" [style.color]="scoreColorVar">{{ scorePercent }}%</span>
+                    {{ 'test.results.chart.currentScore' | translate }}
+                    <span class="algo-test-results__chart-current text-body-medium-emphasized" [style.color]="scoreColorVar">{{ scorePercent | localeDigits }}%</span>
                     @if (scoreDeltaFromPrevious !== 0) {
                       <span
                         class="algo-test-results__chart-delta"
                         [class.algo-test-results__chart-delta--up]="scoreDeltaFromPrevious > 0"
                         [class.algo-test-results__chart-delta--down]="scoreDeltaFromPrevious < 0"
                       >
-                        {{ scoreDeltaFromPrevious > 0 ? '↑' : '↓' }} {{ absScoreDelta }}% from previous attempt
+                        {{ scoreDeltaFromPrevious > 0 ? '↑' : '↓' }} {{ absScoreDelta | localeDigits }}% {{ 'test.results.chart.fromPrevious' | translate }}
                       </span>
                     }
                   </p>
@@ -114,11 +112,11 @@
               </div>
             } @else if (isLoadingHistory) {
               <div class="algo-test-results__locked-box">
-                <p class="text-body-medium">Loading your progress…</p>
+                <p class="text-body-medium">{{ 'test.results.chart.loading' | translate }}</p>
               </div>
             } @else {
               <div class="algo-test-results__locked-box">
-                <p class="text-body-medium">Your progress chart will show up once you've completed this set a couple of times.</p>
+                <p class="text-body-medium">{{ 'test.results.chart.notEnough' | translate }}</p>
               </div>
             }
           } @else {
@@ -127,11 +125,15 @@
                 <svg solarLockKeyholeMinimalisticLinear [size]="24"></svg>
               </span>
               <p class="text-body-large algo-test-results__locked-text">
-                This feature will be open when you log in to your account
+                {{ 'test.results.locked.text' | translate }}
               </p>
-              <button type="button" class="algo-test-results__btn algo-test-results__btn--primary algo-test-results__locked-cta">
-                Sign up / Log in
-              </button>
+              <algo-button
+                variant="primary"
+                [fullWidth]="true"
+                [text]="'test.results.locked.signIn' | translate"
+                class="algo-test-results__locked-cta"
+                (click)="onSignIn()"
+              />
             </div>
           }
         </section>

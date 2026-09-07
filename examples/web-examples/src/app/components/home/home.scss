@@ -1,24 +1,73 @@
-.body {
-  padding: 2rem;
+// Unlike Learn/Practice/Test's "one viewport, never scrolls" pages,
+// this is a plain content listing (11 cards) — it uses normal document
+// flow and scrolls once there's more content than fits, the same way
+// Landing's own picker section does.
+.algo-home-page {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-background);
 
-  .algo {
-    width: 25rem;
-    height: 30rem;
-    overflow: hidden;
+  &__content {
+    padding: 32px 64px 64px;
+  }
 
-    .algo-image {
-      width: 25rem;
-      height: 15rem;
-      overflow: hidden;
-      object-fit: contain;
+  &__section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 640px;
+    margin-bottom: 48px;
+  }
+
+  &__title {
+    color: var(--color-text-primary);
+  }
+
+  &__subtitle {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+
+  // ----- Category fields — identical treatment to landing.scss's own
+  // __category-field/__category-field-head/__category-title/
+  // __category-subtitle/__category-cards (kept in sync intentionally;
+  // this is the same visual pattern, just re-declared here since
+  // Angular scopes each component's styles to itself). -----
+  &__category-field {
+    padding: 36px;
+    border-radius: 20px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-default);
+    margin-bottom: 32px;
+
+    &:last-child {
+      margin-bottom: 0;
     }
+  }
 
-    .algo-text {
-      font-family: vazirmatn;
-    }
+  &__category-field-head {
+    margin-bottom: 20px;
+  }
+
+  &__category-title {
+    color: var(--color-text-primary);
+  }
+
+  &__category-subtitle {
+    margin: 4px 0 0;
+    color: var(--color-text-secondary);
+  }
+
+  &__category-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 900px) {
+  .algo-home-page__content {
+    padding: 24px 20px 40px;
   }
 }

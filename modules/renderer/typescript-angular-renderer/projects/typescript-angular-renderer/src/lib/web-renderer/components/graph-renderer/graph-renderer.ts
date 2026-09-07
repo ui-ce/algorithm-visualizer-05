@@ -7,10 +7,14 @@ import {
   AfterViewInit,
   OnDestroy,
   OnChanges,
+  OnInit,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { GraphState } from '../../models/framer/graph/graph-state.type';
 import { GraphMetaData } from '../../models/renderer/graph/graph-metadata.type';
+import { GraphLayoutName, GraphLayoutService } from './graph-layout.service';
 import cytoscape, {
   Core,
   CircleLayoutOptions,
@@ -26,72 +30,104 @@ import cytoscape, {
   templateUrl: './graph-renderer.html',
   styleUrls: ['./graph-renderer.scss'],
 })
-export class GraphRenderer implements AfterViewInit, OnChanges, OnDestroy {
+export class GraphRenderer implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @Input()
   public state: GraphState;
 
   @Input()
   public metadata: GraphMetaData;
 
+  @Input()
+  public compact = false;
+
   @ViewChild('cyContainer', { static: true })
   protected cyContainer: ElementRef<HTMLDivElement>;
 
-  protected readonly circleLayout: CircleLayoutOptions = { name: 'circle' };
-  protected readonly concentricLayout: ConcentricLayoutOptions = {
-    name: 'concentric',
-    minNodeSpacing: 30,
-  };
-  protected readonly breadthFirstLayout: BreadthFirstLayoutOptions = {
-    name: 'breadthfirst',
-  };
-  protected readonly layoutOptions = [
-    { label: 'Circle', value: this.circleLayout as LayoutOptions },
-    { label: 'Concentric', value: this.concentricLayout as LayoutOptions },
-    { label: 'Breadth First', value: this.breadthFirstLayout as LayoutOptions },
-  ];
+  private readonly layoutService = inject(GraphLayoutService);
 
-  // Own lightweight segmented-toggle state instead of PrimeNG's
-  // p-selectbutton + ngModel — see graph-renderer.html/scss. Index-based
-  // (rather than tracking the LayoutOptions object itself) so the sliding
-  // thumb position can be derived the same way algo-segmented-button
-  // does it in the app.
-  protected selectedLayoutIndex = 0;
+  private readonly layoutsByName: Record<GraphLayoutName, LayoutOptions> = {
+    circle: { name: 'circle' } as CircleLayoutOptions,
+    concentric: { name: 'concentric', minNodeSpacing: 30 } as ConcentricLayoutOptions,
+    breadthfirst: { name: 'breadthfirst' } as BreadthFirstLayoutOptions,
+  };
 
-  private _currentLayout: LayoutOptions = this.circleLayout;
+
+
+
+  // The Circle/Concentric/Breadth First control itself no longer lives
+  // here — it used to float over the graph canvas as its own toolbar,
+  // but that put it in a completely different component subtree than
+  // the app's Data Structures panel, which made it impossible to stack
+  // the two together in one column no matter what CSS was applied to
+  // either side. It's now rendered by the consuming app (see
+  // visualization-section) wherever it makes sense on the page, and
+  // this component just reacts to GraphLayoutService's current value —
+  // same underlying Cytoscape layout change, different place for the
+  // buttons.
+  private _currentLayout: LayoutOptions = this.layoutsByName.circle;
   private _isInitialized: boolean = false;
   private _cy: Core;
+  private _layoutSubscription: Subscription;
+
+  // Cytoscape measures its container once on init and then never
+  // checks again — it has no idea when the surrounding page changes
+  // layout (e.g. the Drawer opening/closing, which resizes this
+  // column through pure CSS flex without touching this component's
+  // inputs at all). Left alone, the canvas keeps rendering at its old
+  // size and visually spills past its new, narrower box instead of
+  // shrinking with it. Watching the container itself — not the
+  // window — catches every case that actually changes its box,
+  // regardless of what caused it.
+  private _resizeObserver: ResizeObserver | undefined;
 
   public get minHeight(): string {
     return this.metadata?.minHeight ?? '400px';
   }
 
-  protected get layoutThumbTransform(): string {
-    return `translateX(calc(${this.selectedLayoutIndex} * (100% + 4px)))`;
+  public ngOnInit(): void {
+    this._layoutSubscription = this.layoutService.layout$.subscribe((layoutName) => {
+      this.changeLayout(this.layoutsByName[layoutName]);
+    });
   }
 
   public ngAfterViewInit(): void {
     this.renderGraph();
     this._isInitialized = true;
+
+    this._resizeObserver = new ResizeObserver(() => {
+      // resize() alone tells Cytoscape to re-measure its canvas to the
+      // container's current box; fit() then re-frames the existing
+      // layout inside that new box so nodes don't end up clipped or
+      // stranded off to one side once the column has shrunk or grown.
+      this._cy?.resize();
+      this._cy?.fit(undefined, 20);
+    });
+    this._resizeObserver.observe(this.cyContainer.nativeElement);
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if ((changes['state'] || changes['metadata']) && this.cyContainer && this._isInitialized) {
+    if (
+      (changes['state'] ||
+        changes['metadata'] ||
+        changes['compact']) &&
+      this.cyContainer &&
+      this._isInitialized
+    ) {
       this.renderGraph();
+
+      requestAnimationFrame(() => {
+        this._cy?.resize();
+        this._cy?.fit(undefined, 20);
+      });
     }
   }
 
   public ngOnDestroy(): void {
+    this._layoutSubscription?.unsubscribe();
+    this._resizeObserver?.disconnect();
+    this._resizeObserver = undefined;
     this._cy?.destroy();
     this._cy = undefined;
-  }
-
-  protected selectLayout(index: number): void {
-    if (index === this.selectedLayoutIndex) {
-      return;
-    }
-
-    this.selectedLayoutIndex = index;
-    this.changeLayout(this.layoutOptions[index].value);
   }
 
   public changeLayout(layout: LayoutOptions): void {

@@ -3,7 +3,7 @@
     @for (bar of state?.bars; track $index) {
       <div class="bar-container" [style.width]="getBarWidth()">
         @if (getShowValue()) {
-          <div class="value">{{ bar.value }}</div>
+          <div class="value">{{ formatDigits(bar.value) }}</div>
         }
         <div class="bar" [style.height]="getBarHeight(bar.value)" [style.background-color]="getDefaultColor()">
           @let colors = getBarColors(bar.highlightTags);
@@ -12,7 +12,7 @@
           }
         </div>
         @if (getShowLabel()) {
-          <div class="label">{{ bar.label }}</div>
+          <div class="label">{{ formatDigits(bar.label) }}</div>
         }
       </div>
     }

@@ -1,4 +1,4 @@
-import type { TestQuestion } from '../../models/test.types';
+import type { TestQuestion } from '../../test.types';
 
 // Set 3 / Hard for Selection Sort. Reuses [4, 2, 4, 1] with different
 // frames/wording than Sets 1 and 2.

@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
-import type { QuestionOutcome } from '../../models/test.types';
+import { LanguageService } from '../../../../core/services/language.service';
+import { toLocaleDigitsForLanguage } from '../../../../core/i18n/locale-digits.pipe';
+import type { QuestionOutcome } from '../../test.types';
 
 const COLOR_VAR: Record<QuestionOutcome, string> = {
   correct: 'var(--color-test-summary-correct)',
@@ -18,6 +20,8 @@ const COLOR_VAR: Record<QuestionOutcome, string> = {
   styleUrl: './outcome-badge.scss',
 })
 export class OutcomeBadge {
+  public constructor(private readonly _languageService: LanguageService) {}
+
   @Input()
   public questionNumber = 1;
 
@@ -26,5 +30,9 @@ export class OutcomeBadge {
 
   protected get colorVar(): string {
     return COLOR_VAR[this.outcome];
+  }
+
+  protected get displayNumber(): string {
+    return toLocaleDigitsForLanguage(this.questionNumber, this._languageService.currentLanguage());
   }
 }

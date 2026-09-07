@@ -39,6 +39,20 @@
     outline-offset: 2px;
   }
 
+  // Medium — a small, deliberate step up from default for in-app
+  // controls that just need a bit more presence (e.g. Learn's own
+  // Prev/Next row), without taking on 'large''s CTA treatment (no
+  // bigger border-radius, no hover-lift, no bolder typography).
+  &--medium {
+    padding-block: 10px;
+    padding-inline: 20px;
+  }
+
+  &--medium &__icon {
+    width: 18px;
+    height: 18px;
+  }
+
   // Large — marketing CTAs (landing hero, signup section). Bigger
   // footprint and a hover "lift" so it reads as the thing you're
   // supposed to click, not just another in-app control.

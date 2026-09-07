@@ -52,11 +52,11 @@
     display: block;
     width: 224px;
     height: 224px;
-    margin-top: 56px;
+    margin-top: 24px; // was 56px — too tall together with everything below it, forcing this whole column to scroll
   }
 
   &__score-label {
-    margin: 56px 0 0;
+    margin: 24px 0 0; // was 56px, same reason as __hero above
     color: var(--color-text-secondary);
   }
 
@@ -73,7 +73,7 @@
   }
 
   &__sentence {
-    margin: 28px 0 0; // "بین اسکور و جمله فاصله 28"
+    margin: 16px 0 0; // was 28px
     color: var(--color-text-secondary);
   }
 
@@ -82,7 +82,7 @@
     flex-direction: column;
     align-items: stretch;
     width: 100%;
-    margin-top: 32px; // gap between sentence and the button stack wasn't specified — assumed
+    margin-top: 20px; // was 32px
     gap: 12px; // "بین باتن‌ها 12"
   }
 
@@ -104,13 +104,20 @@
       color: var(--color-brand-primary);
     }
 
+    // Was `padding-top: 0; padding-bottom: 0` — zeroing out all
+    // vertical padding made this button visibly shorter than its two
+    // AlgoButton siblings right above it (Review Answers / Try Again),
+    // which both keep AlgoButton's own 8px vertical padding. This isn't
+    // converted to <algo-button> itself because AlgoButton has no
+    // "link" variant for this row's intentionally lower-emphasis third
+    // action — matching its padding here keeps the height consistent
+    // without inheriting a border/background it isn't supposed to have.
     &--link {
       border: none;
       background: transparent;
       color: var(--color-brand-primary);
       text-decoration: underline;
-      padding-top: 0;
-      padding-bottom: 0;
+      padding-block: 8px;
     }
   }
 
@@ -122,7 +129,7 @@
     flex: 1;
     min-width: 0;
     height: 100%;
-    padding: 20px;
+    padding: 16px; // was 20px
     border: 1px solid var(--color-border-subtle);
     border-radius: 4px;
     background-color: var(--color-surface);
@@ -140,8 +147,8 @@
   // app (e.g. practice.scss's __sections-layer pattern).
   &__panel {
     flex-shrink: 0;
-    margin-top: 12px; // "فاصله بین این بخش‌ها باید 12 باشه"
-    padding: 20px;
+    margin-top: 10px; // was 12px — every panel adds up fast with 4 panels stacked, see the __right/__panel/etc reductions throughout this file
+    padding: 16px; // was 20px
     border: 1px solid var(--color-border-default);
     border-radius: 12px;
     background: var(--color-surface-container);
@@ -155,8 +162,8 @@
   &__summary-cards {
     display: flex;
     align-items: stretch;
-    gap: 24px; // "بین 5 کارت 24 فاصله"
-    margin-top: 12px; // "بین متن Performance Summary و کارت‌ها 12"
+    gap: 16px; // was 24px
+    margin-top: 10px; // was 12px
   }
 
   // Cards inside a panel are one layer up from the panel itself —
@@ -166,8 +173,8 @@
     flex: 1; // "عرض fill container، همه هم‌اندازه"
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
+    gap: 6px; // was 8px
+    padding: 6px 12px; // was 8px 16px
     border: 1px solid var(--color-border-strong);
     border-radius: 8px;
     background: var(--color-elevated-surface);
@@ -191,14 +198,25 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    gap: 32px;
-    margin-top: 12px;
+    gap: 20px; // was 32px
+    margin-top: 10px; // was 12px
   }
 
   &__insight-label {
-    font-weight: 600;
+    font-weight: var(--font-weight-body-medium-medium); // was a hardcoded 600
     color: var(--color-text-primary);
     margin-inline-end: 4px;
+  }
+
+  // Was unstyled plain text after the label span — inherited whatever
+  // color happened to cascade down to this <p>, which in light mode
+  // resolved to something unreadably close to white against the
+  // panel's light background. Giving it its own explicit color
+  // (matching the label's approach one line up) sidesteps that
+  // inheritance path entirely instead of chasing down which ancestor
+  // was supplying the wrong value.
+  &__insight-value {
+    color: var(--color-text-primary);
   }
 
   &__insight-link {
@@ -234,8 +252,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 12px;
-    padding: 32px 20px;
+    margin-top: 10px; // was 12px
+    padding: 20px 20px; // was 32px 20px — this box alone was the single biggest contributor to the right column needing to scroll
     border: 1px solid var(--color-border-default);
     border-radius: 12px;
     background: transparent;
@@ -254,12 +272,12 @@
   }
 
   &__locked-text {
-    margin: 16px 0 0;
+    margin: 10px 0 0; // was 16px
     color: var(--color-text-secondary);
   }
 
   &__locked-cta {
-    margin-top: 16px;
+    margin-top: 10px; // was 16px
   }
 
   // ---- Progress chart (logged-in state) ----
@@ -281,12 +299,13 @@
 
   &__chart-current {
     margin-inline-start: 6px;
-    font-weight: 600;
+    // font-weight now comes from the text-body-medium-emphasized class
+    // added directly on this element in the template.
   }
 
   &__chart-delta {
     margin-inline-start: 8px;
-    font-weight: 600;
+    font-weight: var(--font-weight-body-medium-medium); // was a hardcoded 600
 
     &--up {
       color: var(--color-test-summary-pass, #22c55e);

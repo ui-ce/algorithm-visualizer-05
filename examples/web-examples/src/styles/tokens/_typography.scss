@@ -21,6 +21,16 @@
   --font-family-base: 'Vazirmatn', sans-serif;
   --letter-spacing-none: 0rem;
 
+  // Display / Large / Emphasized — added for the landing page's hero
+  // title. Every in-app screen tops out at Headline/Large (32px), which
+  // reads fine as a page header but disappears next to a marketing
+  // hero's imagery. Same font (Vazirmatn), just a bigger, heavier tier
+  // above Headline on the same M3-derived scale — M3 itself has a
+  // Display tier above Headline for exactly this kind of usage.
+  --font-size-display-large: 3.25rem;      // 52px
+  --line-height-display-large: 3.75rem;    // 60px
+  --font-weight-display-large: 800;        // Extra Bold
+
   // Headline / Large / Emphasized
   --font-size-headline-large: 2rem;      // 32px
   --line-height-headline-large: 2.5rem;  // 40px
@@ -30,6 +40,15 @@
   --font-size-body-large: 1rem;          // 16px
   --line-height-body-large: 1.5rem;      // 24px
   --font-weight-body-large: 400;         // Regular
+
+  // Body / Large / Emphasized — same family, a step up in size and
+  // weight from Body/Large/Regular. Used for landing-page lead
+  // paragraphs sitting under a Display or Headline title, where
+  // straight Body/Large (16px/400) reads too light for the surrounding
+  // scale.
+  --font-size-body-large-emphasized: 1.125rem;   // 18px
+  --line-height-body-large-emphasized: 1.75rem;  // 28px
+  --font-weight-body-large-emphasized: 500;      // Medium
 
   // Body / Medium / Regular and Body / Medium / Medium share the same
   // size and line height; only the weight changes between them.
@@ -56,6 +75,14 @@
 // New styles can be added the same way: a size/line-height/weight triple
 // under :root, plus a matching class below.
 
+.text-display-large-emphasized {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-display-large);
+  line-height: var(--line-height-display-large);
+  font-weight: var(--font-weight-display-large);
+  letter-spacing: var(--letter-spacing-none);
+}
+
 .text-headline-large-emphasized {
   font-family: var(--font-family-base);
   font-size: var(--font-size-headline-large);
@@ -69,6 +96,14 @@
   font-size: var(--font-size-body-large);
   line-height: var(--line-height-body-large);
   font-weight: var(--font-weight-body-large);
+  letter-spacing: var(--letter-spacing-none);
+}
+
+.text-body-large-emphasized {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body-large-emphasized);
+  line-height: var(--line-height-body-large-emphasized);
+  font-weight: var(--font-weight-body-large-emphasized);
   letter-spacing: var(--letter-spacing-none);
 }
 

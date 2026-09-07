@@ -102,7 +102,7 @@ export class ComparePage implements OnDestroy {
     const language = this.languageService.currentLanguage();
     return [
       { label: translate('practice.breadcrumb.home', language), route: '/' },
-      { label: translate('practice.breadcrumb.algorithms', language), route: '/algorithms' },
+      { label: translate('practice.breadcrumb.algorithms', language), route: '/', fragment: 'landing-picker' },
       { label: this.algorithmName(this.algorithm1Id), route: `/algorithms/${this.algorithm1Id}` },
       { label: translate('compare.breadcrumb.compare', language), route: '' },
     ];

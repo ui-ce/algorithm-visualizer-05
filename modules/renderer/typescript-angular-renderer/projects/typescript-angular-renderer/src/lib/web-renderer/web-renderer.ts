@@ -53,6 +53,9 @@ export class WebRenderer {
   @Input()
   public showTitle: boolean = true;
 
+  @Input() 
+  public compact = false;
+
   public get currentFrame(): Frame | null {
     return (
       this.animation?.[Math.max(0, Math.min(this.frameIndex, this.animation.length - 1))] ?? null

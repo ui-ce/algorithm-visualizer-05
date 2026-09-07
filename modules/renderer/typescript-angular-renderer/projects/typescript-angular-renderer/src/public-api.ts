@@ -8,6 +8,7 @@ export * from './lib/web-renderer/components/array-2d-renderer/components/highli
 export * from './lib/web-renderer/components/chart-renderer/chart-highlight-layer/chart-highlight-layer';
 export * from './lib/web-renderer/components/chart-renderer/chart-renderer';
 export * from './lib/web-renderer/components/graph-renderer/graph-renderer';
+export * from './lib/web-renderer/components/graph-renderer/graph-layout.service';
 export * from './lib/web-renderer/components/log-renderer/log-renderer';
 export * from './lib/web-renderer/models/framer/animation.type';
 export * from './lib/web-renderer/models/framer/array-2d/array-2d-cell-state.type';

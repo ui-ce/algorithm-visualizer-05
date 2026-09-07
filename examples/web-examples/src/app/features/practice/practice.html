@@ -1,163 +1,139 @@
 <div class="algo-practice-page">
-  <algo-header
-    [breadcrumbs]="breadcrumbs"
-    [themeMode]="themeService.themeMode()"
-    (themeToggle)="themeService.toggle()"
-    [currentLanguage]="languageService.currentLanguage()"
-    (languageToggle)="languageService.toggle()"
-  />
+  <algo-header [breadcrumbs]="breadcrumbs" [themeMode]="themeService.themeMode()" (themeToggle)="themeService.toggle()"
+    [currentLanguage]="languageService.currentLanguage()" (languageToggle)="languageService.toggle()" />
 
   <div class="algo-practice-page__main-row">
-    <algo-drawer
-      [isOpen]="activeDrawerSection !== null"
-      [title]="drawerPanelTitle"
-      (closed)="closeDrawer()"
-    >
+    <!-- Drawer -->
+    <algo-drawer [isOpen]="activeDrawerSection !== null" [title]="drawerPanelTitle" (closed)="closeDrawer()">
       <ng-container icon-buttons>
-        <algo-drawer-icon-button
-          [selected]="activeDrawerSection === 'overview'"
-          (toggle)="toggleDrawerSection('overview')"
-        >
-          <svg icon solarInfoCircleLinear [size]="24"></svg>
-        </algo-drawer-icon-button>
-
-        <algo-drawer-icon-button
-          [selected]="activeDrawerSection === 'complexity'"
-          (toggle)="toggleDrawerSection('complexity')"
-        >
+        <algo-drawer-icon-button [selected]="activeDrawerSection === 'complexity'"
+          (toggle)="toggleDrawerSection('complexity')">
           <svg icon solarChartLinear [size]="24"></svg>
         </algo-drawer-icon-button>
 
-        <algo-drawer-icon-button
-          [selected]="activeDrawerSection === 'pros-cons'"
-          (toggle)="toggleDrawerSection('pros-cons')"
-        >
-          <svg icon solarWidget2Linear [size]="24"></svg>
-        </algo-drawer-icon-button>
-
-        <algo-drawer-icon-button
-          [selected]="activeDrawerSection === 'implementation'"
-          (toggle)="toggleDrawerSection('implementation')"
-        >
+        <algo-drawer-icon-button [selected]="activeDrawerSection === 'implementation'"
+          (toggle)="toggleDrawerSection('implementation')">
           <svg icon solarCodeSquareLinear [size]="24"></svg>
         </algo-drawer-icon-button>
+      </ng-container>
 
-        <algo-drawer-icon-button
-          [selected]="activeDrawerSection === 'usage'"
-          (toggle)="toggleDrawerSection('usage')"
-        >
-          <svg icon solarMagnifierLinear [size]="24"></svg>
-        </algo-drawer-icon-button>
+      <!-- Export: its own icon button, deliberately in the bottom slot
+           so it reads as a separate action from the five section
+           buttons above rather than a sixth drawer section. Clicking it
+           opens a small popover beside itself — it never touches
+           activeDrawerSection / the Drawer panel. -->
+      <ng-container icon-buttons-bottom>
+        <div class="algo-practice-page__export-anchor">
+          <algo-drawer-icon-button [selected]="isExportMenuOpen" (toggle)="toggleExportMenu()">
+            <svg icon solarDownloadLinear [size]="24"></svg>
+          </algo-drawer-icon-button>
+
+          @if (isExportMenuOpen) {
+          <div class="algo-practice-page__export-popover" [class.algo-practice-page__export-popover--fa]="
+    languageService.currentLanguage() === 'fa'
+  ">
+            <button type="button" class="algo-practice-page__export-option" (click)="exportLatexSource()">
+              <span class="text-body-medium algo-practice-page__export-option-name">
+                .tex
+              </span>
+            </button>
+
+
+            <button type="button" class="algo-practice-page__export-option" disabled>
+              <span class="text-body-medium algo-practice-page__export-option-name">
+                .aux
+              </span>
+
+              <span class="text-label-small-regular algo-practice-page__export-soon">
+                 ({{ 'practice.export.comingSoon' | translate }})
+              </span>
+            </button>
+
+
+            <button type="button" class="algo-practice-page__export-option" disabled>
+              <span class="text-body-medium algo-practice-page__export-option-name">
+                PDF
+              </span>
+
+              <span class="text-label-small-regular algo-practice-page__export-soon">
+                 ({{ 'practice.export.comingSoon' | translate }})
+              </span>
+            </button>
+
+          </div>
+          }
+        </div>
       </ng-container>
 
       <div panel-content>
         @if (content) {
-          @switch (activeDrawerSection) {
-            @case ('overview') {
-              <p class="text-body-large algo-practice-page__section-heading">{{ 'practice.overview.definition' | translate }}</p>
-              <p class="text-body-medium algo-practice-page__panel-description">{{ content.overview }}</p>
+        @switch (activeDrawerSection) {
+        @case ('complexity') {
+        <dl class="algo-practice-page__complexity-list text-body-medium">
+          <dt>{{ 'practice.complexity.bestCase' | translate }}</dt>
+          <dd>{{ content.complexity.bestTime }}</dd>
 
-              <p class="text-body-large algo-practice-page__section-heading">{{ 'practice.overview.intuition' | translate }}</p>
-              <p class="text-body-medium algo-practice-page__panel-description">{{ content.intuition }}</p>
+          <dt>{{ 'practice.complexity.averageCase' | translate }}</dt>
+          <dd>{{ content.complexity.averageTime }}</dd>
 
-              <p class="text-body-large algo-practice-page__section-heading">{{ 'practice.overview.howItWorks' | translate }}</p>
-              <ol class="algo-practice-page__list algo-practice-page__list--numbered text-body-medium">
-                @for (step of content.howItWorks; track step) {
-                  <li>{{ step }}</li>
-                }
-              </ol>
+          <dt>{{ 'practice.complexity.worstCase' | translate }}</dt>
+          <dd>{{ content.complexity.worstTime }}</dd>
 
-              <p class="text-body-large algo-practice-page__section-heading">{{ 'practice.overview.keyCharacteristic' | translate }}</p>
-              <p class="text-body-medium algo-practice-page__panel-description">{{ content.keyCharacteristic }}</p>
+          <dt>{{ 'practice.complexity.space' | translate }}</dt>
+          <dd>{{ content.complexity.space }}</dd>
 
-              <div class="algo-practice-page__faq">
-                @for (item of content.overviewFaq; track item.question) {
-                  <div class="algo-practice-page__faq-item">
-                    <p class="text-body-medium algo-practice-page__faq-question">{{ item.question }}</p>
-                    <p class="text-body-medium algo-practice-page__panel-description">{{ item.answer }}</p>
-                  </div>
-                }
-              </div>
-            }
-            @case ('complexity') {
-              <dl class="algo-practice-page__complexity-list text-body-medium">
-                <dt>{{ 'practice.complexity.bestCase' | translate }}</dt>
-                <dd>{{ content.complexity.bestTime }}</dd>
-                <dt>{{ 'practice.complexity.averageCase' | translate }}</dt>
-                <dd>{{ content.complexity.averageTime }}</dd>
-                <dt>{{ 'practice.complexity.worstCase' | translate }}</dt>
-                <dd>{{ content.complexity.worstTime }}</dd>
-                <dt>{{ 'practice.complexity.space' | translate }}</dt>
-                <dd>{{ content.complexity.space }}</dd>
-                <dt>{{ 'practice.complexity.stable' | translate }}</dt>
-                <dd>{{ content.complexity.stable }}</dd>
-                <dt>{{ 'practice.complexity.inPlace' | translate }}</dt>
-                <dd>{{ content.complexity.inPlace }}</dd>
-              </dl>
-              <p class="text-body-large algo-practice-page__section-heading">{{ 'practice.complexity.worstCaseExplanation' | translate }}</p>
-              <p class="text-body-medium algo-practice-page__panel-description">{{ content.complexity.note }}</p>
-            }
-            @case ('pros-cons') {
-              <p class="text-body-large algo-practice-page__section-heading">{{ 'practice.prosCons.pros' | translate }}</p>
-              <ul class="algo-practice-page__list text-body-medium">
-                @for (pro of content.pros; track pro) {
-                  <li>{{ pro }}</li>
-                }
-              </ul>
-              <p class="text-body-large algo-practice-page__section-heading">{{ 'practice.prosCons.cons' | translate }}</p>
-              <ul class="algo-practice-page__list text-body-medium">
-                @for (con of content.cons; track con) {
-                  <li>{{ con }}</li>
-                }
-              </ul>
-              <p class="text-body-large algo-practice-page__section-heading">{{ 'practice.prosCons.whenToUse' | translate }}</p>
-              <ul class="algo-practice-page__list text-body-medium">
-                @for (item of content.whenToUse; track item) {
-                  <li>{{ item }}</li>
-                }
-              </ul>
-              <p class="text-body-large algo-practice-page__section-heading">{{ 'practice.prosCons.whenNotToUse' | translate }}</p>
-              <ul class="algo-practice-page__list text-body-medium">
-                @for (item of content.whenNotToUse; track item) {
-                  <li>{{ item }}</li>
-                }
-              </ul>
-            }
-            @case ('implementation') {
-              @for (impl of content.implementations; track impl.language) {
-                <div class="algo-practice-page__code-header">
-                  <p class="text-body-medium algo-practice-page__code-language">{{ impl.language }}</p>
-                  <button
-                    type="button"
-                    class="algo-practice-page__copy-button text-label-medium-regular"
-                    (click)="onCopyCode(impl.code, impl.language)"
-                  >
-                    <svg solarCopyLinear [size]="14"></svg>
-                    {{ copiedLanguage === impl.language ? ('practice.implementation.copied' | translate) : ('practice.implementation.copy' | translate) }}
-                  </button>
-                </div>
-                <pre class="algo-practice-page__code-block"><code>{{ impl.code }}</code></pre>
-              }
-            }
-            @case ('usage') {
-              <div class="algo-practice-page__faq">
-                @for (application of content.applications; track application.title) {
-                  <div class="algo-practice-page__faq-item">
-                    <p class="text-body-medium algo-practice-page__faq-question">{{ application.title }}</p>
-                    <p class="text-body-medium algo-practice-page__panel-description">{{ application.description }}</p>
-                  </div>
-                }
-              </div>
-            }
-          }
-        } @else {
-          <p class="text-body-medium algo-practice-page__panel-description">
-            {{ 'practice.drawer.noContent' | translate | translateVar: { name: algorithmDisplayName } }}
+          <dt>{{ 'practice.complexity.stable' | translate }}</dt>
+          <dd>{{ content.complexity.stable }}</dd>
+
+          <dt>{{ 'practice.complexity.inPlace' | translate }}</dt>
+          <dd>{{ content.complexity.inPlace }}</dd>
+        </dl>
+
+        <p class="text-body-large algo-practice-page__section-heading">
+          {{ 'practice.complexity.worstCaseExplanation' | translate }}
+        </p>
+
+        <p class="text-body-medium algo-practice-page__panel-description">
+          {{ content.complexity.note }}
+        </p>
+        }
+
+        @case ('implementation') {
+        @for (impl of content.implementations; track impl.language) {
+        <div class="algo-practice-page__code-header">
+          <p class="text-body-medium algo-practice-page__code-language">
+            {{ impl.language }}
           </p>
+
+          <button type="button" class="algo-practice-page__copy-button text-label-medium-regular"
+            (click)="onCopyCode(impl.code, impl.language)">
+            <svg solarCopyLinear [size]="14"></svg>
+
+            {{
+            copiedLanguage === impl.language
+            ? ('practice.implementation.copied' | translate)
+            : ('practice.implementation.copy' | translate)
+            }}
+          </button>
+        </div>
+
+        <pre class="algo-practice-page__code-block"><code>{{ impl.code }}</code></pre>
+        }
+        }
+        }
+        } @else {
+        <p class="text-body-medium algo-practice-page__panel-description">
+          {{
+          'practice.drawer.noContent'
+          | translate
+          | translateVar: { name: algorithmDisplayName }
+          }}
+        </p>
         }
       </div>
     </algo-drawer>
 
+    <!-- Main content -->
     <div class="algo-practice-page__content">
       <div class="algo-practice-page__sections-layer">
 
@@ -169,210 +145,153 @@
             </h1>
 
             <div class="algo-practice-page__stars">
-              <!-- Star rating renders here once quiz completion state exists -->
+              @for (star of starSlots; track star) {
+              <span class="algo-practice-page__star-slot" [attr.title]="starTooltip(star)">
+                @if (star <= earnedStars) { <svg solarStarBold [size]="20"></svg>
+                  } @else {
+                  <svg solarStarLinear [size]="20"></svg>
+                  }
+              </span>
+              }
             </div>
           </div>
 
-          <algo-segmented-button
-            [options]="tabs"
-            [selectedIndex]="selectedTabIndex"
-            (selectedIndexChange)="onTabChange($event)"
-          />
+          <algo-segmented-button [options]="tabs" [selectedIndex]="selectedTabIndex"
+            (selectedIndexChange)="onTabChange($event)" />
         </div>
 
+        <!-- =========================================================
+             GRAPH ALGORITHMS
+             VisualizationSection contains:
+             Graph + Data Structures + Legend
+             ========================================================= -->
         @if (isGraphAlgorithm) {
-          <!-- Graph layout: Visualization | Pseudocode/Explanation | Data Structures, all three as separate columns in one row -->
-          <div class="algo-practice-page__graph-main-row">
-            <div class="algo-practice-page__graph-visualization">
-              <algo-visualization-section
-                [currentStep]="currentStep"
-                [totalSteps]="totalSteps"
-                [speed]="speed"
-                (speedChange)="onSpeedChange($event)"
-                [animation]="animation"
-                [rendererMetadata]="rendererMetadata"
-                [frameIndex]="frameIndex"
-                [legendItems]="legendItems"
-                [includeTypes]="['Graph']"
-                (fullscreenToggle)="onFullscreenToggle()"
-                [showHint]="!hasInteracted"
-                (hintPlayClick)="onPlayToggle()"
-                (hintGenerateClick)="onCustomInputClick()"
-              />
-            </div>
 
-            <div class="algo-practice-page__graph-pseudocode-column">
-              <algo-pseudocode-section
-                orientation="column"
-                [lines]="pseudocodeLines"
-                [activeLineNumber]="activeLineNumber"
-                [explanationTitle]="explanationTitle"
-                [explanationDescription]="explanationDescription"
-              />
-            </div>
+        <div class="algo-practice-page__graph-main-row">
 
-            <!-- DFS's Stack, or Dijkstra's Open Set / Closed Set / Node
-                 Costs — its own column next to Pseudocode/Explanation
-                 instead of stacked underneath it, so both are visible
-                 at full height at the same time. -->
-            <div class="algo-practice-page__graph-aux-panel">
-              <p class="algo-practice-page__graph-aux-panel-title text-label-medium-regular">
-                {{ 'practice.viz.dataStructures' | translate }}
-              </p>
-              <algo-visualization-area
-                [animation]="animation"
-                [rendererMetadata]="rendererMetadata"
-                [frameIndex]="frameIndex"
-                [includeTypes]="['Array2D', 'Chart']"
-                [showTitle]="false"
-              />
-            </div>
+          <!-- Visualization + Data Structures -->
+          <div class="algo-practice-page__graph-visualization">
+            <algo-visualization-section [currentStep]="currentStep" [totalSteps]="totalSteps" [speed]="speed"
+              (speedChange)="onSpeedChange($event)" [animation]="animation" [rendererMetadata]="rendererMetadata"
+              [frameIndex]="frameIndex" [legendItems]="legendItems" [algorithmId]="algorithmId"
+              [isGraphAlgorithm]="true" [includeTypes]="['Graph']" [dataStructureTypes]="['Array2D', 'Chart']"
+              [showHint]="!hasInteracted" (fullscreenToggle)="onFullscreenToggle()" (hintPlayClick)="onPlayToggle()"
+              (hintGenerateClick)="onCustomInputClick()" />
           </div>
 
-          <!-- Controls -->
-          <algo-control-section
-            [isPlaying]="isPlaying"
-            [isDrawerOpen]="activeDrawerSection !== null"
-            [selectedPattern]="selectedGraphPattern"
-            [patternOptions]="graphPatternOptions"
-            [showPatternControls]="true"
-            (previous)="onPrevious()"
-            (playToggle)="onPlayToggle()"
-            (next)="onNext()"
-            (again)="onAgain()"
-            (customInputClick)="onCustomInputClick()"
-            (randomInputClick)="onRandomInputClick()"
-            (patternChange)="onGraphPatternChange($event)"
-            (compareClick)="onCompareClick()"
-          />
+          <!-- Pseudocode / Explanation -->
+          <div class="algo-practice-page__graph-pseudocode-column">
+            <algo-pseudocode-section orientation="column" [lines]="pseudocodeLines"
+              [activeLineNumber]="activeLineNumber" [explanationTitle]="explanationTitle"
+              [explanationDescription]="explanationDescription" />
+          </div>
+
+
+        </div>
+
+        <!-- Controls -->
+        <algo-control-section [isPlaying]="isPlaying" [isDrawerOpen]="activeDrawerSection !== null"
+          [selectedPattern]="selectedGraphPattern" [patternOptions]="graphPatternOptions" [showPatternControls]="true"
+          (previous)="onPrevious()" (playToggle)="onPlayToggle()" (next)="onNext()" (again)="onAgain()"
+          (customInputClick)="onCustomInputClick()" (randomInputClick)="onRandomInputClick()"
+          (patternChange)="onGraphPatternChange($event)" (compareClick)="onCompareClick()" />
+
         } @else {
-          <!-- Visualization -->
-          <algo-visualization-section
-            [currentStep]="currentStep"
-            [totalSteps]="totalSteps"
-            [speed]="speed"
-            (speedChange)="onSpeedChange($event)"
-            [animation]="animation"
-            [rendererMetadata]="rendererMetadata"
-            [frameIndex]="frameIndex"
-            [legendItems]="legendItems"
-            [searchTarget]="searchTarget"
-            (fullscreenToggle)="onFullscreenToggle()"
-            [showHint]="!hasInteracted"
-            (hintPlayClick)="onPlayToggle()"
-            (hintGenerateClick)="onCustomInputClick()"
-          />
 
-          <!-- Controls -->
-          <algo-control-section
-            [isPlaying]="isPlaying"
-            [isDrawerOpen]="activeDrawerSection !== null"
-            [selectedPattern]="selectedPattern"
-            [showPatternControls]="isArrayAlgorithm"
-            (previous)="onPrevious()"
-            (playToggle)="onPlayToggle()"
-            (next)="onNext()"
-            (again)="onAgain()"
-            (customInputClick)="onCustomInputClick()"
-            (randomInputClick)="onRandomInputClick()"
-            (patternChange)="onPatternChange($event)"
-            (compareClick)="onCompareClick()"
-          />
+        <!-- =======================================================
+               ARRAY / SEARCH ALGORITHMS
+               ======================================================= -->
 
-          <!-- Pseudocode -->
-          <algo-pseudocode-section
-            [lines]="pseudocodeLines"
-            [activeLineNumber]="activeLineNumber"
-            [explanationTitle]="explanationTitle"
-            [explanationDescription]="explanationDescription"
-          />
+        <!-- Visualization -->
+        <algo-visualization-section [currentStep]="currentStep" [totalSteps]="totalSteps" [speed]="speed"
+          (speedChange)="onSpeedChange($event)" [animation]="animation" [rendererMetadata]="rendererMetadata"
+          [frameIndex]="frameIndex" [legendItems]="legendItems" [searchTarget]="searchTarget"
+          [showHint]="!hasInteracted" (fullscreenToggle)="onFullscreenToggle()" (hintPlayClick)="onPlayToggle()"
+          (hintGenerateClick)="onCustomInputClick()" />
+
+        <!-- Controls -->
+        <algo-control-section [isPlaying]="isPlaying" [isDrawerOpen]="activeDrawerSection !== null"
+          [selectedPattern]="selectedPattern" [showPatternControls]="isArrayAlgorithm" (previous)="onPrevious()"
+          (playToggle)="onPlayToggle()" (next)="onNext()" (again)="onAgain()" (customInputClick)="onCustomInputClick()"
+          (randomInputClick)="onRandomInputClick()" (patternChange)="onPatternChange($event)"
+          (compareClick)="onCompareClick()" />
+
+        <!-- Pseudocode -->
+        <algo-pseudocode-section [lines]="pseudocodeLines" [activeLineNumber]="activeLineNumber"
+          [explanationTitle]="explanationTitle" [explanationDescription]="explanationDescription" />
         }
 
       </div>
     </div>
   </div>
 
-  <algo-custom-input-modal
-    [isOpen]="isCustomInputModalOpen"
-    [algorithmId]="algorithmId"
-    (closed)="onCustomInputModalClosed()"
-    (applied)="onCustomInputApplied($event)"
-  />
+  <!-- Custom Input Modal -->
+  <algo-custom-input-modal [isOpen]="isCustomInputModalOpen" [algorithmId]="algorithmId"
+    (closed)="onCustomInputModalClosed()" (applied)="onCustomInputApplied($event)" />
 
+  <!-- =============================================================
+       FULLSCREEN VISUALIZATION
+       ============================================================= -->
   @if (isVisualizationMaximized) {
-    <div class="algo-practice-page__fullscreen-overlay">
-      <button
-        type="button"
-        class="algo-practice-page__fullscreen-close"
-        [attr.aria-label]="'practice.viz.close' | translate"
-        (click)="onFullscreenToggle()"
-      >
-        <svg solarCloseCircleLinear [size]="24"></svg>
-      </button>
 
-      <div
-        class="algo-practice-page__fullscreen-chart"
-        [class.algo-practice-page__fullscreen-chart--graph]="isGraphAlgorithm"
-      >
-        @if (isGraphAlgorithm) {
-          <div class="algo-practice-page__graph-visualization">
-            <algo-visualization-area
-              [animation]="animation"
-              [rendererMetadata]="rendererMetadata"
-              [frameIndex]="frameIndex"
-              [includeTypes]="['Graph']"
-            />
-          </div>
+  <div class="algo-practice-page__fullscreen-overlay">
 
-          <!-- Same Data Structures column as the normal layout — kept
-               as its own column here too instead of letting
-               algo-visualization-area stack every panel type
-               vertically underneath the graph. -->
-          <div class="algo-practice-page__graph-aux-panel">
-            <p class="algo-practice-page__graph-aux-panel-title text-label-medium-regular">
-              {{ 'practice.viz.dataStructures' | translate }}
-            </p>
-            <algo-visualization-area
-              [animation]="animation"
-              [rendererMetadata]="rendererMetadata"
-              [frameIndex]="frameIndex"
-              [includeTypes]="['Array2D', 'Chart']"
-              [showTitle]="false"
-            />
-          </div>
-        } @else {
-          <algo-visualization-area
-            [animation]="animation"
-            [rendererMetadata]="rendererMetadata"
-            [frameIndex]="frameIndex"
-          />
-        }
-      </div>
+    <button type="button" class="algo-practice-page__fullscreen-close"
+      [attr.aria-label]="'practice.viz.close' | translate" (click)="onFullscreenToggle()">
+      <svg solarCloseCircleLinear [size]="24"></svg>
+    </button>
 
-      <algo-navigation-controls
-        [isPlaying]="isPlaying"
-        (previous)="onPrevious()"
-        (playToggle)="onPlayToggle()"
-        (next)="onNext()"
-        (again)="onAgain()"
-      />
+    <div class="algo-practice-page__fullscreen-chart"
+      [class.algo-practice-page__fullscreen-chart--graph]="isGraphAlgorithm">
+
+      @if (isGraphAlgorithm) {
+
+      <!-- Graph + Data Structures are both handled by VisualizationSection -->
+      <algo-visualization-section [currentStep]="currentStep" [totalSteps]="totalSteps" [speed]="speed"
+        [animation]="animation" [rendererMetadata]="rendererMetadata" [frameIndex]="frameIndex"
+        [legendItems]="legendItems" [isGraphAlgorithm]="true" [includeTypes]="['Graph']"
+        [dataStructureTypes]="['Array2D', 'Chart']" [showHint]="false" (speedChange)="onSpeedChange($event)" />
+
+      } @else {
+
+      <algo-visualization-area [animation]="animation" [rendererMetadata]="rendererMetadata"
+        [frameIndex]="frameIndex" />
+
+      }
+
     </div>
+
+    <algo-navigation-controls [isPlaying]="isPlaying" (previous)="onPrevious()" (playToggle)="onPlayToggle()"
+      (next)="onNext()" (again)="onAgain()" />
+
+  </div>
   }
 
+  <!-- =============================================================
+       TEST UNAVAILABLE MODAL
+       ============================================================= -->
   @if (isTestUnavailableModalOpen) {
-    <div class="algo-test-unavailable-modal__backdrop" (click)="closeTestUnavailableModal()"></div>
-    <div class="algo-test-unavailable-modal" role="dialog" aria-modal="true">
-      <div class="algo-test-unavailable-modal__icon-wrap">
-        <svg solarLockKeyholeMinimalisticLinear ></svg>
-      </div>
-      <p class="algo-test-unavailable-modal__title text-title-large-medium">No test yet for {{ algorithmDisplayName }}</p>
-      <p class="algo-test-unavailable-modal__body text-body-medium">
-        Quiz questions for this algorithm haven't been written yet. Bubble Sort is the only algorithm with a Test
-        section right now — stick with Practice here in the meantime.
-      </p>
-      <button type="button" class="algo-test-unavailable-modal__btn" (click)="closeTestUnavailableModal()">
-        Got it, stay in Practice
-      </button>
+
+  <div class="algo-test-unavailable-modal__backdrop" (click)="closeTestUnavailableModal()"></div>
+
+  <div class="algo-test-unavailable-modal" role="dialog" aria-modal="true">
+    <div class="algo-test-unavailable-modal__icon-wrap">
+      <svg solarLockKeyholeMinimalisticLinear></svg>
     </div>
+
+    <p class="algo-test-unavailable-modal__title text-title-large-medium">
+      {{ 'practice.testUnavailable.title' | translate | translateVar: { name: algorithmDisplayName } }}
+    </p>
+
+    <p class="algo-test-unavailable-modal__body text-body-medium">
+      {{ 'practice.testUnavailable.body' | translate }}
+    </p>
+
+    <button type="button" class="algo-test-unavailable-modal__btn" (click)="closeTestUnavailableModal()">
+      {{ 'practice.testUnavailable.button' | translate }}
+    </button>
+  </div>
+
   }
+
 </div>

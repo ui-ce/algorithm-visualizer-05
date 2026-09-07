@@ -2,6 +2,13 @@
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
+  // With no justify-content, a column that's shorter than its host
+  // (e.g. graph-renderer's fixed-height canvas inside a host stretched
+  // to 100% by the consuming app) sits at the default flex-start —
+  // pinned to the top with the leftover space left empty below it.
+  // Chart/array2d/log content that already fills the full height via
+  // flex: 1 internally is unaffected by this either way.
+  justify-content: center;
   gap: 0.5rem;
 
   .title {

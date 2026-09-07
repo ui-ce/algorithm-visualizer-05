@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { Array2DHighlightLayer } from './components/highlight-layer/array-2d-highlight-layer';
+import { toLocaleDigits } from '../../utils/locale-digits.util';
 
 @Component({
   selector: 'array-2d-renderer',
@@ -37,5 +38,9 @@ export class Array2DRenderer {
       const highlight = this.metadata?.highlightTags?.find((h) => h.tag === tag);
       return highlight?.color ?? this.metadata?.defaultColor ?? 'white';
     });
+  }
+
+  public formatDigits(value: string): string {
+    return toLocaleDigits(value);
   }
 }

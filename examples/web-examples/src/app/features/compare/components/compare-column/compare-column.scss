@@ -24,7 +24,9 @@
   justify-content: space-between;
   gap: 12px;
   color: var(--color-text-tertiary);
+}
 
+.algo-compare-column__complexity-value {
   &--better {
     color: var(--color-text-success);
   }

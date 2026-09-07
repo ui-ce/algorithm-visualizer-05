@@ -1,19 +1,7 @@
 <div class="graph-renderer-root">
-  <div class="layout-toolbar" role="group" aria-label="Graph layout">
-    <div class="layout-toolbar__thumb" [style.transform]="layoutThumbTransform"></div>
-
-    @for (option of layoutOptions; track option.label; let i = $index) {
-      <button
-        type="button"
-        class="layout-toolbar__segment"
-        [class.layout-toolbar__segment--selected]="i === selectedLayoutIndex"
-        [attr.aria-pressed]="i === selectedLayoutIndex"
-        (click)="selectLayout(i)"
-      >
-        {{ option.label }}
-      </button>
-    }
-  </div>
-
-  <div #cyContainer class="graph" [style.height]="minHeight"></div>
+  <div
+    #cyContainer
+    class="graph"
+    [style.height]="compact ? '100%' : minHeight"
+  ></div>
 </div>

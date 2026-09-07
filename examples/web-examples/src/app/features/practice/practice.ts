@@ -24,6 +24,8 @@ import type { BreadcrumbItem } from '../../layout/header/header-breadcrumb.type'
 import { AlgoDrawer } from '../../design-system/drawer/drawer';
 import { AlgoDrawerIconButton } from '../../design-system/drawer-icon-button/drawer-icon-button';
 import { AlgoSegmentedButton } from '../../design-system/segmented-button/segmented-button';
+import { AlgoButton } from '../../design-system/button/button';
+import { buildLatexDocument, downloadTextFile } from '../../core/utils/latex-export.util';
 import { VisualizationSection } from './components/visualization-section/visualization-section';
 import { VisualizationArea } from './components/visualization-area/visualization-area';
 import { NavigationControls } from './components/navigation-controls/navigation-controls';
@@ -35,11 +37,15 @@ import type { LegendItem } from './components/visualization-legend/visualization
 import type { DataPattern, PatternOption } from './components/data-pattern-controls/data-pattern-controls.types';
 import { DEFAULT_ARRAY_PATTERN_OPTIONS } from './components/data-pattern-controls/data-pattern-controls.types';
 import type { PseudocodeLine } from './components/pseudocode-panel/pseudocode-panel.types';
-import { ALGORITHM_CONTENT } from './data/algorithm-content.registry';
-import { ALGORITHM_CONTENT_FA } from './data/algorithm-content.registry.fa';
-import type { AlgorithmContent } from './data/algorithm-content.types';
+import { ALGORITHM_CONTENT } from '../practice/data/algorithm-content.registry';
+import { ALGORITHM_CONTENT_FA } from '../practice/data/algorithm-content.registry.fa';
+import type { AlgorithmContent } from '../practice/data/algorithm-content.types';
 import { PSEUDOCODE_REGISTRY } from './data/pseudocode.registry';
-import { isTestAvailable } from '../test/data/test-question-bank';
+import { isTestAvailable, buildLevelPlan, countEarnedStars } from '../test/data/test-question-bank';
+import { TestProgressService } from '../../core/services/test-progress.service';
+
+
+
 import {
   SAMPLE_DFS_GRAPH,
   SAMPLE_DIJKSTRA_GRAPHS,
@@ -56,13 +62,14 @@ import {
 } from './data/sample-graphs';
 // Confirmed against the installed package.
 import {
-  SolarInfoCircleLinear,
-  SolarMagnifierLinear,
   SolarChartLinear,
   SolarCodeSquareLinear,
-  SolarWidget2Linear,
   SolarCloseCircleLinear,
   SolarCopyLinear,
+  SolarDownloadLinear,
+  SolarStarLinear,
+  SolarStarBold,
+  SolarLockKeyholeMinimalisticLinear,
 } from '@solar-icons/angular';
 import type { DrawerSectionId } from './practice.types';
 
@@ -112,6 +119,10 @@ const SEARCH_ALGORITHM_IDS = new Set(['binary-search', 'linear-search']);
 // (0.5x / 1x / 1.5x / 2x, see speed-button.ts) divides this same base,
 // so bumping it slows all of them proportionally instead of just one.
 const PLAYBACK_BASE_INTERVAL_MS = 550;
+
+// Matches the segmented button's own transform transition duration
+// (segmented-button.scss) — see onTabChange's comment below.
+const TAB_SLIDE_DELAY_MS = 250;
 
 // Shared highlight-tag → color mappings, reused across every algorithm's
 // renderer metadata. Algorithms only ever apply a subset of these tags
@@ -216,21 +227,23 @@ const ARRAY_2D_METADATA_ENTRY = {
     AlgoDrawer,
     AlgoDrawerIconButton,
     AlgoSegmentedButton,
+    // AlgoButton, // not currently used in this template
     VisualizationSection,
     VisualizationArea,
     NavigationControls,
     ControlSection,
     PseudocodeSection,
     CustomInputModal,
-    SolarInfoCircleLinear,
-    SolarMagnifierLinear,
     SolarChartLinear,
     SolarCodeSquareLinear,
-    SolarWidget2Linear,
     SolarCloseCircleLinear,
     SolarCopyLinear,
+    SolarDownloadLinear,
+    SolarStarLinear,
+    SolarStarBold,
     TranslatePipe,
     TranslateVarPipe,
+    SolarLockKeyholeMinimalisticLinear,
   ],
   templateUrl: './practice.html',
   styleUrl: './practice.scss',
@@ -258,7 +271,7 @@ export class PracticePage implements OnDestroy {
     const language = this.languageService.currentLanguage();
     return [
       { label: translate('practice.breadcrumb.home', language), route: '/' },
-      { label: translate('practice.breadcrumb.algorithms', language), route: '/algorithms' },
+      { label: translate('practice.breadcrumb.algorithms', language), route: '/', fragment: 'landing-picker' },
       { label: this.algorithmDisplayName, route: '' },
     ];
   }
@@ -321,8 +334,20 @@ export class PracticePage implements OnDestroy {
   }
 
   protected selectedTabIndex = 1;
+  // Default closed — same as before the redesign. Only the *number*
+  // of panels changed (Complexity + Code now, instead of five);
+  // open/close behavior is back to exactly what it was.
   protected activeDrawerSection: DrawerSectionId | null = null;
   protected isTestUnavailableModalOpen = false;
+
+  // Same star-progress logic as test-plan.ts (TestPlan) — kept as a
+  // literal copy rather than a shared service call site, since both
+  // pages need the exact same three numbers (starSlots/earnedStars/
+  // levels-for-tooltip-labels) and duplicating four lines here is
+  // simpler than threading a new shared abstraction through both.
+  protected readonly starSlots = Array.from({ length: 3 }, (_, i) => i + 1);
+  protected earnedStars = 0;
+  private readonly levelsForStars: { difficulty: string }[];
 
   private static readonly DRAWER_SECTION_TITLE_KEYS: Record<DrawerSectionId, string> = {
     overview: 'practice.drawer.overview',
@@ -344,6 +369,8 @@ export class PracticePage implements OnDestroy {
 
   protected animation: Animation | null = null;
   protected rendererMetadata: RendererMetadata | null = null;
+  // Whether the LaTeX export dropdown (.tex / PDF / .aux) is open.
+  protected isExportMenuOpen = false;
   protected frameIndex = 0;
   protected currentStep = 0;
   protected totalSteps = 0;
@@ -372,6 +399,7 @@ export class PracticePage implements OnDestroy {
   protected readonly graphPatternOptions: PatternOption<GraphPattern | null>[] = [
     { id: null, labelKey: 'practice.pattern.none' },
     { id: 'chain', labelKey: 'practice.pattern.graph.chain' },
+    { id: 'tree', labelKey: 'practice.pattern.graph.tree' },
     { id: 'dense', labelKey: 'practice.pattern.graph.dense' },
     { id: 'disconnected', labelKey: 'practice.pattern.graph.disconnected' },
   ];
@@ -392,6 +420,7 @@ export class PracticePage implements OnDestroy {
     private readonly router: Router,
     protected readonly themeService: ThemeService,
     protected readonly languageService: LanguageService,
+    private readonly testProgressService: TestProgressService,
     route: ActivatedRoute,
   ) {
     this.algorithmId = route.snapshot.paramMap.get('id') ?? 'bubble-sort';
@@ -399,13 +428,31 @@ export class PracticePage implements OnDestroy {
     this.isGraphAlgorithm = GRAPH_ALGORITHM_IDS.has(this.algorithmId);
     this.pseudocodeLines = PSEUDOCODE_REGISTRY[this.algorithmId] ?? [];
 
+    this.levelsForStars = buildLevelPlan(this.algorithmId, (difficulty, setNumber) =>
+      this.testProgressService.isSetPassed(this.algorithmId, difficulty, setNumber),
+    );
+    this.earnedStars = countEarnedStars(this.algorithmId, (difficulty, setNumber) =>
+      this.testProgressService.isSetPassed(this.algorithmId, difficulty, setNumber),
+    );
+
     this.generateInitialData();
+  }
+
+  protected starTooltip(starIndex: number): string {
+    const requiredLevel = this.levelsForStars[starIndex - 1];
+    if (!requiredLevel) return '';
+    const levelLabel = requiredLevel.difficulty.charAt(0).toUpperCase() + requiredLevel.difficulty.slice(1);
+    return starIndex <= this.earnedStars
+      ? `Earned — you completed the ${levelLabel} level`
+      : `Complete the ${levelLabel} level to earn this star`;
   }
 
   public ngOnDestroy(): void {
     this.stopPlayback();
   }
 
+  // Back to the original toggle-to-close behavior — clicking the
+  // already-active icon closes the drawer.
   protected toggleDrawerSection(section: DrawerSectionId): void {
     this.activeDrawerSection = this.activeDrawerSection === section ? null : section;
   }
@@ -414,31 +461,35 @@ export class PracticePage implements OnDestroy {
     this.activeDrawerSection = null;
   }
 
+  // The segmented button's thumb animates on its own (0.25s CSS
+  // transition) whenever selectedTabIndex changes, but Learn/Practice/
+  // Test are three separate routes/component instances — navigating
+  // immediately tears the whole page (and that thumb) down before the
+  // slide can ever play. Setting the index first and only navigating
+  // after the transition's duration lets the thumb visibly slide to
+  // the clicked tab before the page underneath it changes, instead of
+  // jumping straight to a brand-new page with no transition at all.
   protected onTabChange(index: number): void {
-    if (index === 2) {
-      if (!isTestAvailable(this.algorithmId)) {
-        this.isTestUnavailableModalOpen = true;
-        return;
-      }
-
-      this.selectedTabIndex = index;
-
-      this.router.navigate([
-        '/algorithms',
-        this.algorithmId,
-        'test',
-      ]);
-
+    if (index === 2 && !isTestAvailable(this.algorithmId)) {
+      this.isTestUnavailableModalOpen = true;
       return;
     }
 
     this.selectedTabIndex = index;
+
+    setTimeout(() => {
+      if (index === 0) {
+        this.router.navigate(['/algorithms', this.algorithmId, 'learn']);
+      } else if (index === 2) {
+        this.router.navigate(['/algorithms', this.algorithmId, 'test']);
+      }
+    }, TAB_SLIDE_DELAY_MS);
   }
 
   protected closeTestUnavailableModal(): void {
     this.isTestUnavailableModalOpen = false;
   }
-  
+
   protected onSpeedChange(speed: number): void {
     this.speed = speed;
     if (this.isPlaying) {
@@ -468,8 +519,10 @@ export class PracticePage implements OnDestroy {
 
   protected onAgain(): void {
     this.stopPlayback();
-    this.isPlaying = false;
+    this.hasInteracted = true;
     this.stepTo(0);
+    this.isPlaying = true;
+    this.startPlayback();
   }
 
   protected onCustomInputClick(): void {
@@ -487,7 +540,7 @@ export class PracticePage implements OnDestroy {
   // itself.
   protected onCustomInputApplied(result: CustomInputResult): void {
     if (result.kind === 'array') {
-      this.setArrayData(result.values);
+      this.setArrayData(result.values, true);
       return;
     }
 
@@ -496,7 +549,11 @@ export class PracticePage implements OnDestroy {
         // Unlike binary search, linear search doesn't require (or
         // want) the array sorted first.
         const recording = linearSearchVisualization([...result.values], result.target);
-        this.applyRecording(recording, [CHART_METADATA_ENTRY]);
+        this.applyRecording(
+          recording,
+          [CHART_METADATA_ENTRY],
+          true,
+        );
         this.searchTarget = result.target;
         return;
       }
@@ -506,7 +563,11 @@ export class PracticePage implements OnDestroy {
       // isn't actually one of the array's values.
       const sortedArray = [...result.values].sort((a, b) => a - b);
       const recording = binarySearchVisualization(sortedArray, result.target);
-      this.applyRecording(recording, [CHART_METADATA_ENTRY]);
+      this.applyRecording(
+        recording,
+        [CHART_METADATA_ENTRY],
+        true,
+      );
       this.searchTarget = result.target;
       return;
     }
@@ -514,20 +575,26 @@ export class PracticePage implements OnDestroy {
     // result.kind === 'graph'
     if (this.algorithmId === 'dijkstra') {
       const graph = this.buildDijkstraGraph(result.edges);
-      this.setDijkstraData({ graph, start: result.start, end: result.end ?? result.start });
+      this.setDijkstraData(
+        { graph, start: result.start, end: result.end ?? result.start },
+        true,
+      );
       return;
     }
 
     if (this.algorithmId === 'a-star') {
       // Same weighted-edge shape as Dijkstra — see buildDijkstraGraph.
       const graph = this.buildDijkstraGraph(result.edges);
-      this.setAStarData({ graph, start: result.start, end: result.end ?? result.start });
+      this.setAStarData(
+        { graph, start: result.start, end: result.end ?? result.start },
+        true,
+      );
       return;
     }
 
     if (this.algorithmId === 'dfs') {
       const graph = this.buildDfsGraph(result.edges);
-      this.setDfsData(graph);
+      this.setDfsData(graph, true);
       return;
     }
 
@@ -537,7 +604,7 @@ export class PracticePage implements OnDestroy {
       // (see algorithm/bfs.ts), which is also why the modal fixes the
       // start field for both instead of making it editable.
       const graph = this.buildDfsGraph(result.edges);
-      this.setBfsData(graph);
+      this.setBfsData(graph, true);
     }
   }
 
@@ -578,37 +645,25 @@ export class PracticePage implements OnDestroy {
     if (this.algorithmId === 'dijkstra') {
       this.selectedGraphPattern = null;
       const sample = SAMPLE_DIJKSTRA_GRAPHS[Math.floor(Math.random() * SAMPLE_DIJKSTRA_GRAPHS.length)];
-      this.setDijkstraData(sample);
+      this.setDijkstraData(sample, true);
       return;
     }
 
     if (this.algorithmId === 'a-star') {
-      // A* has the same random-directed-weighted-graph generator
-      // Dijkstra uses (randomAStarSample is an alias for
-      // randomDijkstraSample — see sample-graphs.ts), so unlike DFS/BFS
-      // below, "Random" here actually produces a fresh graph each time
-      // rather than replaying the same one.
       this.selectedGraphPattern = null;
-      this.setAStarData(randomAStarSample());
+      this.setAStarData(randomAStarSample(), true);
       return;
     }
 
     if (this.algorithmId === 'dfs') {
-      // Same random-connected-graph generator BFS's "Random" uses
-      // below (randomBfsGraph is an alias for randomDfsGraph — see
-      // sample-graphs.ts): a fresh graph every time, instead of always
-      // replaying the one curated sample.
       this.selectedGraphPattern = null;
-      this.setDfsData(randomBfsGraph());
+      this.setDfsData(randomBfsGraph(), true);
       return;
     }
 
     if (this.algorithmId === 'bfs') {
-      // Same random-connected-graph generator DFS's "Random" comment
-      // above wants (randomBfsGraph is an alias for randomDfsGraph —
-      // see sample-graphs.ts): a fresh graph every time.
       this.selectedGraphPattern = null;
-      this.setBfsData(randomBfsGraph());
+      this.setBfsData(randomBfsGraph(), true);
       return;
     }
 
@@ -619,16 +674,16 @@ export class PracticePage implements OnDestroy {
     const count = Math.floor(Math.random() * 15) + 10;
 
     if (this.algorithmId === 'binary-search') {
-      this.setBinarySearchData(this.sortedRandomArray(count));
+      this.setBinarySearchData(this.sortedRandomArray(count), true);
       return;
     }
 
     if (this.algorithmId === 'linear-search') {
-      this.setLinearSearchData(this.randomArray(count));
+      this.setLinearSearchData(this.randomArray(count), true);
       return;
     }
 
-    this.setArrayData(this.randomArray(count));
+    this.setArrayData(this.randomArray(count), true);
   }
 
   // Takes string | null (not DataPattern | null) because it's now bound
@@ -637,6 +692,7 @@ export class PracticePage implements OnDestroy {
   // The cast is safe because DataPatternControls only ever emits one of
   // the ids from whichever options list this page handed it.
   protected onPatternChange(pattern: string | null): void {
+    this.hasInteracted = true;
     const typedPattern = pattern as DataPattern | null;
     this.selectedPattern = typedPattern;
 
@@ -649,7 +705,7 @@ export class PracticePage implements OnDestroy {
     if (this.algorithmId === 'binary-search') {
       // Whatever pattern was picked, binary search still needs the
       // result sorted to behave correctly.
-      this.setBinarySearchData([...array].sort((a, b) => a - b));
+      this.setBinarySearchData([...array].sort((a, b) => a - b), true);
       return;
     }
 
@@ -658,11 +714,11 @@ export class PracticePage implements OnDestroy {
       // sorted — 'reversed' and 'nearly-sorted' are still perfectly
       // valid, meaningful arrays to scan linearly; forcing a sort here
       // would make every pattern look identical to binary search's.
-      this.setLinearSearchData(array);
+      this.setLinearSearchData(array, true);
       return;
     }
 
-    this.setArrayData(array);
+    this.setArrayData(array, true);
   }
 
   // Graph counterpart of onPatternChange — same idea (pick a pattern,
@@ -671,30 +727,49 @@ export class PracticePage implements OnDestroy {
   // uses one of these two branches: DFS/BFS take a plain adjacency
   // list, Dijkstra/A* take the weighted graph + start/end shape.
   protected onGraphPatternChange(pattern: string | null): void {
+    this.hasInteracted = true;
     const typedPattern = pattern as GraphPattern | null;
     this.selectedGraphPattern = typedPattern;
 
     if (this.algorithmId === 'dfs') {
-      this.setDfsData(typedPattern === null ? randomBfsGraph() : patternedDfsGraph(typedPattern));
+      this.setDfsData(
+        typedPattern === null
+          ? randomBfsGraph()
+          : patternedDfsGraph(typedPattern),
+        true,
+      );
       return;
     }
 
     if (this.algorithmId === 'bfs') {
-      this.setBfsData(typedPattern === null ? randomBfsGraph() : patternedBfsGraph(typedPattern));
+      this.setBfsData(
+        typedPattern === null
+          ? randomBfsGraph()
+          : patternedBfsGraph(typedPattern),
+        true,
+      );
       return;
     }
 
     if (this.algorithmId === 'dijkstra') {
       const sample =
         typedPattern === null
-          ? SAMPLE_DIJKSTRA_GRAPHS[Math.floor(Math.random() * SAMPLE_DIJKSTRA_GRAPHS.length)]
+          ? SAMPLE_DIJKSTRA_GRAPHS[
+          Math.floor(Math.random() * SAMPLE_DIJKSTRA_GRAPHS.length)
+          ]
           : patternedWeightedGraphSample(typedPattern);
-      this.setDijkstraData(sample);
+
+      this.setDijkstraData(sample, true);
       return;
     }
 
     if (this.algorithmId === 'a-star') {
-      this.setAStarData(typedPattern === null ? randomAStarSample() : patternedAStarSample(typedPattern));
+      this.setAStarData(
+        typedPattern === null
+          ? randomAStarSample()
+          : patternedAStarSample(typedPattern),
+        true,
+      );
     }
   }
 
@@ -833,77 +908,97 @@ export class PracticePage implements OnDestroy {
     }
   }
 
-  private setArrayData(array: number[]): void {
+  private setArrayData(array: number[], autoPlay = false): void {
     // Every recorder sorts its input array in place, so each call gets
     // its own copy rather than sharing the caller's array reference.
     const recording = this.buildArraySortRecording([...array]);
-    this.applyRecording(recording, [CHART_METADATA_ENTRY]);
+    this.applyRecording(recording, [CHART_METADATA_ENTRY], autoPlay);
   }
 
   private buildArraySortRecording(array: number[]): Recording {
     switch (this.algorithmId) {
       case 'merge-sort':
-        return mergeSortVisualization(array);
+        return mergeSortVisualization(
+          array,
+          this.languageService.currentLanguage(),
+        );
       case 'quick-sort':
-        return quickSortVisualization(array);
+        return quickSortVisualization(array, this.languageService.currentLanguage(),);
       case 'selection-sort':
-        return selectionSortVisualization(array);
+        return selectionSortVisualization(array, this.languageService.currentLanguage(),);
       case 'insertion-sort':
-        return insertionSortVisualization(array);
+        return insertionSortVisualization(array, this.languageService.currentLanguage(),);
       case 'bubble-sort':
       default:
-        return bubbleSortVisualization(array);
+        return bubbleSortVisualization(array, this.languageService.currentLanguage());
     }
   }
 
-  private setBinarySearchData(sortedArray: number[]): void {
+  private setBinarySearchData(sortedArray: number[], autoPlay = false,): void {
     const target = this.pickSearchTarget(sortedArray);
-    const recording = binarySearchVisualization([...sortedArray], target);
-    this.applyRecording(recording, [CHART_METADATA_ENTRY]);
+    const recording = binarySearchVisualization(
+      [...sortedArray],
+      target,
+      this.languageService.currentLanguage(),
+    );
+    this.applyRecording(recording, [CHART_METADATA_ENTRY], autoPlay);
     this.searchTarget = target;
   }
 
   // Linear Search never sorts its input — that's the whole point of
   // the contrast with Binary Search — so this intentionally skips the
   // sort step setBinarySearchData does.
-  private setLinearSearchData(array: number[]): void {
+  private setLinearSearchData(array: number[], autoPlay = false): void {
     const target = this.pickSearchTarget(array);
-    const recording = linearSearchVisualization([...array], target);
-    this.applyRecording(recording, [CHART_METADATA_ENTRY]);
+    const recording = linearSearchVisualization(
+      [...array],
+      target,
+      this.languageService.currentLanguage(),
+    );
+    this.applyRecording(recording, [CHART_METADATA_ENTRY], autoPlay);
     this.searchTarget = target;
   }
 
-  private setDijkstraData(sample: DijkstraSample): void {
-    const recording = dijkstraVisualization(sample.graph, sample.start, sample.end);
+  private setDijkstraData(sample: DijkstraSample, autoPlay = false): void {
+    const recording = dijkstraVisualization(sample.graph, sample.start, sample.end, this.languageService.currentLanguage());
     // dijkstra.ts still records three panels: the Graph, the Open/
     // Closed Set (Array2D), and the Node Costs chart. The comment that
     // used to be here said the chart had been removed — it hadn't —
     // and CHART_METADATA_ENTRY was missing from this list as a result,
     // so the Node Costs panel's 'changed' highlight had no color
     // metadata to resolve against.
-    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY, CHART_METADATA_ENTRY]);
+    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY, CHART_METADATA_ENTRY], autoPlay);
   }
 
-  private setDfsData(graph: Record<string, string[]>): void {
-    const recording = dfsVisualization(graph);
-    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY]);
+  private setDfsData(graph: Record<string, string[]>, autoPlay = false,): void {
+    const recording = dfsVisualization(graph, this.languageService.currentLanguage());
+    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY], autoPlay);
   }
 
   // Same recorder shape as DFS (Graph + one Array2D queue panel), just
   // a queue instead of a stack — see algorithm/bfs.ts.
-  private setBfsData(graph: Record<string, string[]>): void {
-    const recording = bfsVisualization(graph);
-    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY]);
+  private setBfsData(graph: Record<string, string[]>, autoPlay = false): void {
+    const recording = bfsVisualization(
+      graph,
+      'A',
+      this.languageService.currentLanguage(),
+    );
+    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY], autoPlay);
   }
 
   // Same recorder shape as Dijkstra (Graph + Open/Closed Set + Node
   // Costs chart) — see algorithm/a-start.ts.
-  private setAStarData(sample: DijkstraSample): void {
-    const recording = aStarVisualization(sample.graph, sample.start, sample.end);
-    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY, CHART_METADATA_ENTRY]);
+  private setAStarData(sample: DijkstraSample, autoPlay = false): void {
+    const recording = aStarVisualization(
+      sample.graph,
+      sample.start,
+      sample.end,
+      this.languageService.currentLanguage(),
+    );
+    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY, CHART_METADATA_ENTRY], autoPlay);
   }
 
-  private applyRecording(recording: Recording, objectMetaData: RendererMetadata['objectMetaData']): void {
+  private applyRecording(recording: Recording, objectMetaData: RendererMetadata['objectMetaData'], autoPlay = false,): void {
     // Reset here, not just at construction — every setXData method
     // (setArrayData, setDfsData, ...) funnels through this method, so
     // this is the one place guaranteed to run on every data change.
@@ -919,6 +1014,28 @@ export class PracticePage implements OnDestroy {
     this.stopPlayback();
     this.isPlaying = false;
     this.stepTo(0);
+
+    if (autoPlay) {
+      this.isPlaying = true;
+      this.startPlayback();
+    }
+  }
+
+  protected toggleExportMenu(): void {
+    this.isExportMenuOpen = !this.isExportMenuOpen;
+  }
+
+  // Renders whatever is currently loaded (this.animation /
+  // this.rendererMetadata) — not a fresh, separate run — so the
+  // exported file always matches whatever array/graph is on screen
+  // right now, random or custom or pattern-generated.
+  protected exportLatexSource(): void {
+    if (!this.animation || !this.rendererMetadata) {
+      return;
+    }
+    const tex = buildLatexDocument(this.animation, this.rendererMetadata, this.themeService.themeMode());
+    downloadTextFile(`${this.algorithmId}.tex`, tex, 'application/x-tex');
+    this.isExportMenuOpen = false;
   }
 
   // Picks a value to search for. Most of the time it's one already in

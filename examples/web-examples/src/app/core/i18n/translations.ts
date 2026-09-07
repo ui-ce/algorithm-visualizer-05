@@ -1,9 +1,11 @@
 import type { Language } from '../services/language.service';
 import type { TranslationDictionary } from './translations.type';
-import { HEADER_TRANSLATIONS, HOME_TRANSLATIONS } from './home.translation';
+import { HEADER_TRANSLATIONS, HOME_TRANSLATIONS } from './home.translations';
 import { PRACTICE_TRANSLATIONS } from './practice.translation';
 import { LANDING_TRANSLATIONS } from './landing.translations';
 import { COMPARE_TRANSLATIONS } from './compare.translation';
+import { LEARN_TRANSLATIONS } from './learn.translation';
+import { TEST_TRANSLATIONS } from './test.translation';
 
 // Stage checklist (update as features are translated):
 //   [x] layout/header (shared aria-labels)
@@ -12,8 +14,9 @@ import { COMPARE_TRANSLATIONS } from './compare.translation';
 //   [x] components/landing (hero, picker, features, tour, quiz, battle, signup, footer)
 //   [ ] features/practice (remaining 7 algorithms' content)
 //   [ ] features/auth (login/register)
-//   [ ] features/test
-//   [ ] features/learn
+//   [x] features/test
+//   [x] features/learn (UI chrome; body copy is English-only for now,
+//       same as every algorithm's Practice content except bubble-sort)
 // Add each new feature's dictionary in its own `*.translations.ts` file
 // and spread it in here - keeps this file a plain index, not a dumping
 // ground for every string in the app.
@@ -23,6 +26,8 @@ export const TRANSLATIONS: TranslationDictionary = {
   ...PRACTICE_TRANSLATIONS,
   ...LANDING_TRANSLATIONS,
   ...COMPARE_TRANSLATIONS,
+  ...LEARN_TRANSLATIONS,
+  ...TEST_TRANSLATIONS,
 };
 
 

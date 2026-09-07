@@ -1,13 +1,22 @@
 // Builds an Animation + RendererMetadata pair for a single algorithm
-// column on the Compare page. This intentionally mirrors the dispatch
-// logic in features/practice/practice.ts (buildArraySortRecording /
+// column on the Compare page.
+//
+// This intentionally mirrors the dispatch logic in
+// features/practice/practice.ts (buildArraySortRecording /
 // setBinarySearchData / setDijkstraData / ...) rather than importing
-// from it, since none of that is exported from PracticePage — the
-// metadata objects below are trimmed copies of the ones there, kept
-// only for the tag colors this page's legend actually uses.
+// from it, since none of that is exported from PracticePage.
+//
+// The metadata objects below are trimmed copies of the ones there,
+// kept only for the tag colors this page's legend actually uses.
+
 import { FramerEngine } from '@algorithm-visualizer/typescript-framer';
-import type { Animation, RendererMetadata } from '@algorithm-visualizer/typescript-angular-renderer';
+import type {
+  Animation,
+  RendererMetadata,
+} from '@algorithm-visualizer/typescript-angular-renderer';
 import type { Recording } from '@algorithm-visualizer/typescript-recorder';
+
+import type { Language } from '../../../core/services/language.service';
 
 import { bubbleSortVisualization } from '../../../algorithm/bubble-sort';
 import { mergeSortVisualization } from '../../../algorithm/merge-sort';
@@ -29,11 +38,10 @@ import {
 } from '../../practice/data/sample-graphs';
 
 // 'sort' | 'search' | 'graph' — which of Practice's three legend sets
-// (see practice.ts's own `legendItems` getter) this run's chart uses.
+// this run's visualization uses.
+//
 // The actual translated labels are resolved in CompareVisualization
-// itself (see compare-visualization.ts), not here — this module has no
-// access to LanguageService, and hardcoding English strings would
-// leave the legend untranslated in Persian.
+// itself, not here.
 export type LegendKind = 'sort' | 'search' | 'graph';
 
 export const SORT_ALGORITHM_IDS = new Set([
@@ -44,15 +52,22 @@ export const SORT_ALGORITHM_IDS = new Set([
   'insertion-sort',
 ]);
 
-export const SEARCH_ALGORITHM_IDS = new Set(['binary-search', 'linear-search']);
+export const SEARCH_ALGORITHM_IDS = new Set([
+  'binary-search',
+  'linear-search',
+]);
 
-export const GRAPH_ALGORITHM_IDS = new Set(['dijkstra', 'dfs', 'bfs', 'a-star']);
+export const GRAPH_ALGORITHM_IDS = new Set([
+  'dijkstra',
+  'dfs',
+  'bfs',
+  'a-star',
+]);
 
-// Same constant Practice's own second visualization-area uses (see
-// practice.html) for every graph algorithm uniformly — DFS/BFS don't
-// actually have a 'Chart' frame to show, but filtering for a type that
-// isn't present is harmless (it just renders nothing for that type),
-// so one shared list works for all four instead of a per-algorithm one.
+// Same auxiliary visualization types used by Practice's graph area.
+//
+// DFS/BFS do not necessarily contain a Chart frame, but filtering for
+// a type that is not present is harmless.
 const GRAPH_AUX_INCLUDE_TYPES = ['Array2D', 'Chart'];
 
 const CHART_METADATA_ENTRY = {
@@ -116,13 +131,15 @@ export interface CompareRun {
   rendererMetadata: RendererMetadata;
   totalSteps: number;
   includeTypes: string[] | null;
-  // Non-null only for graph algorithms — the second, separate "data
-  // structures" panel (DFS's stack, Dijkstra/A*'s Open Set / Closed
-  // Set / Node Costs) rendered underneath the main graph canvas, the
-  // exact same way Practice's own graph-aux-panel does (see
-  // practice.html's second <algo-visualization-area>). Null for every
-  // sort/search run, which has no second dataset to show.
+
+  // Non-null only for graph algorithms.
+  //
+  // This is the second, separate "data structures" panel:
+  // DFS's stack, Dijkstra/A*'s Open Set / Closed Set / Node Costs.
+  //
+  // Null for sort/search runs.
   auxIncludeTypes: string[] | null;
+
   legendKind: LegendKind;
   searchTarget: number | null;
 }
@@ -137,9 +154,13 @@ function toRun(
   auxIncludeTypes: string[] | null = null,
 ): CompareRun {
   const animation = new FramerEngine().getAnimation(recording);
+
   return {
     animation,
-    rendererMetadata: { documentName: displayName, objectMetaData },
+    rendererMetadata: {
+      documentName: displayName,
+      objectMetaData,
+    },
     totalSteps: animation.length,
     includeTypes,
     auxIncludeTypes,
@@ -148,63 +169,151 @@ function toRun(
   };
 }
 
-// One value in the array [0, 100) picked so both columns' bars stay
-// comparable at a glance — same range Practice's own random generator
-// uses (see practice.ts's randomArray).
+// One value in the array [10, 80).
+//
+// Both columns therefore use the same numeric range and their bars
+// remain visually comparable.
 function randomValue(): number {
   return Math.floor(Math.random() * 70) + 10;
 }
 
-// 8, not Practice's usual 20 — two charts have to share the screen
-// side by side here instead of one chart having the whole width, so a
-// smaller array keeps each bar (and its index/value labels) legible.
+// 8 values instead of Practice's usual 20 because two charts share
+// the screen side by side on Compare.
 export function generateSharedArray(count = 8): number[] {
-  return Array.from({ length: count }, randomValue);
+  return Array.from(
+    { length: count },
+    randomValue,
+  );
 }
 
 function pickSearchTarget(array: number[]): number {
   if (array.length > 0 && Math.random() < 0.8) {
     return array[Math.floor(Math.random() * array.length)];
   }
+
   const max = Math.max(...array, 0);
+
   return max + Math.floor(Math.random() * 10) + 1;
 }
 
-// Builds one column's run. `sharedArray` is required for sort/search
-// algorithms — both columns are run against the exact same array so
-// the comparison is meaningful (per the requirement that both sides
-// execute on identical data). Graph algorithms are the one documented
-// exception: each pulls its own curated/random sample graph instead,
-// since a Dijkstra-shaped weighted graph and a DFS-shaped unweighted
-// graph can't share one data structure.
-export function buildCompareRun(algorithmId: string, displayName: string, sharedArray: number[] | null): CompareRun {
+// Builds one column's run.
+//
+// `sharedArray` is required for sort/search algorithms so both columns
+// run against exactly the same data.
+//
+// Graph algorithms are the documented exception: each algorithm uses
+// its own curated/random graph sample.
+export function buildCompareRun(
+  algorithmId: string,
+  displayName: string,
+  sharedArray: number[] | null,
+  language: Language = 'en',
+): CompareRun {
+  // ------------------------------------------------------------
+  // SORT
+  // ------------------------------------------------------------
+
   if (SORT_ALGORITHM_IDS.has(algorithmId)) {
-    const array = [...(sharedArray ?? generateSharedArray())];
-    const recording = buildSortRecording(algorithmId, array);
-    return toRun(recording, [CHART_METADATA_ENTRY], displayName, null, 'sort');
+    const array = [
+      ...(sharedArray ?? generateSharedArray()),
+    ];
+
+    const recording = buildSortRecording(
+      algorithmId,
+      array,
+      language,
+    );
+
+    return toRun(
+      recording,
+      [CHART_METADATA_ENTRY],
+      displayName,
+      null,
+      'sort',
+    );
   }
+
+  // ------------------------------------------------------------
+  // SEARCH
+  // ------------------------------------------------------------
 
   if (SEARCH_ALGORITHM_IDS.has(algorithmId)) {
-    const array = [...(sharedArray ?? generateSharedArray())];
+    const array = [
+      ...(sharedArray ?? generateSharedArray()),
+    ];
+
     if (algorithmId === 'linear-search') {
       const target = pickSearchTarget(array);
-      const recording = linearSearchVisualization(array, target);
-      return toRun(recording, [CHART_METADATA_ENTRY], displayName, null, 'search', target);
+
+      const recording = linearSearchVisualization(
+        array,
+        target,
+        language,
+      );
+
+      return toRun(
+        recording,
+        [CHART_METADATA_ENTRY],
+        displayName,
+        null,
+        'search',
+        target,
+      );
     }
-    const sorted = array.sort((a, b) => a - b);
+
+    const sorted = [
+      ...array,
+    ].sort((a, b) => a - b);
+
     const target = pickSearchTarget(sorted);
-    const recording = binarySearchVisualization(sorted, target);
-    return toRun(recording, [CHART_METADATA_ENTRY], displayName, null, 'search', target);
+
+    const recording = binarySearchVisualization(
+      sorted,
+      target,
+      language,
+    );
+
+    return toRun(
+      recording,
+      [CHART_METADATA_ENTRY],
+      displayName,
+      null,
+      'search',
+      target,
+    );
   }
 
-  // Graph algorithms — own sample data, not the shared array.
+  // ------------------------------------------------------------
+  // GRAPH
+  // ------------------------------------------------------------
+
   switch (algorithmId) {
+    // ----------------------------------------------------------
+    // DIJKSTRA
+    // ----------------------------------------------------------
+
     case 'dijkstra': {
-      const sample = SAMPLE_DIJKSTRA_GRAPHS[Math.floor(Math.random() * SAMPLE_DIJKSTRA_GRAPHS.length)];
-      const recording = dijkstraVisualization(sample.graph, sample.start, sample.end);
+      const sample =
+        SAMPLE_DIJKSTRA_GRAPHS[
+          Math.floor(
+            Math.random() * SAMPLE_DIJKSTRA_GRAPHS.length,
+          )
+        ];
+
+      const recording = dijkstraVisualization(
+        sample.graph,
+        sample.start,
+        sample.end,
+        language,
+      );
+
       return toRun(
         recording,
-        [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY, CHART_METADATA_ENTRY],
+        [
+          GRAPH_METADATA_ENTRY,
+          ARRAY_2D_METADATA_ENTRY,
+          CHART_METADATA_ENTRY,
+        ],
         displayName,
         ['Graph'],
         'graph',
@@ -212,12 +321,33 @@ export function buildCompareRun(algorithmId: string, displayName: string, shared
         GRAPH_AUX_INCLUDE_TYPES,
       );
     }
+
+    // ----------------------------------------------------------
+    // A*
+    // ----------------------------------------------------------
+
     case 'a-star': {
-      const sample = SAMPLE_ASTAR_GRAPHS[Math.floor(Math.random() * SAMPLE_ASTAR_GRAPHS.length)];
-      const recording = aStarVisualization(sample.graph, sample.start, sample.end);
+      const sample =
+        SAMPLE_ASTAR_GRAPHS[
+          Math.floor(
+            Math.random() * SAMPLE_ASTAR_GRAPHS.length,
+          )
+        ];
+
+      const recording = aStarVisualization(
+        sample.graph,
+        sample.start,
+        sample.end,
+        language,
+      );
+
       return toRun(
         recording,
-        [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY, CHART_METADATA_ENTRY],
+        [
+          GRAPH_METADATA_ENTRY,
+          ARRAY_2D_METADATA_ENTRY,
+          CHART_METADATA_ENTRY,
+        ],
         displayName,
         ['Graph'],
         'graph',
@@ -225,11 +355,24 @@ export function buildCompareRun(algorithmId: string, displayName: string, shared
         GRAPH_AUX_INCLUDE_TYPES,
       );
     }
+
+    // ----------------------------------------------------------
+    // BFS
+    // ----------------------------------------------------------
+
     case 'bfs': {
-      const recording = bfsVisualization(SAMPLE_BFS_GRAPH);
+      const recording = bfsVisualization(
+        SAMPLE_BFS_GRAPH,
+        'A',
+        language,
+      );
+
       return toRun(
         recording,
-        [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY],
+        [
+          GRAPH_METADATA_ENTRY,
+          ARRAY_2D_METADATA_ENTRY,
+        ],
         displayName,
         ['Graph'],
         'graph',
@@ -237,12 +380,24 @@ export function buildCompareRun(algorithmId: string, displayName: string, shared
         GRAPH_AUX_INCLUDE_TYPES,
       );
     }
+
+    // ----------------------------------------------------------
+    // DFS
+    // ----------------------------------------------------------
+
     case 'dfs':
     default: {
-      const recording = dfsVisualization(SAMPLE_DFS_GRAPH);
+      const recording = dfsVisualization(
+        SAMPLE_DFS_GRAPH,
+        language,
+      );
+
       return toRun(
         recording,
-        [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY],
+        [
+          GRAPH_METADATA_ENTRY,
+          ARRAY_2D_METADATA_ENTRY,
+        ],
         displayName,
         ['Graph'],
         'graph',
@@ -253,18 +408,49 @@ export function buildCompareRun(algorithmId: string, displayName: string, shared
   }
 }
 
-function buildSortRecording(algorithmId: string, array: number[]): Recording {
+// --------------------------------------------------------------
+// SORT DISPATCH
+// --------------------------------------------------------------
+//
+// This function is intentionally outside PracticePage, so it cannot
+// access `this.languageService`.
+//
+// Language is therefore passed explicitly from buildCompareRun.
+function buildSortRecording(
+  algorithmId: string,
+  array: number[],
+  language: Language,
+): Recording {
   switch (algorithmId) {
     case 'merge-sort':
-      return mergeSortVisualization(array);
+      return mergeSortVisualization(
+        array,
+        language,
+      );
+
     case 'quick-sort':
-      return quickSortVisualization(array);
+      return quickSortVisualization(
+        array,
+        language,
+      );
+
     case 'selection-sort':
-      return selectionSortVisualization(array);
+      return selectionSortVisualization(
+        array,
+        language,
+      );
+
     case 'insertion-sort':
-      return insertionSortVisualization(array);
+      return insertionSortVisualization(
+        array,
+        language,
+      );
+
     case 'bubble-sort':
     default:
-      return bubbleSortVisualization(array);
+      return bubbleSortVisualization(
+        array,
+        language,
+      );
   }
 }

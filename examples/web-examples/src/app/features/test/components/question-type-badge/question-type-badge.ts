@@ -1,10 +1,12 @@
 import { Component, Input } from '@angular/core';
-import type { QuestionType } from '../../models/test.types';
+import { LanguageService } from '../../../../core/services/language.service';
+import { translate } from '../../../../core/i18n/translations';
+import type { QuestionType } from '../../test.types';
 
-const LABELS: Record<QuestionType, string> = {
-  conceptual: 'Conceptual',
-  execution: 'Execution',
-  code: 'Code',
+const LABEL_KEY: Record<QuestionType, string> = {
+  conceptual: 'test.type.conceptual',
+  execution: 'test.type.execution',
+  code: 'test.type.code',
 };
 
 @Component({
@@ -14,11 +16,13 @@ const LABELS: Record<QuestionType, string> = {
   styleUrl: './question-type-badge.scss',
 })
 export class QuestionTypeBadge {
+  public constructor(private readonly _languageService: LanguageService) {}
+
   @Input()
   public type: QuestionType = 'conceptual';
 
   protected get label(): string {
-    return LABELS[this.type];
+    return translate(LABEL_KEY[this.type], this._languageService.currentLanguage());
   }
 
   // Only 'conceptual' has a real value (#A68FE8) — execution/code are

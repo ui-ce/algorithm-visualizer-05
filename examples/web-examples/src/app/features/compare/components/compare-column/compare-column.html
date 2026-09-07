@@ -1,38 +1,35 @@
 <div class="algo-compare-column" [class.algo-compare-column--right]="side === 'right'">
-  <algo-algorithm-select
-    [variant]="side === 'left' ? 'default' : 'accent'"
-    [labelKey]="labelKey"
-    [placeholderKey]="placeholderKey"
-    [options]="options"
-    [value]="selectedId"
-    [valueNameKey]="selectedNameKey"
-    (valueChange)="algorithmChange.emit($event)"
-  />
+  <algo-algorithm-select [variant]="side === 'left' ? 'default' : 'accent'" [labelKey]="labelKey"
+    [placeholderKey]="placeholderKey" [options]="options" [value]="selectedId" [valueNameKey]="selectedNameKey"
+    (valueChange)="algorithmChange.emit($event)" />
 
   <algo-compare-visualization [run]="run" [frameIndex]="frameIndex" />
 
   <algo-compare-info-panel titleKey="compare.complexity.title">
     @for (row of complexityRows; track row.key) {
-      <p
-        class="algo-compare-column__complexity-row text-body-medium"
-        [class.algo-compare-column__complexity-row--better]="verdictFor(row.key) === 'better'"
-        [class.algo-compare-column__complexity-row--worse]="verdictFor(row.key) === 'worse'"
-      >
-        <span>{{ row.labelKey | translate }}</span>
-        <span>{{ complexityValue(row.key) }}</span>
-      </p>
+    <p class="algo-compare-column__complexity-row text-body-medium">
+      <span class="algo-compare-column__complexity-label">
+        {{ row.labelKey | translate }}
+      </span>
+
+      <span class="algo-compare-column__complexity-value"
+        [class.algo-compare-column__complexity-value--better]="verdictFor(row.key) === 'better'"
+        [class.algo-compare-column__complexity-value--worse]="verdictFor(row.key) === 'worse'">
+        {{ complexityValue(row.key) }}
+      </span>
+    </p>
     }
   </algo-compare-info-panel>
 
   <algo-compare-info-panel titleKey="compare.keyDifferences.title">
     @if (keyDifferenceKeys.length > 0) {
-      @for (key of keyDifferenceKeys; track key) {
-        <p class="algo-compare-column__bullet text-body-medium">{{ key | translate }}</p>
-      }
+    @for (key of keyDifferenceKeys; track key) {
+    <p class="algo-compare-column__bullet text-body-medium">{{ key | translate }}</p>
+    }
     } @else {
-      @for (placeholder of [0, 1, 2, 3, 4]; track placeholder) {
-        <p class="algo-compare-column__bullet algo-compare-column__bullet--placeholder text-body-medium">?</p>
-      }
+    @for (placeholder of [0, 1, 2, 3, 4]; track placeholder) {
+    <p class="algo-compare-column__bullet algo-compare-column__bullet--placeholder text-body-medium">?</p>
+    }
     }
   </algo-compare-info-panel>
 </div>

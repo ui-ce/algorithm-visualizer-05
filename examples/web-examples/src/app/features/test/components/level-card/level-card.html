@@ -6,14 +6,13 @@
 
   <h3 class="algo-level-card__title text-title-large-medium">{{ label }}</h3>
 
-  <div class="algo-level-card__star-worth" [attr.title]="'Finishing ' + label + ' brings your total to ' + starWorth + ' star' + (starWorth > 1 ? 's' : '')">
+  <div class="algo-level-card__star-worth" [attr.title]="starWorthTitle">
     @for (star of starWorthSlots; track star) {
       <svg solarStarBold [size]="12"></svg>
     }
   </div>
 
-  <p class="algo-level-card__subtitle text-body-medium">{{ data.sets.length }} Sets - {{ questionsPerSet }} Questions
-    per Set</p>
+  <p class="algo-level-card__subtitle text-body-medium">{{ setsSubtitle }}</p>
 
   @if (isLocked) {
   <div class="algo-level-card__locked-panel">
@@ -21,9 +20,7 @@
       <svg solarLockKeyholeMinimalisticLinear [size]="20"></svg>
     </span>
     <p class="algo-level-card__locked-text text-body-medium">
-      Complete all 3 sets in <span [style.color]="'var(--color-quiz-' + data.unlocksAfter + ')'">{{ unlocksAfterLabel
-        }}</span>
-      to unlock <span [style.color]="accentColorVar">{{ label }}</span>
+      {{ lockedText }}
     </p>
   </div>
   } @else {
@@ -36,12 +33,12 @@
   </div>
   }
 
-  <button type="button" class="algo-level-card__cta" [disabled]="isLocked" (click)="onStart()">
+  <button type="button" class="algo-level-card__cta text-body-medium-emphasized" [disabled]="isLocked" (click)="onStart()">
     @if (isLocked) {
-    Locked
+    {{ lockedCtaLabel }}
     <svg solarLockKeyholeMinimalisticLinear [size]="18"></svg>
     } @else {
-    Start {{ label }}
+    {{ startCtaLabel }}
     <svg solarArrowRightLinear [size]="18"></svg>
     }
   </button>

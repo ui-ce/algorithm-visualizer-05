@@ -1,3 +1,4 @@
+@use "sass:list";
 // Seven-step shade "ramp" for the icon's bits/nodes on hover — matches
 // the reference design's varied-shade look, but instead of seven
 // hand-picked hex values, every step is `color-mix()` blending the
@@ -8,12 +9,14 @@
 $shade-mixes: 60% black, 0% black, 20% white, 45% white, 30% black, 60% black, 35% white;
 
 @function landing-shade($index) {
-  $mix: nth($shade-mixes, $index);
-  $percent: nth($mix, 1);
-  $target: nth($mix, 2);
-  @if $percent == 0% {
+  $mix: list.nth($shade-mixes, $index);
+  $percent: list.nth($mix, 1);
+  $target: list.nth($mix, 2);
+
+  @if $percent ==0% {
     @return var(--color-brand-primary);
   }
+
   @return color-mix(in srgb, var(--color-brand-primary) #{100% - $percent}, #{$target} #{$percent});
 }
 

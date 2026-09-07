@@ -53,6 +53,6 @@ export class LoginPage {
       return;
     }
 
-    this._router.navigateByUrl('/home');
+    this._router.navigateByUrl('/');
   }
 }

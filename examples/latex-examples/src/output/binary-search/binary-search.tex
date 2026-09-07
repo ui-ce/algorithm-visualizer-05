@@ -1,376 +1,901 @@
 \documentclass{article}
 \usepackage{tikz}
+\usepackage{xcolor}
+\definecolor{vizDefault}{HTML}{9CA3AF}
+\definecolor{vizComparing}{HTML}{FFA768}
+\definecolor{vizSwapping}{HTML}{E14B53}
+\definecolor{vizSorted}{HTML}{5BF15D}
+\definecolor{vizActive}{HTML}{629BF8}
+\definecolor{vizExplored}{HTML}{7C4FDB}
+\definecolor{vizUpdated}{HTML}{E0A400}
 \usetikzlibrary{matrix}
 \usepackage[margin=1in]{geometry}
 \begin{document}
 % --- Frame 0 ---
 \begin{center}\LARGE\textbf{Binary Search}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Initial State}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Initial state}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Array}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Array}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0cm,0) rectangle (0.5cm,3.5cm);
-  \filldraw[fill=gray!30] (0cm,0) rectangle (0.5cm,0.175cm);
-  \node[above] at (0.25cm,0.175cm) {1};
+  \filldraw[fill=vizDefault] (0cm,0) rectangle (0.5cm,0.14cm);
+  \node[above] at (0.25cm,0.14cm) {1};
+  \node[below] at (0.25cm,0) {0};
   \filldraw[fill=white!0, draw=none] (0.7cm,0) rectangle (1.2cm,3.5cm);
-  \filldraw[fill=gray!30] (0.7cm,0) rectangle (1.2cm,0.5249999999999999cm);
-  \node[above] at (0.95cm,0.5249999999999999cm) {3};
+  \filldraw[fill=vizDefault] (0.7cm,0) rectangle (1.2cm,0.28cm);
+  \node[above] at (0.95cm,0.28cm) {2};
+  \node[below] at (0.95cm,0) {1};
   \filldraw[fill=white!0, draw=none] (1.4cm,0) rectangle (1.9cm,3.5cm);
-  \filldraw[fill=gray!30] (1.4cm,0) rectangle (1.9cm,0.875cm);
-  \node[above] at (1.65cm,0.875cm) {5};
+  \filldraw[fill=vizDefault] (1.4cm,0) rectangle (1.9cm,0.28cm);
+  \node[above] at (1.65cm,0.28cm) {2};
+  \node[below] at (1.65cm,0) {2};
   \filldraw[fill=white!0, draw=none] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,3.5cm);
-  \filldraw[fill=gray!30] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,1.2249999999999999cm);
-  \node[above] at (2.3499999999999996cm,1.2249999999999999cm) {7};
+  \filldraw[fill=vizDefault] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,0.42000000000000004cm);
+  \node[above] at (2.3499999999999996cm,0.42000000000000004cm) {3};
+  \node[below] at (2.3499999999999996cm,0) {3};
   \filldraw[fill=white!0, draw=none] (2.8cm,0) rectangle (3.3cm,3.5cm);
-  \filldraw[fill=gray!30] (2.8cm,0) rectangle (3.3cm,1.575cm);
-  \node[above] at (3.05cm,1.575cm) {9};
+  \filldraw[fill=vizDefault] (2.8cm,0) rectangle (3.3cm,0.56cm);
+  \node[above] at (3.05cm,0.56cm) {4};
+  \node[below] at (3.05cm,0) {4};
   \filldraw[fill=white!0, draw=none] (3.5cm,0) rectangle (4cm,3.5cm);
-  \filldraw[fill=gray!30] (3.5cm,0) rectangle (4cm,1.9249999999999998cm);
-  \node[above] at (3.75cm,1.9249999999999998cm) {11};
+  \filldraw[fill=vizDefault] (3.5cm,0) rectangle (4cm,0.7000000000000001cm);
+  \node[above] at (3.75cm,0.7000000000000001cm) {5};
+  \node[below] at (3.75cm,0) {5};
   \filldraw[fill=white!0, draw=none] (4.199999999999999cm,0) rectangle (4.699999999999999cm,3.5cm);
-  \filldraw[fill=gray!30] (4.199999999999999cm,0) rectangle (4.699999999999999cm,2.275cm);
-  \node[above] at (4.449999999999999cm,2.275cm) {13};
+  \filldraw[fill=vizDefault] (4.199999999999999cm,0) rectangle (4.699999999999999cm,0.8400000000000001cm);
+  \node[above] at (4.449999999999999cm,0.8400000000000001cm) {6};
+  \node[below] at (4.449999999999999cm,0) {6};
   \filldraw[fill=white!0, draw=none] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,3.5cm);
-  \filldraw[fill=gray!30] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,2.625cm);
-  \node[above] at (5.1499999999999995cm,2.625cm) {15};
+  \filldraw[fill=vizDefault] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,0.9800000000000001cm);
+  \node[above] at (5.1499999999999995cm,0.9800000000000001cm) {7};
+  \node[below] at (5.1499999999999995cm,0) {7};
   \filldraw[fill=white!0, draw=none] (5.6cm,0) rectangle (6.1cm,3.5cm);
-  \filldraw[fill=gray!30] (5.6cm,0) rectangle (6.1cm,2.9749999999999996cm);
-  \node[above] at (5.85cm,2.9749999999999996cm) {17};
+  \filldraw[fill=vizDefault] (5.6cm,0) rectangle (6.1cm,1.2600000000000002cm);
+  \node[above] at (5.85cm,1.2600000000000002cm) {9};
+  \node[below] at (5.85cm,0) {8};
   \filldraw[fill=white!0, draw=none] (6.3cm,0) rectangle (6.8cm,3.5cm);
-  \filldraw[fill=gray!30] (6.3cm,0) rectangle (6.8cm,3.5cm);
-  \node[above] at (6.55cm,3.5cm) {20};
+  \filldraw[fill=vizDefault] (6.3cm,0) rectangle (6.8cm,1.6800000000000002cm);
+  \node[above] at (6.55cm,1.6800000000000002cm) {12};
+  \node[below] at (6.55cm,0) {9};
+  \filldraw[fill=white!0, draw=none] (7cm,0) rectangle (7.5cm,3.5cm);
+  \filldraw[fill=vizDefault] (7cm,0) rectangle (7.5cm,1.8200000000000003cm);
+  \node[above] at (7.25cm,1.8200000000000003cm) {13};
+  \node[below] at (7.25cm,0) {10};
+  \filldraw[fill=white!0, draw=none] (7.699999999999999cm,0) rectangle (8.2cm,3.5cm);
+  \filldraw[fill=vizDefault] (7.699999999999999cm,0) rectangle (8.2cm,1.9600000000000002cm);
+  \node[above] at (7.949999999999999cm,1.9600000000000002cm) {14};
+  \node[below] at (7.949999999999999cm,0) {11};
+  \filldraw[fill=white!0, draw=none] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5cm);
+  \filldraw[fill=vizDefault] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5000000000000004cm);
+  \node[above] at (8.649999999999999cm,3.5000000000000004cm) {25};
+  \node[below] at (8.649999999999999cm,0) {12};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 1 ---
 \begin{center}\LARGE\textbf{Binary Search}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Searching from index 0 to 9}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Still searching between index 0 and 12.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Array}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Array}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0cm,0) rectangle (0.5cm,3.5cm);
-  \filldraw[fill=blue!50] (0cm,0cm) rectangle (0.5cm,0.175cm);
-  \node[above] at (0.25cm,0.175cm) {1};
+  \filldraw[fill=vizActive] (0cm,0cm) rectangle (0.5cm,0.14cm);
+  \node[above] at (0.25cm,0.14cm) {1};
+  \node[below] at (0.25cm,0) {0};
   \filldraw[fill=white!0, draw=none] (0.7cm,0) rectangle (1.2cm,3.5cm);
-  \filldraw[fill=blue!50] (0.7cm,0cm) rectangle (1.2cm,0.5249999999999999cm);
-  \node[above] at (0.95cm,0.5249999999999999cm) {3};
+  \filldraw[fill=vizActive] (0.7cm,0cm) rectangle (1.2cm,0.28cm);
+  \node[above] at (0.95cm,0.28cm) {2};
+  \node[below] at (0.95cm,0) {1};
   \filldraw[fill=white!0, draw=none] (1.4cm,0) rectangle (1.9cm,3.5cm);
-  \filldraw[fill=blue!50] (1.4cm,0cm) rectangle (1.9cm,0.875cm);
-  \node[above] at (1.65cm,0.875cm) {5};
+  \filldraw[fill=vizActive] (1.4cm,0cm) rectangle (1.9cm,0.28cm);
+  \node[above] at (1.65cm,0.28cm) {2};
+  \node[below] at (1.65cm,0) {2};
   \filldraw[fill=white!0, draw=none] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,3.5cm);
-  \filldraw[fill=blue!50] (2.0999999999999996cm,0cm) rectangle (2.5999999999999996cm,1.2249999999999999cm);
-  \node[above] at (2.3499999999999996cm,1.2249999999999999cm) {7};
+  \filldraw[fill=vizActive] (2.0999999999999996cm,0cm) rectangle (2.5999999999999996cm,0.42000000000000004cm);
+  \node[above] at (2.3499999999999996cm,0.42000000000000004cm) {3};
+  \node[below] at (2.3499999999999996cm,0) {3};
   \filldraw[fill=white!0, draw=none] (2.8cm,0) rectangle (3.3cm,3.5cm);
-  \filldraw[fill=blue!50] (2.8cm,0cm) rectangle (3.3cm,1.575cm);
-  \node[above] at (3.05cm,1.575cm) {9};
+  \filldraw[fill=vizActive] (2.8cm,0cm) rectangle (3.3cm,0.56cm);
+  \node[above] at (3.05cm,0.56cm) {4};
+  \node[below] at (3.05cm,0) {4};
   \filldraw[fill=white!0, draw=none] (3.5cm,0) rectangle (4cm,3.5cm);
-  \filldraw[fill=blue!50] (3.5cm,0cm) rectangle (4cm,1.9249999999999998cm);
-  \node[above] at (3.75cm,1.9249999999999998cm) {11};
+  \filldraw[fill=vizActive] (3.5cm,0cm) rectangle (4cm,0.7000000000000001cm);
+  \node[above] at (3.75cm,0.7000000000000001cm) {5};
+  \node[below] at (3.75cm,0) {5};
   \filldraw[fill=white!0, draw=none] (4.199999999999999cm,0) rectangle (4.699999999999999cm,3.5cm);
-  \filldraw[fill=blue!50] (4.199999999999999cm,0cm) rectangle (4.699999999999999cm,2.275cm);
-  \node[above] at (4.449999999999999cm,2.275cm) {13};
+  \filldraw[fill=vizActive] (4.199999999999999cm,0cm) rectangle (4.699999999999999cm,0.8400000000000001cm);
+  \node[above] at (4.449999999999999cm,0.8400000000000001cm) {6};
+  \node[below] at (4.449999999999999cm,0) {6};
   \filldraw[fill=white!0, draw=none] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,3.5cm);
-  \filldraw[fill=blue!50] (4.8999999999999995cm,0cm) rectangle (5.3999999999999995cm,2.625cm);
-  \node[above] at (5.1499999999999995cm,2.625cm) {15};
+  \filldraw[fill=vizActive] (4.8999999999999995cm,0cm) rectangle (5.3999999999999995cm,0.9800000000000001cm);
+  \node[above] at (5.1499999999999995cm,0.9800000000000001cm) {7};
+  \node[below] at (5.1499999999999995cm,0) {7};
   \filldraw[fill=white!0, draw=none] (5.6cm,0) rectangle (6.1cm,3.5cm);
-  \filldraw[fill=blue!50] (5.6cm,0cm) rectangle (6.1cm,2.9749999999999996cm);
-  \node[above] at (5.85cm,2.9749999999999996cm) {17};
+  \filldraw[fill=vizActive] (5.6cm,0cm) rectangle (6.1cm,1.2600000000000002cm);
+  \node[above] at (5.85cm,1.2600000000000002cm) {9};
+  \node[below] at (5.85cm,0) {8};
   \filldraw[fill=white!0, draw=none] (6.3cm,0) rectangle (6.8cm,3.5cm);
-  \filldraw[fill=blue!50] (6.3cm,0cm) rectangle (6.8cm,3.5cm);
-  \node[above] at (6.55cm,3.5cm) {20};
+  \filldraw[fill=vizActive] (6.3cm,0cm) rectangle (6.8cm,1.6800000000000002cm);
+  \node[above] at (6.55cm,1.6800000000000002cm) {12};
+  \node[below] at (6.55cm,0) {9};
+  \filldraw[fill=white!0, draw=none] (7cm,0) rectangle (7.5cm,3.5cm);
+  \filldraw[fill=vizActive] (7cm,0cm) rectangle (7.5cm,1.8200000000000003cm);
+  \node[above] at (7.25cm,1.8200000000000003cm) {13};
+  \node[below] at (7.25cm,0) {10};
+  \filldraw[fill=white!0, draw=none] (7.699999999999999cm,0) rectangle (8.2cm,3.5cm);
+  \filldraw[fill=vizActive] (7.699999999999999cm,0cm) rectangle (8.2cm,1.9600000000000002cm);
+  \node[above] at (7.949999999999999cm,1.9600000000000002cm) {14};
+  \node[below] at (7.949999999999999cm,0) {11};
+  \filldraw[fill=white!0, draw=none] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5cm);
+  \filldraw[fill=vizActive] (8.399999999999999cm,0cm) rectangle (8.899999999999999cm,3.5000000000000004cm);
+  \node[above] at (8.649999999999999cm,3.5000000000000004cm) {25};
+  \node[below] at (8.649999999999999cm,0) {12};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 2 ---
 \begin{center}\LARGE\textbf{Binary Search}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Comparing current section middle cell value with 11}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Comparing the middle element of this section (index 6) with the target value 9.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Array}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Array}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0cm,0) rectangle (0.5cm,3.5cm);
-  \filldraw[fill=blue!50] (0cm,0cm) rectangle (0.5cm,0.175cm);
-  \node[above] at (0.25cm,0.175cm) {1};
+  \filldraw[fill=vizActive] (0cm,0cm) rectangle (0.5cm,0.14cm);
+  \node[above] at (0.25cm,0.14cm) {1};
+  \node[below] at (0.25cm,0) {0};
   \filldraw[fill=white!0, draw=none] (0.7cm,0) rectangle (1.2cm,3.5cm);
-  \filldraw[fill=blue!50] (0.7cm,0cm) rectangle (1.2cm,0.5249999999999999cm);
-  \node[above] at (0.95cm,0.5249999999999999cm) {3};
+  \filldraw[fill=vizActive] (0.7cm,0cm) rectangle (1.2cm,0.28cm);
+  \node[above] at (0.95cm,0.28cm) {2};
+  \node[below] at (0.95cm,0) {1};
   \filldraw[fill=white!0, draw=none] (1.4cm,0) rectangle (1.9cm,3.5cm);
-  \filldraw[fill=blue!50] (1.4cm,0cm) rectangle (1.9cm,0.875cm);
-  \node[above] at (1.65cm,0.875cm) {5};
+  \filldraw[fill=vizActive] (1.4cm,0cm) rectangle (1.9cm,0.28cm);
+  \node[above] at (1.65cm,0.28cm) {2};
+  \node[below] at (1.65cm,0) {2};
   \filldraw[fill=white!0, draw=none] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,3.5cm);
-  \filldraw[fill=blue!50] (2.0999999999999996cm,0cm) rectangle (2.5999999999999996cm,1.2249999999999999cm);
-  \node[above] at (2.3499999999999996cm,1.2249999999999999cm) {7};
+  \filldraw[fill=vizActive] (2.0999999999999996cm,0cm) rectangle (2.5999999999999996cm,0.42000000000000004cm);
+  \node[above] at (2.3499999999999996cm,0.42000000000000004cm) {3};
+  \node[below] at (2.3499999999999996cm,0) {3};
   \filldraw[fill=white!0, draw=none] (2.8cm,0) rectangle (3.3cm,3.5cm);
-  \filldraw[fill=blue!50] (2.8cm,0cm) rectangle (3.3cm,1.575cm);
-  \filldraw[fill=brown!50] (2.9cm,0.1cm) rectangle (3.1999999999999997cm,1.4749999999999999cm);
-  \node[above] at (3.05cm,1.575cm) {9};
+  \filldraw[fill=vizActive] (2.8cm,0cm) rectangle (3.3cm,0.56cm);
+  \node[above] at (3.05cm,0.56cm) {4};
+  \node[below] at (3.05cm,0) {4};
   \filldraw[fill=white!0, draw=none] (3.5cm,0) rectangle (4cm,3.5cm);
-  \filldraw[fill=blue!50] (3.5cm,0cm) rectangle (4cm,1.9249999999999998cm);
-  \node[above] at (3.75cm,1.9249999999999998cm) {11};
+  \filldraw[fill=vizActive] (3.5cm,0cm) rectangle (4cm,0.7000000000000001cm);
+  \node[above] at (3.75cm,0.7000000000000001cm) {5};
+  \node[below] at (3.75cm,0) {5};
   \filldraw[fill=white!0, draw=none] (4.199999999999999cm,0) rectangle (4.699999999999999cm,3.5cm);
-  \filldraw[fill=blue!50] (4.199999999999999cm,0cm) rectangle (4.699999999999999cm,2.275cm);
-  \node[above] at (4.449999999999999cm,2.275cm) {13};
+  \filldraw[fill=vizActive] (4.199999999999999cm,0cm) rectangle (4.699999999999999cm,0.8400000000000001cm);
+  \filldraw[fill=vizComparing] (4.299999999999999cm,0.1cm) rectangle (4.6cm,0.7400000000000001cm);
+  \node[above] at (4.449999999999999cm,0.8400000000000001cm) {6};
+  \node[below] at (4.449999999999999cm,0) {6};
   \filldraw[fill=white!0, draw=none] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,3.5cm);
-  \filldraw[fill=blue!50] (4.8999999999999995cm,0cm) rectangle (5.3999999999999995cm,2.625cm);
-  \node[above] at (5.1499999999999995cm,2.625cm) {15};
+  \filldraw[fill=vizActive] (4.8999999999999995cm,0cm) rectangle (5.3999999999999995cm,0.9800000000000001cm);
+  \node[above] at (5.1499999999999995cm,0.9800000000000001cm) {7};
+  \node[below] at (5.1499999999999995cm,0) {7};
   \filldraw[fill=white!0, draw=none] (5.6cm,0) rectangle (6.1cm,3.5cm);
-  \filldraw[fill=blue!50] (5.6cm,0cm) rectangle (6.1cm,2.9749999999999996cm);
-  \node[above] at (5.85cm,2.9749999999999996cm) {17};
+  \filldraw[fill=vizActive] (5.6cm,0cm) rectangle (6.1cm,1.2600000000000002cm);
+  \node[above] at (5.85cm,1.2600000000000002cm) {9};
+  \node[below] at (5.85cm,0) {8};
   \filldraw[fill=white!0, draw=none] (6.3cm,0) rectangle (6.8cm,3.5cm);
-  \filldraw[fill=blue!50] (6.3cm,0cm) rectangle (6.8cm,3.5cm);
-  \node[above] at (6.55cm,3.5cm) {20};
+  \filldraw[fill=vizActive] (6.3cm,0cm) rectangle (6.8cm,1.6800000000000002cm);
+  \node[above] at (6.55cm,1.6800000000000002cm) {12};
+  \node[below] at (6.55cm,0) {9};
+  \filldraw[fill=white!0, draw=none] (7cm,0) rectangle (7.5cm,3.5cm);
+  \filldraw[fill=vizActive] (7cm,0cm) rectangle (7.5cm,1.8200000000000003cm);
+  \node[above] at (7.25cm,1.8200000000000003cm) {13};
+  \node[below] at (7.25cm,0) {10};
+  \filldraw[fill=white!0, draw=none] (7.699999999999999cm,0) rectangle (8.2cm,3.5cm);
+  \filldraw[fill=vizActive] (7.699999999999999cm,0cm) rectangle (8.2cm,1.9600000000000002cm);
+  \node[above] at (7.949999999999999cm,1.9600000000000002cm) {14};
+  \node[below] at (7.949999999999999cm,0) {11};
+  \filldraw[fill=white!0, draw=none] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5cm);
+  \filldraw[fill=vizActive] (8.399999999999999cm,0cm) rectangle (8.899999999999999cm,3.5000000000000004cm);
+  \node[above] at (8.649999999999999cm,3.5000000000000004cm) {25};
+  \node[below] at (8.649999999999999cm,0) {12};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 3 ---
 \begin{center}\LARGE\textbf{Binary Search}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Searching from index 5 to 9}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Index 6 holds 6, which is less than 9, so the target (if present) must be to the right.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Array}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Array}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0cm,0) rectangle (0.5cm,3.5cm);
-  \filldraw[fill=gray!30] (0cm,0) rectangle (0.5cm,0.175cm);
-  \node[above] at (0.25cm,0.175cm) {1};
+  \filldraw[fill=vizSwapping] (0cm,0cm) rectangle (0.5cm,0.14cm);
+  \node[above] at (0.25cm,0.14cm) {1};
+  \node[below] at (0.25cm,0) {0};
   \filldraw[fill=white!0, draw=none] (0.7cm,0) rectangle (1.2cm,3.5cm);
-  \filldraw[fill=gray!30] (0.7cm,0) rectangle (1.2cm,0.5249999999999999cm);
-  \node[above] at (0.95cm,0.5249999999999999cm) {3};
+  \filldraw[fill=vizSwapping] (0.7cm,0cm) rectangle (1.2cm,0.28cm);
+  \node[above] at (0.95cm,0.28cm) {2};
+  \node[below] at (0.95cm,0) {1};
   \filldraw[fill=white!0, draw=none] (1.4cm,0) rectangle (1.9cm,3.5cm);
-  \filldraw[fill=gray!30] (1.4cm,0) rectangle (1.9cm,0.875cm);
-  \node[above] at (1.65cm,0.875cm) {5};
+  \filldraw[fill=vizSwapping] (1.4cm,0cm) rectangle (1.9cm,0.28cm);
+  \node[above] at (1.65cm,0.28cm) {2};
+  \node[below] at (1.65cm,0) {2};
   \filldraw[fill=white!0, draw=none] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,3.5cm);
-  \filldraw[fill=gray!30] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,1.2249999999999999cm);
-  \node[above] at (2.3499999999999996cm,1.2249999999999999cm) {7};
+  \filldraw[fill=vizSwapping] (2.0999999999999996cm,0cm) rectangle (2.5999999999999996cm,0.42000000000000004cm);
+  \node[above] at (2.3499999999999996cm,0.42000000000000004cm) {3};
+  \node[below] at (2.3499999999999996cm,0) {3};
   \filldraw[fill=white!0, draw=none] (2.8cm,0) rectangle (3.3cm,3.5cm);
-  \filldraw[fill=gray!30] (2.8cm,0) rectangle (3.3cm,1.575cm);
-  \node[above] at (3.05cm,1.575cm) {9};
+  \filldraw[fill=vizSwapping] (2.8cm,0cm) rectangle (3.3cm,0.56cm);
+  \node[above] at (3.05cm,0.56cm) {4};
+  \node[below] at (3.05cm,0) {4};
   \filldraw[fill=white!0, draw=none] (3.5cm,0) rectangle (4cm,3.5cm);
-  \filldraw[fill=blue!50] (3.5cm,0cm) rectangle (4cm,1.9249999999999998cm);
-  \node[above] at (3.75cm,1.9249999999999998cm) {11};
+  \filldraw[fill=vizSwapping] (3.5cm,0cm) rectangle (4cm,0.7000000000000001cm);
+  \node[above] at (3.75cm,0.7000000000000001cm) {5};
+  \node[below] at (3.75cm,0) {5};
   \filldraw[fill=white!0, draw=none] (4.199999999999999cm,0) rectangle (4.699999999999999cm,3.5cm);
-  \filldraw[fill=blue!50] (4.199999999999999cm,0cm) rectangle (4.699999999999999cm,2.275cm);
-  \node[above] at (4.449999999999999cm,2.275cm) {13};
+  \filldraw[fill=vizSwapping] (4.199999999999999cm,0cm) rectangle (4.699999999999999cm,0.8400000000000001cm);
+  \node[above] at (4.449999999999999cm,0.8400000000000001cm) {6};
+  \node[below] at (4.449999999999999cm,0) {6};
   \filldraw[fill=white!0, draw=none] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,3.5cm);
-  \filldraw[fill=blue!50] (4.8999999999999995cm,0cm) rectangle (5.3999999999999995cm,2.625cm);
-  \node[above] at (5.1499999999999995cm,2.625cm) {15};
+  \filldraw[fill=vizActive] (4.8999999999999995cm,0cm) rectangle (5.3999999999999995cm,0.9800000000000001cm);
+  \node[above] at (5.1499999999999995cm,0.9800000000000001cm) {7};
+  \node[below] at (5.1499999999999995cm,0) {7};
   \filldraw[fill=white!0, draw=none] (5.6cm,0) rectangle (6.1cm,3.5cm);
-  \filldraw[fill=blue!50] (5.6cm,0cm) rectangle (6.1cm,2.9749999999999996cm);
-  \node[above] at (5.85cm,2.9749999999999996cm) {17};
+  \filldraw[fill=vizActive] (5.6cm,0cm) rectangle (6.1cm,1.2600000000000002cm);
+  \node[above] at (5.85cm,1.2600000000000002cm) {9};
+  \node[below] at (5.85cm,0) {8};
   \filldraw[fill=white!0, draw=none] (6.3cm,0) rectangle (6.8cm,3.5cm);
-  \filldraw[fill=blue!50] (6.3cm,0cm) rectangle (6.8cm,3.5cm);
-  \node[above] at (6.55cm,3.5cm) {20};
+  \filldraw[fill=vizActive] (6.3cm,0cm) rectangle (6.8cm,1.6800000000000002cm);
+  \node[above] at (6.55cm,1.6800000000000002cm) {12};
+  \node[below] at (6.55cm,0) {9};
+  \filldraw[fill=white!0, draw=none] (7cm,0) rectangle (7.5cm,3.5cm);
+  \filldraw[fill=vizActive] (7cm,0cm) rectangle (7.5cm,1.8200000000000003cm);
+  \node[above] at (7.25cm,1.8200000000000003cm) {13};
+  \node[below] at (7.25cm,0) {10};
+  \filldraw[fill=white!0, draw=none] (7.699999999999999cm,0) rectangle (8.2cm,3.5cm);
+  \filldraw[fill=vizActive] (7.699999999999999cm,0cm) rectangle (8.2cm,1.9600000000000002cm);
+  \node[above] at (7.949999999999999cm,1.9600000000000002cm) {14};
+  \node[below] at (7.949999999999999cm,0) {11};
+  \filldraw[fill=white!0, draw=none] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5cm);
+  \filldraw[fill=vizActive] (8.399999999999999cm,0cm) rectangle (8.899999999999999cm,3.5000000000000004cm);
+  \node[above] at (8.649999999999999cm,3.5000000000000004cm) {25};
+  \node[below] at (8.649999999999999cm,0) {12};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 4 ---
 \begin{center}\LARGE\textbf{Binary Search}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Comparing current section middle cell value with 11}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Still searching between index 7 and 12.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Array}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Array}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0cm,0) rectangle (0.5cm,3.5cm);
-  \filldraw[fill=gray!30] (0cm,0) rectangle (0.5cm,0.175cm);
-  \node[above] at (0.25cm,0.175cm) {1};
+  \filldraw[fill=vizDefault] (0cm,0) rectangle (0.5cm,0.14cm);
+  \node[above] at (0.25cm,0.14cm) {1};
+  \node[below] at (0.25cm,0) {0};
   \filldraw[fill=white!0, draw=none] (0.7cm,0) rectangle (1.2cm,3.5cm);
-  \filldraw[fill=gray!30] (0.7cm,0) rectangle (1.2cm,0.5249999999999999cm);
-  \node[above] at (0.95cm,0.5249999999999999cm) {3};
+  \filldraw[fill=vizDefault] (0.7cm,0) rectangle (1.2cm,0.28cm);
+  \node[above] at (0.95cm,0.28cm) {2};
+  \node[below] at (0.95cm,0) {1};
   \filldraw[fill=white!0, draw=none] (1.4cm,0) rectangle (1.9cm,3.5cm);
-  \filldraw[fill=gray!30] (1.4cm,0) rectangle (1.9cm,0.875cm);
-  \node[above] at (1.65cm,0.875cm) {5};
+  \filldraw[fill=vizDefault] (1.4cm,0) rectangle (1.9cm,0.28cm);
+  \node[above] at (1.65cm,0.28cm) {2};
+  \node[below] at (1.65cm,0) {2};
   \filldraw[fill=white!0, draw=none] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,3.5cm);
-  \filldraw[fill=gray!30] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,1.2249999999999999cm);
-  \node[above] at (2.3499999999999996cm,1.2249999999999999cm) {7};
+  \filldraw[fill=vizDefault] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,0.42000000000000004cm);
+  \node[above] at (2.3499999999999996cm,0.42000000000000004cm) {3};
+  \node[below] at (2.3499999999999996cm,0) {3};
   \filldraw[fill=white!0, draw=none] (2.8cm,0) rectangle (3.3cm,3.5cm);
-  \filldraw[fill=gray!30] (2.8cm,0) rectangle (3.3cm,1.575cm);
-  \node[above] at (3.05cm,1.575cm) {9};
+  \filldraw[fill=vizDefault] (2.8cm,0) rectangle (3.3cm,0.56cm);
+  \node[above] at (3.05cm,0.56cm) {4};
+  \node[below] at (3.05cm,0) {4};
   \filldraw[fill=white!0, draw=none] (3.5cm,0) rectangle (4cm,3.5cm);
-  \filldraw[fill=blue!50] (3.5cm,0cm) rectangle (4cm,1.9249999999999998cm);
-  \node[above] at (3.75cm,1.9249999999999998cm) {11};
+  \filldraw[fill=vizDefault] (3.5cm,0) rectangle (4cm,0.7000000000000001cm);
+  \node[above] at (3.75cm,0.7000000000000001cm) {5};
+  \node[below] at (3.75cm,0) {5};
   \filldraw[fill=white!0, draw=none] (4.199999999999999cm,0) rectangle (4.699999999999999cm,3.5cm);
-  \filldraw[fill=blue!50] (4.199999999999999cm,0cm) rectangle (4.699999999999999cm,2.275cm);
-  \node[above] at (4.449999999999999cm,2.275cm) {13};
+  \filldraw[fill=vizDefault] (4.199999999999999cm,0) rectangle (4.699999999999999cm,0.8400000000000001cm);
+  \node[above] at (4.449999999999999cm,0.8400000000000001cm) {6};
+  \node[below] at (4.449999999999999cm,0) {6};
   \filldraw[fill=white!0, draw=none] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,3.5cm);
-  \filldraw[fill=blue!50] (4.8999999999999995cm,0cm) rectangle (5.3999999999999995cm,2.625cm);
-  \filldraw[fill=brown!50] (4.999999999999999cm,0.1cm) rectangle (5.3cm,2.525cm);
-  \node[above] at (5.1499999999999995cm,2.625cm) {15};
+  \filldraw[fill=vizActive] (4.8999999999999995cm,0cm) rectangle (5.3999999999999995cm,0.9800000000000001cm);
+  \node[above] at (5.1499999999999995cm,0.9800000000000001cm) {7};
+  \node[below] at (5.1499999999999995cm,0) {7};
   \filldraw[fill=white!0, draw=none] (5.6cm,0) rectangle (6.1cm,3.5cm);
-  \filldraw[fill=blue!50] (5.6cm,0cm) rectangle (6.1cm,2.9749999999999996cm);
-  \node[above] at (5.85cm,2.9749999999999996cm) {17};
+  \filldraw[fill=vizActive] (5.6cm,0cm) rectangle (6.1cm,1.2600000000000002cm);
+  \node[above] at (5.85cm,1.2600000000000002cm) {9};
+  \node[below] at (5.85cm,0) {8};
   \filldraw[fill=white!0, draw=none] (6.3cm,0) rectangle (6.8cm,3.5cm);
-  \filldraw[fill=blue!50] (6.3cm,0cm) rectangle (6.8cm,3.5cm);
-  \node[above] at (6.55cm,3.5cm) {20};
+  \filldraw[fill=vizActive] (6.3cm,0cm) rectangle (6.8cm,1.6800000000000002cm);
+  \node[above] at (6.55cm,1.6800000000000002cm) {12};
+  \node[below] at (6.55cm,0) {9};
+  \filldraw[fill=white!0, draw=none] (7cm,0) rectangle (7.5cm,3.5cm);
+  \filldraw[fill=vizActive] (7cm,0cm) rectangle (7.5cm,1.8200000000000003cm);
+  \node[above] at (7.25cm,1.8200000000000003cm) {13};
+  \node[below] at (7.25cm,0) {10};
+  \filldraw[fill=white!0, draw=none] (7.699999999999999cm,0) rectangle (8.2cm,3.5cm);
+  \filldraw[fill=vizActive] (7.699999999999999cm,0cm) rectangle (8.2cm,1.9600000000000002cm);
+  \node[above] at (7.949999999999999cm,1.9600000000000002cm) {14};
+  \node[below] at (7.949999999999999cm,0) {11};
+  \filldraw[fill=white!0, draw=none] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5cm);
+  \filldraw[fill=vizActive] (8.399999999999999cm,0cm) rectangle (8.899999999999999cm,3.5000000000000004cm);
+  \node[above] at (8.649999999999999cm,3.5000000000000004cm) {25};
+  \node[below] at (8.649999999999999cm,0) {12};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 5 ---
 \begin{center}\LARGE\textbf{Binary Search}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Searching from index 5 to 6}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Comparing the middle element of this section (index 9) with the target value 9.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Array}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Array}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0cm,0) rectangle (0.5cm,3.5cm);
-  \filldraw[fill=gray!30] (0cm,0) rectangle (0.5cm,0.175cm);
-  \node[above] at (0.25cm,0.175cm) {1};
+  \filldraw[fill=vizDefault] (0cm,0) rectangle (0.5cm,0.14cm);
+  \node[above] at (0.25cm,0.14cm) {1};
+  \node[below] at (0.25cm,0) {0};
   \filldraw[fill=white!0, draw=none] (0.7cm,0) rectangle (1.2cm,3.5cm);
-  \filldraw[fill=gray!30] (0.7cm,0) rectangle (1.2cm,0.5249999999999999cm);
-  \node[above] at (0.95cm,0.5249999999999999cm) {3};
+  \filldraw[fill=vizDefault] (0.7cm,0) rectangle (1.2cm,0.28cm);
+  \node[above] at (0.95cm,0.28cm) {2};
+  \node[below] at (0.95cm,0) {1};
   \filldraw[fill=white!0, draw=none] (1.4cm,0) rectangle (1.9cm,3.5cm);
-  \filldraw[fill=gray!30] (1.4cm,0) rectangle (1.9cm,0.875cm);
-  \node[above] at (1.65cm,0.875cm) {5};
+  \filldraw[fill=vizDefault] (1.4cm,0) rectangle (1.9cm,0.28cm);
+  \node[above] at (1.65cm,0.28cm) {2};
+  \node[below] at (1.65cm,0) {2};
   \filldraw[fill=white!0, draw=none] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,3.5cm);
-  \filldraw[fill=gray!30] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,1.2249999999999999cm);
-  \node[above] at (2.3499999999999996cm,1.2249999999999999cm) {7};
+  \filldraw[fill=vizDefault] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,0.42000000000000004cm);
+  \node[above] at (2.3499999999999996cm,0.42000000000000004cm) {3};
+  \node[below] at (2.3499999999999996cm,0) {3};
   \filldraw[fill=white!0, draw=none] (2.8cm,0) rectangle (3.3cm,3.5cm);
-  \filldraw[fill=gray!30] (2.8cm,0) rectangle (3.3cm,1.575cm);
-  \node[above] at (3.05cm,1.575cm) {9};
+  \filldraw[fill=vizDefault] (2.8cm,0) rectangle (3.3cm,0.56cm);
+  \node[above] at (3.05cm,0.56cm) {4};
+  \node[below] at (3.05cm,0) {4};
   \filldraw[fill=white!0, draw=none] (3.5cm,0) rectangle (4cm,3.5cm);
-  \filldraw[fill=blue!50] (3.5cm,0cm) rectangle (4cm,1.9249999999999998cm);
-  \node[above] at (3.75cm,1.9249999999999998cm) {11};
+  \filldraw[fill=vizDefault] (3.5cm,0) rectangle (4cm,0.7000000000000001cm);
+  \node[above] at (3.75cm,0.7000000000000001cm) {5};
+  \node[below] at (3.75cm,0) {5};
   \filldraw[fill=white!0, draw=none] (4.199999999999999cm,0) rectangle (4.699999999999999cm,3.5cm);
-  \filldraw[fill=blue!50] (4.199999999999999cm,0cm) rectangle (4.699999999999999cm,2.275cm);
-  \node[above] at (4.449999999999999cm,2.275cm) {13};
+  \filldraw[fill=vizDefault] (4.199999999999999cm,0) rectangle (4.699999999999999cm,0.8400000000000001cm);
+  \node[above] at (4.449999999999999cm,0.8400000000000001cm) {6};
+  \node[below] at (4.449999999999999cm,0) {6};
   \filldraw[fill=white!0, draw=none] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,3.5cm);
-  \filldraw[fill=gray!30] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,2.625cm);
-  \node[above] at (5.1499999999999995cm,2.625cm) {15};
+  \filldraw[fill=vizActive] (4.8999999999999995cm,0cm) rectangle (5.3999999999999995cm,0.9800000000000001cm);
+  \node[above] at (5.1499999999999995cm,0.9800000000000001cm) {7};
+  \node[below] at (5.1499999999999995cm,0) {7};
   \filldraw[fill=white!0, draw=none] (5.6cm,0) rectangle (6.1cm,3.5cm);
-  \filldraw[fill=gray!30] (5.6cm,0) rectangle (6.1cm,2.9749999999999996cm);
-  \node[above] at (5.85cm,2.9749999999999996cm) {17};
+  \filldraw[fill=vizActive] (5.6cm,0cm) rectangle (6.1cm,1.2600000000000002cm);
+  \node[above] at (5.85cm,1.2600000000000002cm) {9};
+  \node[below] at (5.85cm,0) {8};
   \filldraw[fill=white!0, draw=none] (6.3cm,0) rectangle (6.8cm,3.5cm);
-  \filldraw[fill=gray!30] (6.3cm,0) rectangle (6.8cm,3.5cm);
-  \node[above] at (6.55cm,3.5cm) {20};
+  \filldraw[fill=vizActive] (6.3cm,0cm) rectangle (6.8cm,1.6800000000000002cm);
+  \filldraw[fill=vizComparing] (6.3999999999999995cm,0.1cm) rectangle (6.7cm,1.58cm);
+  \node[above] at (6.55cm,1.6800000000000002cm) {12};
+  \node[below] at (6.55cm,0) {9};
+  \filldraw[fill=white!0, draw=none] (7cm,0) rectangle (7.5cm,3.5cm);
+  \filldraw[fill=vizActive] (7cm,0cm) rectangle (7.5cm,1.8200000000000003cm);
+  \node[above] at (7.25cm,1.8200000000000003cm) {13};
+  \node[below] at (7.25cm,0) {10};
+  \filldraw[fill=white!0, draw=none] (7.699999999999999cm,0) rectangle (8.2cm,3.5cm);
+  \filldraw[fill=vizActive] (7.699999999999999cm,0cm) rectangle (8.2cm,1.9600000000000002cm);
+  \node[above] at (7.949999999999999cm,1.9600000000000002cm) {14};
+  \node[below] at (7.949999999999999cm,0) {11};
+  \filldraw[fill=white!0, draw=none] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5cm);
+  \filldraw[fill=vizActive] (8.399999999999999cm,0cm) rectangle (8.899999999999999cm,3.5000000000000004cm);
+  \node[above] at (8.649999999999999cm,3.5000000000000004cm) {25};
+  \node[below] at (8.649999999999999cm,0) {12};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 6 ---
 \begin{center}\LARGE\textbf{Binary Search}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Comparing current section middle cell value with 11}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Index 9 holds 12, which is greater than 9, so the target (if present) must be to the left.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Array}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Array}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0cm,0) rectangle (0.5cm,3.5cm);
-  \filldraw[fill=gray!30] (0cm,0) rectangle (0.5cm,0.175cm);
-  \node[above] at (0.25cm,0.175cm) {1};
+  \filldraw[fill=vizDefault] (0cm,0) rectangle (0.5cm,0.14cm);
+  \node[above] at (0.25cm,0.14cm) {1};
+  \node[below] at (0.25cm,0) {0};
   \filldraw[fill=white!0, draw=none] (0.7cm,0) rectangle (1.2cm,3.5cm);
-  \filldraw[fill=gray!30] (0.7cm,0) rectangle (1.2cm,0.5249999999999999cm);
-  \node[above] at (0.95cm,0.5249999999999999cm) {3};
+  \filldraw[fill=vizDefault] (0.7cm,0) rectangle (1.2cm,0.28cm);
+  \node[above] at (0.95cm,0.28cm) {2};
+  \node[below] at (0.95cm,0) {1};
   \filldraw[fill=white!0, draw=none] (1.4cm,0) rectangle (1.9cm,3.5cm);
-  \filldraw[fill=gray!30] (1.4cm,0) rectangle (1.9cm,0.875cm);
-  \node[above] at (1.65cm,0.875cm) {5};
+  \filldraw[fill=vizDefault] (1.4cm,0) rectangle (1.9cm,0.28cm);
+  \node[above] at (1.65cm,0.28cm) {2};
+  \node[below] at (1.65cm,0) {2};
   \filldraw[fill=white!0, draw=none] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,3.5cm);
-  \filldraw[fill=gray!30] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,1.2249999999999999cm);
-  \node[above] at (2.3499999999999996cm,1.2249999999999999cm) {7};
+  \filldraw[fill=vizDefault] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,0.42000000000000004cm);
+  \node[above] at (2.3499999999999996cm,0.42000000000000004cm) {3};
+  \node[below] at (2.3499999999999996cm,0) {3};
   \filldraw[fill=white!0, draw=none] (2.8cm,0) rectangle (3.3cm,3.5cm);
-  \filldraw[fill=gray!30] (2.8cm,0) rectangle (3.3cm,1.575cm);
-  \node[above] at (3.05cm,1.575cm) {9};
+  \filldraw[fill=vizDefault] (2.8cm,0) rectangle (3.3cm,0.56cm);
+  \node[above] at (3.05cm,0.56cm) {4};
+  \node[below] at (3.05cm,0) {4};
   \filldraw[fill=white!0, draw=none] (3.5cm,0) rectangle (4cm,3.5cm);
-  \filldraw[fill=blue!50] (3.5cm,0cm) rectangle (4cm,1.9249999999999998cm);
-  \filldraw[fill=brown!50] (3.6cm,0.1cm) rectangle (3.9cm,1.8249999999999997cm);
-  \node[above] at (3.75cm,1.9249999999999998cm) {11};
+  \filldraw[fill=vizDefault] (3.5cm,0) rectangle (4cm,0.7000000000000001cm);
+  \node[above] at (3.75cm,0.7000000000000001cm) {5};
+  \node[below] at (3.75cm,0) {5};
   \filldraw[fill=white!0, draw=none] (4.199999999999999cm,0) rectangle (4.699999999999999cm,3.5cm);
-  \filldraw[fill=blue!50] (4.199999999999999cm,0cm) rectangle (4.699999999999999cm,2.275cm);
-  \node[above] at (4.449999999999999cm,2.275cm) {13};
+  \filldraw[fill=vizDefault] (4.199999999999999cm,0) rectangle (4.699999999999999cm,0.8400000000000001cm);
+  \node[above] at (4.449999999999999cm,0.8400000000000001cm) {6};
+  \node[below] at (4.449999999999999cm,0) {6};
   \filldraw[fill=white!0, draw=none] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,3.5cm);
-  \filldraw[fill=gray!30] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,2.625cm);
-  \node[above] at (5.1499999999999995cm,2.625cm) {15};
+  \filldraw[fill=vizActive] (4.8999999999999995cm,0cm) rectangle (5.3999999999999995cm,0.9800000000000001cm);
+  \node[above] at (5.1499999999999995cm,0.9800000000000001cm) {7};
+  \node[below] at (5.1499999999999995cm,0) {7};
   \filldraw[fill=white!0, draw=none] (5.6cm,0) rectangle (6.1cm,3.5cm);
-  \filldraw[fill=gray!30] (5.6cm,0) rectangle (6.1cm,2.9749999999999996cm);
-  \node[above] at (5.85cm,2.9749999999999996cm) {17};
+  \filldraw[fill=vizActive] (5.6cm,0cm) rectangle (6.1cm,1.2600000000000002cm);
+  \node[above] at (5.85cm,1.2600000000000002cm) {9};
+  \node[below] at (5.85cm,0) {8};
   \filldraw[fill=white!0, draw=none] (6.3cm,0) rectangle (6.8cm,3.5cm);
-  \filldraw[fill=gray!30] (6.3cm,0) rectangle (6.8cm,3.5cm);
-  \node[above] at (6.55cm,3.5cm) {20};
+  \filldraw[fill=vizSwapping] (6.3cm,0cm) rectangle (6.8cm,1.6800000000000002cm);
+  \node[above] at (6.55cm,1.6800000000000002cm) {12};
+  \node[below] at (6.55cm,0) {9};
+  \filldraw[fill=white!0, draw=none] (7cm,0) rectangle (7.5cm,3.5cm);
+  \filldraw[fill=vizSwapping] (7cm,0cm) rectangle (7.5cm,1.8200000000000003cm);
+  \node[above] at (7.25cm,1.8200000000000003cm) {13};
+  \node[below] at (7.25cm,0) {10};
+  \filldraw[fill=white!0, draw=none] (7.699999999999999cm,0) rectangle (8.2cm,3.5cm);
+  \filldraw[fill=vizSwapping] (7.699999999999999cm,0cm) rectangle (8.2cm,1.9600000000000002cm);
+  \node[above] at (7.949999999999999cm,1.9600000000000002cm) {14};
+  \node[below] at (7.949999999999999cm,0) {11};
+  \filldraw[fill=white!0, draw=none] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5cm);
+  \filldraw[fill=vizSwapping] (8.399999999999999cm,0cm) rectangle (8.899999999999999cm,3.5000000000000004cm);
+  \node[above] at (8.649999999999999cm,3.5000000000000004cm) {25};
+  \node[below] at (8.649999999999999cm,0) {12};
 \end{tikzpicture}
 \end{center}
 \newpage
 % --- Frame 7 ---
 \begin{center}\LARGE\textbf{Binary Search}\\[6mm]\end{center}
 \begin{center}
-\begin{flushleft}\textbf{Log}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
-  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Found 11 at index 5}};
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Still searching between index 7 and 8.}};
 \end{tikzpicture}
 \end{center}
 \noindent\rule{\linewidth}{0.3pt}
 \begin{center}
-\begin{flushleft}\textbf{Array}\\[1.75mm]\end{flushleft}
+\begin{center}\textbf{Array}\\[1.75mm]\end{center}
 \begin{tikzpicture}
   \filldraw[fill=white!0, draw=none] (0cm,0) rectangle (0.5cm,3.5cm);
-  \filldraw[fill=gray!30] (0cm,0) rectangle (0.5cm,0.175cm);
-  \node[above] at (0.25cm,0.175cm) {1};
+  \filldraw[fill=vizDefault] (0cm,0) rectangle (0.5cm,0.14cm);
+  \node[above] at (0.25cm,0.14cm) {1};
+  \node[below] at (0.25cm,0) {0};
   \filldraw[fill=white!0, draw=none] (0.7cm,0) rectangle (1.2cm,3.5cm);
-  \filldraw[fill=gray!30] (0.7cm,0) rectangle (1.2cm,0.5249999999999999cm);
-  \node[above] at (0.95cm,0.5249999999999999cm) {3};
+  \filldraw[fill=vizDefault] (0.7cm,0) rectangle (1.2cm,0.28cm);
+  \node[above] at (0.95cm,0.28cm) {2};
+  \node[below] at (0.95cm,0) {1};
   \filldraw[fill=white!0, draw=none] (1.4cm,0) rectangle (1.9cm,3.5cm);
-  \filldraw[fill=gray!30] (1.4cm,0) rectangle (1.9cm,0.875cm);
-  \node[above] at (1.65cm,0.875cm) {5};
+  \filldraw[fill=vizDefault] (1.4cm,0) rectangle (1.9cm,0.28cm);
+  \node[above] at (1.65cm,0.28cm) {2};
+  \node[below] at (1.65cm,0) {2};
   \filldraw[fill=white!0, draw=none] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,3.5cm);
-  \filldraw[fill=gray!30] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,1.2249999999999999cm);
-  \node[above] at (2.3499999999999996cm,1.2249999999999999cm) {7};
+  \filldraw[fill=vizDefault] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,0.42000000000000004cm);
+  \node[above] at (2.3499999999999996cm,0.42000000000000004cm) {3};
+  \node[below] at (2.3499999999999996cm,0) {3};
   \filldraw[fill=white!0, draw=none] (2.8cm,0) rectangle (3.3cm,3.5cm);
-  \filldraw[fill=gray!30] (2.8cm,0) rectangle (3.3cm,1.575cm);
-  \node[above] at (3.05cm,1.575cm) {9};
+  \filldraw[fill=vizDefault] (2.8cm,0) rectangle (3.3cm,0.56cm);
+  \node[above] at (3.05cm,0.56cm) {4};
+  \node[below] at (3.05cm,0) {4};
   \filldraw[fill=white!0, draw=none] (3.5cm,0) rectangle (4cm,3.5cm);
-  \filldraw[fill=green!50] (3.5cm,0cm) rectangle (4cm,1.9249999999999998cm);
-  \node[above] at (3.75cm,1.9249999999999998cm) {11};
+  \filldraw[fill=vizDefault] (3.5cm,0) rectangle (4cm,0.7000000000000001cm);
+  \node[above] at (3.75cm,0.7000000000000001cm) {5};
+  \node[below] at (3.75cm,0) {5};
   \filldraw[fill=white!0, draw=none] (4.199999999999999cm,0) rectangle (4.699999999999999cm,3.5cm);
-  \filldraw[fill=gray!30] (4.199999999999999cm,0) rectangle (4.699999999999999cm,2.275cm);
-  \node[above] at (4.449999999999999cm,2.275cm) {13};
+  \filldraw[fill=vizDefault] (4.199999999999999cm,0) rectangle (4.699999999999999cm,0.8400000000000001cm);
+  \node[above] at (4.449999999999999cm,0.8400000000000001cm) {6};
+  \node[below] at (4.449999999999999cm,0) {6};
   \filldraw[fill=white!0, draw=none] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,3.5cm);
-  \filldraw[fill=gray!30] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,2.625cm);
-  \node[above] at (5.1499999999999995cm,2.625cm) {15};
+  \filldraw[fill=vizActive] (4.8999999999999995cm,0cm) rectangle (5.3999999999999995cm,0.9800000000000001cm);
+  \node[above] at (5.1499999999999995cm,0.9800000000000001cm) {7};
+  \node[below] at (5.1499999999999995cm,0) {7};
   \filldraw[fill=white!0, draw=none] (5.6cm,0) rectangle (6.1cm,3.5cm);
-  \filldraw[fill=gray!30] (5.6cm,0) rectangle (6.1cm,2.9749999999999996cm);
-  \node[above] at (5.85cm,2.9749999999999996cm) {17};
+  \filldraw[fill=vizActive] (5.6cm,0cm) rectangle (6.1cm,1.2600000000000002cm);
+  \node[above] at (5.85cm,1.2600000000000002cm) {9};
+  \node[below] at (5.85cm,0) {8};
   \filldraw[fill=white!0, draw=none] (6.3cm,0) rectangle (6.8cm,3.5cm);
-  \filldraw[fill=gray!30] (6.3cm,0) rectangle (6.8cm,3.5cm);
-  \node[above] at (6.55cm,3.5cm) {20};
+  \filldraw[fill=vizDefault] (6.3cm,0) rectangle (6.8cm,1.6800000000000002cm);
+  \node[above] at (6.55cm,1.6800000000000002cm) {12};
+  \node[below] at (6.55cm,0) {9};
+  \filldraw[fill=white!0, draw=none] (7cm,0) rectangle (7.5cm,3.5cm);
+  \filldraw[fill=vizDefault] (7cm,0) rectangle (7.5cm,1.8200000000000003cm);
+  \node[above] at (7.25cm,1.8200000000000003cm) {13};
+  \node[below] at (7.25cm,0) {10};
+  \filldraw[fill=white!0, draw=none] (7.699999999999999cm,0) rectangle (8.2cm,3.5cm);
+  \filldraw[fill=vizDefault] (7.699999999999999cm,0) rectangle (8.2cm,1.9600000000000002cm);
+  \node[above] at (7.949999999999999cm,1.9600000000000002cm) {14};
+  \node[below] at (7.949999999999999cm,0) {11};
+  \filldraw[fill=white!0, draw=none] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5cm);
+  \filldraw[fill=vizDefault] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5000000000000004cm);
+  \node[above] at (8.649999999999999cm,3.5000000000000004cm) {25};
+  \node[below] at (8.649999999999999cm,0) {12};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 8 ---
+\begin{center}\LARGE\textbf{Binary Search}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Comparing the middle element of this section (index 7) with the target value 9.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Array}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0) rectangle (0.5cm,3.5cm);
+  \filldraw[fill=vizDefault] (0cm,0) rectangle (0.5cm,0.14cm);
+  \node[above] at (0.25cm,0.14cm) {1};
+  \node[below] at (0.25cm,0) {0};
+  \filldraw[fill=white!0, draw=none] (0.7cm,0) rectangle (1.2cm,3.5cm);
+  \filldraw[fill=vizDefault] (0.7cm,0) rectangle (1.2cm,0.28cm);
+  \node[above] at (0.95cm,0.28cm) {2};
+  \node[below] at (0.95cm,0) {1};
+  \filldraw[fill=white!0, draw=none] (1.4cm,0) rectangle (1.9cm,3.5cm);
+  \filldraw[fill=vizDefault] (1.4cm,0) rectangle (1.9cm,0.28cm);
+  \node[above] at (1.65cm,0.28cm) {2};
+  \node[below] at (1.65cm,0) {2};
+  \filldraw[fill=white!0, draw=none] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,3.5cm);
+  \filldraw[fill=vizDefault] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,0.42000000000000004cm);
+  \node[above] at (2.3499999999999996cm,0.42000000000000004cm) {3};
+  \node[below] at (2.3499999999999996cm,0) {3};
+  \filldraw[fill=white!0, draw=none] (2.8cm,0) rectangle (3.3cm,3.5cm);
+  \filldraw[fill=vizDefault] (2.8cm,0) rectangle (3.3cm,0.56cm);
+  \node[above] at (3.05cm,0.56cm) {4};
+  \node[below] at (3.05cm,0) {4};
+  \filldraw[fill=white!0, draw=none] (3.5cm,0) rectangle (4cm,3.5cm);
+  \filldraw[fill=vizDefault] (3.5cm,0) rectangle (4cm,0.7000000000000001cm);
+  \node[above] at (3.75cm,0.7000000000000001cm) {5};
+  \node[below] at (3.75cm,0) {5};
+  \filldraw[fill=white!0, draw=none] (4.199999999999999cm,0) rectangle (4.699999999999999cm,3.5cm);
+  \filldraw[fill=vizDefault] (4.199999999999999cm,0) rectangle (4.699999999999999cm,0.8400000000000001cm);
+  \node[above] at (4.449999999999999cm,0.8400000000000001cm) {6};
+  \node[below] at (4.449999999999999cm,0) {6};
+  \filldraw[fill=white!0, draw=none] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,3.5cm);
+  \filldraw[fill=vizActive] (4.8999999999999995cm,0cm) rectangle (5.3999999999999995cm,0.9800000000000001cm);
+  \filldraw[fill=vizComparing] (4.999999999999999cm,0.1cm) rectangle (5.3cm,0.8800000000000001cm);
+  \node[above] at (5.1499999999999995cm,0.9800000000000001cm) {7};
+  \node[below] at (5.1499999999999995cm,0) {7};
+  \filldraw[fill=white!0, draw=none] (5.6cm,0) rectangle (6.1cm,3.5cm);
+  \filldraw[fill=vizActive] (5.6cm,0cm) rectangle (6.1cm,1.2600000000000002cm);
+  \node[above] at (5.85cm,1.2600000000000002cm) {9};
+  \node[below] at (5.85cm,0) {8};
+  \filldraw[fill=white!0, draw=none] (6.3cm,0) rectangle (6.8cm,3.5cm);
+  \filldraw[fill=vizDefault] (6.3cm,0) rectangle (6.8cm,1.6800000000000002cm);
+  \node[above] at (6.55cm,1.6800000000000002cm) {12};
+  \node[below] at (6.55cm,0) {9};
+  \filldraw[fill=white!0, draw=none] (7cm,0) rectangle (7.5cm,3.5cm);
+  \filldraw[fill=vizDefault] (7cm,0) rectangle (7.5cm,1.8200000000000003cm);
+  \node[above] at (7.25cm,1.8200000000000003cm) {13};
+  \node[below] at (7.25cm,0) {10};
+  \filldraw[fill=white!0, draw=none] (7.699999999999999cm,0) rectangle (8.2cm,3.5cm);
+  \filldraw[fill=vizDefault] (7.699999999999999cm,0) rectangle (8.2cm,1.9600000000000002cm);
+  \node[above] at (7.949999999999999cm,1.9600000000000002cm) {14};
+  \node[below] at (7.949999999999999cm,0) {11};
+  \filldraw[fill=white!0, draw=none] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5cm);
+  \filldraw[fill=vizDefault] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5000000000000004cm);
+  \node[above] at (8.649999999999999cm,3.5000000000000004cm) {25};
+  \node[below] at (8.649999999999999cm,0) {12};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 9 ---
+\begin{center}\LARGE\textbf{Binary Search}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Index 7 holds 7, which is less than 9, so the target (if present) must be to the right.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Array}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0) rectangle (0.5cm,3.5cm);
+  \filldraw[fill=vizDefault] (0cm,0) rectangle (0.5cm,0.14cm);
+  \node[above] at (0.25cm,0.14cm) {1};
+  \node[below] at (0.25cm,0) {0};
+  \filldraw[fill=white!0, draw=none] (0.7cm,0) rectangle (1.2cm,3.5cm);
+  \filldraw[fill=vizDefault] (0.7cm,0) rectangle (1.2cm,0.28cm);
+  \node[above] at (0.95cm,0.28cm) {2};
+  \node[below] at (0.95cm,0) {1};
+  \filldraw[fill=white!0, draw=none] (1.4cm,0) rectangle (1.9cm,3.5cm);
+  \filldraw[fill=vizDefault] (1.4cm,0) rectangle (1.9cm,0.28cm);
+  \node[above] at (1.65cm,0.28cm) {2};
+  \node[below] at (1.65cm,0) {2};
+  \filldraw[fill=white!0, draw=none] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,3.5cm);
+  \filldraw[fill=vizDefault] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,0.42000000000000004cm);
+  \node[above] at (2.3499999999999996cm,0.42000000000000004cm) {3};
+  \node[below] at (2.3499999999999996cm,0) {3};
+  \filldraw[fill=white!0, draw=none] (2.8cm,0) rectangle (3.3cm,3.5cm);
+  \filldraw[fill=vizDefault] (2.8cm,0) rectangle (3.3cm,0.56cm);
+  \node[above] at (3.05cm,0.56cm) {4};
+  \node[below] at (3.05cm,0) {4};
+  \filldraw[fill=white!0, draw=none] (3.5cm,0) rectangle (4cm,3.5cm);
+  \filldraw[fill=vizDefault] (3.5cm,0) rectangle (4cm,0.7000000000000001cm);
+  \node[above] at (3.75cm,0.7000000000000001cm) {5};
+  \node[below] at (3.75cm,0) {5};
+  \filldraw[fill=white!0, draw=none] (4.199999999999999cm,0) rectangle (4.699999999999999cm,3.5cm);
+  \filldraw[fill=vizDefault] (4.199999999999999cm,0) rectangle (4.699999999999999cm,0.8400000000000001cm);
+  \node[above] at (4.449999999999999cm,0.8400000000000001cm) {6};
+  \node[below] at (4.449999999999999cm,0) {6};
+  \filldraw[fill=white!0, draw=none] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,3.5cm);
+  \filldraw[fill=vizSwapping] (4.8999999999999995cm,0cm) rectangle (5.3999999999999995cm,0.9800000000000001cm);
+  \node[above] at (5.1499999999999995cm,0.9800000000000001cm) {7};
+  \node[below] at (5.1499999999999995cm,0) {7};
+  \filldraw[fill=white!0, draw=none] (5.6cm,0) rectangle (6.1cm,3.5cm);
+  \filldraw[fill=vizActive] (5.6cm,0cm) rectangle (6.1cm,1.2600000000000002cm);
+  \node[above] at (5.85cm,1.2600000000000002cm) {9};
+  \node[below] at (5.85cm,0) {8};
+  \filldraw[fill=white!0, draw=none] (6.3cm,0) rectangle (6.8cm,3.5cm);
+  \filldraw[fill=vizDefault] (6.3cm,0) rectangle (6.8cm,1.6800000000000002cm);
+  \node[above] at (6.55cm,1.6800000000000002cm) {12};
+  \node[below] at (6.55cm,0) {9};
+  \filldraw[fill=white!0, draw=none] (7cm,0) rectangle (7.5cm,3.5cm);
+  \filldraw[fill=vizDefault] (7cm,0) rectangle (7.5cm,1.8200000000000003cm);
+  \node[above] at (7.25cm,1.8200000000000003cm) {13};
+  \node[below] at (7.25cm,0) {10};
+  \filldraw[fill=white!0, draw=none] (7.699999999999999cm,0) rectangle (8.2cm,3.5cm);
+  \filldraw[fill=vizDefault] (7.699999999999999cm,0) rectangle (8.2cm,1.9600000000000002cm);
+  \node[above] at (7.949999999999999cm,1.9600000000000002cm) {14};
+  \node[below] at (7.949999999999999cm,0) {11};
+  \filldraw[fill=white!0, draw=none] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5cm);
+  \filldraw[fill=vizDefault] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5000000000000004cm);
+  \node[above] at (8.649999999999999cm,3.5000000000000004cm) {25};
+  \node[below] at (8.649999999999999cm,0) {12};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 10 ---
+\begin{center}\LARGE\textbf{Binary Search}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Still searching between index 8 and 8.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Array}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0) rectangle (0.5cm,3.5cm);
+  \filldraw[fill=vizDefault] (0cm,0) rectangle (0.5cm,0.14cm);
+  \node[above] at (0.25cm,0.14cm) {1};
+  \node[below] at (0.25cm,0) {0};
+  \filldraw[fill=white!0, draw=none] (0.7cm,0) rectangle (1.2cm,3.5cm);
+  \filldraw[fill=vizDefault] (0.7cm,0) rectangle (1.2cm,0.28cm);
+  \node[above] at (0.95cm,0.28cm) {2};
+  \node[below] at (0.95cm,0) {1};
+  \filldraw[fill=white!0, draw=none] (1.4cm,0) rectangle (1.9cm,3.5cm);
+  \filldraw[fill=vizDefault] (1.4cm,0) rectangle (1.9cm,0.28cm);
+  \node[above] at (1.65cm,0.28cm) {2};
+  \node[below] at (1.65cm,0) {2};
+  \filldraw[fill=white!0, draw=none] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,3.5cm);
+  \filldraw[fill=vizDefault] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,0.42000000000000004cm);
+  \node[above] at (2.3499999999999996cm,0.42000000000000004cm) {3};
+  \node[below] at (2.3499999999999996cm,0) {3};
+  \filldraw[fill=white!0, draw=none] (2.8cm,0) rectangle (3.3cm,3.5cm);
+  \filldraw[fill=vizDefault] (2.8cm,0) rectangle (3.3cm,0.56cm);
+  \node[above] at (3.05cm,0.56cm) {4};
+  \node[below] at (3.05cm,0) {4};
+  \filldraw[fill=white!0, draw=none] (3.5cm,0) rectangle (4cm,3.5cm);
+  \filldraw[fill=vizDefault] (3.5cm,0) rectangle (4cm,0.7000000000000001cm);
+  \node[above] at (3.75cm,0.7000000000000001cm) {5};
+  \node[below] at (3.75cm,0) {5};
+  \filldraw[fill=white!0, draw=none] (4.199999999999999cm,0) rectangle (4.699999999999999cm,3.5cm);
+  \filldraw[fill=vizDefault] (4.199999999999999cm,0) rectangle (4.699999999999999cm,0.8400000000000001cm);
+  \node[above] at (4.449999999999999cm,0.8400000000000001cm) {6};
+  \node[below] at (4.449999999999999cm,0) {6};
+  \filldraw[fill=white!0, draw=none] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,3.5cm);
+  \filldraw[fill=vizDefault] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,0.9800000000000001cm);
+  \node[above] at (5.1499999999999995cm,0.9800000000000001cm) {7};
+  \node[below] at (5.1499999999999995cm,0) {7};
+  \filldraw[fill=white!0, draw=none] (5.6cm,0) rectangle (6.1cm,3.5cm);
+  \filldraw[fill=vizActive] (5.6cm,0cm) rectangle (6.1cm,1.2600000000000002cm);
+  \node[above] at (5.85cm,1.2600000000000002cm) {9};
+  \node[below] at (5.85cm,0) {8};
+  \filldraw[fill=white!0, draw=none] (6.3cm,0) rectangle (6.8cm,3.5cm);
+  \filldraw[fill=vizDefault] (6.3cm,0) rectangle (6.8cm,1.6800000000000002cm);
+  \node[above] at (6.55cm,1.6800000000000002cm) {12};
+  \node[below] at (6.55cm,0) {9};
+  \filldraw[fill=white!0, draw=none] (7cm,0) rectangle (7.5cm,3.5cm);
+  \filldraw[fill=vizDefault] (7cm,0) rectangle (7.5cm,1.8200000000000003cm);
+  \node[above] at (7.25cm,1.8200000000000003cm) {13};
+  \node[below] at (7.25cm,0) {10};
+  \filldraw[fill=white!0, draw=none] (7.699999999999999cm,0) rectangle (8.2cm,3.5cm);
+  \filldraw[fill=vizDefault] (7.699999999999999cm,0) rectangle (8.2cm,1.9600000000000002cm);
+  \node[above] at (7.949999999999999cm,1.9600000000000002cm) {14};
+  \node[below] at (7.949999999999999cm,0) {11};
+  \filldraw[fill=white!0, draw=none] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5cm);
+  \filldraw[fill=vizDefault] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5000000000000004cm);
+  \node[above] at (8.649999999999999cm,3.5000000000000004cm) {25};
+  \node[below] at (8.649999999999999cm,0) {12};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 11 ---
+\begin{center}\LARGE\textbf{Binary Search}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{Comparing the middle element of this section (index 8) with the target value 9.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Array}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0) rectangle (0.5cm,3.5cm);
+  \filldraw[fill=vizDefault] (0cm,0) rectangle (0.5cm,0.14cm);
+  \node[above] at (0.25cm,0.14cm) {1};
+  \node[below] at (0.25cm,0) {0};
+  \filldraw[fill=white!0, draw=none] (0.7cm,0) rectangle (1.2cm,3.5cm);
+  \filldraw[fill=vizDefault] (0.7cm,0) rectangle (1.2cm,0.28cm);
+  \node[above] at (0.95cm,0.28cm) {2};
+  \node[below] at (0.95cm,0) {1};
+  \filldraw[fill=white!0, draw=none] (1.4cm,0) rectangle (1.9cm,3.5cm);
+  \filldraw[fill=vizDefault] (1.4cm,0) rectangle (1.9cm,0.28cm);
+  \node[above] at (1.65cm,0.28cm) {2};
+  \node[below] at (1.65cm,0) {2};
+  \filldraw[fill=white!0, draw=none] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,3.5cm);
+  \filldraw[fill=vizDefault] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,0.42000000000000004cm);
+  \node[above] at (2.3499999999999996cm,0.42000000000000004cm) {3};
+  \node[below] at (2.3499999999999996cm,0) {3};
+  \filldraw[fill=white!0, draw=none] (2.8cm,0) rectangle (3.3cm,3.5cm);
+  \filldraw[fill=vizDefault] (2.8cm,0) rectangle (3.3cm,0.56cm);
+  \node[above] at (3.05cm,0.56cm) {4};
+  \node[below] at (3.05cm,0) {4};
+  \filldraw[fill=white!0, draw=none] (3.5cm,0) rectangle (4cm,3.5cm);
+  \filldraw[fill=vizDefault] (3.5cm,0) rectangle (4cm,0.7000000000000001cm);
+  \node[above] at (3.75cm,0.7000000000000001cm) {5};
+  \node[below] at (3.75cm,0) {5};
+  \filldraw[fill=white!0, draw=none] (4.199999999999999cm,0) rectangle (4.699999999999999cm,3.5cm);
+  \filldraw[fill=vizDefault] (4.199999999999999cm,0) rectangle (4.699999999999999cm,0.8400000000000001cm);
+  \node[above] at (4.449999999999999cm,0.8400000000000001cm) {6};
+  \node[below] at (4.449999999999999cm,0) {6};
+  \filldraw[fill=white!0, draw=none] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,3.5cm);
+  \filldraw[fill=vizDefault] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,0.9800000000000001cm);
+  \node[above] at (5.1499999999999995cm,0.9800000000000001cm) {7};
+  \node[below] at (5.1499999999999995cm,0) {7};
+  \filldraw[fill=white!0, draw=none] (5.6cm,0) rectangle (6.1cm,3.5cm);
+  \filldraw[fill=vizActive] (5.6cm,0cm) rectangle (6.1cm,1.2600000000000002cm);
+  \filldraw[fill=vizComparing] (5.699999999999999cm,0.1cm) rectangle (6cm,1.1600000000000001cm);
+  \node[above] at (5.85cm,1.2600000000000002cm) {9};
+  \node[below] at (5.85cm,0) {8};
+  \filldraw[fill=white!0, draw=none] (6.3cm,0) rectangle (6.8cm,3.5cm);
+  \filldraw[fill=vizDefault] (6.3cm,0) rectangle (6.8cm,1.6800000000000002cm);
+  \node[above] at (6.55cm,1.6800000000000002cm) {12};
+  \node[below] at (6.55cm,0) {9};
+  \filldraw[fill=white!0, draw=none] (7cm,0) rectangle (7.5cm,3.5cm);
+  \filldraw[fill=vizDefault] (7cm,0) rectangle (7.5cm,1.8200000000000003cm);
+  \node[above] at (7.25cm,1.8200000000000003cm) {13};
+  \node[below] at (7.25cm,0) {10};
+  \filldraw[fill=white!0, draw=none] (7.699999999999999cm,0) rectangle (8.2cm,3.5cm);
+  \filldraw[fill=vizDefault] (7.699999999999999cm,0) rectangle (8.2cm,1.9600000000000002cm);
+  \node[above] at (7.949999999999999cm,1.9600000000000002cm) {14};
+  \node[below] at (7.949999999999999cm,0) {11};
+  \filldraw[fill=white!0, draw=none] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5cm);
+  \filldraw[fill=vizDefault] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5000000000000004cm);
+  \node[above] at (8.649999999999999cm,3.5000000000000004cm) {25};
+  \node[below] at (8.649999999999999cm,0) {12};
+\end{tikzpicture}
+\end{center}
+\newpage
+% --- Frame 12 ---
+\begin{center}\LARGE\textbf{Binary Search}\\[6mm]\end{center}
+\begin{center}
+\begin{center}\textbf{Log}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0,0) rectangle (10cm, -0.25cm);
+  \node[anchor=north, align=center, text=black] at (5cm,0) {\texttt{The element at index 8 equals the target 9.}};
+\end{tikzpicture}
+\end{center}
+\noindent\rule{\linewidth}{0.3pt}
+\begin{center}
+\begin{center}\textbf{Array}\\[1.75mm]\end{center}
+\begin{tikzpicture}
+  \filldraw[fill=white!0, draw=none] (0cm,0) rectangle (0.5cm,3.5cm);
+  \filldraw[fill=vizDefault] (0cm,0) rectangle (0.5cm,0.14cm);
+  \node[above] at (0.25cm,0.14cm) {1};
+  \node[below] at (0.25cm,0) {0};
+  \filldraw[fill=white!0, draw=none] (0.7cm,0) rectangle (1.2cm,3.5cm);
+  \filldraw[fill=vizDefault] (0.7cm,0) rectangle (1.2cm,0.28cm);
+  \node[above] at (0.95cm,0.28cm) {2};
+  \node[below] at (0.95cm,0) {1};
+  \filldraw[fill=white!0, draw=none] (1.4cm,0) rectangle (1.9cm,3.5cm);
+  \filldraw[fill=vizDefault] (1.4cm,0) rectangle (1.9cm,0.28cm);
+  \node[above] at (1.65cm,0.28cm) {2};
+  \node[below] at (1.65cm,0) {2};
+  \filldraw[fill=white!0, draw=none] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,3.5cm);
+  \filldraw[fill=vizDefault] (2.0999999999999996cm,0) rectangle (2.5999999999999996cm,0.42000000000000004cm);
+  \node[above] at (2.3499999999999996cm,0.42000000000000004cm) {3};
+  \node[below] at (2.3499999999999996cm,0) {3};
+  \filldraw[fill=white!0, draw=none] (2.8cm,0) rectangle (3.3cm,3.5cm);
+  \filldraw[fill=vizDefault] (2.8cm,0) rectangle (3.3cm,0.56cm);
+  \node[above] at (3.05cm,0.56cm) {4};
+  \node[below] at (3.05cm,0) {4};
+  \filldraw[fill=white!0, draw=none] (3.5cm,0) rectangle (4cm,3.5cm);
+  \filldraw[fill=vizDefault] (3.5cm,0) rectangle (4cm,0.7000000000000001cm);
+  \node[above] at (3.75cm,0.7000000000000001cm) {5};
+  \node[below] at (3.75cm,0) {5};
+  \filldraw[fill=white!0, draw=none] (4.199999999999999cm,0) rectangle (4.699999999999999cm,3.5cm);
+  \filldraw[fill=vizDefault] (4.199999999999999cm,0) rectangle (4.699999999999999cm,0.8400000000000001cm);
+  \node[above] at (4.449999999999999cm,0.8400000000000001cm) {6};
+  \node[below] at (4.449999999999999cm,0) {6};
+  \filldraw[fill=white!0, draw=none] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,3.5cm);
+  \filldraw[fill=vizDefault] (4.8999999999999995cm,0) rectangle (5.3999999999999995cm,0.9800000000000001cm);
+  \node[above] at (5.1499999999999995cm,0.9800000000000001cm) {7};
+  \node[below] at (5.1499999999999995cm,0) {7};
+  \filldraw[fill=white!0, draw=none] (5.6cm,0) rectangle (6.1cm,3.5cm);
+  \filldraw[fill=vizSorted] (5.6cm,0cm) rectangle (6.1cm,1.2600000000000002cm);
+  \node[above] at (5.85cm,1.2600000000000002cm) {9};
+  \node[below] at (5.85cm,0) {8};
+  \filldraw[fill=white!0, draw=none] (6.3cm,0) rectangle (6.8cm,3.5cm);
+  \filldraw[fill=vizDefault] (6.3cm,0) rectangle (6.8cm,1.6800000000000002cm);
+  \node[above] at (6.55cm,1.6800000000000002cm) {12};
+  \node[below] at (6.55cm,0) {9};
+  \filldraw[fill=white!0, draw=none] (7cm,0) rectangle (7.5cm,3.5cm);
+  \filldraw[fill=vizDefault] (7cm,0) rectangle (7.5cm,1.8200000000000003cm);
+  \node[above] at (7.25cm,1.8200000000000003cm) {13};
+  \node[below] at (7.25cm,0) {10};
+  \filldraw[fill=white!0, draw=none] (7.699999999999999cm,0) rectangle (8.2cm,3.5cm);
+  \filldraw[fill=vizDefault] (7.699999999999999cm,0) rectangle (8.2cm,1.9600000000000002cm);
+  \node[above] at (7.949999999999999cm,1.9600000000000002cm) {14};
+  \node[below] at (7.949999999999999cm,0) {11};
+  \filldraw[fill=white!0, draw=none] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5cm);
+  \filldraw[fill=vizDefault] (8.399999999999999cm,0) rectangle (8.899999999999999cm,3.5000000000000004cm);
+  \node[above] at (8.649999999999999cm,3.5000000000000004cm) {25};
+  \node[below] at (8.649999999999999cm,0) {12};
 \end{tikzpicture}
 \end{center}
 \end{document}

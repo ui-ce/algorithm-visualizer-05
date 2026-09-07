@@ -12,53 +12,73 @@
   display: flex;
   align-items: stretch;
   height: 100%;
+  min-height: 0;
+  min-width: 0;
   flex-shrink: 0;
 
   background-color: var(--color-surface);
   border: 1px solid var(--color-border-subtle);
   border-radius: 4px;
-  overflow: hidden;
+  overflow: visible;
+
+  &.algo-drawer--fa {
+    flex-direction: row-reverse;
+  }
+
+  // Learn opts out of the surface-container chrome behind the icon
+  // column and panel entirely — no background, no border. Practice/Test
+  // keep the default background+border above untouched.
+  &.algo-drawer--plain {
+    background-color: transparent;
+    border-color: transparent;
+  }
 
   &__icon-column {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
     width: fit-content;
     height: 100%;
     padding: 8px;
+  }
+
+  &__icon-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
   }
 
   &__panel {
     display: flex;
     flex-direction: column;
     width: 296px; //fixed panel size
-    // Was `height: auto`, which let the panel grow to fit whatever
-    // content was projected into it instead of staying within the
-    // drawer's own height. That left `&__panel-content`'s `flex: 1`
-    // with no bounded height to size against, so its `overflow-y: auto`
-    // never had anything to actually scroll — long panels (like
-    // Overview) just grew past the viewport and, since the page itself
-    // is deliberately non-scrolling, the extra content became
-    // unreachable and the wheel/scroll gesture appeared to do nothing.
     height: 100%;
+    min-height: 0;
+    min-width: 0;
     margin: 8px;
     margin-inline-start: 0px;
     padding-block-start: 12px;
+    padding-block-end: 12px;
     padding-inline: 16px;
-    background-color: var(--color-icon-button-bg-pressed);
-    border: 1px solid var(--color-icon-button-pressed);
+    background-color: var(--color-surface-container);
+    border: 1px solid var(--color-border-default);
     border-radius: 8px;
     overflow: hidden;
-    
+
   }
 
+  &--fa .algo-drawer__panel {
+    margin-inline-start: 8px;
+    margin-inline-end: 0px;
+  }
+
+  // No divider here — this was tried (border-bottom + extra padding)
+  // and taken back out because it wasn't rendering reliably. Just a
+  // plain gap between the header row and the content below it.
   &__panel-header {
     display: flex;
-    // Close button is first in the template (for a sane DOM/tab
-    // order), but should read as the right-hand action next to a
-    // left-aligned title — row-reverse flips the visual order without
-    // touching markup order or the page's direction.
     flex-direction: row-reverse;
     align-items: center;
     justify-content: space-between;
@@ -67,12 +87,12 @@
     margin-bottom: 4px;
   }
 
+  &--fa .algo-drawer__panel-header {
+    flex-direction: row;
+  }
+
   &__panel-title {
-    // Was --color-learning-explanation (purple) — that token is meant
-    // for the pseudocode explanation box, not a drawer heading. A panel
-    // title is just page-level primary text.
     color: var(--color-text-primary);
-    font-weight: 600;
   }
 
   &__close-button {
@@ -82,7 +102,7 @@
     padding: 0;
     background: none;
     border: none;
-    color: var(--color-icon-button-on-pressed);
+    color: var(--color-text-secondary);
     cursor: pointer;
   }
 
@@ -91,55 +111,71 @@
     height: 100%;
   }
 
-  &__panel-content {
-    flex: 1;
-    // Flex items default to `min-height: auto`, which means a `flex: 1`
-    // child still won't shrink below its content's natural height —
-    // it'll just keep growing instead of scrolling. This is what was
-    // silently defeating `overflow-y: auto` below even after fixing
-    // `&__panel`'s height above.
-    min-height: 0;
-    overflow-y: auto;
-    // Stops the browser from chaining a scroll to an ancestor once this
-    // panel hits its own top/bottom edge. Belt-and-suspenders alongside
-    // the `__main-row` fix in practice.scss — this way the drawer can
-    // never again drag the whole row along with it, regardless of what
-    // overflow setting some ancestor ends up with later.
-    overscroll-behavior: contain;
-    padding-bottom: 12px;
-    color: var(--color-icon-button-on-pressed);
+  &--fa .algo-drawer__close-button svg {
+    transform: scaleX(-1);
+  }
 
-    // Flipping just this scroll container's direction is what moves
-    // the browser's native scrollbar to the left edge — it has no
-    // effect on the page's overall (LTR) direction elsewhere.
+
+  &__page-indicator {
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+  }
+
+  // This is translated text (digits + the word "of"/"از"), not chrome —
+  // pinning the surrounding header to direction:ltr (see file-top
+  // comment) left the digit+RTL-word mix to the browser's bidi
+  // algorithm, which reordered it incorrectly ("1 of 3" rendering as
+  // "of 13"). Isolating direction on this element specifically fixes
+  // it without touching the header's own fixed ltr layout.
+  &--fa .algo-drawer__page-indicator {
     direction: rtl;
   }
 
-  &__panel-content-inner {
-    // ...and this resets direction back to normal for the actual
-    // projected content, so text, punctuation, and inline layout
-    // inside the panel still read left-to-right as expected.
+  &__panel-content {
+    flex: 1;
+    min-height: 0;
+    min-width: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-bottom: 12px;
+    color: var(--color-text-secondary);
+    direction: rtl;
+  }
+
+  &--fa .algo-drawer__panel-content {
     direction: ltr;
-    // The scrollbar sits at the left edge of &__panel-content (the rtl
-    // flip above). Without this, the content's left edge butts right
-    // up against the scrollbar track with zero breathing room. Using
-    // padding-inline-start here (not padding-left) because this block
-    // is back in ltr — inline-start correctly resolves to the left,
-    // the side the scrollbar is actually on.
-    padding-inline-start: 8px;
+  }
+
+
+  &__panel-content-inner {
+    direction: ltr;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    padding-inline-start: 14px;
+  }
+
+  &--full-width {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    flex-shrink: 1;
+    min-height: 0;
+    flex: 1 1 auto;
+    max-height: 100%;
+
+    .algo-drawer__panel {
+      flex: 1 1 auto;
+      height: 100%;
+      min-height: 0;
+      width: auto;
+      min-width: 0;
+    }
   }
 }
 
-// The projected content itself (Overview/Complexity/Pros&Cons/etc. text)
-// is real reading content, unlike the chrome above — for Persian it
-// needs to read right-to-left and align right, even though the drawer's
-// frame around it stays physically LTR-fixed. Scoped narrowly to
-// `-inner` (not `&__panel-content`) so the scrollbar-positioning trick
-// above is untouched and the scrollbar stays on the same physical side
-// (next to the icon column) in both languages.
 .algo-drawer--fa .algo-drawer__panel-content-inner {
   direction: rtl;
   text-align: right;
-  padding-inline-start: 0;
-  padding-inline-end: 8px;
+  padding-inline-start: 14px;
+  padding-inline-end: 0;
 }

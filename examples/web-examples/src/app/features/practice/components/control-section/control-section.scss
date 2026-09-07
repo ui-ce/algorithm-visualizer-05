@@ -16,13 +16,13 @@
   width: 100%;
   height: fit-content;
 
-  // When the Drawer's panel is open, the available width shrinks —
-  // space-between then stretches the gaps between the three groups to
-  // an amount that has nothing to do with the actual content anymore.
-  // Switching to a fixed gap keeps the spacing proportional to what's
-  // actually on screen instead of to whatever width happens to be left.
+  // When the Drawer's panel is open, the available width shrinks, so
+  // the three groups (Navigation / Data / Compare) need tighter inner
+  // padding to avoid crowding — but they should still spread across
+  // the full row instead of bunching at the start, so space-between
+  // stays on here too.
   &--drawer-open {
-    justify-content: flex-start;
+    justify-content: space-between;
     gap: 10px;
 
     // Each card (Navigation / Input / Compare) carries its own 20px

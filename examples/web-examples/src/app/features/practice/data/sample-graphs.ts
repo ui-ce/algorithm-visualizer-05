@@ -146,7 +146,7 @@ export const randomAStarSample: () => DijkstraSample = randomDijkstraSample;
 // each pattern below actually changes the *shape* of the generated
 // graph (not just which random numbers land where), so a person can
 // pick one and see a real, different traversal every time.
-export type GraphPattern = 'chain' | 'dense' | 'disconnected';
+export type GraphPattern = 'chain' | 'tree' | 'dense' | 'disconnected';
 
 function nodeNames(count: number): string[] {
   return NODE_LABELS.slice(0, count);
@@ -183,6 +183,23 @@ function chainGraph(nodeCount: number): Record<string, string[]> {
   nodes.forEach((node) => (graph[node] = []));
   for (let i = 0; i < nodes.length - 1; i++) {
     addUndirectedEdge(graph, nodes[i], nodes[i + 1]);
+  }
+  return graph;
+}
+
+// 'tree': every node after the first attaches to a random node that's
+// already in the graph — always connected, never a cycle, but (unlike
+// 'chain') branching, since a node can end up with more than one
+// child. This is the shape most people picture when they hear "graph
+// traversal" and shows DFS/BFS fanning out instead of walking a single
+// line.
+function treeGraph(nodeCount: number): Record<string, string[]> {
+  const nodes = nodeNames(nodeCount);
+  const graph: Record<string, string[]> = {};
+  nodes.forEach((node) => (graph[node] = []));
+  for (let i = 1; i < nodes.length; i++) {
+    const parent = nodes[Math.floor(Math.random() * i)];
+    addUndirectedEdge(graph, parent, nodes[i]);
   }
   return graph;
 }
@@ -253,6 +270,8 @@ function buildUnweightedPattern(pattern: GraphPattern, nodeCount: number): Recor
   switch (pattern) {
     case 'chain':
       return chainGraph(nodeCount);
+    case 'tree':
+      return treeGraph(nodeCount);
     case 'dense':
       return denseGraph(nodeCount);
     case 'disconnected':

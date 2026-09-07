@@ -4,6 +4,11 @@
   flex: 1;
   height: 100vh;
   overflow: hidden; // page itself never scrolls, per spec
+  // Was missing entirely — the gap this page's __title-row now sits
+  // inset from the screen edges by (10/24/0/12px, matching Learn) was
+  // showing through to whatever's behind this element by default
+  // instead of the app's actual background color.
+  background-color: var(--color-background);
 
   &__header {
     flex-shrink: 0;
@@ -21,11 +26,21 @@
     align-items: stretch;
     flex-shrink: 0;
     flex: 1;
-    margin: 0 4px;
-    padding: 24px;
+    // Same outer-chrome spacing as the Learn page's surface layer
+    // (learn.scss's __main-row + __content + __sections-layer,
+    // combined into one box here since this page doesn't need the
+    // extra wrapper divs to get the same result): 12px from the left
+    // edge, 24px from the right, 10px from the top, flush with the
+    // bottom, and 8px of padding from the box's own border to
+    // whatever's inside it. The point is that switching from Learn to
+    // Test shouldn't feel like landing on a differently-proportioned
+    // page — only the __panel below (untouched) differs.
+    margin: 10px 24px 0 12px;
+    padding: 8px;
 
     background: var(--color-surface);
     border: 1px solid var(--color-border-subtle);
+    border-radius: 4px;
   }
 
   &__algo-name {
@@ -33,6 +48,13 @@
     align-items: center;
     gap: 12px;
 
+    // Was missing entirely, unlike Practice's/Learn's own __title rule
+    // — this h1 had no explicit color at all, so it fell back to
+    // whatever the browser's own default heading color is instead of
+    // switching between light/dark mode like every other page's title.
+    h1 {
+      color: var(--color-text-primary);
+    }
   }
 
   &__stars {

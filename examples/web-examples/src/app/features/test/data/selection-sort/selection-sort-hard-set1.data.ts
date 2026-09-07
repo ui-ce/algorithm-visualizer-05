@@ -1,4 +1,4 @@
-import type { TestQuestion } from '../../models/test.types';
+import type { TestQuestion } from '../../test.types';
 
 // Set 1 / Hard for Selection Sort. Same "Cloze Test + purely conceptual"
 // shape as Bubble Sort's Hard sets: 3 code-type cloze questions blanking

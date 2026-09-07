@@ -19,7 +19,8 @@
   }
 
   &__body {
-    // "ارتفاعش رو 200 تا فیکس گذاشتم"
+    // "ارتفاعش رو 200 تا فیکس گذاشتم" — unchanged for array (sort/search)
+    // execution questions, which only ever render one panel.
     height: 200px;
     margin-top: 16px; // gap between prompt and body wasn't stated separately — reused the 16px from above
 
@@ -30,6 +31,106 @@
       border: 1px solid var(--color-border-strong);
       background-image: none;
       background-color: transparent;
+    }
+  }
+
+  // Graph questions (DFS/Dijkstra) need more room than a single sort
+  // chart, since the graph and its side panel (Stack / Open-Closed Set
+  // / Node Costs) sit next to each other rather than one panel alone.
+  // Was 420px — enough to stop the graph-renderer clipping its own
+  // layout, but that also let it auto-fit to a much bigger box than
+  // Practice's equivalent panel ever gets, so nodes rendered
+  // noticeably larger here than the same graph does on the Practice
+  // page. 320px keeps the graph-renderer's fit-to-container behavior
+  // working (still no clipping) while landing much closer to
+  // Practice's actual rendered scale.
+  &__body--graph {
+    height: 320px;
+  }
+
+  &__graph-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    gap: 10px; // same gap Practice's __main-row uses between graph and side column
+  }
+
+  &__graph-main {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  // Was 180px — Practice's own equivalent column (visualization-
+  // section.scss's &__side-column) is 220px, and the person asked for
+  // this to render at the exact same size as Practice's, not a
+  // scaled-down version of it.
+  &__graph-side {
+    flex: 0 0 220px;
+    width: 220px;
+    min-width: 220px;
+    max-width: 220px;
+
+    height: 100%;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    overflow: hidden;
+  }
+
+  // Visualization-area + its own legend stacked in a column, same
+  // structure as Practice's &__data-structures — was missing entirely
+  // before, so the side panel's own legend (Sorting/Removing/New/
+  // Updated) never rendered here even though Practice shows one for
+  // the identical panel.
+  &__data-structures {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border-default);
+    box-sizing: border-box;
+    gap: 4px;
+  }
+
+  &__data-structures-legend {
+    width: 100%;
+    min-width: 0;
+
+    ::ng-deep .algo-visualization-legend {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 12px;
+      row-gap: 4px;
+      width: 100%;
+    }
+
+    ::ng-deep .algo-visualization-legend__item {
+      width: auto;
+    }
+
+    ::ng-deep .algo-visualization-legend__square {
+      width: 10px;
+      height: 10px;
+      flex-basis: 10px;
+      border-radius: 4px;
+    }
+
+    ::ng-deep .algo-visualization-legend__label {
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-label-medium);
+      line-height: var(--line-height-label-medium);
+      font-weight: var(--font-weight-label-medium-regular);
+      letter-spacing: var(--letter-spacing-none);
     }
   }
 
@@ -46,5 +147,32 @@
     flex-direction: column;
     gap: 12px;
     margin-top: 16px; // gap between body/prompt and the options list wasn't stated — assumed 16px
+  }
+
+  // Graph execution questions only: visualization and options side by
+  // side instead of stacked, same __row/__column pattern the Compare
+  // page uses (compare.scss) — reused rather than reinvented so this
+  // reads as the same "two things side by side" idiom elsewhere in the
+  // app. Array-sort execution questions and Code questions are
+  // unaffected — they still stack body → legend/blank → options
+  // vertically via the plain &__body/&__options above.
+  &__row {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-top: 16px; // same prompt→body gap &__body normally carries
+
+    // The row itself now owns the top gap from the prompt above, so the
+    // nested body/options don't need their own — otherwise each column
+    // would add a second, redundant gap on top of the row's.
+    .algo-question-card__body,
+    .algo-question-card__options {
+      margin-top: 0;
+    }
+  }
+
+  &__column {
+    flex: 1;
+    min-width: 0;
   }
 }

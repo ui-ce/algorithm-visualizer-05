@@ -5,6 +5,7 @@ import { translate } from '../../../../core/i18n/translations';
 import { TranslatePipe } from '../../../../core/i18n/translate.pipe';
 import { TranslateVarPipe } from '../../../../core/i18n/translate-var.pipe';
 import type { CustomInputResult, GraphEdgeInput } from './custom-input-modal.types';
+import { LocaleDigitsPipe, toLocaleDigitsForLanguage } from '../../../../core/i18n/locale-digits.pipe';
 
 const MAX_ELEMENT_COUNT = 40;
 const DEFAULT_FIELD_COUNT = 10;
@@ -27,12 +28,12 @@ type Mode = 'array' | 'array-with-target' | 'graph';
 
 @Component({
   selector: 'algo-custom-input-modal',
-  imports: [AlgoButton, TranslatePipe, TranslateVarPipe],
+  imports: [AlgoButton, TranslatePipe, TranslateVarPipe, LocaleDigitsPipe,],
   templateUrl: './custom-input-modal.html',
   styleUrl: './custom-input-modal.scss',
 })
 export class CustomInputModal {
-  public constructor(private readonly _languageService: LanguageService) {}
+  public constructor(private readonly _languageService: LanguageService) { }
 
   @Input()
   public isOpen = false;
@@ -122,9 +123,10 @@ export class CustomInputModal {
     if (!this.wasClampedToMax) {
       return null;
     }
-    return translate('practice.modal.notice.maxCount', this._languageService.currentLanguage()).replaceAll(
+    const language = this._languageService.currentLanguage();
+    return translate('practice.modal.notice.maxCount', language).replaceAll(
       '{max}',
-      String(MAX_ELEMENT_COUNT),
+      toLocaleDigitsForLanguage(MAX_ELEMENT_COUNT, language),
     );
   }
 

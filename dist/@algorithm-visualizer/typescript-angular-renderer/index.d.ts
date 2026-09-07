@@ -1,6 +1,7 @@
 import * as i0 from '@angular/core';
-import { OnDestroy, EventEmitter, AfterViewInit, OnChanges, ElementRef, SimpleChanges } from '@angular/core';
-import { CircleLayoutOptions, ConcentricLayoutOptions, BreadthFirstLayoutOptions, LayoutOptions } from 'cytoscape';
+import { OnDestroy, EventEmitter, OnInit, AfterViewInit, OnChanges, ElementRef, SimpleChanges } from '@angular/core';
+import { LayoutOptions } from 'cytoscape';
+import * as rxjs from 'rxjs';
 
 declare class WebPlayer implements OnDestroy {
     animationLength: number;
@@ -55,6 +56,7 @@ declare class Array2DRenderer {
         value: string;
         highlightTags: string[];
     }): string[];
+    formatDigits(value: string): string;
     static ɵfac: i0.ɵɵFactoryDeclaration<Array2DRenderer, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<Array2DRenderer, "array-2d-renderer", never, { "state": { "alias": "state"; "required": false; }; "metadata": { "alias": "metadata"; "required": false; }; }, {}, never, never, true, never>;
 }
@@ -62,6 +64,7 @@ declare class Array2DRenderer {
 declare class Array2DHighlightLayer {
     colors: string[];
     value: string;
+    protected formatDigits(value: string): string;
     static ɵfac: i0.ɵɵFactoryDeclaration<Array2DHighlightLayer, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<Array2DHighlightLayer, "array-2d-highlight-layer", never, { "colors": { "alias": "colors"; "required": false; }; "value": { "alias": "value"; "required": false; }; }, {}, never, never, true, never>;
 }
@@ -109,6 +112,7 @@ declare class ChartRenderer {
     protected getChartHeight(): string;
     protected getShowLabel(): boolean;
     protected getShowValue(): boolean;
+    protected formatDigits(value: number | string): string;
     static ɵfac: i0.ɵɵFactoryDeclaration<ChartRenderer, never>;
     static ɵcmp: i0.ɵɵComponentDeclaration<ChartRenderer, "chart-renderer", never, { "state": { "alias": "state"; "required": false; }; "metadata": { "alias": "metadata"; "required": false; }; }, {}, never, never, true, never>;
 }
@@ -146,32 +150,43 @@ type GraphMetaData = {
     minHeight?: string;
 };
 
-declare class GraphRenderer implements AfterViewInit, OnChanges, OnDestroy {
+declare class GraphRenderer implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     state: GraphState;
     metadata: GraphMetaData;
+    compact: boolean;
     protected cyContainer: ElementRef<HTMLDivElement>;
-    protected readonly circleLayout: CircleLayoutOptions;
-    protected readonly concentricLayout: ConcentricLayoutOptions;
-    protected readonly breadthFirstLayout: BreadthFirstLayoutOptions;
-    protected readonly layoutOptions: {
-        label: string;
-        value: LayoutOptions;
-    }[];
-    protected selectedLayoutIndex: number;
+    private readonly layoutService;
+    private readonly layoutsByName;
     private _currentLayout;
     private _isInitialized;
     private _cy;
+    private _layoutSubscription;
+    private _resizeObserver;
     get minHeight(): string;
-    protected get layoutThumbTransform(): string;
+    ngOnInit(): void;
     ngAfterViewInit(): void;
     ngOnChanges(changes: SimpleChanges): void;
     ngOnDestroy(): void;
-    protected selectLayout(index: number): void;
     changeLayout(layout: LayoutOptions): void;
     private resolveColor;
     private renderGraph;
     static ɵfac: i0.ɵɵFactoryDeclaration<GraphRenderer, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<GraphRenderer, "graph-renderer", never, { "state": { "alias": "state"; "required": false; }; "metadata": { "alias": "metadata"; "required": false; }; }, {}, never, never, true, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<GraphRenderer, "graph-renderer", never, { "state": { "alias": "state"; "required": false; }; "metadata": { "alias": "metadata"; "required": false; }; "compact": { "alias": "compact"; "required": false; }; }, {}, never, never, true, never>;
+}
+
+type GraphLayoutName = 'circle' | 'concentric' | 'breadthfirst';
+interface GraphLayoutOption {
+    label: string;
+    value: GraphLayoutName;
+}
+declare const GRAPH_LAYOUT_OPTIONS: GraphLayoutOption[];
+declare class GraphLayoutService {
+    private readonly layoutSubject;
+    readonly layout$: rxjs.Observable<GraphLayoutName>;
+    get currentLayout(): GraphLayoutName;
+    setLayout(layout: GraphLayoutName): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<GraphLayoutService, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<GraphLayoutService>;
 }
 
 type LogState = {
@@ -247,6 +262,7 @@ declare class WebRenderer {
     frameIndex: number;
     hasPlayer: boolean;
     showTitle: boolean;
+    compact: boolean;
     get currentFrame(): Frame | null;
     protected getDocumentName(): string;
     protected onFrameIndexChange(frameIndex: number): void;
@@ -260,8 +276,8 @@ declare class WebRenderer {
     protected convertToArray2DMetaData(metadata: ObjectMetadata): Array2DMetaData;
     protected convertToLogMetaData(metadata: ObjectMetadata): LogMetaData;
     static ɵfac: i0.ɵɵFactoryDeclaration<WebRenderer, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<WebRenderer, "web-renderer", never, { "animation": { "alias": "animation"; "required": false; }; "rendererMetadata": { "alias": "rendererMetadata"; "required": false; }; "frameIndex": { "alias": "frameIndex"; "required": false; }; "hasPlayer": { "alias": "hasPlayer"; "required": false; }; "showTitle": { "alias": "showTitle"; "required": false; }; }, {}, never, never, true, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<WebRenderer, "web-renderer", never, { "animation": { "alias": "animation"; "required": false; }; "rendererMetadata": { "alias": "rendererMetadata"; "required": false; }; "frameIndex": { "alias": "frameIndex"; "required": false; }; "hasPlayer": { "alias": "hasPlayer"; "required": false; }; "showTitle": { "alias": "showTitle"; "required": false; }; "compact": { "alias": "compact"; "required": false; }; }, {}, never, never, true, never>;
 }
 
-export { Array2DHighlightLayer, Array2DRenderer, ChartHighlightLayer, ChartRenderer, GraphRenderer, LogRenderer, WebPlayer, WebRenderer };
-export type { Animation, Array2DHighlightTag, Array2DMetaData, Array2DMetadataEntry, Array2dCellState, Array2dState, ChartBarState, ChartHighlightTag, ChartMetaData, ChartMetadataEntry, ChartState, Frame, FrameState, GraphEdgeState, GraphHighlightTag, GraphMetaData, GraphMetadataEntry, GraphNodeState, GraphState, IRenderer, LogMetaData, LogMetadataEntry, LogState, ObjectMetaDataEntry, ObjectMetadata, ObjectMetadataEntryBase, RendererMetadata };
+export { Array2DHighlightLayer, Array2DRenderer, ChartHighlightLayer, ChartRenderer, GRAPH_LAYOUT_OPTIONS, GraphLayoutService, GraphRenderer, LogRenderer, WebPlayer, WebRenderer };
+export type { Animation, Array2DHighlightTag, Array2DMetaData, Array2DMetadataEntry, Array2dCellState, Array2dState, ChartBarState, ChartHighlightTag, ChartMetaData, ChartMetadataEntry, ChartState, Frame, FrameState, GraphEdgeState, GraphHighlightTag, GraphLayoutName, GraphLayoutOption, GraphMetaData, GraphMetadataEntry, GraphNodeState, GraphState, IRenderer, LogMetaData, LogMetadataEntry, LogState, ObjectMetaDataEntry, ObjectMetadata, ObjectMetadataEntryBase, RendererMetadata };

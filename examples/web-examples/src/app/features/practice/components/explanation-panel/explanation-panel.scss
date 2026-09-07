@@ -1,4 +1,15 @@
 .algo-explanation-panel {
+  // This panel shows the current step's Log message, which is now
+  // language-aware for algorithms whose recorder accepts a language arg
+  // (see algorithm/bubble-sort.ts + practice.ts's buildArraySortRecording).
+  // Default here is still LTR/left — matching every algorithm whose Log
+  // hasn't been translated yet and so still always emits English — and
+  // the `--rtl` modifier (bound from ExplanationPanel.isRtl, which just
+  // follows the UI language) flips it for Persian instead of this being
+  // pinned unconditionally the way the pseudocode panel next to it is
+  // (that one is source code and must never translate or mirror).
+  direction: ltr;
+  text-align: left;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -12,6 +23,11 @@
   background-origin: border-box;
   background-clip: padding-box, border-box;
   overflow-y: auto;
+
+  &--rtl {
+    direction: rtl;
+    text-align: right;
+  }
 
   &__title {
     flex-shrink: 0;

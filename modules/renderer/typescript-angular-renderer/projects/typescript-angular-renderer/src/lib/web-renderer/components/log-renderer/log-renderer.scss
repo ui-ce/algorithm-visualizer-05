@@ -1,4 +1,8 @@
 :host {
+  // Log messages come straight from the algorithm recorder and are
+  // always English, regardless of UI language — pin the layout so it
+  // doesn't inherit `dir="rtl"` from <html> in Persian.
+  direction: ltr;
   display: block;
   width: 100%;
 

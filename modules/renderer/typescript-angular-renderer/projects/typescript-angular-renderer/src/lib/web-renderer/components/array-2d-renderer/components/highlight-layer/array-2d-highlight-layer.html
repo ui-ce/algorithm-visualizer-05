@@ -2,6 +2,6 @@
   @if (colors.length > 1) {
     <array-2d-highlight-layer [colors]="colors.slice(1)" [value]="value"></array-2d-highlight-layer>
   } @else {
-    <span>{{ value }}</span>
+    <span>{{ formatDigits(value) }}</span>
   }
 </div>

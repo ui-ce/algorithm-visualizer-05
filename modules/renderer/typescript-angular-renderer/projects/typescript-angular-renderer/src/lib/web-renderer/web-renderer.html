@@ -10,7 +10,9 @@
   @for (frameState of frame; track $index) {
     @switch (frameState.type) {
       @case ('Graph') {
-        <graph-renderer [state]="convertToGraphState(frameState.state)" [metadata]="convertToGraphMetadata(getMetaData(frameState.type, frameState.id))"/>
+        <graph-renderer [state]="convertToGraphState(frameState.state)" [metadata]="convertToGraphMetadata(getMetaData(frameState.type, frameState.id))"
+         [compact]="compact"
+         />
       }
 
       @case ('Log') {

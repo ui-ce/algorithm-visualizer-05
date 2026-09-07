@@ -1,11 +1,23 @@
-<div class="algo-drawer" [class.algo-drawer--fa]="languageService.currentLanguage() === 'fa'">
+<div
+  class="algo-drawer"
+  [class.algo-drawer--fa]="languageService.currentLanguage() === 'fa'"
+  [class.algo-drawer--full-width]="fullWidth"
+  [class.algo-drawer--no-close]="hideCloseButton"
+  [class.algo-drawer--plain]="plain"
+>
   <div class="algo-drawer__icon-column">
-    <ng-content select="[icon-buttons]" />
+    <div class="algo-drawer__icon-group">
+      <ng-content select="[icon-buttons]" />
+    </div>
+    <div class="algo-drawer__icon-group">
+      <ng-content select="[icon-buttons-bottom]" />
+    </div>
   </div>
 
   @if (isOpen) {
     <div class="algo-drawer__panel">
       <div class="algo-drawer__panel-header">
+        @if (!hideCloseButton) {
         <button
           type="button"
           class="algo-drawer__close-button"
@@ -14,9 +26,12 @@
         >
           <svg solarArrowLeftLinear [size]="24"></svg>
         </button>
+        } @else if (pageIndicator) {
+        <span class="algo-drawer__page-indicator text-body-medium">{{ pageIndicator }}</span>
+        }
 
         @if (title) {
-          <p class="algo-drawer__panel-title text-body-large">{{ title }}</p>
+          <p class="algo-drawer__panel-title text-body-large-emphasized">{{ title }}</p>
         }
       </div>
 

@@ -1,20 +1,56 @@
 :host {
   display: block;
   width: 100%;
+  height: 100%;
+
+  /*
+   * PrimeNG Card
+   * Remove the visual "card" appearance so the renderer
+   * feels like part of the visualization area.
+   */
+  ::ng-deep .p-card {
+    width: 100%;
+    height: 100%;
+
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  ::ng-deep .p-card-header {
+    padding: 0;
+    background: transparent;
+  }
+
+  ::ng-deep .p-card-body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+
+    background: transparent;
+  }
+
+  ::ng-deep .p-card-content {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+
+    background: transparent;
+  }
 
   .header {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+
+    padding: 8px 12px;
+
+    background: transparent;
 
     .title {
-      font-size: 1.5rem;
-      font-weight: bold;
+      color: var(--color-text-secondary);
     }
   }
-
 
   .table-container {
     width: 100%;
@@ -24,16 +60,29 @@
     justify-content: center;
     align-items: center;
 
-    .array2d-table {
-      border-collapse: collapse;
+    background: transparent;
+  }
 
-      td {
-        border: 2px solid #ccc;
-        text-align: center;
-        vertical-align: middle;
-      }
+  .array2d-table {
+    // Cell order (e.g. stack/queue positions, matrix columns) must
+    // stay left-to-right in both languages — otherwise an HTML
+    // <table> reverses its column order under the inherited
+    // `dir="rtl"` from <html> in Persian. Only the digit glyphs inside
+    // each cell should change for Persian (see formatDigits()/
+    // toLocaleDigits above), never this ordering.
+    direction: ltr;
+    border-collapse: collapse;
+
+    td {
+      border: 2px solid #ccc;
+      text-align: center;
+      vertical-align: middle;
+
+      /*
+       * The cell itself gets its background from Angular,
+       * so don't put a background here.
+       */
+      background: transparent;
     }
   }
 }
-
-

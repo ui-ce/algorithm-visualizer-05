@@ -4,6 +4,9 @@ import {
   SolarClockCircleLinear,
   SolarLockKeyholeMinimalisticLinear,
 } from '@solar-icons/angular';
+import { LanguageService } from '../../../../core/services/language.service';
+import { translate } from '../../../../core/i18n/translations';
+import { toLocaleDigitsForLanguage } from '../../../../core/i18n/locale-digits.pipe';
 import type { SetRowState } from '../level-card/level-card.types';
 
 // Same row shape as algo-question-status-item (number badge left, status
@@ -19,6 +22,8 @@ import type { SetRowState } from '../level-card/level-card.types';
   styleUrl: './set-row.scss',
 })
 export class SetRow {
+  public constructor(private readonly _languageService: LanguageService) {}
+
   @Input()
   public setNumber = 1;
 
@@ -33,4 +38,16 @@ export class SetRow {
 
   @Input()
   public disabled = false;
+
+  protected get badgeText(): string {
+    return toLocaleDigitsForLanguage(this.setNumber, this._languageService.currentLanguage());
+  }
+
+  protected get labelText(): string {
+    const language = this._languageService.currentLanguage();
+    return translate('test.set.label', language).replaceAll(
+      '{number}',
+      toLocaleDigitsForLanguage(this.setNumber, language),
+    );
+  }
 }

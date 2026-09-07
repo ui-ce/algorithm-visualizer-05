@@ -1,4 +1,4 @@
-import type { TestQuestion } from '../../models/test.types';
+import type { TestQuestion } from '../../test.types';
 
 // Set 1 / Hard for Bubble Sort. Per سفر_کاربر / گزارش_نیازمندی_ها, Hard
 // is "Cloze Test + purely conceptual: complexity / comparison /

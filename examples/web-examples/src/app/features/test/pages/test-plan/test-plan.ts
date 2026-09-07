@@ -4,23 +4,36 @@ import { SolarStarLinear, SolarStarBold } from '@solar-icons/angular';
 import { AlgoHeader } from '../../../../layout/header/header';
 import { AlgoSegmentedButton } from '../../../../design-system/segmented-button/segmented-button';
 import { LevelCard } from '../../components/level-card/level-card';
+import { TranslatePipe } from '../../../../core/i18n/translate.pipe';
 import { TestProgressService } from '../../../../core/services/test-progress.service';
+import { ThemeService } from '../../../../core/services/theme.service';
+import { LanguageService } from '../../../../core/services/language.service';
+import { translate } from '../../../../core/i18n/translations';
 import { buildLevelPlan, countEarnedStars, isTestAvailable } from '../../data/test-question-bank';
 import type { LevelCardData } from '../../components/level-card/level-card.types';
 import type { BreadcrumbItem } from '../../../../layout/header/header-breadcrumb.type';
 
-const ALGORITHM_DISPLAY_NAMES: Record<string, string> = {
-  'bubble-sort': 'Bubble Sort',
-  'selection-sort': 'Selection Sort',
-  'insertion-sort': 'Insertion Sort',
-  'quick-sort': 'Quick Sort',
-  'merge-sort': 'Merge Sort',
-  'linear-search': 'Linear Search',
-  'binary-search': 'Binary Search',
-  'dijkstra': 'Dijkstra',
-  'dfs': 'DFS',
-  'bfs': 'BFS',
-  'a-star': 'A*'
+// Reuses the same translation keys already defined for the algorithm
+// name on the home page cards (core/i18n/home.translations.ts) — see
+// practice.ts's identical ALGORITHM_NAME_KEYS for why.
+const ALGORITHM_NAME_KEYS: Record<string, string> = {
+  'bubble-sort': 'home.algorithm.bubbleSort.name',
+  'merge-sort': 'home.algorithm.mergeSort.name',
+  'quick-sort': 'home.algorithm.quickSort.name',
+  'selection-sort': 'home.algorithm.selectionSort.name',
+  'insertion-sort': 'home.algorithm.insertionSort.name',
+  'binary-search': 'home.algorithm.binarySearch.name',
+  'linear-search': 'home.algorithm.linearSearch.name',
+  dijkstra: 'home.algorithm.dijkstra.name',
+  dfs: 'home.algorithm.dfs.name',
+  bfs: 'home.algorithm.bfs.name',
+  'a-star': 'home.algorithm.aStar.name',
+};
+
+const DIFFICULTY_LABEL_KEY: Record<string, string> = {
+  easy: 'test.difficulty.easy',
+  medium: 'test.difficulty.medium',
+  hard: 'test.difficulty.hard',
 };
 
 // One star per fully completed difficulty (Easy → 1, Medium → 2, Hard →
@@ -28,36 +41,36 @@ const ALGORITHM_DISPLAY_NAMES: Record<string, string> = {
 // mirrors the level-card unlock chain instead of a separate scheme.
 const TOTAL_STARS = 3;
 
+// Matches the segmented button's own transform transition duration
+// (segmented-button.scss) — see onTabChange's comment below.
+const TAB_SLIDE_DELAY_MS = 250;
+
 @Component({
   selector: 'algo-test-plan',
-  imports: [AlgoHeader, AlgoSegmentedButton, LevelCard, SolarStarLinear, SolarStarBold],
+  imports: [AlgoHeader, AlgoSegmentedButton, LevelCard, SolarStarLinear, SolarStarBold, TranslatePipe],
   templateUrl: './test-plan.html',
   styleUrl: './test-plan.scss',
 })
 export class TestPlan {
   protected readonly algorithmId: string;
-  protected readonly algorithmDisplayName: string;
-  protected readonly breadcrumbs: BreadcrumbItem[];
   protected readonly levels: LevelCardData[];
   protected readonly starSlots = Array.from({ length: TOTAL_STARS }, (_, i) => i + 1);
   protected earnedStars = 0;
 
   // Segmented button state — Test tab is index 2, matches practice.ts.
-  protected readonly tabs = ['Learn', 'Practice', 'Test'];
   protected selectedTabIndex = 2;
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly testProgressService: TestProgressService,
+    protected readonly themeService: ThemeService,
+    protected readonly languageService: LanguageService,
   ) {
     this.algorithmId = this.route.snapshot.paramMap.get('id') ?? 'bubble-sort';
-    this.algorithmDisplayName = ALGORITHM_DISPLAY_NAMES[this.algorithmId] ?? this.algorithmId;
-    this.breadcrumbs = [
-      { label: 'Home', route: '/home' },
-      { label: 'Algorithms', route: '/algorithms' },
-      { label: this.algorithmDisplayName, route: '' },
-    ];
+    // algorithmDisplayName/breadcrumbs/tabs are getters (not fields set
+    // once here), so they re-resolve when the language toggle fires —
+    // see practice.ts's identical comment on why.
     // Safety net for direct URL entry (e.g. pasting /algorithms/dfs/test) —
     // the normal path (clicking the "Test" tab in Practice) is already
     // stopped earlier by practice.ts's isTestAvailable() check, which
@@ -80,23 +93,53 @@ export class TestPlan {
     );
   }
 
+  protected get algorithmDisplayName(): string {
+    const nameKey = ALGORITHM_NAME_KEYS[this.algorithmId];
+    return nameKey ? translate(nameKey, this.languageService.currentLanguage()) : this.algorithmId;
+  }
+
+  protected get breadcrumbs(): BreadcrumbItem[] {
+    const language = this.languageService.currentLanguage();
+    return [
+      { label: translate('practice.breadcrumb.home', language), route: '/' },
+      { label: translate('practice.breadcrumb.algorithms', language), route: '/', fragment: 'landing-picker' },
+      { label: this.algorithmDisplayName, route: '' },
+    ];
+  }
+
+  protected get tabs(): string[] {
+    const language = this.languageService.currentLanguage();
+    return [
+      translate('practice.tabs.learn', language),
+      translate('practice.tabs.practice', language),
+      translate('practice.tabs.test', language),
+    ];
+  }
+
   protected starTooltip(starIndex: number): string {
     const requiredLevel = this.levels[starIndex - 1];
     if (!requiredLevel) return '';
-    const levelLabel = requiredLevel.difficulty.charAt(0).toUpperCase() + requiredLevel.difficulty.slice(1);
-    return starIndex <= this.earnedStars
-      ? `Earned — you completed the ${levelLabel} level`
-      : `Complete the ${levelLabel} level to earn this star`;
+    const language = this.languageService.currentLanguage();
+    const levelLabel = translate(DIFFICULTY_LABEL_KEY[requiredLevel.difficulty], language);
+    const key = starIndex <= this.earnedStars ? 'test.level.starTooltip.earned' : 'test.level.starTooltip.toEarn';
+    return translate(key, language).replaceAll('{level}', levelLabel);
   }
 
+  // See practice.ts's onTabChange for why the index updates before the
+  // navigate call: it lets the segmented button's thumb visibly slide
+  // to the clicked tab before this whole page (and that thumb) gets
+  // torn down for the new route, instead of jumping straight there.
   protected onTabChange(index: number): void {
     this.selectedTabIndex = index;
-    if (index === 0) {
-      this.router.navigate(['/algorithms', this.algorithmId, 'learn']);
-    } else if (index === 1) {
-      this.router.navigate(['/algorithms', this.algorithmId]);
-    }
-    // index === 2 (Test) is already this page — no navigation needed.
+
+    setTimeout(() => {
+      if (index === 0) {
+        this.router.navigate(['/algorithms', this.algorithmId, 'learn']);
+      } else if (index === 1) {
+        this.router.navigate(['/algorithms', this.algorithmId]);
+      }
+      // index === 2 (Test) is already this page — no navigation needed.
+    }, TAB_SLIDE_DELAY_MS);
   }
 
   protected onStartLevel(level: LevelCardData): void {

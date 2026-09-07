@@ -5,10 +5,12 @@
   [class.algo-button--primary]="variant === 'primary'"
   [class.algo-button--outline]="variant === 'outline'"
   [class.algo-button--navigation]="variant === 'navigation'"
+  [class.algo-button--medium]="size === 'medium'"
   [class.algo-button--large]="size === 'large'"
   [class.algo-button--selected]="selected"
   [class.algo-button--disabled]="disabled"
   [class.algo-button--full-width]="fullWidth"
+  [style.background-color]="backgroundColorVar"
   [disabled]="disabled"
 >
   @if (hasLeftIcon) {

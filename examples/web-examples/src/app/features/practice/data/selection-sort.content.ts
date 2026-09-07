@@ -14,12 +14,12 @@ export const SELECTION_SORT_CONTENT: AlgorithmContent = {
     'Once only one element remains in the unsorted region, it\u2019s automatically in its correct place and the array is fully sorted.',
   ],
   keyCharacteristic:
-    'Selection Sort always performs exactly n-1 swaps, regardless of how the input is arranged \u2014 unlike Bubble Sort or Insertion Sort, whose swap count depends heavily on how sorted the input already is. This makes it attractive when writing to memory is expensive, but it also means it can\u2019t finish early on already-sorted data the way those other algorithms can: it always scans the full unsorted region on every single pass.',
+    'Selection Sort performs at most n-1 swaps, regardless of how the input is arranged — unlike Bubble Sort or Insertion Sort, whose number of swaps or shifts depends heavily on the initial order of the data. This makes Selection Sort attractive when writing to memory is expensive, but it also means it cannot finish early on already-sorted data: it still scans the full unsorted region on every pass.',
   overviewFaq: [
     {
-      question: 'Why does Selection Sort always make the same number of swaps?',
+      question: 'Why does Selection Sort perform at most n-1 swaps?',
       answer:
-        'Because it performs exactly one swap per pass \u2014 moving the found minimum into place \u2014 regardless of how many elements were out of order during the scan. With n elements, that\u2019s always exactly n-1 swaps (the last element needs no swap, since it\u2019s automatically in place once everything else is sorted).',
+        'Because it performs at most one swap per pass, moving the found minimum into its correct position. With n elements, there are n-1 passes, so the algorithm performs at most n-1 swaps. If the minimum is already in the correct position, the implementation can skip the swap entirely.',
     },
     {
       question: 'Is Selection Sort a stable sort?',

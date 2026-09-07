@@ -1,4 +1,4 @@
-import type { QuestionSidebarState } from '../../models/test.types';
+import type { QuestionSidebarState } from '../../test.types';
 
 export type { QuestionSidebarState };
 

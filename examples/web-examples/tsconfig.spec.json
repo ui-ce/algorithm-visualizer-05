@@ -10,5 +10,6 @@
   },
   "include": [
     "src/**/*.ts"
-  ]
+  ],
+  "@algorithm-visualizer/typescript-latex-renderer": ["../../dist/@algorithm-visualizer/typescript-latex-renderer"]
 }

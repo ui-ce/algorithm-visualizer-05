@@ -1,50 +1,128 @@
 <div class="algo-visualization-section">
+
+  <!-- Header -->
   <div class="algo-visualization-section__header">
     <span class="algo-visualization-section__step text-body-large">
-      {{ 'practice.viz.step' | translate }} {{ currentStep + 1 }} {{ 'practice.viz.of' | translate }} {{ totalSteps }}
+      {{ 'practice.viz.step' | translate }}
+      {{ currentStep + 1 | localeDigits }}
+      {{ 'practice.viz.of' | translate }}
+      {{ totalSteps | localeDigits }}
     </span>
 
     @if (searchTarget !== null) {
-      <span class="algo-visualization-section__target text-body-large">
-        {{ 'practice.viz.searchTarget' | translate }}: <strong>{{ searchTarget }}</strong>
-      </span>
+    <span class="algo-visualization-section__target text-body-large">
+      {{ 'practice.viz.searchTarget' | translate }}:
+      <strong>{{ searchTarget | localeDigits }}</strong>
+    </span>
     }
 
     <div class="algo-visualization-section__header-right">
-      <span class="algo-visualization-section__speed-label text-body-large">{{ 'practice.viz.speed' | translate }}</span>
+      <span class="algo-visualization-section__speed-label text-body-large">
+        {{ 'practice.viz.speed' | translate }}
+      </span>
+
       <algo-speed-button [speed]="speed" (speedChange)="speedChange.emit($event)" />
-      <button
-        type="button"
-        class="algo-visualization-section__fullscreen-button"
-        [attr.aria-label]="'practice.viz.toggleFullscreen' | translate"
-        (click)="fullscreenToggle.emit()"
-      >
+
+      <button type="button" class="algo-visualization-section__fullscreen-button"
+        [attr.aria-label]="'practice.viz.toggleFullscreen' | translate" (click)="fullscreenToggle.emit()">
         <svg solarFullScreenLinear [size]="24"></svg>
       </button>
     </div>
   </div>
 
-  <div class="algo-visualization-section__chart-wrapper">
-    <algo-visualization-area
-      [animation]="animation"
-      [rendererMetadata]="rendererMetadata"
-      [frameIndex]="frameIndex"
-      [includeTypes]="includeTypes"
-    />
+  <!-- Visualization body -->
+  <div class="algo-visualization-section__body" [class.algo-visualization-section__body--graph]="isGraphAlgorithm">
 
-    <algo-visualization-legend [items]="legendItems" />
+    <!--
+      Graph + Data Structures live in their own row, with Data
+      Structures row-aligned to the *whole left column* (graph +
+      legend stacked, in __left-column below) rather than just the
+      graph on its own — the graph and the main legend are stacked
+      inside __left-column precisely so that combined height is what
+      __side-column (default align-items: stretch on __main-row)
+      stretches to match.
+    -->
+    <div class="algo-visualization-section__main-row">
 
-    @if (showHint) {
-      <div class="algo-visualization-section__hint">
-        <p class="algo-visualization-section__hint-title text-title-medium">{{ 'practice.viz.hintTitle' | translate }}</p>
-        <p class="algo-visualization-section__hint-description text-body-medium">
-          {{ 'practice.viz.hintDescription' | translate }}
-        </p>
-        <div class="algo-visualization-section__hint-actions">
-          <algo-play-pause-button type="play" (click)="hintPlayClick.emit()" />
-          <algo-button variant="primary" [text]="'practice.input.customInput' | translate" (click)="hintGenerateClick.emit()" />
+      <div class="algo-visualization-section__left-column">
+
+        <!-- Main visualization -->
+        <div class="algo-visualization-section__chart-wrapper">
+
+          <algo-visualization-area [animation]="animation" [rendererMetadata]="rendererMetadata" [frameIndex]="frameIndex"
+            [includeTypes]="includeTypes" />
+
+          @if (showHint) {
+          <div class="algo-visualization-section__hint">
+
+            <p class="algo-visualization-section__hint-title text-title-medium">
+              {{ 'practice.viz.hintTitle' | translate }}
+            </p>
+
+            <p class="algo-visualization-section__hint-description text-body-medium">
+              {{ 'practice.viz.hintDescription' | translate }}
+            </p>
+
+            <div class="algo-visualization-section__hint-actions">
+              <algo-play-pause-button type="play" (click)="hintPlayClick.emit()" />
+
+              <algo-button variant="primary" [text]="'practice.input.customInput' | translate"
+                (click)="hintGenerateClick.emit()" />
+            </div>
+
+          </div>
+          }
+
         </div>
+
+        <algo-visualization-legend [items]="legendItems" />
+
       </div>
-    }
+
+      <!-- Data Structures -->
+      @if (isGraphAlgorithm && dataStructureTypes) {
+      <div class="algo-visualization-section__side-column">
+
+        <!--
+            The layout toggle used to float inside the graph itself
+            (rendered by graph-renderer, in its own component subtree
+            under includeTypes: ['Graph']) — it and Data Structures
+            (under includeTypes: ['Array2D', 'Chart']) are siblings in
+            two completely separate render trees, so no CSS could pull
+            one into the other's column. It's rendered here instead and
+            drives graph-renderer purely through GraphLayoutService;
+            justify-content: space-between on this column keeps the
+            toggle pinned to the top and Data Structures to the bottom.
+          -->
+        <div class="algo-visualization-section__graph-layout-toolbar">
+          <div class="algo-visualization-section__graph-layout-thumb" [style.transform]="graphLayoutThumbTransform">
+          </div>
+
+          @for (option of graphLayoutOptions; track option.value; let i = $index) {
+          <button type="button" class="algo-visualization-section__graph-layout-segment"
+            [class.algo-visualization-section__graph-layout-segment--selected]="i === selectedGraphLayoutIndex"
+            [class]="i === selectedGraphLayoutIndex ? 'text-label-medium' : 'text-label-medium-regular'"
+            [attr.aria-pressed]="i === selectedGraphLayoutIndex" (click)="onGraphLayoutSelect(i)">
+            {{ graphLayoutLabel(option) }}
+          </button>
+          }
+        </div>
+
+        <div class="algo-visualization-section__data-structures">
+
+          <algo-visualization-area [animation]="animation" [rendererMetadata]="rendererMetadata"
+            [frameIndex]="frameIndex" [includeTypes]="dataStructureTypes" [showTitle]="false" />
+          @if (dataStructureLegendItems.length > 0) {
+          <algo-visualization-legend [items]="dataStructureLegendItems"
+            class="algo-visualization-section__data-structures-legend" />
+          }
+        
+        </div>
+
+      </div>
+      }
+
+    </div>
+
   </div>
 </div>

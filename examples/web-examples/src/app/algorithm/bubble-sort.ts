@@ -6,6 +6,23 @@ import {
   RecorderEngine,
   Recording,
 } from '@algorithm-visualizer/typescript-recorder';
+import type { Language } from '../core/services/language.service';
+
+// Small local dictionary just for this recorder's Log messages —
+// deliberately NOT going through core/i18n/translations.ts's
+// TRANSLATIONS map, because these strings have numbers baked into the
+// middle of a sentence at record time (not a template binding), so a
+// static translate(key) lookup doesn't fit; a %-style template per
+// language does. `n()` below converts each interpolated number to
+// Persian digits when language is 'fa', exactly like the rest of the
+// app's toLocaleDigitsForLanguage — kept as a tiny local copy instead
+// of importing that (app-layer) module from this algorithm-layer file,
+// to avoid a dependency pointing the "wrong" direction.
+const PERSIAN_DIGITS = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+function n(value: number, language: Language): string {
+  const text = String(value);
+  return language === 'fa' ? text.replace(/[0-9]/g, (d) => PERSIAN_DIGITS[Number(d)]) : text;
+}
 
 // Pseudocode line numbers referenced by title/line below correspond to:
 //   1  function bubbleSort(arr):
@@ -14,7 +31,7 @@ import {
 //   4        if arr[j] > arr[j + 1]:
 //   5          swap(arr[j], arr[j + 1])
 //   6    return arr
-export function bubbleSortVisualization(arr: number[]): Recording {
+export function bubbleSortVisualization(arr: number[], language: Language = 'en'): Recording {
   const recorderEngine = new RecorderEngine();
 
   recorderEngine.beginGroup();
@@ -28,15 +45,18 @@ export function bubbleSortVisualization(arr: number[]): Recording {
   const chartRecorder = new ChartRecorder(recorderEngine, chartInitParams, 'Array');
   recorderEngine.endGroup();
 
-  const n = arr.length;
+  const n_ = arr.length;
 
-  for (let i = 0; i < n - 1; i++) {
-    for (let j = 0; j < n - i - 1; j++) {
+  for (let i = 0; i < n_ - 1; i++) {
+    for (let j = 0; j < n_ - i - 1; j++) {
       // Selecting the two cells we're about to look at.
       recorderEngine.beginGroup();
       logRecorder.setMessage({
-        title: 'Selecting a pair',
-        message: `Looking at the elements at index ${j} and ${j + 1} to compare next.`,
+        title: language === 'fa' ? 'انتخاب یک زوج' : 'Selecting a pair',
+        message:
+          language === 'fa'
+            ? `عناصر ایندکس ${n(j, language)} و ${n(j + 1, language)} برای مقایسه بعدی بررسی می‌شوند.`
+            : `Looking at the elements at index ${j} and ${j + 1} to compare next.`,
         line: 3,
       });
       chartRecorder.setCellsHighlight({
@@ -49,8 +69,11 @@ export function bubbleSortVisualization(arr: number[]): Recording {
       // Comparing them.
       recorderEngine.beginGroup();
       logRecorder.setMessage({
-        title: 'Comparing elements',
-        message: `Checking whether the element at index ${j} is greater than the one at index ${j + 1} — that's the only thing that decides if they swap.`,
+        title: language === 'fa' ? 'مقایسه عناصر' : 'Comparing elements',
+        message:
+          language === 'fa'
+            ? `بررسی می‌شود که آیا عنصر ایندکس ${n(j, language)} از عنصر ایندکس ${n(j + 1, language)} بزرگ‌تر است — همین موضوع تعیین می‌کند که جابجا می‌شوند یا نه.`
+            : `Checking whether the element at index ${j} is greater than the one at index ${j + 1} — that's the only thing that decides if they swap.`,
         line: 4,
       });
       chartRecorder.setCellsHighlight({
@@ -65,8 +88,11 @@ export function bubbleSortVisualization(arr: number[]): Recording {
 
         recorderEngine.beginGroup();
         logRecorder.setMessage({
-          title: 'Swapping elements',
-          message: `The element at index ${j} is greater than the one at index ${j + 1}, so they trade places.`,
+          title: language === 'fa' ? 'جابجایی عناصر' : 'Swapping elements',
+          message:
+            language === 'fa'
+              ? `عنصر ایندکس ${n(j, language)} از عنصر ایندکس ${n(j + 1, language)} بزرگ‌تر است، پس جای خود را عوض می‌کنند.`
+              : `The element at index ${j} is greater than the one at index ${j + 1}, so they trade places.`,
           line: 5,
         });
         // Only 'swap' here (not 'compare' + 'swap' together) — stacking
@@ -94,8 +120,11 @@ export function bubbleSortVisualization(arr: number[]): Recording {
       } else {
         recorderEngine.beginGroup();
         logRecorder.setMessage({
-          title: 'No swap needed',
-          message: `The element at index ${j} is already smaller than or equal to the one at index ${j + 1}, so they stay put.`,
+          title: language === 'fa' ? 'نیازی به جابجایی نیست' : 'No swap needed',
+          message:
+            language === 'fa'
+              ? `عنصر ایندکس ${n(j, language)} از قبل کوچک‌تر یا مساوی عنصر ایندکس ${n(j + 1, language)} است، پس در جای خود می‌مانند.`
+              : `The element at index ${j} is already smaller than or equal to the one at index ${j + 1}, so they stay put.`,
           line: 4,
         });
         recorderEngine.endGroup();
@@ -112,13 +141,16 @@ export function bubbleSortVisualization(arr: number[]): Recording {
     // final, correctly-sorted value and is never touched again.
     recorderEngine.beginGroup();
     logRecorder.setMessage({
-      title: 'Locking in a sorted element',
-      message: `The element at index ${n - i - 1} is now in its final position and won't be touched again.`,
+      title: language === 'fa' ? 'قرار گرفتن عنصر مرتب‌شده' : 'Locking in a sorted element',
+      message:
+        language === 'fa'
+          ? `عنصر ایندکس ${n(n_ - i - 1, language)} اکنون در جایگاه نهایی خود قرار گرفته و دیگر دست نمی‌خورد.`
+          : `The element at index ${n_ - i - 1} is now in its final position and won't be touched again.`,
       line: 2,
     });
     chartRecorder.setCellsHighlight({
-      startIndex: n - i - 1,
-      endIndex: n - i - 1,
+      startIndex: n_ - i - 1,
+      endIndex: n_ - i - 1,
       highlightTags: ['sorted'],
     });
     recorderEngine.endGroup();
@@ -128,11 +160,14 @@ export function bubbleSortVisualization(arr: number[]): Recording {
   // against), so mark the whole array sorted as the final "done" frame.
   recorderEngine.beginGroup();
   logRecorder.setMessage({
-    title: 'Done!',
-    message: 'Every element has been compared and placed — the array is fully sorted.',
+    title: language === 'fa' ? 'تمام شد!' : 'Done!',
+    message:
+      language === 'fa'
+        ? 'تمام عناصر مقایسه و در جای خود قرار گرفتند — آرایه به‌طور کامل مرتب شده است.'
+        : 'Every element has been compared and placed — the array is fully sorted.',
     line: 6,
   });
-  chartRecorder.setCellsHighlight({ startIndex: 0, endIndex: n - 1, highlightTags: ['sorted'] });
+  chartRecorder.setCellsHighlight({ startIndex: 0, endIndex: n_ - 1, highlightTags: ['sorted'] });
   recorderEngine.endGroup();
 
   return recorderEngine.getRecording();

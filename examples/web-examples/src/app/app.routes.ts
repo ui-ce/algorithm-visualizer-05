@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { Landing } from './features/landing/landing';
-import { Home } from './components/home/home';
 import { PracticePage } from './features/practice/practice';
 import { TestPlan } from './features/test/pages/test-plan/test-plan';
 import { Test } from './features/test/test';
@@ -8,13 +7,16 @@ import { TestResults } from './features/test/pages/test-results/test-results';
 import { LoginPage } from './features/auth/login/login';
 import { RegisterPage } from './features/auth/register/register';
 import { ComparePage } from './features/compare/comapre';
+import { LearnPage } from './features/learn/learn';
 
 
 // '' is the Landing page (hero, algorithm picker, features, product
 // tour, quiz spotlight, comparison, sign-up, footer) — the entry point
-// for the app. '/home' (the original card-grid page) is left in place
-// since the landing page's "view all algorithms" button and footer
-// links still point at it.
+// for the app. The old '/home' card-grid page has been removed: every
+// link that used to point at it (breadcrumbs' "Algorithms" item, the
+// footer link, the auth-shell logo, post-login/register redirects) now
+// points at '/' with a `fragment: 'landing-picker'` where relevant, so
+// it lands on Landing's own algorithm-picker section instead.
 //
 // '/login' and '/register' were added here because both already exist
 // as components (features/auth) and are now linked from real UI:
@@ -41,10 +43,6 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'home',
-    component: Home,
-  },
-  {
     path: 'login',
     component: LoginPage,
   },
@@ -55,6 +53,10 @@ export const routes: Routes = [
   {
     path: 'algorithms/:id',
     component: PracticePage,
+  },
+  {
+    path: 'algorithms/:id/learn',
+    component: LearnPage,
   },
    {
     path: 'compare/:id',
@@ -74,7 +76,7 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/home',
+    redirectTo: '/',
     pathMatch: 'full',
   },
 ];

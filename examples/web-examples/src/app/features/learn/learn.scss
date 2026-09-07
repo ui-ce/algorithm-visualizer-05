@@ -1,0 +1,248 @@
+// Same "one viewport tall, never scrolls at this level" rule as
+// practice.scss — the drawer's own panel-content handles its internal
+// scrolling instead.
+.algo-learn-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--color-background);
+
+  &__main-row {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    padding-inline-start: 12px;
+    padding-block: 10px;
+    overflow: hidden;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    padding-inline-end: 24px;
+  }
+
+  // Title row → drawer → Prev/Next row, 12px apart — same "12px below
+  // the title+segmented-button row" the drawer content below it was
+  // asked to keep.
+  &__sections-layer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    overflow: hidden;
+    gap: 12px;
+    padding: 8px;
+    // Explicit override after the shorthand above: makes sure the gap
+    // below the Prev/Next row is at least as generous as the gap above
+    // it (12px, matching the __sections-layer gap value) rather than
+    // just the base 8px — she specifically flagged the bottom edge
+    // looking flush/cut-off compared to the top.
+    padding-block-end: 12px;
+    // Was --color-surface, same tone as everything behind this box —
+    // bumped one step lighter so the box actually reads as a distinct
+    // layer, like the equivalent Practice/Test containers do.
+    background-color: var(--color-surface-container);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 4px;
+  }
+
+  &__title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: fit-content;
+    flex-shrink: 0;
+    padding-block: 4px;
+  }
+
+  &__title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__title {
+    color: var(--color-text-primary);
+  }
+
+  &__stars {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-test-summary-xp);
+  }
+
+  &__star-slot {
+    display: inline-flex;
+    cursor: default;
+  }
+
+  // algo-drawer is the only real content on this page (Complexity and
+  // Code stayed in Practice's own drawer), so it just fills whatever
+  // vertical space is left below the title row and Prev/Next row.
+  algo-drawer {
+    flex: 1;
+    min-height: 0;
+    min-width: 0;
+  }
+
+  // direction is pinned so the template's fa/non-fa branches (see
+  // learn.html) are the only thing that decides left/right placement —
+  // this row isn't left to flip a second time via the ambient
+  // `dir="rtl"` on top of the swap already done in the template.
+  &__nav-row {
+    display: flex;
+    direction: ltr;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    gap: 12px;
+  }
+
+  // Used on the Persian nav icons: the glyphs themselves (skip-previous
+  // points left, skip-next points right) are mirrored so they still
+  // point the correct physical direction after Prev/Next swap sides.
+  &__nav-icon--flipped {
+    transform: scaleX(-1);
+  }
+
+  /*
+   * Panel content — identical rules to practice.scss's own
+   * __section-heading/__panel-description/__list/__faq* classes, so
+   * Overview/Pros & Cons/Usage read exactly the way they used to
+   * inside Practice's drawer, just relocated here.
+   */
+  &__panel-description {
+    margin-block-start: 12px;
+    color: var(--color-text-secondary);
+  }
+
+  // Reverted back to text-body-large (16px) in the template — this was
+  // briefly bumped to text-body-large-emphasized (18px) but that's not
+  // what was actually wanted here; the bigger-title request was about
+  // the drawer's own top panel title (see drawer.scss
+  // __panel-title), not these in-body section headings.
+  &__section-heading {
+    margin-block-start: 20px;
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-body-large-emphasized); // 500 (Medium) — same weight text-body-large-emphasized uses, just kept at the 16px body size
+
+    &:first-child {
+      margin-block-start: 0;
+    }
+  }
+
+  &__list {
+    margin-block-start: 8px;
+    padding-inline-start: 20px;
+    color: var(--color-text-secondary);
+
+    li {
+      margin-block-end: 4px;
+    }
+  }
+
+  &__list--numbered {
+    list-style: decimal;
+  }
+
+  &__faq {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-block-start: 20px;
+
+    // Usage's content is just this FAQ list with nothing before it, so
+    // when it's the first thing in the panel it needs the same
+    // top-gap reset __section-heading:first-child gets above —
+    // otherwise Usage starts with a visibly bigger gap under the
+    // panel title than Overview/Pros & Cons do.
+    &:first-child {
+      margin-block-start: 0;
+    }
+  }
+
+  &__faq-item {
+    padding-block-start: 12px;
+
+    &:first-child {
+      padding-block-start: 0;
+    }
+  }
+
+  &__faq-question {
+    margin-block-end: 4px;
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-body-large-emphasized); // was a hardcoded 600 (SemiBold) - her type scale's actual "emphasized" weight is 500 (Medium), which is what text-body-large-emphasized itself uses elsewhere
+  }
+}
+
+/*
+ * Test-unavailable modal — same markup/rules as practice.scss's
+ * version, duplicated here since Angular's view encapsulation scopes
+ * each component's styles to itself anyway.
+ */
+.algo-test-unavailable-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgb(0 0 0 / 60%);
+  z-index: 100;
+}
+
+.algo-test-unavailable-modal {
+  position: fixed;
+  inset-block-start: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 420px;
+  max-width: 90vw;
+  padding: 32px 28px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 12px;
+  background-color: var(--color-elevated-surface);
+  text-align: center;
+
+  &__title {
+    margin: 0 0 8px;
+    color: var(--color-text-primary);
+  }
+
+  &__icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    border: 1px solid var(--color-text-tertiary);
+    border-radius: 50%;
+    color: var(--color-text-tertiary);
+  }
+
+  &__body {
+    margin: 0 0 24px;
+    color: var(--color-text-secondary);
+  }
+
+  &__btn {
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background: var(--color-button-primary-default);
+    color: #ffffff;
+    cursor: pointer;
+  }
+}

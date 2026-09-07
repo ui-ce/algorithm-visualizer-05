@@ -3,6 +3,8 @@
 // panel's real background is clipped to the padding box — a common way
 // to get a gradient border without an extra wrapper element.
 .algo-pseudocode-panel {
+  direction: ltr;
+  text-align: left;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -19,6 +21,8 @@
     flex: 1;
     min-height: 0;
     overflow-y: auto;
+    scroll-behavior: auto;
+    scroll-padding-block: 80px;
   }
 
   &__line {

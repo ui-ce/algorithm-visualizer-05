@@ -28,7 +28,17 @@ export class AlgoSegmentedButton {
       return;
     }
 
-    this.selectedIndex = index;
+    // Do NOT set this.selectedIndex here. This component only ever
+    // reflects the @Input the parent gives it — the parent is the
+    // single source of truth and may reject the change (e.g.
+    // practice.ts's onTabChange leaves selectedTabIndex untouched and
+    // shows a modal instead, when a Test tab has no questions yet).
+    // Mutating the @Input locally used to make the thumb slide
+    // immediately, but since Angular only re-writes a property binding
+    // when its *source expression's* value changes, an unaccepted
+    // change here got permanently stuck: the parent's bound value never
+    // changed, so Angular never got a reason to overwrite this local
+    // mutation, and the thumb stayed on the rejected tab forever.
     this.selectedIndexChange.emit(index);
   }
 

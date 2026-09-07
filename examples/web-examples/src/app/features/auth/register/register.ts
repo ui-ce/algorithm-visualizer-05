@@ -97,6 +97,6 @@ export class RegisterPage {
       return;
     }
 
-    this._router.navigateByUrl('/home');
+    this._router.navigateByUrl('/');
   }
 }

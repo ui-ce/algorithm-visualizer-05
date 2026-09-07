@@ -1,5 +1,6 @@
-import type { TestDifficulty, TestQuestion } from '../models/test.types';
+import type { TestDifficulty, TestQuestion } from '../test.types';
 import type { LevelCardData, SetRowData } from '../components/level-card/level-card.types';
+//bubble sort
 import { BUBBLE_SORT_EASY_SET_1 } from './bubble-sort/bubble-sort-easy-set1.data';
 import { BUBBLE_SORT_EASY_SET_2 } from './bubble-sort/bubble-sort-easy-set2.data';
 import { BUBBLE_SORT_EASY_SET_3 } from './bubble-sort/bubble-sort-easy-set3.data';
@@ -9,6 +10,39 @@ import { BUBBLE_SORT_MEDIUM_SET_3 } from './bubble-sort/bubble-sort-medium-set3.
 import { BUBBLE_SORT_HARD_SET_1 } from './bubble-sort/bubble-sort-hard-set1.data';
 import { BUBBLE_SORT_HARD_SET_2 } from './bubble-sort/bubble-sort-hard-set2.data';
 import { BUBBLE_SORT_HARD_SET_3 } from './bubble-sort/bubble-sort-hard-set3.data';
+//bubble sort-FA
+import { BUBBLE_SORT_EASY_SET_1_FA } from './bubble-sort/bubble-sort-easy-set1.fa.data';
+import { BUBBLE_SORT_EASY_SET_2_FA } from './bubble-sort/bubble-sort-easy-set2.fa.data';
+import { BUBBLE_SORT_EASY_SET_3_FA } from './bubble-sort/bubble-sort-easy-set3.fa.data';
+import { BUBBLE_SORT_MEDIUM_SET_1_FA } from './bubble-sort/bubble-sort-medium-set1.fa.data';
+import { BUBBLE_SORT_MEDIUM_SET_2_FA } from './bubble-sort/bubble-sort-medium-set2.fa.data';
+import { BUBBLE_SORT_MEDIUM_SET_3_FA } from './bubble-sort/bubble-sort-medium-set3.fa.data';
+import { BUBBLE_SORT_HARD_SET_1_FA } from './bubble-sort/bubble-sort-hard-set1.fa.data';
+import { BUBBLE_SORT_HARD_SET_2_FA } from './bubble-sort/bubble-sort-hard-set2.fa.data';
+import { BUBBLE_SORT_HARD_SET_3_FA } from './bubble-sort/bubble-sort-hard-set3.fa.data';
+
+//insertion sort
+import { INSERTION_SORT_EASY_SET_1 } from './insertion-sort/insertion-sort-easy-set1.data';
+import { INSERTION_SORT_EASY_SET_2 } from './insertion-sort/insertion-sort-easy-set2.data';
+import { INSERTION_SORT_EASY_SET_3 } from './insertion-sort/insertion-sort-easy-set3.data';
+import { INSERTION_SORT_MEDIUM_SET_1 } from './insertion-sort/insertion-sort-medium-set1.data';
+import { INSERTION_SORT_MEDIUM_SET_2 } from './insertion-sort/insertion-sort-medium-set2.data';
+import { INSERTION_SORT_MEDIUM_SET_3 } from './insertion-sort/insertion-sort-medium-set3.data';
+import { INSERTION_SORT_HARD_SET_1 } from './insertion-sort/insertion-sort-hard-set1.data';
+import { INSERTION_SORT_HARD_SET_2 } from './insertion-sort/insertion-sort-hard-set2.data';
+import { INSERTION_SORT_HARD_SET_3 } from './insertion-sort/insertion-sort-hard-set3.data';
+//insertion sort-FA
+import { INSERTION_SORT_EASY_SET_1_FA } from './insertion-sort/insertion-sort-easy-set1.fa.data';
+import { INSERTION_SORT_EASY_SET_2_FA } from './insertion-sort/insertion-sort-easy-set2.fa.data';
+import { INSERTION_SORT_EASY_SET_3_FA } from './insertion-sort/insertion-sort-easy-set3.fa.data';
+import { INSERTION_SORT_MEDIUM_SET_1_FA } from './insertion-sort/insertion-sort-medium-set1.fa.data';
+import { INSERTION_SORT_MEDIUM_SET_2_FA } from './insertion-sort/insertion-sort-medium-set2.fa.data';
+import { INSERTION_SORT_MEDIUM_SET_3_FA } from './insertion-sort/insertion-sort-medium-set3.fa.data';
+import { INSERTION_SORT_HARD_SET_1_FA } from './insertion-sort/insertion-sort-hard-set1.fa.data';
+import { INSERTION_SORT_HARD_SET_2_FA } from './insertion-sort/insertion-sort-hard-set2.fa.data';
+import { INSERTION_SORT_HARD_SET_3_FA } from './insertion-sort/insertion-sort-hard-set3.fa.data';
+
+//selection sort
 import { SELECTION_SORT_EASY_SET_1 } from './selection-sort/selection-sort-easy-set1.data';
 import { SELECTION_SORT_EASY_SET_2 } from './selection-sort/selection-sort-easy-set2.data';
 import { SELECTION_SORT_EASY_SET_3 } from './selection-sort/selection-sort-easy-set3.data';
@@ -18,6 +52,82 @@ import { SELECTION_SORT_MEDIUM_SET_3 } from './selection-sort/selection-sort-med
 import { SELECTION_SORT_HARD_SET_1 } from './selection-sort/selection-sort-hard-set1.data';
 import { SELECTION_SORT_HARD_SET_2 } from './selection-sort/selection-sort-hard-set2.data';
 import { SELECTION_SORT_HARD_SET_3 } from './selection-sort/selection-sort-hard-set3.data';
+//selection sort-FA
+import { SELECTION_SORT_EASY_SET_1_FA } from './selection-sort/selection-sort-easy-set1.fa.data';
+import { SELECTION_SORT_EASY_SET_2_FA } from './selection-sort/selection-sort-easy-set2.fa.data';
+import { SELECTION_SORT_EASY_SET_3_FA } from './selection-sort/selection-sort-easy-set3.fa.data';
+import { SELECTION_SORT_MEDIUM_SET_1_FA } from './selection-sort/selection-sort-medium-set1.fa.data';
+import { SELECTION_SORT_MEDIUM_SET_2_FA } from './selection-sort/selection-sort-medium-set2.fa.data';
+import { SELECTION_SORT_MEDIUM_SET_3_FA } from './selection-sort/selection-sort-medium-set3.fa.data';
+import { SELECTION_SORT_HARD_SET_1_FA } from './selection-sort/selection-sort-hard-set1.fa.data';
+import { SELECTION_SORT_HARD_SET_2_FA } from './selection-sort/selection-sort-hard-set2.fa.data';
+import { SELECTION_SORT_HARD_SET_3_FA } from './selection-sort/selection-sort-hard-set3.fa.data';
+
+
+// //merge sort
+// import { MERGE_SORT_EASY_SET_1 } from './merge-sort/merge-sort-easy-set1.data';
+// import { MERGE_SORT_EASY_SET_2 } from './merge-sort/merge-sort-easy-set2.data';
+// import { MERGE_SORT_EASY_SET_3 } from './merge-sort/merge-sort-easy-set3.data';
+// import { MERGE_SORT_MEDIUM_SET_1 } from './merge-sort/merge-sort-medium-set1.data';
+// import { MERGE_SORT_MEDIUM_SET_2 } from './merge-sort/merge-sort-medium-set2.data';
+// import { MERGE_SORT_MEDIUM_SET_3 } from './merge-sort/merge-sort-medium-set3.data';
+// import { MERGE_SORT_HARD_SET_1 } from './merge-sort/merge-sort-hard-set1.data';
+// import { MERGE_SORT_HARD_SET_2 } from './merge-sort/merge-sort-hard-set2.data';
+// import { MERGE_SORT_HARD_SET_3 } from './merge-sort/merge-sort-hard-set3.data';
+// //merge sort-FA
+// import { MERGE_SORT_EASY_SET_1_FA } from './merge-sort/merge-sort-easy-set1.fa.data';
+// import { MERGE_SORT_EASY_SET_2_FA } from './merge-sort/merge-sort-easy-set2.fa.data';
+// import { MERGE_SORT_EASY_SET_3_FA } from './merge-sort/merge-sort-easy-set3.fa.data';
+// import { MERGE_SORT_MEDIUM_SET_1_FA } from './merge-sort/merge-sort-medium-set1.fa.data';
+// import { MERGE_SORT_MEDIUM_SET_2_FA } from './merge-sort/merge-sort-medium-set2.fa.data';
+// import { MERGE_SORT_MEDIUM_SET_3_FA } from './merge-sort/merge-sort-medium-set3.fa.data';
+// import { MERGE_SORT_HARD_SET_1_FA } from './merge-sort/merge-sort-hard-set1.fa.data'
+// import { MERGE_SORT_HARD_SET_2_FA } from './merge-sort/merge-sort-hard-set2.fa.data';
+// import { MERGE_SORT_HARD_SET_3_FA } from './merge-sort/merge-sort-hard-set3.fa.data';
+
+//dfs
+import { DFS_EASY_SET_1 } from './dfs/dfs-easy-set1.data';
+import { DFS_EASY_SET_2 } from './dfs/dfs-easy-set2.data';
+import { DFS_EASY_SET_3 } from './dfs/dfs-easy-set3.data';
+import { DFS_MEDIUM_SET_1 } from './dfs/dfs-medium-set1.data';
+import { DFS_MEDIUM_SET_2 } from './dfs/dfs-medium-set2.data';
+import { DFS_MEDIUM_SET_3 } from './dfs/dfs-medium-set3.data';
+import { DFS_HARD_SET_1 } from './dfs/dfs-hard-set1.data';
+import { DFS_HARD_SET_2 } from './dfs/dfs-hard-set2.data';
+import { DFS_HARD_SET_3 } from './dfs/dfs-hard-set3.data';
+// dfs_fa
+import { DFS_EASY_SET_1_FA } from './dfs/dfs-easy-set1.fa.data';
+import { DFS_EASY_SET_2_FA } from './dfs/dfs-easy-set2.fa.data';
+import { DFS_EASY_SET_3_FA } from './dfs/dfs-easy-set3.fa.data';
+import { DFS_MEDIUM_SET_1_FA } from './dfs/dfs-medium-set1.fa.data';
+import { DFS_MEDIUM_SET_2_FA } from './dfs/dfs-medium-set2.fa.data';
+import { DFS_MEDIUM_SET_3_FA } from './dfs/dfs-medium-set3.fa.data';
+import { DFS_HARD_SET_1_FA } from './dfs/dfs-hard-set1.fa.data';
+import { DFS_HARD_SET_2_FA } from './dfs/dfs-hard-set2.fa.data';
+import { DFS_HARD_SET_3_FA } from './dfs/dfs-hard-set3.fa.data';
+
+//dijkstra
+import { DIJKSTRA_EASY_SET_1 } from './dijkstra/dijkstra-easy-set1.data';
+import { DIJKSTRA_EASY_SET_2 } from './dijkstra/dijkstra-easy-set2.data';
+import { DIJKSTRA_EASY_SET_3 } from './dijkstra/dijkstra-easy-set3.data';
+import { DIJKSTRA_MEDIUM_SET_1 } from './dijkstra/dijkstra-medium-set1.data';
+import { DIJKSTRA_MEDIUM_SET_2 } from './dijkstra/dijkstra-medium-set2.data';
+import { DIJKSTRA_MEDIUM_SET_3 } from './dijkstra/dijkstra-medium-set3.data';
+import { DIJKSTRA_HARD_SET_1 } from './dijkstra/dijkstra-hard-set1.data';
+import { DIJKSTRA_HARD_SET_2 } from './dijkstra/dijkstra-hard-set2.data';
+import { DIJKSTRA_HARD_SET_3 } from './dijkstra/dijkstra-hard-set3.data';
+//dijkstra_FA
+import { DIJKSTRA_EASY_SET_1_FA } from './dijkstra/dijkstra-easy-set1.fa.data';
+import { DIJKSTRA_EASY_SET_2_FA } from './dijkstra/dijkstra-easy-set2.fa.data';
+import { DIJKSTRA_EASY_SET_3_FA } from './dijkstra/dijkstra-easy-set3.fa.data';
+import { DIJKSTRA_MEDIUM_SET_1_FA } from './dijkstra/dijkstra-medium-set1.fa.data';
+import { DIJKSTRA_MEDIUM_SET_2_FA } from './dijkstra/dijkstra-medium-set2.fa.data';
+import { DIJKSTRA_MEDIUM_SET_3_FA } from './dijkstra/dijkstra-medium-set3.fa.data';
+import { DIJKSTRA_HARD_SET_1_FA } from './dijkstra/dijkstra-hard-set1.fa.data';
+import { DIJKSTRA_HARD_SET_2_FA } from './dijkstra/dijkstra-hard-set2.fa.data';
+import { DIJKSTRA_HARD_SET_3_FA } from './dijkstra/dijkstra-hard-set3.fa.data';
+
+
 
 // Single source of truth for "which question set does algorithm +
 // difficulty + set number map to". Both TestPlan (level-select) and
@@ -32,7 +142,7 @@ import { SELECTION_SORT_HARD_SET_3 } from './selection-sort/selection-sort-hard-
 // not-available modal instead. Adding an algorithm here is the only
 // step needed to light up its Test tab — practice.ts's gating already
 // reads isTestAvailable() generically, it doesn't hardcode 'bubble-sort'.
-export const TEST_QUESTION_BANK: Record<string, Partial<Record<TestDifficulty, Record<number, TestQuestion[]>>>> = {
+export const TEST_QUESTION_BANK_EN: Record<string, Partial<Record<TestDifficulty, Record<number, TestQuestion[]>>>> = {
   'bubble-sort': {
     easy: {
       1: BUBBLE_SORT_EASY_SET_1,
@@ -67,29 +177,185 @@ export const TEST_QUESTION_BANK: Record<string, Partial<Record<TestDifficulty, R
       3: SELECTION_SORT_HARD_SET_3,
     },
   },
+  'insertion-sort': { easy: { 1: INSERTION_SORT_EASY_SET_1, 2: INSERTION_SORT_EASY_SET_2, 3: INSERTION_SORT_EASY_SET_3, }, medium: { 1: INSERTION_SORT_MEDIUM_SET_1, 2: INSERTION_SORT_MEDIUM_SET_2, 3: INSERTION_SORT_MEDIUM_SET_3, }, hard: { 1: INSERTION_SORT_HARD_SET_1, 2: INSERTION_SORT_HARD_SET_2, 3: INSERTION_SORT_HARD_SET_3, }, },
+  'dijkstra': {
+    easy: {
+      1: DIJKSTRA_EASY_SET_1,
+      2: DIJKSTRA_EASY_SET_2,
+      3: DIJKSTRA_EASY_SET_3,
+    },
+    medium: {
+      1: DIJKSTRA_MEDIUM_SET_1,
+      2: DIJKSTRA_MEDIUM_SET_2,
+      3: DIJKSTRA_MEDIUM_SET_3,
+    },
+    hard: {
+      1: DIJKSTRA_HARD_SET_1,
+      2: DIJKSTRA_HARD_SET_2,
+      3: DIJKSTRA_HARD_SET_3,
+    },
+  },
+  'dfs': {
+    easy: {
+      1: DFS_EASY_SET_1,
+      2: DFS_EASY_SET_2,
+      3: DFS_EASY_SET_3,
+    },
+    medium: {
+      1: DFS_MEDIUM_SET_1,
+      2: DFS_MEDIUM_SET_2,
+      3: DFS_MEDIUM_SET_3,
+    },
+    hard: {
+      1: DFS_HARD_SET_1,
+      2: DFS_HARD_SET_2,
+      3: DFS_HARD_SET_3,
+    },
+  },
 };
 
-// Question count per difficulty — matches docs/database/schema.sql's
-// comment ("fixed-size (5/7/10 items)") and the MoSCoW doc's level-card
-// spec (Easy: 3 sets × 5 questions, Medium: 3 sets × 7, Hard: 3 sets ×
-// 10). Level-card and TestPlan both read this instead of a hardcoded
-// "5 Questions per Set" that used to show on every difficulty.
-export const QUESTIONS_PER_SET: Record<TestDifficulty, number> = {
-  easy: 5,
-  medium: 7,
-  hard: 10,
-};
+
+export const TEST_QUESTION_BANK_FA: Record<
+  string,
+  Partial<Record<TestDifficulty, Record<number, TestQuestion[]>>>
+> = {
+  'bubble-sort': {
+    easy: {
+      1: BUBBLE_SORT_EASY_SET_1_FA,
+      2: BUBBLE_SORT_EASY_SET_2_FA,
+      3: BUBBLE_SORT_EASY_SET_3_FA,
+    },
+    medium: {
+      1: BUBBLE_SORT_MEDIUM_SET_1_FA,
+      2: BUBBLE_SORT_MEDIUM_SET_2_FA,
+      3: BUBBLE_SORT_MEDIUM_SET_3_FA,
+    },
+    hard: {
+      1: BUBBLE_SORT_HARD_SET_1_FA,
+      2: BUBBLE_SORT_HARD_SET_2_FA,
+      3: BUBBLE_SORT_HARD_SET_3_FA,
+    },
+  },
+  'selection-sort': { 
+    easy: { 
+    1: SELECTION_SORT_EASY_SET_1_FA, 2: SELECTION_SORT_EASY_SET_2_FA, 3: SELECTION_SORT_EASY_SET_3_FA, 
+  }, 
+  medium: {
+     1: SELECTION_SORT_MEDIUM_SET_1_FA, 2: SELECTION_SORT_MEDIUM_SET_2_FA, 3: SELECTION_SORT_MEDIUM_SET_3_FA, 
+    },
+     hard: 
+     { 1: SELECTION_SORT_HARD_SET_1_FA,
+       2: SELECTION_SORT_HARD_SET_2_FA, 3: SELECTION_SORT_HARD_SET_3_FA, 
+      }, 
+    }, 
+    'insertion-sort': {
+    easy: {
+       1: INSERTION_SORT_EASY_SET_1_FA, 2: INSERTION_SORT_EASY_SET_2_FA, 3: INSERTION_SORT_EASY_SET_3_FA, 
+      },
+       medium: { 
+      1: INSERTION_SORT_MEDIUM_SET_1_FA, 2: INSERTION_SORT_MEDIUM_SET_2_FA, 3: INSERTION_SORT_MEDIUM_SET_3_FA,
+    }, 
+    hard: {
+       1: INSERTION_SORT_HARD_SET_1_FA, 2: INSERTION_SORT_HARD_SET_2_FA, 3: INSERTION_SORT_HARD_SET_3_FA, 
+    },
+  },
+   'dijkstra': {
+    easy: {
+      1: DIJKSTRA_EASY_SET_1_FA,
+      2: DIJKSTRA_EASY_SET_2_FA,
+      3: DIJKSTRA_EASY_SET_3_FA,
+    },
+    medium: {
+      1: DIJKSTRA_MEDIUM_SET_1_FA,
+      2: DIJKSTRA_MEDIUM_SET_2_FA,
+      3: DIJKSTRA_MEDIUM_SET_3_FA,
+    },
+    hard: {
+      1: DIJKSTRA_HARD_SET_1_FA,
+      2: DIJKSTRA_HARD_SET_2_FA,
+      3: DIJKSTRA_HARD_SET_3_FA,
+    },
+  },
+    'dfs': {
+      easy: {
+        1: DFS_EASY_SET_1_FA,
+        2: DFS_EASY_SET_2_FA,
+        3: DFS_EASY_SET_3_FA,
+      },
+      medium: {
+        1: DFS_MEDIUM_SET_1_FA,
+        2: DFS_MEDIUM_SET_2_FA,
+        3: DFS_MEDIUM_SET_3_FA,
+      },
+      hard: {
+        1: DFS_HARD_SET_1_FA,
+        2: DFS_HARD_SET_2_FA,
+        3: DFS_HARD_SET_3_FA,
+      },
+    },
+  };
+
+  // Question count per difficulty — matches docs/database/schema.sql's
+  // comment ("fixed-size (5/7/10 items)") and the MoSCoW doc's level-card
+  // spec (Easy: 3 sets × 5 questions, Medium: 3 sets × 7, Hard: 3 sets ×
+  // 10). Level-card and TestPlan both read this instead of a hardcoded
+  // "5 Questions per Set" that used to show on every difficulty.
+  export const QUESTIONS_PER_SET: Record<TestDifficulty, number> = {
+    easy: 5,
+    medium: 7,
+    hard: 10,
+  };
 
 export function isTestAvailable(algorithmId: string): boolean {
-  return algorithmId in TEST_QUESTION_BANK;
+  return algorithmId in TEST_QUESTION_BANK_EN;
 }
 
 export function getQuestionSet(
   algorithmId: string,
   difficulty: TestDifficulty,
   setNumber: number,
+  language: 'fa' | 'en',
 ): TestQuestion[] | null {
-  return TEST_QUESTION_BANK[algorithmId]?.[difficulty]?.[setNumber] ?? null;
+  // Falls back to English whenever a Persian set hasn't been added yet
+  // for this exact algorithm/difficulty/set — without this, being in
+  // Persian mode made every untranslated test (which, right now, is
+  // everything except bubble-sort easy set 1) look "unavailable" and
+  // bounce back to the level-select page, even though the English
+  // content was right there in TEST_QUESTION_BANK_EN the whole time.
+  if (language === 'fa') {
+    const faSet = TEST_QUESTION_BANK_FA[algorithmId]?.[difficulty]?.[setNumber];
+    if (faSet) return faSet;
+  }
+
+  return TEST_QUESTION_BANK_EN[algorithmId]?.[difficulty]?.[setNumber] ?? null;
+}
+
+// Where "Next Test" on the results page should go: the next set within
+// the same difficulty if one has content, otherwise the first set of
+// the next difficulty, otherwise null (nothing left — caller falls
+// back to the level-select page). Doesn't check pass/fail or unlock
+// state itself; the results page only offers this button after a pass,
+// which is what actually unlocks the next set/difficulty in the first
+// place.
+export function getNextSet(
+  algorithmId: string,
+  difficulty: TestDifficulty,
+  setNumber: number,
+): { difficulty: TestDifficulty; setNumber: number } | null {
+  const bank = TEST_QUESTION_BANK_EN[algorithmId];
+  if (!bank) return null;
+
+  if (bank[difficulty]?.[setNumber + 1]) {
+    return { difficulty, setNumber: setNumber + 1 };
+  }
+
+  const nextDifficultyIndex = DIFFICULTY_ORDER.indexOf(difficulty) + 1;
+  const nextDifficulty = DIFFICULTY_ORDER[nextDifficultyIndex];
+  if (nextDifficulty && bank[nextDifficulty]?.[1]) {
+    return { difficulty: nextDifficulty, setNumber: 1 };
+  }
+
+  return null;
 }
 
 // Every level always shows exactly 3 set-rows (matches the level-card
@@ -127,7 +393,7 @@ export function buildLevelPlan(
   algorithmId: string,
   isSetPassed: (difficulty: TestDifficulty, setNumber: number) => boolean,
 ): LevelCardData[] {
-  const bank = TEST_QUESTION_BANK[algorithmId];
+  const bank = TEST_QUESTION_BANK_EN[algorithmId];
   if (!bank) return [];
 
   return DIFFICULTY_ORDER.map((difficulty, levelIndex) => {
@@ -164,7 +430,7 @@ export function countEarnedStars(
   algorithmId: string,
   isSetPassed: (difficulty: TestDifficulty, setNumber: number) => boolean,
 ): number {
-  const bank = TEST_QUESTION_BANK[algorithmId];
+  const bank = TEST_QUESTION_BANK_EN[algorithmId];
   if (!bank) return 0;
   return DIFFICULTY_ORDER.filter((difficulty) => isDifficultyComplete(bank, difficulty, isSetPassed)).length;
 }

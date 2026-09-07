@@ -9,5 +9,8 @@ export type ButtonVariant = 'primary' | 'outline' | 'navigation';
 
 // 'large' is for high-stakes marketing CTAs (landing hero, signup) where
 // the button needs to visually lead the section rather than sit at the
-// same weight as an in-app control. Everywhere else keeps 'default'.
-export type ButtonSize = 'default' | 'large';
+// same weight as an in-app control. 'medium' is a small, deliberate step
+// up from 'default' for in-app controls that just need slightly more
+// presence (e.g. Learn's Prev/Next row) without jumping all the way to
+// the CTA treatment. Everywhere else keeps 'default'.
+export type ButtonSize = 'default' | 'medium' | 'large';

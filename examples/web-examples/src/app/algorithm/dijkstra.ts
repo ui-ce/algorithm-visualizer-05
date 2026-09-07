@@ -6,6 +6,18 @@ import {
   RecorderEngine,
   Recording,
 } from '@algorithm-visualizer/typescript-recorder';
+import type { Language } from '../core/services/language.service';
+
+// Same tiny local dictionary/digit-helper pattern as bubble-sort.ts —
+// see that file's comment for why this doesn't go through
+// core/i18n/translations.ts. Node names (A, B, C...) are left
+// untranslated on purpose in every message below, same as the graph
+// itself never relabels its nodes for Persian.
+const PERSIAN_DIGITS = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+function n(value: number, language: Language): string {
+  const text = String(value);
+  return language === 'fa' ? text.replace(/[0-9]/g, (d) => PERSIAN_DIGITS[Number(d)]) : text;
+}
 
 // Pseudocode line numbers referenced below correspond to:
 //   1  function dijkstra(graph, start, end):
@@ -22,6 +34,7 @@ export function dijkstraVisualization(
   graph: Record<string, Record<string, number>[]>,
   start: string,
   end: string,
+  language: Language = 'en',
 ): Recording {
   const recorderEngine = new RecorderEngine();
 
@@ -29,8 +42,8 @@ export function dijkstraVisualization(
 
   const logRecorder = new LogRecorder(recorderEngine, {
     name: 'Log',
-    message: 'Initial state',
-    title: 'Getting started',
+    message: language === 'fa' ? 'وضعیت اولیه' : 'Initial state',
+    title: language === 'fa' ? 'شروع کار' : 'Getting started',
     line: 2,
   });
 
@@ -49,10 +62,16 @@ export function dijkstraVisualization(
   });
   graphRecorder.setNodeHighlight({ id: start, highlightTags: ['open'] });
 
-  const openRecorder = new Array2dRecorder(recorderEngine, { name: 'Open Set', values: [[start]] });
-  const closedRecorder = new Array2dRecorder(recorderEngine, { name: 'Closed Set', values: [[]] });
+  const openRecorder = new Array2dRecorder(recorderEngine, {
+    name: language === 'fa' ? 'مجموعه‌ی باز' : 'Open Set',
+    values: [[start]],
+  });
+  const closedRecorder = new Array2dRecorder(recorderEngine, {
+    name: language === 'fa' ? 'مجموعه‌ی بسته' : 'Closed Set',
+    values: [[]],
+  });
   const costChart = new ChartRecorder(recorderEngine, {
-    name: 'Node Costs',
+    name: language === 'fa' ? 'هزینه‌ی گره‌ها' : 'Node Costs',
     values: Object.keys(graph).map((n) => ({ label: n, value: 0 })),
   });
 
@@ -72,8 +91,11 @@ export function dijkstraVisualization(
     openList.sort((x, y) => costs[x] - costs[y]);
 
     logRecorder.setMessage({
-      title: 'Picking the next node',
-      message: 'Sorting the open set so the lowest-cost node comes first.',
+      title: language === 'fa' ? 'انتخاب گره‌ی بعدی' : 'Picking the next node',
+      message:
+        language === 'fa'
+          ? 'مجموعه‌ی باز مرتب می‌شود تا ارزان‌ترین گره اول قرار بگیرد.'
+          : 'Sorting the open set so the lowest-cost node comes first.',
       line: 4,
     });
     openRecorder.setCells({
@@ -96,8 +118,11 @@ export function dijkstraVisualization(
 
     recorderEngine.beginGroup();
     logRecorder.setMessage({
-      title: 'Picking the next node',
-      message: 'Grabbing the lowest-cost node from the open set.',
+      title: language === 'fa' ? 'انتخاب گره‌ی بعدی' : 'Picking the next node',
+      message:
+        language === 'fa'
+          ? 'گره با کمترین هزینه از مجموعه‌ی باز برداشته می‌شود.'
+          : 'Grabbing the lowest-cost node from the open set.',
       line: 4,
     });
     openRecorder.setCellsHighlight({
@@ -110,8 +135,11 @@ export function dijkstraVisualization(
 
     recorderEngine.beginGroup();
     logRecorder.setMessage({
-      title: 'Visiting a node',
-      message: `Visiting node ${current} and moving it to the closed set.`,
+      title: language === 'fa' ? 'بازدید یک گره' : 'Visiting a node',
+      message:
+        language === 'fa'
+          ? `گره ${current} بازدید شده و به مجموعه‌ی بسته منتقل می‌شود.`
+          : `Visiting node ${current} and moving it to the closed set.`,
       line: 3,
     });
     graphRecorder.setNodeHighlight({ id: current, highlightTags: ['current'] });
@@ -130,8 +158,11 @@ export function dijkstraVisualization(
     if (current === end) {
       recorderEngine.beginGroup();
       logRecorder.setMessage({
-        title: 'Destination reached!',
-        message: `Reached the destination ${end} — tracing back the shortest path.`,
+        title: language === 'fa' ? 'رسیدیم به مقصد!' : 'Destination reached!',
+        message:
+          language === 'fa'
+            ? `به مقصد ${end} رسیدیم — کوتاه‌ترین مسیر بازسازی می‌شود.`
+            : `Reached the destination ${end} — tracing back the shortest path.`,
         line: 5,
       });
       const bestPath = getBestPathSoFar(end, parents);
@@ -152,8 +183,11 @@ export function dijkstraVisualization(
 
       recorderEngine.beginGroup();
       logRecorder.setMessage({
-        title: 'Checking a neighbor',
-        message: `Looking at neighbor ${neighbor} — is going through ${current} cheaper than what we already know?`,
+        title: language === 'fa' ? 'بررسی یک همسایه' : 'Checking a neighbor',
+        message:
+          language === 'fa'
+            ? `همسایه ${neighbor} بررسی می‌شود — آیا عبور از ${current} ارزان‌تر از چیزیه که تا الان می‌دونیم؟`
+            : `Looking at neighbor ${neighbor} — is going through ${current} cheaper than what we already know?`,
         line: 7,
       });
       graphRecorder.setEdgeHighlight({ id: `${current}${neighbor}`, highlightTags: ['compare'] });
@@ -170,8 +204,11 @@ export function dijkstraVisualization(
 
           recorderEngine.beginGroup();
           logRecorder.setMessage({
-            title: 'Discovering a new node',
-            message: `Neighbor ${neighbor} hasn't been seen yet — adding it to the open set.`,
+            title: language === 'fa' ? 'کشف یک گره جدید' : 'Discovering a new node',
+            message:
+              language === 'fa'
+                ? `همسایه ${neighbor} تا الان دیده نشده بود — به مجموعه‌ی باز اضافه می‌شود.`
+                : `Neighbor ${neighbor} hasn't been seen yet — adding it to the open set.`,
             line: 9,
           });
           openRecorder.pushCells({ rowIndex: 0, values: [neighbor] });
@@ -189,8 +226,11 @@ export function dijkstraVisualization(
 
         recorderEngine.beginGroup();
         logRecorder.setMessage({
-          title: 'Updating the shortest known cost',
-          message: `Found a cheaper path to ${neighbor} through ${current} — updating its cost to ${tentativeCost}.`,
+          title: language === 'fa' ? 'به‌روزرسانی کمترین هزینه‌ی شناخته‌شده' : 'Updating the shortest known cost',
+          message:
+            language === 'fa'
+              ? `مسیر ارزان‌تری به ${neighbor} از طریق ${current} پیدا شد — هزینه‌اش به ${n(tentativeCost, language)} به‌روز می‌شود.`
+              : `Found a cheaper path to ${neighbor} through ${current} — updating its cost to ${tentativeCost}.`,
           line: 9,
         });
         costChart.setCells({
@@ -222,8 +262,11 @@ export function dijkstraVisualization(
   }
 
   logRecorder.setMessage({
-    title: 'Done!',
-    message: "Dijkstra's algorithm has finished exploring the graph.",
+    title: language === 'fa' ? 'تمام شد!' : 'Done!',
+    message:
+      language === 'fa'
+        ? 'الگوریتم دایکسترا کاوش گراف را به پایان رساند.'
+        : "Dijkstra's algorithm has finished exploring the graph.",
     line: 10,
   });
 

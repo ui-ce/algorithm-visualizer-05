@@ -84,10 +84,32 @@ export const PRACTICE_TRANSLATIONS: TranslationDictionary = {
   'practice.legend.search.eliminated': { fa: 'حذف‌شده', en: 'Eliminated' },
   'practice.legend.search.found': { fa: 'پیدا شد', en: 'Found' },
 
+  // Data-structure side panel legend (Stack for DFS; Open/Closed Set +
+  // Node Costs bar chart for Dijkstra) — same panel visualization-
+  // section.ts's DATA_STRUCTURE_LEGENDS drives on the Practice page.
+  'practice.legend.dataStructure.sorting': { fa: 'مرتب‌سازی', en: 'Sorting' },
+  'practice.legend.dataStructure.removing': { fa: 'حذف', en: 'Removing' },
+  'practice.legend.dataStructure.new': { fa: 'جدید', en: 'New' },
+  'practice.legend.dataStructure.updated': { fa: 'به‌روزشده', en: 'Updated' },
+
+  // Graph layout toggle (Circle/Concentric/Breadth First) — the labels
+  // themselves come from the renderer library's GRAPH_LAYOUT_OPTIONS
+  // (graph-layout.service.ts), which is plain hardcoded-English data
+  // with no language awareness of its own. Keyed by the option's
+  // `value` (not its English `label`) so visualization-section.ts can
+  // look up the right translation without touching the library.
+  'practice.graphLayout.circle': { fa: 'دایره‌ای', en: 'Circle' },
+  'practice.graphLayout.concentric': { fa: 'متحدالمرکز', en: 'Concentric' },
+  'practice.graphLayout.breadthfirst': { fa: 'اول‌سطح', en: 'Breadth First' },
+
   // Navigation controls
   'practice.nav.prev': { fa: 'قبلی', en: 'Prev' },
   'practice.nav.next': { fa: 'بعدی', en: 'Next' },
   'practice.nav.again': { fa: 'دوباره', en: 'Again' },
+
+  // Play/Paus controls
+  'practice.viz.play': { fa: 'پخش', en: 'Play' },
+  'practice.viz.pause': { fa: 'توقف', en: 'Pause' },
 
   // Input controls
   'practice.input.customInput': { fa: 'ورودی دلخواه', en: 'Custom Input' },
@@ -104,6 +126,7 @@ export const PRACTICE_TRANSLATIONS: TranslationDictionary = {
   // the shape of the generated graph, the same way the array patterns
   // above change the shape of the generated array.
   'practice.pattern.graph.chain': { fa: 'زنجیره‌ای', en: 'Chain' },
+  'practice.pattern.graph.tree': { fa: 'درختی', en: 'Tree' },
   'practice.pattern.graph.dense': { fa: 'پرتراکم', en: 'Dense' },
   'practice.pattern.graph.disconnected': { fa: 'ناهم‌بند', en: 'Disconnected' },
 
@@ -168,5 +191,25 @@ export const PRACTICE_TRANSLATIONS: TranslationDictionary = {
   'practice.modal.error.endNodeMustAppear': {
     fa: 'گره پایان باید در یکی از یال‌های بالا وجود داشته باشد.',
     en: 'End node must appear in one of the edges above.',
+  },
+
+  //modal for no test
+  'practice.testUnavailable.title': {
+    fa: 'هنوز آزمونی برای «{name}» وجود ندارد.',
+    en: 'No test yet for "{name}".',
+  },
+
+  'practice.testUnavailable.body': {
+    fa: 'سؤالات آزمون این الگوریتم هنوز آماده نشده‌اند. فعلاً می‌توانید از بخش تمرین استفاده کنید.',
+    en: 'Quiz questions for this algorithm haven’t been written yet. Please continue with Practice for now.',
+  },
+
+  'practice.testUnavailable.button': {
+    fa: 'متوجه شدم، در تمرین می‌مانم',
+    en: 'Got it, stay in Practice',
+  },
+  'practice.export.comingSoon': {
+    fa: 'به‌زودی',
+    en: 'Coming soon',
   },
 };

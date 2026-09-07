@@ -7,9 +7,9 @@
   <span
     class="algo-set-row__badge text-body-medium"
    [class.algo-set-row__badge--active]="true"
-  >{{ setNumber }}</span>
+  >{{ badgeText }}</span>
 
-  <span class="algo-set-row__label text-body-medium">Set {{ setNumber }}</span>
+  <span class="algo-set-row__label text-body-medium">{{ labelText }}</span>
 
   @if (state === 'done') {
     <svg solarCheckCircleLinear class="algo-set-row__icon" [style.color]="accentColorVar" [size]="20"></svg>

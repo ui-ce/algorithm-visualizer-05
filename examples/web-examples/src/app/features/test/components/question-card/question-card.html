@@ -1,38 +1,100 @@
 <article class="algo-question-card">
   <header class="algo-question-card__header">
-    <span class="algo-question-card__number text-body-large">Question {{ questionNumber }}</span>
+    <span class="algo-question-card__number text-body-large">{{ questionNumberLabel }}</span>
     <algo-question-type-badge [type]="question.type" />
   </header>
 
-  <p class="algo-question-card__prompt text-body-large">{{ question.prompt }}</p>
+  <p class="algo-question-card__prompt text-body-large">{{ displayPrompt }}</p>
 
-  @if (question.type === 'execution' && animation && rendererMetadata) {
-    <div class="algo-question-card__body">
-      <algo-visualization-area
-        [animation]="animation"
-        [rendererMetadata]="rendererMetadata"
-        [frameIndex]="question.visualization!.frameIndex"
-        [hasPlayer]="false"
-        [showTitle]="false"
-      />
+  @if (question.type === 'execution' && animation && rendererMetadata && isGraphQuestion) {
+    <!-- Graph execution questions (DFS/Dijkstra): visualization and
+         answer options sit side-by-side in a two-column row instead of
+         stacked, same __row/__column pattern as the Compare page — the
+         graph+side-panel view is already fairly wide/short, so stacking
+         options below it left a lot of empty horizontal space unused. -->
+    <div class="algo-question-card__row">
+      <div class="algo-question-card__column">
+        <div class="algo-question-card__body algo-question-card__body--graph">
+          <div class="algo-question-card__graph-row">
+            <div class="algo-question-card__graph-main">
+              <algo-visualization-area
+                [animation]="animation"
+                [rendererMetadata]="rendererMetadata"
+                [frameIndex]="question.visualization!.frameIndex"
+                [hasPlayer]="false"
+                [showTitle]="false"
+                [includeTypes]="['Graph']"
+                [compact]="true"
+              />
+            </div>
+            <div class="algo-question-card__graph-side">
+              <div class="algo-question-card__data-structures">
+                <algo-visualization-area
+                  [animation]="animation"
+                  [rendererMetadata]="rendererMetadata"
+                  [frameIndex]="question.visualization!.frameIndex"
+                  [hasPlayer]="false"
+                  [showTitle]="false"
+                  [includeTypes]="graphSidePanelTypes"
+                  [compact]="true"
+                />
+                @if (dataStructureLegendItems.length > 0) {
+                  <algo-visualization-legend
+                    [items]="dataStructureLegendItems"
+                    class="algo-question-card__data-structures-legend"
+                  />
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        <algo-visualization-legend class="algo-question-card__legend" [items]="legendItems" />
+      </div>
+
+      <div class="algo-question-card__column">
+        <div class="algo-question-card__options">
+          @for (option of question.options; track option.id; let i = $index) {
+            <algo-option-item
+              [tag]="optionTag(i)"
+              [text]="displayOptionText(option) ?? ''"
+              [state]="optionState(option.id)"
+              [disabled]="isAnswered"
+              [explanation]="optionState(option.id) === 'correct' ? displayExplanation : null"
+              (select)="onSelect(option.id)"
+            />
+          }
+        </div>
+      </div>
     </div>
-    <algo-visualization-legend class="algo-question-card__legend" [items]="legendItems" />
-  } @else if (question.type === 'code' && question.codeLines) {
-    <div class="algo-question-card__body">
-      <algo-pseudocode-panel [lines]="question.codeLines" [blankFillText]="blankFillText" />
+  } @else {
+    @if (question.type === 'execution' && animation && rendererMetadata) {
+      <div class="algo-question-card__body">
+        <algo-visualization-area
+          [animation]="animation"
+          [rendererMetadata]="rendererMetadata"
+          [frameIndex]="question.visualization!.frameIndex"
+          [hasPlayer]="false"
+          [showTitle]="false"
+        />
+      </div>
+      <algo-visualization-legend class="algo-question-card__legend" [items]="legendItems" />
+    } @else if (question.type === 'code' && question.codeLines) {
+      <div class="algo-question-card__body">
+        <algo-pseudocode-panel [lines]="question.codeLines" [blankFillText]="blankFillText" />
+      </div>
+    }
+
+    <div class="algo-question-card__options">
+      @for (option of question.options; track option.id; let i = $index) {
+        <algo-option-item
+          [tag]="optionTag(i)"
+          [text]="displayOptionText(option) ?? ''"
+          [state]="optionState(option.id)"
+          [disabled]="isAnswered"
+          [explanation]="optionState(option.id) === 'correct' ? displayExplanation : null"
+          (select)="onSelect(option.id)"
+        />
+      }
     </div>
   }
-
-  <div class="algo-question-card__options">
-    @for (option of question.options; track option.id; let i = $index) {
-      <algo-option-item
-        [tag]="optionTag(i)"
-        [text]="option.text"
-        [state]="optionState(option.id)"
-        [disabled]="isAnswered"
-        [explanation]="optionState(option.id) === 'correct' ? question.explanation : null"
-        (select)="onSelect(option.id)"
-      />
-    }
-  </div>
 </article>

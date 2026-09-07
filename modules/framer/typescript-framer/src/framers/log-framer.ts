@@ -14,7 +14,9 @@ export class LogFramer implements IFramer {
     this._id = id;
     this._log = {
       name: param.name,
+      title: null,
       message: param.message ?? null,
+      line: null,
     };
   }
 
@@ -31,12 +33,16 @@ export class LogFramer implements IFramer {
     }
   }
 
-  private setMessage({ message }: LogSetMessageParams): void {
+  private setMessage({ title, message, line }: LogSetMessageParams): void {
+    this._log.title = title ?? null;
     this._log.message = message;
+    this._log.line = line ?? null;
   }
 
   private clearMessage(): void {
+    this._log.title = null;
     this._log.message = null;
+    this._log.line = null;
   }
 
   public getFrameState(): FrameState<LogState> {

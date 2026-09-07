@@ -7,6 +7,7 @@ import {
   LogRecorder,
   RecorderEngine,
 } from '@algorithm-visualizer/typescript-recorder';
+import type { Language } from '../core/services/language.service';
 
 type Graph = Record<string, string[]>;
 
@@ -19,15 +20,15 @@ type Graph = Record<string, string[]>;
 //   6        mark node visited
 //   7        push node neighbors onto stack
 //   8    return visited
-export function dfsVisualization(graph: Graph) {
+export function dfsVisualization(graph: Graph, language: Language = 'en') {
   const recorderEngine = new RecorderEngine();
 
   recorderEngine.beginGroup();
 
   const logInitParam: LogInitParams = {
     name: 'Log',
-    message: 'Initial State',
-    title: 'Getting started',
+    message: language === 'fa' ? 'وضعیت اولیه' : 'Initial State',
+    title: language === 'fa' ? 'شروع کار' : 'Getting started',
     line: 2,
   };
   const logRecorder = new LogRecorder(recorderEngine, logInitParam);
@@ -53,15 +54,18 @@ export function dfsVisualization(graph: Graph) {
   const discoveredVia = new Map<string, string>();
 
   const array2DInitParam: Array2DInitParams = {
-    name: 'Stack',
+    name: language === 'fa' ? 'پشته' : 'Stack',
     values: [stack],
   };
   const stackRecorder = new Array2dRecorder(recorderEngine, array2DInitParam);
 
   while (stack.length > 0) {
     logRecorder.setMessage({
-      title: 'Popping the stack',
-      message: 'Popping the last node pushed onto the stack.',
+      title: language === 'fa' ? 'برداشتن از پشته' : 'Popping the stack',
+      message:
+        language === 'fa'
+          ? 'آخرین گره‌ای که به پشته اضافه شده بود برداشته می‌شود.'
+          : 'Popping the last node pushed onto the stack.',
       line: 4,
     });
     stackRecorder.clearAllRowsHighlight({});
@@ -82,8 +86,11 @@ export function dfsVisualization(graph: Graph) {
     if (!visited.has(node)) {
       visited.add(node);
       logRecorder.setMessage({
-        title: 'Visiting a node',
-        message: `Node ${node} hasn't been visited yet — marking it visited now.`,
+        title: language === 'fa' ? 'بازدید یک گره' : 'Visiting a node',
+        message:
+          language === 'fa'
+            ? `گره ${node} تا الان بازدید نشده بود — همین الان بازدیدشده علامت می‌خورد.`
+            : `Node ${node} hasn't been visited yet — marking it visited now.`,
         line: 6,
       });
       graphRecorder.setNodeHighlight({ id: node, highlightTags: ['visit'] });
@@ -111,8 +118,11 @@ export function dfsVisualization(graph: Graph) {
       recorderEngine.beginGroup();
 
       logRecorder.setMessage({
-        title: 'Queueing neighbors',
-        message: `Pushing node ${node}'s neighbors onto the stack to visit next.`,
+        title: language === 'fa' ? 'اضافه کردن همسایه‌ها' : 'Queueing neighbors',
+        message:
+          language === 'fa'
+            ? `همسایه‌های گره ${node} برای بازدید بعدی به پشته اضافه می‌شوند.`
+            : `Pushing node ${node}'s neighbors onto the stack to visit next.`,
         line: 7,
       });
       stackRecorder.pushCells({ rowIndex: 0, values: neighbors });
@@ -140,8 +150,11 @@ export function dfsVisualization(graph: Graph) {
       graphRecorder.setNodeHighlight({ id: node, highlightTags: ['closed'] });
     } else {
       logRecorder.setMessage({
-        title: 'Already visited',
-        message: `Node ${node} was already visited — skipping it.`,
+        title: language === 'fa' ? 'قبلاً بازدید شده' : 'Already visited',
+        message:
+          language === 'fa'
+            ? `گره ${node} قبلاً بازدید شده بود — رد می‌شود.`
+            : `Node ${node} was already visited — skipping it.`,
         line: 5,
       });
     }
@@ -150,8 +163,8 @@ export function dfsVisualization(graph: Graph) {
   }
 
   logRecorder.setMessage({
-    title: 'Done!',
-    message: 'Every reachable node has been visited.',
+    title: language === 'fa' ? 'تمام شد!' : 'Done!',
+    message: language === 'fa' ? 'همه‌ی گره‌های قابل‌دسترس بازدید شدند.' : 'Every reachable node has been visited.',
     line: 8,
   });
 

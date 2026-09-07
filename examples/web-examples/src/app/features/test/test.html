@@ -1,5 +1,5 @@
 <div class="algo-test-page">
-  <algo-header class="algo-test-page__header" [breadcrumbs]="breadcrumbs" />
+  <algo-header class="algo-test-page__header" [breadcrumbs]="breadcrumbs" [themeMode]="themeService.themeMode()" (themeToggle)="themeService.toggle()" [currentLanguage]="languageService.currentLanguage()" (languageToggle)="languageService.toggle()" />
 
   @if (questions.length > 0) {
   <div class="algo-test-page__body">
@@ -21,6 +21,7 @@
 
       <div class="algo-test-page__card-area">
         <algo-question-card
+          [algorithmId]="algorithmId"
           [questionNumber]="currentIndex + 1"
           [question]="currentQuestion"
           [animation]="currentAnimation"
@@ -34,7 +35,7 @@
       <div class="algo-test-page__footer">
         <button
           type="button"
-          class="algo-test-page__footer-btn"
+          class="algo-test-page__footer-btn text-body-medium-emphasized"
           [class.algo-test-page__footer-btn--primary]="isAnswered || isLastQuestion"
           [disabled]="isFinishing"
           (click)="onSkipOrNext()"

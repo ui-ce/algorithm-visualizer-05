@@ -27,6 +27,14 @@
 }
 
 .chart {
+  // Bars (and their indices) must always read left-to-right, in both
+  // languages — this is a data visualization, not reading content.
+  // Without this, the chart inherits `dir="rtl"` from <html> in
+  // Persian and `flex-direction: row` reverses which physical side
+  // index 0 renders on. Only the digit glyphs themselves should change
+  // for Persian (see formatDigits()/toLocaleDigits in chart-renderer.ts),
+  // never this ordering.
+  direction: ltr;
   display: flex;
   flex-direction: row;
   align-items: flex-end;

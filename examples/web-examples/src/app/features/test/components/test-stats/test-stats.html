@@ -1,10 +1,10 @@
 <div class="algo-test-stats">
-  @for (box of boxes; track box.label) {
+  @for (box of boxes; track box.key) {
     <div class="algo-test-stats__box">
       <span class="algo-test-stats__label text-body-medium">{{ box.label }}</span>
       <span class="algo-test-stats__value-row">
         <span class="algo-test-stats__value text-title-large" [style.color]="box.colorVar">{{ box.value }}</span>
-        @if (box.label === 'XP') {
+        @if (box.key === 'xp') {
           <img class="algo-test-stats__trophy" src="/quiz/quiz-xp-trophy.png" alt="" width="24" height="24" />
         }
       </span>

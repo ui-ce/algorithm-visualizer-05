@@ -1,4 +1,4 @@
-import type { TestQuestion } from '../../models/test.types';
+import type { TestQuestion } from '../../test.types';
 
 // Set 1 / Easy for Bubble Sort — content from the quiz-content pass,
 // reshaped into TestQuestion. frameIndex values were verified by
@@ -12,15 +12,41 @@ export const BUBBLE_SORT_EASY_SET_1: TestQuestion[] = [
     id: 'bs-easy-s1-q1',
     type: 'conceptual',
     prompt: 'What is the main goal of the Bubble Sort algorithm?',
+    // Worked example of the translation convention (see TestOption.textFa
+    // in test.types.ts): every field that has a Persian sibling field
+    // gets one, keyed to the SAME id/position — nothing else about the
+    // question object changes. Untranslated fields (or whole untranslated
+    // questions, like the rest of this file) fall back to the English
+    // text automatically in question-card.ts, so partial translation is
+    // always safe to ship.
+    promptFa: 'هدف اصلی الگوریتم مرتب‌سازی حبابی (Bubble Sort) چیست؟',
     options: [
-      { id: 'a', text: 'Sorting an array by repeatedly comparing and swapping adjacent elements' },
-      { id: 'b', text: 'Searching for a specific element in an array' },
-      { id: 'c', text: 'Splitting an array into smaller subarrays and merging them' },
-      { id: 'd', text: 'Finding the shortest path between two nodes' },
+      {
+        id: 'a',
+        text: 'Sorting an array by repeatedly comparing and swapping adjacent elements',
+        textFa: 'مرتب کردن یک آرایه با مقایسه و جابه‌جایی مکرر عناصر مجاور',
+      },
+      {
+        id: 'b',
+        text: 'Searching for a specific element in an array',
+        textFa: 'جستجوی یک عنصر مشخص در یک آرایه',
+      },
+      {
+        id: 'c',
+        text: 'Splitting an array into smaller subarrays and merging them',
+        textFa: 'تقسیم یک آرایه به زیرآرایه‌های کوچک‌تر و ادغام دوباره‌ی آن‌ها',
+      },
+      {
+        id: 'd',
+        text: 'Finding the shortest path between two nodes',
+        textFa: 'پیدا کردن کوتاه‌ترین مسیر بین دو گره',
+      },
     ],
     correctOptionId: 'a',
     explanation:
       'Bubble Sort repeatedly compares each pair of adjacent elements and swaps them if they are in the wrong order, gradually sorting the array.',
+    explanationFa:
+      'مرتب‌سازی حبابی به‌طور مکرر هر جفت از عناصر مجاور را با هم مقایسه می‌کند و اگر ترتیبشان اشتباه بود جایشان را عوض می‌کند، و به این ترتیب آرایه رفته‌رفته مرتب می‌شود.',
   },
   {
     id: 'bs-easy-s1-q3',
