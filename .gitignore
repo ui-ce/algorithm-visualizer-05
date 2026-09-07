@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+out-tsc/
+out-tsc.spec/
+bazel-out/
+
+# Angular cache
+.angular/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Testing
+coverage/
+.nyc_output/
+
+# Environment / secrets
+# .env
+# .env.local
+# src/environments/environment.local.ts
+
+# Editor / IDE
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Misc
+*.tsbuildinfo
+.history/
+*.tgz
+.pnpm-store/
