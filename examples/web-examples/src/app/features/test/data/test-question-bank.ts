@@ -1,68 +1,13 @@
 import type { TestDifficulty, TestQuestion } from '../test.types';
 import type { LevelCardData, SetRowData } from '../components/level-card/level-card.types';
-//bubble sort
-import { BUBBLE_SORT_EASY_SET_1 } from './bubble-sort/bubble-sort-easy-set1.data';
-import { BUBBLE_SORT_EASY_SET_2 } from './bubble-sort/bubble-sort-easy-set2.data';
-import { BUBBLE_SORT_EASY_SET_3 } from './bubble-sort/bubble-sort-easy-set3.data';
-import { BUBBLE_SORT_MEDIUM_SET_1 } from './bubble-sort/bubble-sort-medium-set1.data';
-import { BUBBLE_SORT_MEDIUM_SET_2 } from './bubble-sort/bubble-sort-medium-set2.data';
-import { BUBBLE_SORT_MEDIUM_SET_3 } from './bubble-sort/bubble-sort-medium-set3.data';
-import { BUBBLE_SORT_HARD_SET_1 } from './bubble-sort/bubble-sort-hard-set1.data';
-import { BUBBLE_SORT_HARD_SET_2 } from './bubble-sort/bubble-sort-hard-set2.data';
-import { BUBBLE_SORT_HARD_SET_3 } from './bubble-sort/bubble-sort-hard-set3.data';
-//bubble sort-FA
-import { BUBBLE_SORT_EASY_SET_1_FA } from './bubble-sort/bubble-sort-easy-set1.fa.data';
-import { BUBBLE_SORT_EASY_SET_2_FA } from './bubble-sort/bubble-sort-easy-set2.fa.data';
-import { BUBBLE_SORT_EASY_SET_3_FA } from './bubble-sort/bubble-sort-easy-set3.fa.data';
-import { BUBBLE_SORT_MEDIUM_SET_1_FA } from './bubble-sort/bubble-sort-medium-set1.fa.data';
-import { BUBBLE_SORT_MEDIUM_SET_2_FA } from './bubble-sort/bubble-sort-medium-set2.fa.data';
-import { BUBBLE_SORT_MEDIUM_SET_3_FA } from './bubble-sort/bubble-sort-medium-set3.fa.data';
-import { BUBBLE_SORT_HARD_SET_1_FA } from './bubble-sort/bubble-sort-hard-set1.fa.data';
-import { BUBBLE_SORT_HARD_SET_2_FA } from './bubble-sort/bubble-sort-hard-set2.fa.data';
-import { BUBBLE_SORT_HARD_SET_3_FA } from './bubble-sort/bubble-sort-hard-set3.fa.data';
+import { TestQuestionsService } from './test-questions.service';
 
-//insertion sort
-import { INSERTION_SORT_EASY_SET_1 } from './insertion-sort/insertion-sort-easy-set1.data';
-import { INSERTION_SORT_EASY_SET_2 } from './insertion-sort/insertion-sort-easy-set2.data';
-import { INSERTION_SORT_EASY_SET_3 } from './insertion-sort/insertion-sort-easy-set3.data';
-import { INSERTION_SORT_MEDIUM_SET_1 } from './insertion-sort/insertion-sort-medium-set1.data';
-import { INSERTION_SORT_MEDIUM_SET_2 } from './insertion-sort/insertion-sort-medium-set2.data';
-import { INSERTION_SORT_MEDIUM_SET_3 } from './insertion-sort/insertion-sort-medium-set3.data';
-import { INSERTION_SORT_HARD_SET_1 } from './insertion-sort/insertion-sort-hard-set1.data';
-import { INSERTION_SORT_HARD_SET_2 } from './insertion-sort/insertion-sort-hard-set2.data';
-import { INSERTION_SORT_HARD_SET_3 } from './insertion-sort/insertion-sort-hard-set3.data';
-//insertion sort-FA
-import { INSERTION_SORT_EASY_SET_1_FA } from './insertion-sort/insertion-sort-easy-set1.fa.data';
-import { INSERTION_SORT_EASY_SET_2_FA } from './insertion-sort/insertion-sort-easy-set2.fa.data';
-import { INSERTION_SORT_EASY_SET_3_FA } from './insertion-sort/insertion-sort-easy-set3.fa.data';
-import { INSERTION_SORT_MEDIUM_SET_1_FA } from './insertion-sort/insertion-sort-medium-set1.fa.data';
-import { INSERTION_SORT_MEDIUM_SET_2_FA } from './insertion-sort/insertion-sort-medium-set2.fa.data';
-import { INSERTION_SORT_MEDIUM_SET_3_FA } from './insertion-sort/insertion-sort-medium-set3.fa.data';
-import { INSERTION_SORT_HARD_SET_1_FA } from './insertion-sort/insertion-sort-hard-set1.fa.data';
-import { INSERTION_SORT_HARD_SET_2_FA } from './insertion-sort/insertion-sort-hard-set2.fa.data';
-import { INSERTION_SORT_HARD_SET_3_FA } from './insertion-sort/insertion-sort-hard-set3.fa.data';
-
-//selection sort
-import { SELECTION_SORT_EASY_SET_1 } from './selection-sort/selection-sort-easy-set1.data';
-import { SELECTION_SORT_EASY_SET_2 } from './selection-sort/selection-sort-easy-set2.data';
-import { SELECTION_SORT_EASY_SET_3 } from './selection-sort/selection-sort-easy-set3.data';
-import { SELECTION_SORT_MEDIUM_SET_1 } from './selection-sort/selection-sort-medium-set1.data';
-import { SELECTION_SORT_MEDIUM_SET_2 } from './selection-sort/selection-sort-medium-set2.data';
-import { SELECTION_SORT_MEDIUM_SET_3 } from './selection-sort/selection-sort-medium-set3.data';
-import { SELECTION_SORT_HARD_SET_1 } from './selection-sort/selection-sort-hard-set1.data';
-import { SELECTION_SORT_HARD_SET_2 } from './selection-sort/selection-sort-hard-set2.data';
-import { SELECTION_SORT_HARD_SET_3 } from './selection-sort/selection-sort-hard-set3.data';
-//selection sort-FA
-import { SELECTION_SORT_EASY_SET_1_FA } from './selection-sort/selection-sort-easy-set1.fa.data';
-import { SELECTION_SORT_EASY_SET_2_FA } from './selection-sort/selection-sort-easy-set2.fa.data';
-import { SELECTION_SORT_EASY_SET_3_FA } from './selection-sort/selection-sort-easy-set3.fa.data';
-import { SELECTION_SORT_MEDIUM_SET_1_FA } from './selection-sort/selection-sort-medium-set1.fa.data';
-import { SELECTION_SORT_MEDIUM_SET_2_FA } from './selection-sort/selection-sort-medium-set2.fa.data';
-import { SELECTION_SORT_MEDIUM_SET_3_FA } from './selection-sort/selection-sort-medium-set3.fa.data';
-import { SELECTION_SORT_HARD_SET_1_FA } from './selection-sort/selection-sort-hard-set1.fa.data';
-import { SELECTION_SORT_HARD_SET_2_FA } from './selection-sort/selection-sort-hard-set2.fa.data';
-import { SELECTION_SORT_HARD_SET_3_FA } from './selection-sort/selection-sort-hard-set3.fa.data';
-
+// bubble-sort, insertion-sort, and selection-sort used to be imported
+// here from local *.data.ts / *.fa.data.ts files, the same way merge-sort
+// still is below. They no longer are: those three are now fully DB-backed
+// (see DYNAMIC_ALGORITHM_IDS and initDynamicQuestionBank below), same as
+// dfs/dijkstra already were — see scripts/seed-bubble-insertion-selection-questions.ts
+// for the one-time copy of their old static content into public.test_questions.
 
 // //merge sort
 // import { MERGE_SORT_EASY_SET_1 } from './merge-sort/merge-sort-easy-set1.data';
@@ -85,47 +30,15 @@ import { SELECTION_SORT_HARD_SET_3_FA } from './selection-sort/selection-sort-ha
 // import { MERGE_SORT_HARD_SET_2_FA } from './merge-sort/merge-sort-hard-set2.fa.data';
 // import { MERGE_SORT_HARD_SET_3_FA } from './merge-sort/merge-sort-hard-set3.fa.data';
 
-//dfs
-import { DFS_EASY_SET_1 } from './dfs/dfs-easy-set1.data';
-import { DFS_EASY_SET_2 } from './dfs/dfs-easy-set2.data';
-import { DFS_EASY_SET_3 } from './dfs/dfs-easy-set3.data';
-import { DFS_MEDIUM_SET_1 } from './dfs/dfs-medium-set1.data';
-import { DFS_MEDIUM_SET_2 } from './dfs/dfs-medium-set2.data';
-import { DFS_MEDIUM_SET_3 } from './dfs/dfs-medium-set3.data';
-import { DFS_HARD_SET_1 } from './dfs/dfs-hard-set1.data';
-import { DFS_HARD_SET_2 } from './dfs/dfs-hard-set2.data';
-import { DFS_HARD_SET_3 } from './dfs/dfs-hard-set3.data';
-// dfs_fa
-import { DFS_EASY_SET_1_FA } from './dfs/dfs-easy-set1.fa.data';
-import { DFS_EASY_SET_2_FA } from './dfs/dfs-easy-set2.fa.data';
-import { DFS_EASY_SET_3_FA } from './dfs/dfs-easy-set3.fa.data';
-import { DFS_MEDIUM_SET_1_FA } from './dfs/dfs-medium-set1.fa.data';
-import { DFS_MEDIUM_SET_2_FA } from './dfs/dfs-medium-set2.fa.data';
-import { DFS_MEDIUM_SET_3_FA } from './dfs/dfs-medium-set3.fa.data';
-import { DFS_HARD_SET_1_FA } from './dfs/dfs-hard-set1.fa.data';
-import { DFS_HARD_SET_2_FA } from './dfs/dfs-hard-set2.fa.data';
-import { DFS_HARD_SET_3_FA } from './dfs/dfs-hard-set3.fa.data';
-
-//dijkstra
-import { DIJKSTRA_EASY_SET_1 } from './dijkstra/dijkstra-easy-set1.data';
-import { DIJKSTRA_EASY_SET_2 } from './dijkstra/dijkstra-easy-set2.data';
-import { DIJKSTRA_EASY_SET_3 } from './dijkstra/dijkstra-easy-set3.data';
-import { DIJKSTRA_MEDIUM_SET_1 } from './dijkstra/dijkstra-medium-set1.data';
-import { DIJKSTRA_MEDIUM_SET_2 } from './dijkstra/dijkstra-medium-set2.data';
-import { DIJKSTRA_MEDIUM_SET_3 } from './dijkstra/dijkstra-medium-set3.data';
-import { DIJKSTRA_HARD_SET_1 } from './dijkstra/dijkstra-hard-set1.data';
-import { DIJKSTRA_HARD_SET_2 } from './dijkstra/dijkstra-hard-set2.data';
-import { DIJKSTRA_HARD_SET_3 } from './dijkstra/dijkstra-hard-set3.data';
-//dijkstra_FA
-import { DIJKSTRA_EASY_SET_1_FA } from './dijkstra/dijkstra-easy-set1.fa.data';
-import { DIJKSTRA_EASY_SET_2_FA } from './dijkstra/dijkstra-easy-set2.fa.data';
-import { DIJKSTRA_EASY_SET_3_FA } from './dijkstra/dijkstra-easy-set3.fa.data';
-import { DIJKSTRA_MEDIUM_SET_1_FA } from './dijkstra/dijkstra-medium-set1.fa.data';
-import { DIJKSTRA_MEDIUM_SET_2_FA } from './dijkstra/dijkstra-medium-set2.fa.data';
-import { DIJKSTRA_MEDIUM_SET_3_FA } from './dijkstra/dijkstra-medium-set3.fa.data';
-import { DIJKSTRA_HARD_SET_1_FA } from './dijkstra/dijkstra-hard-set1.fa.data';
-import { DIJKSTRA_HARD_SET_2_FA } from './dijkstra/dijkstra-hard-set2.fa.data';
-import { DIJKSTRA_HARD_SET_3_FA } from './dijkstra/dijkstra-hard-set3.fa.data';
+// dfs, dijkstra, bubble-sort, insertion-sort, and selection-sort are all
+// fully DB-backed now (see DYNAMIC_ALGORITHM_IDS and
+// initDynamicQuestionBank below) with no local-file fallback left in this
+// file at all — so features/test/data/dfs/, features/test/data/dijkstra/,
+// features/test/data/bubble-sort/, features/test/data/insertion-sort/, and
+// features/test/data/selection-sort/ are all safe to delete from disk
+// entirely. (Verify the ✅ console.info lines for all five algorithms,
+// both languages, in the browser console first — see
+// initDynamicQuestionBank's comment.)
 
 
 
@@ -143,75 +56,17 @@ import { DIJKSTRA_HARD_SET_3_FA } from './dijkstra/dijkstra-hard-set3.fa.data';
 // step needed to light up its Test tab — practice.ts's gating already
 // reads isTestAvailable() generically, it doesn't hardcode 'bubble-sort'.
 export const TEST_QUESTION_BANK_EN: Record<string, Partial<Record<TestDifficulty, Record<number, TestQuestion[]>>>> = {
-  'bubble-sort': {
-    easy: {
-      1: BUBBLE_SORT_EASY_SET_1,
-      2: BUBBLE_SORT_EASY_SET_2,
-      3: BUBBLE_SORT_EASY_SET_3,
-    },
-    medium: {
-      1: BUBBLE_SORT_MEDIUM_SET_1,
-      2: BUBBLE_SORT_MEDIUM_SET_2,
-      3: BUBBLE_SORT_MEDIUM_SET_3,
-    },
-    hard: {
-      1: BUBBLE_SORT_HARD_SET_1,
-      2: BUBBLE_SORT_HARD_SET_2,
-      3: BUBBLE_SORT_HARD_SET_3,
-    },
-  },
-  'selection-sort': {
-    easy: {
-      1: SELECTION_SORT_EASY_SET_1,
-      2: SELECTION_SORT_EASY_SET_2,
-      3: SELECTION_SORT_EASY_SET_3,
-    },
-    medium: {
-      1: SELECTION_SORT_MEDIUM_SET_1,
-      2: SELECTION_SORT_MEDIUM_SET_2,
-      3: SELECTION_SORT_MEDIUM_SET_3,
-    },
-    hard: {
-      1: SELECTION_SORT_HARD_SET_1,
-      2: SELECTION_SORT_HARD_SET_2,
-      3: SELECTION_SORT_HARD_SET_3,
-    },
-  },
-  'insertion-sort': { easy: { 1: INSERTION_SORT_EASY_SET_1, 2: INSERTION_SORT_EASY_SET_2, 3: INSERTION_SORT_EASY_SET_3, }, medium: { 1: INSERTION_SORT_MEDIUM_SET_1, 2: INSERTION_SORT_MEDIUM_SET_2, 3: INSERTION_SORT_MEDIUM_SET_3, }, hard: { 1: INSERTION_SORT_HARD_SET_1, 2: INSERTION_SORT_HARD_SET_2, 3: INSERTION_SORT_HARD_SET_3, }, },
-  'dijkstra': {
-    easy: {
-      1: DIJKSTRA_EASY_SET_1,
-      2: DIJKSTRA_EASY_SET_2,
-      3: DIJKSTRA_EASY_SET_3,
-    },
-    medium: {
-      1: DIJKSTRA_MEDIUM_SET_1,
-      2: DIJKSTRA_MEDIUM_SET_2,
-      3: DIJKSTRA_MEDIUM_SET_3,
-    },
-    hard: {
-      1: DIJKSTRA_HARD_SET_1,
-      2: DIJKSTRA_HARD_SET_2,
-      3: DIJKSTRA_HARD_SET_3,
-    },
-  },
-  'dfs': {
-    easy: {
-      1: DFS_EASY_SET_1,
-      2: DFS_EASY_SET_2,
-      3: DFS_EASY_SET_3,
-    },
-    medium: {
-      1: DFS_MEDIUM_SET_1,
-      2: DFS_MEDIUM_SET_2,
-      3: DFS_MEDIUM_SET_3,
-    },
-    hard: {
-      1: DFS_HARD_SET_1,
-      2: DFS_HARD_SET_2,
-      3: DFS_HARD_SET_3,
-    },
-  },
+  // Empty on purpose — all five of these are fully DB-backed now (see
+  // DYNAMIC_ALGORITHM_IDS below). The keys stay present so
+  // isTestAvailable(...) is true immediately at app start rather than
+  // only after the Supabase fetch resolves; initDynamicQuestionBank
+  // replaces each entry with the real data as soon as that fetch
+  // completes.
+  'bubble-sort': {},
+  'selection-sort': {},
+  'insertion-sort': {},
+  'dijkstra': {},
+  'dfs': {},
 };
 
 
@@ -219,92 +74,95 @@ export const TEST_QUESTION_BANK_FA: Record<
   string,
   Partial<Record<TestDifficulty, Record<number, TestQuestion[]>>>
 > = {
-  'bubble-sort': {
-    easy: {
-      1: BUBBLE_SORT_EASY_SET_1_FA,
-      2: BUBBLE_SORT_EASY_SET_2_FA,
-      3: BUBBLE_SORT_EASY_SET_3_FA,
-    },
-    medium: {
-      1: BUBBLE_SORT_MEDIUM_SET_1_FA,
-      2: BUBBLE_SORT_MEDIUM_SET_2_FA,
-      3: BUBBLE_SORT_MEDIUM_SET_3_FA,
-    },
-    hard: {
-      1: BUBBLE_SORT_HARD_SET_1_FA,
-      2: BUBBLE_SORT_HARD_SET_2_FA,
-      3: BUBBLE_SORT_HARD_SET_3_FA,
-    },
-  },
-  'selection-sort': { 
-    easy: { 
-    1: SELECTION_SORT_EASY_SET_1_FA, 2: SELECTION_SORT_EASY_SET_2_FA, 3: SELECTION_SORT_EASY_SET_3_FA, 
-  }, 
-  medium: {
-     1: SELECTION_SORT_MEDIUM_SET_1_FA, 2: SELECTION_SORT_MEDIUM_SET_2_FA, 3: SELECTION_SORT_MEDIUM_SET_3_FA, 
-    },
-     hard: 
-     { 1: SELECTION_SORT_HARD_SET_1_FA,
-       2: SELECTION_SORT_HARD_SET_2_FA, 3: SELECTION_SORT_HARD_SET_3_FA, 
-      }, 
-    }, 
-    'insertion-sort': {
-    easy: {
-       1: INSERTION_SORT_EASY_SET_1_FA, 2: INSERTION_SORT_EASY_SET_2_FA, 3: INSERTION_SORT_EASY_SET_3_FA, 
-      },
-       medium: { 
-      1: INSERTION_SORT_MEDIUM_SET_1_FA, 2: INSERTION_SORT_MEDIUM_SET_2_FA, 3: INSERTION_SORT_MEDIUM_SET_3_FA,
-    }, 
-    hard: {
-       1: INSERTION_SORT_HARD_SET_1_FA, 2: INSERTION_SORT_HARD_SET_2_FA, 3: INSERTION_SORT_HARD_SET_3_FA, 
-    },
-  },
-   'dijkstra': {
-    easy: {
-      1: DIJKSTRA_EASY_SET_1_FA,
-      2: DIJKSTRA_EASY_SET_2_FA,
-      3: DIJKSTRA_EASY_SET_3_FA,
-    },
-    medium: {
-      1: DIJKSTRA_MEDIUM_SET_1_FA,
-      2: DIJKSTRA_MEDIUM_SET_2_FA,
-      3: DIJKSTRA_MEDIUM_SET_3_FA,
-    },
-    hard: {
-      1: DIJKSTRA_HARD_SET_1_FA,
-      2: DIJKSTRA_HARD_SET_2_FA,
-      3: DIJKSTRA_HARD_SET_3_FA,
-    },
-  },
-    'dfs': {
-      easy: {
-        1: DFS_EASY_SET_1_FA,
-        2: DFS_EASY_SET_2_FA,
-        3: DFS_EASY_SET_3_FA,
-      },
-      medium: {
-        1: DFS_MEDIUM_SET_1_FA,
-        2: DFS_MEDIUM_SET_2_FA,
-        3: DFS_MEDIUM_SET_3_FA,
-      },
-      hard: {
-        1: DFS_HARD_SET_1_FA,
-        2: DFS_HARD_SET_2_FA,
-        3: DFS_HARD_SET_3_FA,
-      },
-    },
-  };
+  // Same as the EN bank above — empty placeholders, real content
+  // comes from initDynamicQuestionBank.
+  'bubble-sort': {},
+  'selection-sort': {},
+  'insertion-sort': {},
+  'dijkstra': {},
+  'dfs': {},
+};
 
   // Question count per difficulty — matches docs/database/schema.sql's
   // comment ("fixed-size (5/7/10 items)") and the MoSCoW doc's level-card
   // spec (Easy: 3 sets × 5 questions, Medium: 3 sets × 7, Hard: 3 sets ×
-  // 10). Level-card and TestPlan both read this instead of a hardcoded
-  // "5 Questions per Set" that used to show on every difficulty.
+  // 10). Used only as a fallback for sets that don't have real content
+  // yet (still-locked placeholder sets) — buildLevelPlan below now
+  // reads each *generated* set's real question count straight off its
+  // array length instead of assuming every set in a difficulty matches
+  // this number, since a DB-backed algorithm's sets aren't guaranteed
+  // to all be the same size.
   export const QUESTIONS_PER_SET: Record<TestDifficulty, number> = {
     easy: 5,
     medium: 7,
     hard: 10,
   };
+
+// Algorithms whose question bank is DB-backed (see
+// docs/database/schema-questions.sql and the admin panel at
+// /admin/questions) instead of the static *.data.ts files above. Add an
+// algorithm id here once its questions have been migrated in — the rest
+// of this file, and every page that reads it (Test, TestPlan, Practice's
+// star row), needs no further changes when that list grows.
+//
+// All 5 algorithms that currently have any test content are listed here:
+// dfs/dijkstra were migrated first, bubble-sort/insertion-sort/selection-sort
+// were migrated by scripts/seed-bubble-insertion-selection-questions.ts —
+// see that file's header comment before deleting the old *.data.ts files
+// under ./bubble-sort/, ./insertion-sort/, ./selection-sort/.
+export const DYNAMIC_ALGORITHM_IDS = ['dfs', 'dijkstra', 'bubble-sort', 'insertion-sort', 'selection-sort'] as const;
+
+// Called once at app start (see the APP_INITIALIZER in app.config.ts).
+// For each DB-backed algorithm, replaces its entry in
+// TEST_QUESTION_BANK_EN/_FA with what's actually in the database —
+// mutating the same objects every other function in this file already
+// reads from, so isTestAvailable/getQuestionSet/buildLevelPlan/etc. stay
+// plain synchronous functions and nothing downstream (Test, TestPlan,
+// Practice, LevelCard) needs to change to handle a Promise or a loading
+// state. If a fetch fails or the table is empty (e.g. schema-questions.sql
+// hasn't been run yet, or that algorithm has no rows in it yet), that
+// algorithm's static data is left exactly as it was — this can never
+// make a previously-working test disappear.
+export async function initDynamicQuestionBank(): Promise<void> {
+  const service = new TestQuestionsService();
+
+  await Promise.all(
+    DYNAMIC_ALGORITHM_IDS.map(async (algorithmId) => {
+      const [enBank, faBank] = await Promise.all([
+        service.fetchBank(algorithmId, 'en'),
+        service.fetchBank(algorithmId, 'fa'),
+      ]);
+
+      // Deliberately loud/unmissable — this is the one place you can
+      // check, from the browser's DevTools console (F12 → Console tab,
+      // reload the page), whether a given algorithm's questions
+      // actually came from Supabase this run or fell back to whatever
+      // static data still exists for it. A ✅ line means every question
+      // that algorithm's Test page shows this session came from the
+      // database, full stop — nothing from a local file was used.
+      if (enBank) {
+        TEST_QUESTION_BANK_EN[algorithmId] = enBank;
+        console.info(`[question-bank] ✅ ${algorithmId}/en loaded from Supabase (${countQuestions(enBank)} questions).`);
+      } else {
+        console.warn(`[question-bank] ⚠️ ${algorithmId}/en: Supabase fetch returned nothing — using static fallback data, if any.`);
+      }
+
+      if (faBank) {
+        TEST_QUESTION_BANK_FA[algorithmId] = faBank;
+        console.info(`[question-bank] ✅ ${algorithmId}/fa loaded from Supabase (${countQuestions(faBank)} questions).`);
+      } else {
+        console.warn(`[question-bank] ⚠️ ${algorithmId}/fa: Supabase fetch returned nothing — using static fallback data, if any.`);
+      }
+    }),
+  );
+}
+
+function countQuestions(bank: Partial<Record<TestDifficulty, Record<number, TestQuestion[]>>>): number {
+  return Object.values(bank).reduce(
+    (total, sets) => total + Object.values(sets ?? {}).reduce((setTotal, questions) => setTotal + questions.length, 0),
+    0,
+  );
+}
 
 export function isTestAvailable(algorithmId: string): boolean {
   return algorithmId in TEST_QUESTION_BANK_EN;
@@ -409,7 +267,8 @@ export function buildLevelPlan(
       const hasContent = !!bank[difficulty]?.[setNumber];
       const passed = hasContent && isSetPassed(difficulty, setNumber);
       const reachable = levelUnlocked && hasContent && previousSetPassed;
-      sets.push({ setNumber, state: passed ? 'done' : reachable ? 'current' : 'locked' });
+      const questionCount = bank[difficulty]?.[setNumber]?.length ?? QUESTIONS_PER_SET[difficulty];
+      sets.push({ setNumber, state: passed ? 'done' : reachable ? 'current' : 'locked', questionCount });
       previousSetPassed = passed;
     }
 

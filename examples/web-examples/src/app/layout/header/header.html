@@ -34,6 +34,14 @@
   }
 
   <div class="algo-header__right">
+    <!-- Always visible (not gated behind showThemeToggle/showLanguageToggle
+         like the two below) so there's one persistent, findable entry
+         point to the Custom Algorithm page from anywhere in the app. -->
+    <button type="button" class="algo-header__icon-button" routerLink="/custom-algorithm"
+      [attr.aria-label]="'customAlgorithm.title' | translate">
+      <svg solarCodeSquareLinear [size]="18"></svg>
+    </button>
+
     @if (showThemeToggle) {
     <button type="button" class="algo-header__icon-button" [attr.aria-label]="
           themeMode === 'dark' ? ('header.themeToggle.toLight' | translate) : ('header.themeToggle.toDark' | translate)

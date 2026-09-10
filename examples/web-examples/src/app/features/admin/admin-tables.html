@@ -1,0 +1,73 @@
+<div class="algo-admin-page">
+  <h1 class="algo-admin-page__title text-headline-large-emphasized">Tables</h1>
+  <p class="algo-admin-page__subtitle text-body-medium">
+    Browse any table's raw rows with equality filters. For joins, aggregates, or sorting, use the SQL tab instead.
+  </p>
+
+  <div class="algo-admin-page__sql-layout">
+    <div class="algo-admin-page__row">
+      <label class="algo-admin-page__field">
+        <span class="text-label-medium">Table</span>
+        <input class="algo-admin-page__input" list="knownTablesList" [(ngModel)]="tableName" name="tableName" (change)="onTableChange()" />
+        <datalist id="knownTablesList">
+          @for (t of knownTables; track t) {
+          <option [value]="t"></option>
+          }
+        </datalist>
+      </label>
+    </div>
+
+    <div class="algo-admin-page__options">
+      <span class="text-label-medium">Filters (column = value)</span>
+      @for (filter of filters; track $index) {
+      <div class="algo-admin-page__option-row">
+        <input class="algo-admin-page__input" placeholder="column" [(ngModel)]="filter.column" [name]="'filterCol' + $index" />
+        <input class="algo-admin-page__input" placeholder="value" [(ngModel)]="filter.value" [name]="'filterVal' + $index" />
+        <button type="button" class="algo-admin-page__icon-btn" (click)="removeFilter($index)" aria-label="Remove filter">✕</button>
+      </div>
+      }
+      <algo-button variant="outline" size="medium" text="+ Add filter" (click)="addFilter()" />
+    </div>
+
+    <div class="algo-admin-page__form-actions">
+      <algo-button variant="primary" [text]="isLoading ? 'Loading…' : 'Load'" [disabled]="isLoading" (click)="onTableChange()" />
+      @if (totalCount !== null) {
+      <span class="text-label-medium algo-admin-page__sql-meta">
+        {{ totalCount }} total row(s) — page {{ pageIndex + 1 }}
+      </span>
+      }
+    </div>
+
+    @if (error) {
+    <p class="algo-admin-page__message algo-admin-page__message--error text-body-medium">{{ error }}</p>
+    }
+
+    @if (columns.length > 0) {
+    <div class="algo-admin-page__sql-table-wrap">
+      <table class="algo-admin-page__sql-table">
+        <thead>
+          <tr>
+            @for (col of columns; track col) {
+            <th class="text-label-medium">{{ col }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of rows; track $index) {
+          <tr>
+            @for (col of columns; track col) {
+            <td class="text-body-medium">{{ cell(row, col) }}</td>
+            }
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="algo-admin-page__form-actions">
+      <algo-button variant="outline" size="medium" text="◂ Prev" [disabled]="pageIndex === 0" (click)="prevPage()" />
+      <algo-button variant="outline" size="medium" text="Next ▸" (click)="nextPage()" />
+    </div>
+    }
+  </div>
+</div>

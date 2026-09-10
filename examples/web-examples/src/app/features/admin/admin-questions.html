@@ -1,0 +1,236 @@
+<div class="algo-admin-page">
+  <h1 class="algo-admin-page__title text-headline-large-emphasized">Test Question Admin</h1>
+  <p class="algo-admin-page__subtitle text-body-medium">
+    Add questions straight to the database instead of a static file — currently only DFS and Dijkstra are read
+    live by the Test feature (see DYNAMIC_ALGORITHM_IDS in test-question-bank.ts).
+  </p>
+
+  <div class="algo-admin-page__layout">
+    <!-- ---- Add / edit question form ---- -->
+    <form class="algo-admin-page__form" (submit)="$event.preventDefault(); onSubmit()">
+      <div class="algo-admin-page__row">
+        <label class="algo-admin-page__field">
+          <span class="text-label-medium">Algorithm</span>
+          <select class="algo-admin-page__select" [(ngModel)]="algorithmId" name="algorithmId" (ngModelChange)="onAlgorithmChange()">
+            @for (id of algorithmOptions; track id) {
+            <option [value]="id">{{ id }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="algo-admin-page__field">
+          <span class="text-label-medium">Difficulty</span>
+          <select class="algo-admin-page__select" [(ngModel)]="difficulty" name="difficulty">
+            @for (d of difficultyOptions; track d) {
+            <option [value]="d">{{ d }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="algo-admin-page__field">
+          <span class="text-label-medium">Set #</span>
+          <input class="algo-admin-page__input" type="number" min="1" [(ngModel)]="setNumber" name="setNumber" />
+        </label>
+      </div>
+
+      <div class="algo-admin-page__row">
+        <label class="algo-admin-page__field">
+          <span class="text-label-medium">Language</span>
+          <select class="algo-admin-page__select" [(ngModel)]="language" name="language">
+            <option value="en">English</option>
+            <option value="fa">فارسی</option>
+          </select>
+        </label>
+
+        <label class="algo-admin-page__field">
+          <span class="text-label-medium">Position in set</span>
+          <input class="algo-admin-page__input" type="number" min="1" [(ngModel)]="position" name="position" />
+        </label>
+
+        <label class="algo-admin-page__field">
+          <span class="text-label-medium">Type</span>
+          <select class="algo-admin-page__select" [(ngModel)]="type" name="type">
+            @for (t of typeOptions; track t) {
+            <option [value]="t">{{ t }}</option>
+            }
+          </select>
+        </label>
+      </div>
+
+      <label class="algo-admin-page__field algo-admin-page__field--full">
+        <span class="text-label-medium">Prompt</span>
+        <textarea class="algo-admin-page__textarea" rows="2" [(ngModel)]="prompt" name="prompt"></textarea>
+      </label>
+
+      <div class="algo-admin-page__options">
+        <span class="text-label-medium">Options</span>
+        @for (option of options; track $index) {
+        <div class="algo-admin-page__option-row">
+          <algo-text-field class="algo-admin-page__option-id" placeholder="id (a, b, c…)" [value]="option.id"
+            (valueChange)="onOptionIdChange($index, $event)" />
+          <algo-text-field class="algo-admin-page__option-text" placeholder="Option text" [value]="option.text"
+            (valueChange)="onOptionTextChange($index, $event)" />
+          <button type="button" class="algo-admin-page__icon-btn" (click)="removeOption($index)" aria-label="Remove option">✕</button>
+        </div>
+        }
+        <algo-button variant="outline" size="medium" text="+ Add option" (click)="addOption()" />
+      </div>
+
+      <label class="algo-admin-page__field algo-admin-page__field--full">
+        <span class="text-label-medium">Correct option id</span>
+        <select class="algo-admin-page__select" [(ngModel)]="correctOptionId" name="correctOptionId">
+          <option value="">— choose —</option>
+          @for (option of options; track $index) {
+          <option [value]="option.id">{{ option.id }} — {{ option.text || '(empty)' }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="algo-admin-page__field algo-admin-page__field--full">
+        <span class="text-label-medium">Explanation</span>
+        <textarea class="algo-admin-page__textarea" rows="2" [(ngModel)]="explanation" name="explanation"></textarea>
+      </label>
+
+      @if (type === 'execution') {
+      <label class="algo-admin-page__field algo-admin-page__field--full">
+        <div class="algo-admin-page__json-label">
+          <span class="text-label-medium">
+            Visualization JSON — needs "frameIndex", plus either "inputArray" (sorting/searching) or "graph"
+            (graph algorithms). Values here are placeholders — get the real ones from that algorithm's own
+            Practice page (step through with Play/Next, copy what you see there).
+          </span>
+          <div class="algo-admin-page__json-actions">
+            <button type="button" class="algo-admin-page__chip" (click)="insertExample('array')">Insert array example</button>
+            <button type="button" class="algo-admin-page__chip" (click)="insertExample('graph')">Insert graph example</button>
+          </div>
+        </div>
+        <textarea class="algo-admin-page__textarea algo-admin-page__textarea--code" rows="6" [(ngModel)]="visualizationJson"
+          name="visualizationJson"></textarea>
+      </label>
+      }
+
+      @if (type === 'code') {
+      <label class="algo-admin-page__field algo-admin-page__field--full">
+        <div class="algo-admin-page__json-label">
+          <span class="text-label-medium">Code lines JSON — PseudocodeLine[], needs at least one "blank" token.</span>
+          <div class="algo-admin-page__json-actions">
+            <button type="button" class="algo-admin-page__chip" (click)="insertExample('code')">Insert example</button>
+          </div>
+        </div>
+        <textarea class="algo-admin-page__textarea algo-admin-page__textarea--code" rows="8" [(ngModel)]="codeLinesJson"
+          name="codeLinesJson"></textarea>
+      </label>
+      }
+
+      @if (formError) {
+      <p class="algo-admin-page__message algo-admin-page__message--error text-body-medium">{{ formError }}</p>
+      }
+      @if (formSuccess) {
+      <p class="algo-admin-page__message algo-admin-page__message--success text-body-medium">{{ formSuccess }}</p>
+      }
+
+      <div class="algo-admin-page__form-actions">
+        <algo-button variant="primary" [text]="isSubmitting ? 'Saving…' : (editingId ? 'Save changes' : 'Add question')"
+          [disabled]="isSubmitting" (click)="onSubmit()" />
+        @if (editingId) {
+        <algo-button variant="outline" text="Cancel edit" (click)="cancelEdit()" />
+        }
+      </div>
+    </form>
+
+    <!-- ---- Existing questions for the selected algorithm ---- -->
+    <div class="algo-admin-page__list">
+      <span class="text-label-medium">Questions already in the database for "{{ algorithmId }}"</span>
+
+      <div class="algo-admin-page__row algo-admin-page__filters">
+        <label class="algo-admin-page__field">
+          <span class="text-label-medium">Difficulty</span>
+          <select class="algo-admin-page__select" [(ngModel)]="filterDifficulty" name="filterDifficulty">
+            <option value="all">All</option>
+            @for (d of difficultyOptions; track d) {
+            <option [value]="d">{{ d }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="algo-admin-page__field">
+          <span class="text-label-medium">Set</span>
+          <select class="algo-admin-page__select" [(ngModel)]="filterSetNumber" name="filterSetNumber">
+            <option value="all">All</option>
+            @for (s of availableSetNumbers; track s) {
+            <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="algo-admin-page__field">
+          <span class="text-label-medium">Type</span>
+          <select class="algo-admin-page__select" [(ngModel)]="filterType" name="filterType">
+            <option value="all">All</option>
+            @for (t of typeOptions; track t) {
+            <option [value]="t">{{ t }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="algo-admin-page__field">
+          <span class="text-label-medium">Language</span>
+          <select class="algo-admin-page__select" [(ngModel)]="filterLanguage" name="filterLanguage">
+            <option value="all">All</option>
+            <option value="en">English</option>
+            <option value="fa">فارسی</option>
+          </select>
+        </label>
+      </div>
+
+      @if (isLoadingList) {
+      <p class="text-body-medium">Loading…</p>
+      } @else if (filteredQuestions.length === 0) {
+      <p class="text-body-medium algo-admin-page__empty">
+        @if (existingQuestions.length === 0) {
+        None yet — the form on the left adds the first one.
+        } @else {
+        No questions match these filters.
+        }
+      </p>
+      } @else {
+      @for (row of filteredQuestions; track row.id) {
+      <div class="algo-admin-page__list-row" [class.algo-admin-page__list-row--editing]="editingId === row.id">
+        <button type="button" class="algo-admin-page__list-row-toggle" (click)="toggleExpanded(row)">
+          <span class="algo-admin-page__list-row-meta text-label-medium">
+            {{ expandedId === row.id ? '▾' : '▸' }} {{ row.language }} · {{ row.difficulty }} · set
+            {{ row.setNumber }} · #{{ row.position }} · {{ row.question.type }}
+          </span>
+          <span class="algo-admin-page__list-row-prompt text-body-medium">{{ row.question.prompt }}</span>
+        </button>
+
+        <div class="algo-admin-page__list-row-buttons">
+          <button type="button" class="algo-admin-page__icon-btn" (click)="onEdit(row)" aria-label="Edit question">✎</button>
+          <button type="button" class="algo-admin-page__icon-btn" (click)="onDelete(row)" aria-label="Delete question">✕</button>
+        </div>
+
+        @if (expandedId === row.id) {
+        <div class="algo-admin-page__list-row-details">
+          <div class="algo-admin-page__list-row-options">
+            @for (opt of row.question.options; track opt.id) {
+            <div class="algo-admin-page__list-row-option text-body-medium"
+              [class.algo-admin-page__list-row-option--correct]="opt.id === row.question.correctOptionId">
+              {{ opt.id === row.question.correctOptionId ? '✓' : '·' }} {{ opt.id }}: {{ opt.text }}
+            </div>
+            }
+          </div>
+          <p class="text-body-medium algo-admin-page__list-row-explanation">{{ row.question.explanation }}</p>
+          @if (row.question.visualization) {
+          <pre class="algo-admin-page__list-row-json">{{ row.question.visualization | json }}</pre>
+          }
+          @if (row.question.codeLines) {
+          <pre class="algo-admin-page__list-row-json">{{ row.question.codeLines | json }}</pre>
+          }
+        </div>
+        }
+      </div>
+      }
+      }
+    </div>
+  </div>
+</div>

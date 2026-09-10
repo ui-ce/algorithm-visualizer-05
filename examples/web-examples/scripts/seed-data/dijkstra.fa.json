@@ -1,0 +1,4450 @@
+{
+  "easy": {
+    "1": [
+      {
+        "id": "dijkstra-easy-s1-q1",
+        "type": "conceptual",
+        "prompt": "الگوریتم دایکسترا چه مسئله‌ای را حل می‌کند؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "پیدا کردن کوتاه‌ترین مسیر (کمترین هزینه‌ی کل) از گره‌ی شروع به همه‌ی گره‌های دیگر در یک گراف وزن‌دار"
+          },
+          {
+            "id": "b",
+            "text": "بازدید همه‌ی گره‌های یک گراف تا جای ممکن به‌صورت عمیق، پیش از بازگشت"
+          },
+          {
+            "id": "c",
+            "text": "مرتب کردن گره‌های گراف بر اساس تعداد همسایه‌هایشان"
+          },
+          {
+            "id": "d",
+            "text": "تشخیص اینکه آیا یک گراف حلقه (Cycle) دارد یا نه"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "دایکسترا برای هر گره یک «کمترین هزینه‌ی شناخته‌شده تا الان» نگه می‌دارد و فقط وقتی آن را به‌روزرسانی می‌کند که مسیر واقعاً ارزان‌تری پیدا شود؛ همین چیزی است که تضمین می‌کند هزینه‌های نهایی، واقعاً کوتاه‌ترین فاصله‌ها باشند."
+      },
+      {
+        "id": "dijkstra-easy-s1-q2",
+        "type": "conceptual",
+        "prompt": "چرا دایکسترا همیشه ارزان‌ترین گره در مجموعه‌ی باز (Open Set) را برای پردازش بعدی انتخاب می‌کند؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "چون وقتی یک گره کمترین هزینه را در میان همه‌ی گزینه‌های باقی‌مانده داشته باشد، هیچ مسیر آینده‌ای از یک گره گران‌تر نمی‌تواند از آن بهتر شود — هزینه‌اش از الان قطعی است"
+          },
+          {
+            "id": "b",
+            "text": "چون باعث می‌شود الگوریتم گره‌ها را به ترتیب الفبایی بازدید کند"
+          },
+          {
+            "id": "c",
+            "text": "چون گره با کمترین هزینه همیشه کمترین همسایه را دارد"
+          },
+          {
+            "id": "d",
+            "text": "این یک انتخاب دلبخواهی است و روی درستی الگوریتم اثری ندارد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "این همان ایده‌ی حریصانه (Greedy) اصلی پشت دایکستراست: تا وقتی همه‌ی وزن یال‌ها نامنفی باشند، یک مسیر فقط با اضافه‌شدن یال بیشتر می‌تواند گران‌تر شود — پس ارزان‌ترین گره در مجموعه‌ی باز هیچ‌وقت با یک مسیر طولانی‌تر که بعداً کشف می‌شود، شکست نمی‌خورد."
+      },
+      {
+        "id": "dijkstra-easy-s1-q3",
+        "type": "execution",
+        "prompt": "الگوریتم همین الان شروع شده است. الان محتوای مجموعه‌ی باز و مجموعه‌ی بسته چیست؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 0
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "مجموعه‌ی باز فقط شامل گره‌ی شروع A است، و مجموعه‌ی بسته خالی است"
+          },
+          {
+            "id": "b",
+            "text": "مجموعه‌ی باز خالی است، و مجموعه‌ی بسته فقط شامل A است"
+          },
+          {
+            "id": "c",
+            "text": "هر دو مجموعه‌ی باز و بسته شامل همه‌ی گره‌های گراف هستند"
+          },
+          {
+            "id": "d",
+            "text": "مجموعه‌ی باز شامل همه‌ی گره‌ها به‌جز A است"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "خط ۲ مقدار cost[start] = 0 و open = [start] را مقداردهی اولیه می‌کند — پس در همان ابتدا، A تنها عضو مجموعه‌ی باز است و هنوز چیزی به مجموعه‌ی بسته منتقل نشده."
+      },
+      {
+        "id": "dijkstra-easy-s1-q4",
+        "type": "execution",
+        "prompt": "گره A همین الان از مجموعه‌ی باز به مجموعه‌ی بسته منتقل شده است. این چه چیزی درباره‌ی A نشان می‌دهد؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 3
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "A اکنون کاملاً پردازش‌شده در نظر گرفته می‌شود — هزینه‌ی کوتاه‌ترین مسیرش (۰) قطعی است، و الگوریتم به بررسی همسایه‌های A می‌رود"
+          },
+          {
+            "id": "b",
+            "text": "A به‌طور کامل از گراف حذف شده است"
+          },
+          {
+            "id": "c",
+            "text": "هزینه‌ی A همچنان می‌تواند بعداً در روند اجرا تغییر کند"
+          },
+          {
+            "id": "d",
+            "text": "الگوریتم تمام شده است، چون A گره‌ی شروع است"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "انتقال یک گره به مجموعه‌ی بسته (گام «بازدید یک گره» در خط ۳) آن را تمام‌شده علامت می‌زند — هزینه‌اش قطعی می‌شود، و گام بعدی بلافاصله بررسی همسایه‌هایش در خط ۶ است تا ببیند آیا عبور از A مسیر ارزان‌تری برای هرکدام فراهم می‌کند یا نه."
+      },
+      {
+        "id": "dijkstra-easy-s1-q5",
+        "type": "code",
+        "prompt": "جای خالی را در شبه‌کد دایکسترا کامل کنید:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "shift"
+          },
+          {
+            "id": "b",
+            "text": "pop"
+          },
+          {
+            "id": "c",
+            "text": "sort"
+          },
+          {
+            "id": "d",
+            "text": "push"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "چون مجموعه‌ی باز تازه بر اساس هزینه مرتب شده و ارزان‌ترین گره اول است، ()shift همان اولین عضو (کم‌هزینه‌ترین) را حذف می‌کند — درحالی‌که ()pop گران‌ترین عضو را از انتهای لیست مرتب‌شده حذف می‌کرد."
+      }
+    ],
+    "2": [
+      {
+        "id": "dijkstra-easy-s2-q1",
+        "type": "conceptual",
+        "prompt": "What does a node's \"cost\" represent while Dijkstra's algorithm is running?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The cheapest total distance found so far from the start node to that node — it can still improve until the node is closed"
+          },
+          {
+            "id": "b",
+            "text": "The node's fixed distance from the start, decided before the algorithm even begins"
+          },
+          {
+            "id": "c",
+            "text": "The number of edges connected to that node"
+          },
+          {
+            "id": "d",
+            "text": "The alphabetical position of the node's label"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Cost starts as a placeholder (conceptually infinite for every node except the start) and only ever gets lower, each time a cheaper path through some other node is discovered — line 9 is the only place it changes."
+      },
+      {
+        "id": "dijkstra-easy-s2-q2",
+        "type": "conceptual",
+        "prompt": "What is the difference between the \"open set\" and the \"closed set\"?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The open set holds nodes that have been discovered but not yet fully processed; the closed set holds nodes whose shortest cost is already final"
+          },
+          {
+            "id": "b",
+            "text": "The open set holds nodes with even-numbered costs, the closed set holds nodes with odd-numbered costs"
+          },
+          {
+            "id": "c",
+            "text": "The open set is used only at the very start, and the closed set is used for everything after"
+          },
+          {
+            "id": "d",
+            "text": "There is no meaningful difference between them"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A node moves from open to closed the moment it's picked as 'current' and processed (line 4). Once closed, its cost is treated as settled, while open still holds every node that has been reached but not yet had its own neighbors checked."
+      },
+      {
+        "id": "dijkstra-easy-s2-q3",
+        "type": "execution",
+        "prompt": "A has just been visited, and the algorithm is now checking A's neighbor B. What is happening at this step?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 4
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The algorithm is comparing the cost of reaching B through A against B's current known cost, to see if this is an improvement"
+          },
+          {
+            "id": "b",
+            "text": "B is being moved directly into the closed set without any comparison"
+          },
+          {
+            "id": "c",
+            "text": "The edge between A and B is being permanently removed from the graph"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm has already decided B will be the next node visited"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This is line 7's newCost calculation, immediately followed by line 8's comparison against B's current cost — the highlighted edge marks that this specific A-to-B connection is what's being evaluated right now."
+      },
+      {
+        "id": "dijkstra-easy-s2-q4",
+        "type": "execution",
+        "prompt": "B has just been discovered as a new node and added to the open set, with its cost updated to 4 (the weight of the edge from A). What does this tell you?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 6
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Going from A directly to B costs 4, which is currently the cheapest known way to reach B — though a cheaper route could still be found later"
+          },
+          {
+            "id": "b",
+            "text": "B's cost of 4 is now permanent and can never change again"
+          },
+          {
+            "id": "c",
+            "text": "B has already been fully processed and moved to the closed set"
+          },
+          {
+            "id": "d",
+            "text": "The total shortest path from A to the destination is 4"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Since the direct edge A-B has weight 4, and A's own cost is 0, the tentative cost for B becomes 0 + 4 = 4. This value can still be lowered later if some other path to B turns out cheaper — it only becomes final once B itself is closed."
+      },
+      {
+        "id": "dijkstra-easy-s2-q5",
+        "type": "code",
+        "prompt": "Fill in the blank in Dijkstra's pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "<"
+          },
+          {
+            "id": "b",
+            "text": ">"
+          },
+          {
+            "id": "c",
+            "text": "<="
+          },
+          {
+            "id": "d",
+            "text": "=="
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A neighbor's cost should only be updated when a strictly cheaper path has been found — that's what '<' checks. Using '>' would keep only the most expensive path instead of the cheapest, which defeats the entire point of the algorithm."
+      }
+    ],
+    "3": [
+      {
+        "id": "dijkstra-easy-s3-q1",
+        "type": "conceptual",
+        "prompt": "چرا اگر گراف دارای یال با وزن منفی باشد، نمی‌توان به الگوریتم دایکسترا برای پیدا کردن کوتاه‌ترین مسیر صحیح اعتماد کرد؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "الگوریتم همیشه ابتدا گره‌ای را که در حال حاضر کمترین هزینه را دارد پردازش می‌کند و هزینه آن را نهایی در نظر می‌گیرد؛ اما یک یال منفی که بعداً بررسی شود ممکن است هزینه یک مسیر دیگر را که قبلاً بسته شده است کاهش دهد و دایکسترا دیگر برای بررسی مجدد آن مسیر برنمی‌گردد"
+          },
+          {
+            "id": "b",
+            "text": "الگوریتم برای همیشه اجرا می‌شود و هیچ‌وقت خاتمه پیدا نمی‌کند"
+          },
+          {
+            "id": "c",
+            "text": "به محض مشاهده یک عدد منفی، الگوریتم با خطا متوقف می‌شود"
+          },
+          {
+            "id": "d",
+            "text": "وزن‌های منفی در واقع هیچ مشکلی برای دایکسترا ایجاد نمی‌کنند"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "انتخاب حریصانه دایکسترا — یعنی نهایی در نظر گرفتن گره باز با کمترین هزینه — کاملاً به این فرض وابسته است که اضافه کردن یال‌های بیشتر نمی‌تواند هزینه یک مسیر را کاهش دهد. یک یال با وزن منفی این فرض را نقض می‌کند، زیرا ممکن است یک مسیر طولانی‌تر پس از اضافه شدن یک یال منفی، در نهایت ارزان‌ترین مسیر شود."
+      },
+      {
+        "id": "dijkstra-easy-s3-q2",
+        "type": "conceptual",
+        "prompt": "چه شرطی باعث می‌شود این پیاده‌سازی، پیش از خالی شدن مجموعه باز، متوقف شده و مسیر را برگرداند؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "به محض اینکه گره مقصد به عنوان \"current\" انتخاب شود؛ یعنی از مجموعه خارج شده و به عنوان ارزان‌ترین گزینه باقی‌مانده انتخاب شود"
+          },
+          {
+            "id": "b",
+            "text": "زمانی که هزینه گره مقصد برای اولین بار در نمودار هزینه گره‌ها نمایش داده شود"
+          },
+          {
+            "id": "c",
+            "text": "زمانی که مجموعه بسته شامل تمام گره‌ها به جز مقصد باشد"
+          },
+          {
+            "id": "d",
+            "text": "زمانی که مجموعه باز بیشتر از سه گره داشته باشد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "در خط ۵، بلافاصله پس از خارج شدن current به عنوان گره با کمترین هزینه باقی‌مانده، شرط 'if current == end' بررسی می‌شود. در این لحظه هزینه آن گره قطعی و نهایی است؛ بنابراین دیگر نیازی به پردازش سایر گره‌های مجموعه باز که هزینه بیشتری دارند وجود ندارد."
+      },
+      {
+        "id": "dijkstra-easy-s3-q3",
+        "type": "execution",
+        "prompt": "هزینه گره C به‌تازگی به ۲ به‌روزرسانی شده و یال A-C نیز به عنوان بخشی از بهترین مسیر شناخته‌شده فعلی مشخص شده است. این موضوع چه معنایی دارد؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 9
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "ارزان‌ترین روشی که تاکنون برای رسیدن به C پیدا شده، مستقیماً از A است و هزینه کل این مسیر برابر با ۲ است"
+          },
+          {
+            "id": "b",
+            "text": "هزینه ۲ برای C یعنی برای رسیدن به آن از دو مسیر جداگانه استفاده شده است"
+          },
+          {
+            "id": "c",
+            "text": "گره C اکنون به مجموعه بسته منتقل شده است"
+          },
+          {
+            "id": "d",
+            "text": "یال A-C اکنون به‌صورت دائمی از گراف حذف شده است"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "وزن یال A-C برابر با ۲ است و هزینه خود A برابر با ۰ است؛ بنابراین هزینه موقت C برابر با ۲ می‌شود. از آنجا که ۲ از هزینه قبلی C که هنوز تنظیم نشده بود کمتر است، این به‌روزرسانی انجام می‌شود و یال A-C به عنوان بخشی از بهترین مسیر فعلی به C مشخص می‌شود."
+      },
+      {
+        "id": "dijkstra-easy-s3-q4",
+        "type": "execution",
+        "prompt": "در این مرحله مجموعه باز در حال مرتب‌سازی است و در حال حاضر شامل C و B است. چرا C در ابتدای مجموعه قرار می‌گیرد؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 10
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "هزینه C برابر با ۲ است که از هزینه B برابر با ۴ کمتر است و مجموعه باز همیشه از کم‌هزینه‌ترین تا پرهزینه‌ترین گره مرتب می‌شود"
+          },
+          {
+            "id": "b",
+            "text": "C از نظر حروف الفبا قبل از B قرار می‌گیرد"
+          },
+          {
+            "id": "c",
+            "text": "C قبل از B به مجموعه باز اضافه شده است"
+          },
+          {
+            "id": "d",
+            "text": "ترتیب مرتب‌سازی هیچ ارتباطی با هزینه ندارد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "خط ۴ مجموعه باز را به‌صورت مشخص «بر اساس هزینه» مرتب می‌کند و سپس گره بعدی را انتخاب می‌کند. از آنجا که هزینه C برابر با ۲ و هزینه B برابر با ۴ است، C در ابتدای مجموعه قرار می‌گیرد و تضمین می‌شود که C، نه B، در مرحله بعد خارج و پردازش شود."
+      },
+      {
+        "id": "dijkstra-easy-s3-q5",
+        "type": "code",
+        "prompt": "جای خالی را در شبه‌کد الگوریتم دایکسترا پر کنید:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ", open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "0"
+          },
+          {
+            "id": "b",
+            "text": "Infinity"
+          },
+          {
+            "id": "c",
+            "text": "1"
+          },
+          {
+            "id": "d",
+            "text": "end"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "رسیدن از گره شروع به خودش هیچ هزینه‌ای ندارد؛ بنابراین cost[start] = 0 باعث می‌شود تمام محاسبات اولیه هزینه‌های موقت از مقدار پایه صحیح، یعنی صفر، شروع شوند."
+      }
+    ]
+  },
+  "medium": {
+    "1": [
+      {
+        "id": "dijkstra-medium-s1-q1",
+        "type": "conceptual",
+        "prompt": "این پیاده‌سازی، مرحله‌به‌مرحله چگونه تصمیم می‌گیرد کدام گره را از مجموعه‌ی باز در مرحله‌ی بعد پردازش کند؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "در هر تکرار، کل مجموعه‌ی باز را بر اساس هزینه مرتب می‌کند و سپس اولین ورودی (ارزان‌ترین گزینه) را حذف می‌کند"
+          },
+          {
+            "id": "b",
+            "text": "هر گرهی را که زودتر از بقیه به مجموعه‌ی باز اضافه شده حذف می‌کند و هزینه را کاملاً نادیده می‌گیرد"
+          },
+          {
+            "id": "c",
+            "text": "یک گره را به‌صورت تصادفی از مجموعه‌ی باز انتخاب می‌کند"
+          },
+          {
+            "id": "d",
+            "text": "مجموعه‌ی باز را فقط یک بار، در ابتدای الگوریتم، مرتب می‌کند"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "خط ۴ عبارت «sort open by cost» را داخل حلقه‌ی اصلی while اجرا می‌کند؛ بنابراین مجموعه‌ی باز در هر تکرار دوباره مرتب می‌شود، نه فقط یک بار. دلیلش این است که با پیشرفت الگوریتم، گره‌های جدید با هزینه‌های جدید به مجموعه‌ی باز اضافه می‌شوند."
+      },
+      {
+        "id": "dijkstra-medium-s1-q2",
+        "type": "conceptual",
+        "prompt": "وقتی یک گره به مجموعه‌ی بسته منتقل شد، آیا این پیاده‌سازی می‌تواند بعداً هزینه‌ی آن را تغییر دهد؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "از نظر فنی، کد مانع نمی‌شود که خط ۹ مقدار هزینه‌ی یک گره‌ی بسته‌شده را به‌روزرسانی کند؛ اما این به‌روزرسانی بی‌اثر است، چون گرهی که بسته شده دیگر به مجموعه‌ی باز اضافه یا دوباره پردازش نمی‌شود و بنابراین تغییری در نتیجه‌ی نهایی ایجاد نمی‌کند"
+          },
+          {
+            "id": "b",
+            "text": "خیر؛ کد قبل از مقایسه‌ی هزینه‌ها، به‌طور صریح مجموعه‌ی بسته را بررسی می‌کند"
+          },
+          {
+            "id": "c",
+            "text": "بله، و این موضوع واقعاً نتیجه‌ی نهایی را تغییر می‌دهد، چون گره‌های بسته‌شده دوباره پردازش می‌شوند"
+          },
+          {
+            "id": "d",
+            "text": "مقادیر هزینه از لحظه‌ای که یک گره ایجاد می‌شود فقط قابل خواندن هستند و دیگر تغییر نمی‌کنند"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "مقایسه‌ی خط ۸ بررسی نمی‌کند که آیا همسایه از قبل بسته شده است یا نه؛ اما از آنجا که دایکسترا تضمین می‌کند هزینه‌ی یک گره‌ی بسته‌شده، در صورتی که وزن یال‌ها نامنفی باشد، همان کوتاه‌ترین هزینه‌ی واقعی آن است، هیچ مقایسه‌ی بعدی نمی‌تواند مقدار کوچک‌تری برای آن پیدا کند. بنابراین این نقص در منطق کد باعث تولید نتیجه‌ی نادرست نمی‌شود."
+      },
+      {
+        "id": "dijkstra-medium-s1-q3",
+        "type": "conceptual",
+        "prompt": "رابطه‌ی بین الگوریتم دایکسترا و BFS چیست؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "اگر وزن تمام یال‌های گراف یکسان باشد (مثلاً ۱)، دایکسترا دقیقاً مانند BFS عمل می‌کند، چون «کمترین هزینه» در این حالت معادل «کمترین تعداد یال» می‌شود"
+          },
+          {
+            "id": "b",
+            "text": "این دو الگوریتم کاملاً مستقل از یکدیگر هستند و فقط به‌طور اتفاقی هر دو از گراف استفاده می‌کنند"
+          },
+          {
+            "id": "c",
+            "text": "دایکسترا همان BFS است که برعکس، از مقصد به سمت نقطه‌ی شروع اجرا می‌شود"
+          },
+          {
+            "id": "d",
+            "text": "BFS حالت خاصی از دایکسترا است که فقط روی درخت‌ها کار می‌کند"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "BFS مسیری با کمترین تعداد یال را پیدا می‌کند، در حالی که دایکسترا مسیری با کمترین مجموع وزن یال‌ها را پیدا می‌کند. وقتی وزن تمام یال‌ها دقیقاً یکسان باشد، کمینه‌کردن مجموع وزن و کمینه‌کردن تعداد یال‌ها به یک مسئله تبدیل می‌شوند؛ بنابراین نتیجه‌ی دو الگوریتم یکسان خواهد بود."
+      },
+      {
+        "id": "dijkstra-medium-s1-q4",
+        "type": "execution",
+        "prompt": "B به‌تازگی بازدید شده و به مجموعه‌ی بسته منتقل شده است. الگوریتم اکنون در حال بررسی همسایه‌ی B یعنی C است؛ اما C قبلاً بسته شده است. در اینجا چه اتفاقی می‌افتد؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 19
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "هزینه‌ی موقت مسیر از طریق B یعنی (۰ + ۴ + ۵ = ۹) همچنان با هزینه‌ی فعلی C یعنی ۲ مقایسه می‌شود؛ چون ۹ ارزان‌تر نیست، هیچ چیزی تغییر نمی‌کند"
+          },
+          {
+            "id": "b",
+            "text": "C بدون هیچ مقایسه‌ای کاملاً نادیده گرفته می‌شود، چون قبلاً بسته شده است"
+          },
+          {
+            "id": "c",
+            "text": "C دوباره باز می‌شود و به مجموعه‌ی باز برمی‌گردد"
+          },
+          {
+            "id": "d",
+            "text": "الگوریتم خطا می‌دهد، چون C نباید دوباره بررسی شود"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "کد برای همسایه‌های بسته‌شده رفتار ویژه‌ای در نظر نگرفته است؛ بنابراین همچنان newCost را محاسبه می‌کند و در خط ۸ آن را مقایسه می‌کند. در اینجا ۹ از هزینه‌ی فعلی C یعنی ۲ بیشتر است، بنابراین شرط مقایسه برقرار نمی‌شود و هیچ مقداری به‌روزرسانی نمی‌شود؛ دقیقاً همان چیزی که باید اتفاق بیفتد."
+      },
+      {
+        "id": "dijkstra-medium-s1-q5",
+        "type": "execution",
+        "prompt": "B به‌تازگی با همسایه‌ی خود یعنی D بررسی شده و مشخص شده که D یک گره‌ی کاملاً جدید است. هزینه‌ی D برابر ۱۴ (هزینه‌ی مسیر از طریق B) قرار داده می‌شود. آیا این هزینه‌ی نهایی D است؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 22
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "خیر؛ ۱۴ فقط بهترین هزینه‌ای است که تا این لحظه پیدا شده است. اگر قبل از بسته‌شدن خود D مسیر ارزان‌تری برای رسیدن به آن پیدا شود، این مقدار همچنان می‌تواند کاهش پیدا کند"
+          },
+          {
+            "id": "b",
+            "text": "بله؛ به محض اینکه هر هزینه‌ای برای یک گره تعیین شود، دیگر هرگز تغییر نمی‌کند"
+          },
+          {
+            "id": "c",
+            "text": "خیر، اما فقط به این دلیل که D بیش از یک همسایه دارد"
+          },
+          {
+            "id": "d",
+            "text": "غیرممکن است هزینه‌ی یک گره بیش از یک بار به‌روزرسانی شود"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "هزینه‌ی D فقط زمانی نهایی می‌شود که خود D از مجموعه‌ی باز خارج شده، به‌عنوان current انتخاب و به مجموعه‌ی بسته منتقل شود. تا قبل از آن، هزینه‌ی D می‌تواند کاهش پیدا کند. در همین گراف نیز هزینه‌ی D کمی بعد، پس از پردازش E، از ۱۴ به ۹ کاهش پیدا می‌کند."
+      },
+      {
+        "id": "dijkstra-medium-s1-q6",
+        "type": "execution",
+        "prompt": "E به‌تازگی بازدید شده است. الگوریتم همسایه‌ی E یعنی D را بررسی می‌کند؛ D از قبل هزینه‌ی ۱۴ دارد و اکنون مسیر ارزان‌تری از طریق E پیدا شده است. چه اتفاقی می‌افتد؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 27
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "هزینه‌ی D از ۱۴ به ۹ (۵ + ۴) کاهش پیدا می‌کند و بهترین مسیر شناخته‌شده برای رسیدن به D اکنون از E عبور می‌کند، نه B"
+          },
+          {
+            "id": "b",
+            "text": "هزینه‌ی D روی ۱۴ باقی می‌ماند، چون هزینه‌ی یک گره فقط یک بار می‌تواند تعیین شود"
+          },
+          {
+            "id": "c",
+            "text": "D به دلیل تغییر هزینه‌اش از مجموعه‌ی باز حذف می‌شود"
+          },
+          {
+            "id": "d",
+            "text": "هر دو هزینه‌ی قدیمی و جدید D نگه داشته می‌شوند و میانگین آن‌ها محاسبه می‌شود"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "این دقیقاً همان حالتی است که شرط خط ۸ برای آن وجود دارد: هزینه‌ی موقت مسیر از طریق E برابر است با هزینه‌ی E یعنی ۵ به‌علاوه‌ی وزن یال E-D یعنی ۴ که در مجموع ۹ می‌شود. چون ۹ از هزینه‌ی فعلی D یعنی ۱۴ کمتر است، هزینه‌ی D به‌روزرسانی می‌شود و اطلاعات مربوط به مسیر نیز تغییر می‌کند تا مسیر جدید و ارزان‌تر از طریق E را نشان دهد."
+      },
+      {
+        "id": "dijkstra-medium-s1-q7",
+        "type": "code",
+        "prompt": "جای خالی را در شبه‌کد الگوریتم دایکسترا پر کنید:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "weight"
+          },
+          {
+            "id": "b",
+            "text": "newCost"
+          },
+          {
+            "id": "c",
+            "text": "cost[neighbor]"
+          },
+          {
+            "id": "d",
+            "text": "1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "هزینه‌ی موقت رسیدن به یک همسایه برابر است با هزینه‌ی رسیدن به گره فعلی، به‌علاوه‌ی وزن یالی که این دو گره را به هم متصل می‌کند. بنابراین چیزی که در این قسمت اضافه می‌شود، وزن آن یال است."
+      }
+    ],
+    "2": [
+      {
+        "id": "dijkstra-medium-s2-q1",
+        "type": "conceptual",
+        "prompt": "پیچیدگی زمانی این پیاده‌سازی مشخص، با توجه به اینکه در هر تکرار حلقه اصلی کل مجموعه باز را دوباره مرتب می‌کند، چیست؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "به‌طور محسوسی بیشتر از مرتبه O((V + E) log V) است، زیرا مرتب‌سازی کل مجموعه باز در هر تکرار پرهزینه‌تر از استفاده از یک صف اولویت مناسب است"
+          },
+          {
+            "id": "b",
+            "text": "دقیقاً O((V + E) log V) است و با کارآمدترین پیاده‌سازی شناخته‌شده یکسان است"
+          },
+          {
+            "id": "c",
+            "text": "O(1) است، زیرا مرتب‌سازی یک آرایه کوچک عملاً آنی است"
+          },
+          {
+            "id": "d",
+            "text": "O(V) است و مشابه یک پیمایش ساده روی مجموعه باز عمل می‌کند"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "در پیاده‌سازی مناسب الگوریتم دایکسترا با استفاده از صف اولویت، هر بار درج یا استخراج یک گره هزینه‌ای لگاریتمی دارد. اما در این شبه‌کد، کل مجموعه باز در هر تکرار از ابتدا مرتب می‌شود و کاری که صف اولویت می‌تواند به‌صورت کارآمدتر انجام دهد، دوباره تکرار می‌شود. بنابراین این روش برای گراف‌های بزرگ کارایی کمتری دارد، هرچند نتیجه صحیحی تولید می‌کند."
+      },
+      {
+        "id": "dijkstra-medium-s2-q2",
+        "type": "conceptual",
+        "prompt": "یک روش رایج برای کارآمدتر کردن الگوریتم دایکسترا نسبت به مرتب‌سازی مکرر یک آرایه ساده چیست؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "استفاده از یک کمینه‌هیپ (صف اولویت) برای مجموعه باز، به‌گونه‌ای که درج یک گره جدید و استخراج ارزان‌ترین گره، به‌جای مرتب‌سازی کامل، در زمان لگاریتمی انجام شود"
+          },
+          {
+            "id": "b",
+            "text": "به‌روزرسانی هزینه هر گره را بیش از یک بار انجام ندهیم"
+          },
+          {
+            "id": "c",
+            "text": "الگوریتم را دو بار اجرا کنیم و هر نتیجه‌ای که زودتر تمام شد را نگه داریم"
+          },
+          {
+            "id": "d",
+            "text": "مجموعه بسته را به‌طور کامل حذف کنیم تا در مصرف حافظه صرفه‌جویی شود"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "کمینه‌هیپ باعث می‌شود ارزان‌ترین ورودی بدون نیاز به مرتب‌سازی مجدد کل مجموعه، با هزینه O(log V) در دسترس باشد. این بهینه‌سازی استاندارد، پیچیدگی الگوریتم دایکسترا را برای گرافی با V رأس و E یال به O((V + E) log V) می‌رساند."
+      },
+      {
+        "id": "dijkstra-medium-s2-q3",
+        "type": "conceptual",
+        "prompt": "آیا ممکن است این پیاده‌سازی دایکسترا گرهی را به مجموعه بسته منتقل کند که روی کوتاه‌ترین مسیر از مبدأ تا مقصد قرار ندارد؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "بله — الگوریتم گره‌ها را بر اساس افزایش هزینه به مجموعه بسته منتقل می‌کند تا زمانی که به مقصد برسد؛ بنابراین هر گرهی که رسیدن به آن ارزان‌تر از رسیدن به مقصد باشد، حتی اگر روی مسیر نهایی نباشد، ممکن است در این میان پردازش شود"
+          },
+          {
+            "id": "b",
+            "text": "خیر — الگوریتم دایکسترا فقط گره‌هایی را بازدید می‌کند که دقیقاً روی کوتاه‌ترین مسیر نهایی قرار دارند"
+          },
+          {
+            "id": "c",
+            "text": "این اتفاق فقط زمانی رخ می‌دهد که گراف دارای دور باشد"
+          },
+          {
+            "id": "d",
+            "text": "این اتفاق فقط زمانی رخ می‌دهد که گره مقصد بیش از یک یال ورودی داشته باشد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "در این گراف، گره B به مجموعه بسته منتقل می‌شود، در حالی که کوتاه‌ترین مسیر نهایی یعنی A-C-E-F از B عبور نمی‌کند. دلیل این است که رسیدن به B هزینه کمتری دارد و بنابراین B پیش از رسیدن الگوریتم به F پردازش می‌شود."
+      },
+      {
+        "id": "dijkstra-medium-s2-q4",
+        "type": "execution",
+        "prompt": "گره E به‌تازگی بازدید شده است و الگوریتم برای اولین بار همسایه E یعنی F را بررسی می‌کند. پیش از این، F هرگز کشف نشده است. چه اتفاقی می‌افتد؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 30
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "F با هزینه ۱۳ (۵ + ۸) به مجموعه باز اضافه می‌شود و بهترین مسیر فعلی به F از E عبور می‌کند"
+          },
+          {
+            "id": "b",
+            "text": "F بلافاصله به مجموعه بسته منتقل می‌شود، زیرا گره مقصد است"
+          },
+          {
+            "id": "c",
+            "text": "هزینه F برابر ۸ قرار داده می‌شود و هزینه خود E کاملاً نادیده گرفته می‌شود"
+          },
+          {
+            "id": "d",
+            "text": "الگوریتم به محض کشف F متوقف می‌شود و دیگر آن را پردازش نمی‌کند"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "هزینه موقت رسیدن به F از طریق E برابر است با هزینه E یعنی ۵ به‌علاوه وزن یال E-F که برابر ۸ است؛ در نتیجه هزینه برابر ۱۳ می‌شود. از آنجا که F پیش از این هیچ هزینه‌ای نداشته است، این نخستین هزینه شناخته‌شده برای F محسوب می‌شود و F برای پردازش در آینده به مجموعه باز اضافه می‌شود."
+      },
+      {
+        "id": "dijkstra-medium-s2-q5",
+        "type": "execution",
+        "prompt": "مجموعه باز اکنون شامل D با هزینه ۹ و F با هزینه ۱۳ است و قرار است مرتب شود. کدام‌یک ابتدا پردازش می‌شود و چرا؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 31
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "D، زیرا هزینه آن (۹) کمتر از هزینه F (۱۳) است و مجموعه باز همیشه از کمترین هزینه به بیشترین هزینه مرتب می‌شود"
+          },
+          {
+            "id": "b",
+            "text": "F، زیرا بعد از D کشف شده است و مجموعه باز مانند یک پشته عمل می‌کند"
+          },
+          {
+            "id": "c",
+            "text": "هر دو در یک مرحله به‌صورت هم‌زمان پردازش می‌شوند"
+          },
+          {
+            "id": "d",
+            "text": "هر کدام همسایه‌های کمتری داشته باشد، ابتدا پردازش می‌شود"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "مرتب‌سازی همیشه باعث می‌شود ورودی با کمترین هزینه در ابتدا قرار بگیرد. از آنجا که هزینه D برابر ۹ و هزینه F برابر ۱۳ است، D قبل از F قرار می‌گیرد و گره بعدی خواهد بود که از مجموعه باز خارج و پردازش می‌شود."
+      },
+      {
+        "id": "dijkstra-medium-s2-q6",
+        "type": "execution",
+        "prompt": "گره D به‌تازگی بازدید شده است و الگوریتم تنها همسایه D یعنی F را بررسی می‌کند؛ F از قبل هزینه ۱۳ دارد. در اینجا چه اتفاقی می‌افتد؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 34
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "هزینه موقت مسیر از طریق D یعنی ۲۰ = ۱۱ + ۹ با هزینه فعلی F یعنی ۱۳ مقایسه می‌شود؛ چون ۲۰ بیشتر است، هزینه F همچنان ۱۳ باقی می‌ماند"
+          },
+          {
+            "id": "b",
+            "text": "هزینه F برابر ۲۰ می‌شود، زیرا D به‌تازگی بازدید شده است"
+          },
+          {
+            "id": "c",
+            "text": "F از مجموعه باز حذف می‌شود، زیرا دو گره مختلف ادعا می‌کنند که به آن می‌رسند"
+          },
+          {
+            "id": "d",
+            "text": "الگوریتم بلافاصله تمام می‌شود، زیرا D دومین گره از مقصد است"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "این مرحله نشان می‌دهد که بررسی به‌روزرسانی فقط یک تشریفات نیست و نقش حفاظتی دارد. مسیر عبوری از D در نهایت نامناسب‌تر است؛ زیرا هزینه آن ۲۰ است، در حالی که مسیر قبلی از طریق E هزینه ۱۳ داشت. بنابراین مقایسه موجود در خط ۸ به‌درستی از به‌روزرسانی جلوگیری می‌کند و هزینه ارزان‌تر و از قبل شناخته‌شده F یعنی ۱۳ حفظ می‌شود."
+      },
+      {
+        "id": "dijkstra-medium-s2-q7",
+        "type": "code",
+        "prompt": "جای خالی را در شبه‌کد الگوریتم دایکسترا کامل کنید:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "graph[current]"
+          },
+          {
+            "id": "b",
+            "text": "open"
+          },
+          {
+            "id": "c",
+            "text": "closed"
+          },
+          {
+            "id": "d",
+            "text": "cost"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "این حلقه باید همسایه‌های خود گره فعلی، یعنی گره‌هایی را که مستقیماً به آن متصل هستند، بررسی کند. عبارت graph[current] دقیقاً برای دسترسی به همین همسایه‌ها استفاده می‌شود."
+      }
+    ],
+    "3": [
+      {
+        "id": "dijkstra-medium-s3-q1",
+        "type": "conceptual",
+        "prompt": "در این گراف، هزینه D دو بار به‌روزرسانی می‌شود؛ ابتدا به ۱۴ (از طریق B) و سپس به ۹ (از طریق E) کاهش پیدا می‌کند. چرا این اتفاق هرگز برای گرهی که بسته شده است رخ نمی‌دهد؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "زیرا یک گره فقط زمانی بسته می‌شود که ارزان‌ترین گزینه باقی‌مانده در مجموعه open باشد؛ و چون همه وزن یال‌ها غیرمنفی هستند، هیچ چیزی که بعداً کشف شود نمی‌تواند مسیر ارزان‌تری به آن گره ایجاد کند"
+          },
+          {
+            "id": "b",
+            "text": "زیرا کد صراحتاً اجازه نمی‌دهد هزینه هیچ گرهی بیش از یک بار به‌روزرسانی شود"
+          },
+          {
+            "id": "c",
+            "text": "زیرا گره‌های بسته‌شده به‌طور کامل از گراف حذف می‌شوند"
+          },
+          {
+            "id": "d",
+            "text": "این اتفاق می‌تواند بعد از بسته‌شدن نیز رخ دهد، اما الگوریتم آن را نادیده می‌گیرد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "D دقیقاً به این دلیل در مجموعه open باقی ماند که هنوز ارزان‌ترین گزینه نبود و بنابراین هزینه آن همچنان می‌توانست بهبود پیدا کند. اما وقتی گرهی مانند A، C، B یا E بسته می‌شود، ثابت شده است که هزینه آن به کمترین مقدار واقعی خود رسیده است؛ این همان تضمینی است که راهبرد حریصانه «همیشه ارزان‌ترین گره موجود در open را انتخاب کن» فراهم می‌کند."
+      },
+      {
+        "id": "dijkstra-medium-s3-q2",
+        "type": "conceptual",
+        "prompt": "Dijkstra چگونه مسیر کوتاه‌ترین واقعی را، نه فقط هزینه کل آن را، از گره شروع تا یک گره مشخص نگه می‌دارد؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "هر بار که هزینه یک گره بهبود پیدا می‌کند، ثبت می‌کند که کدام یال باعث ایجاد این هزینه کمتر شده است؛ با دنبال کردن این یال‌ها به سمت عقب، می‌توان مسیر کامل را بازسازی کرد"
+          },
+          {
+            "id": "b",
+            "text": "تمام مسیرهایی را که تاکنون بررسی شده‌اند ذخیره می‌کند و در پایان کوتاه‌ترین مسیر را انتخاب می‌کند"
+          },
+          {
+            "id": "c",
+            "text": "این کار را انجام نمی‌دهد؛ Dijkstra فقط می‌تواند هزینه کل را گزارش کند و مسیر واقعی را نمی‌تواند مشخص کند"
+          },
+          {
+            "id": "d",
+            "text": "کل الگوریتم را برای هر مسیر ممکن دوباره اجرا می‌کند"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "هر بار که خط ۹ هزینه یک همسایه را به‌روزرسانی می‌کند، در واقع مشخص می‌شود که «در حال حاضر بهترین راه رسیدن به این همسایه از طریق گره فعلی است». با دنبال کردن زنجیره ارتباط‌های «رسیدن از طریق» از یک گره به سمت عقب تا گره شروع، می‌توان مسیر کوتاه‌ترین را برای آن گره بازسازی کرد."
+      },
+      {
+        "id": "dijkstra-medium-s3-q3",
+        "type": "conceptual",
+        "prompt": "اگر این پیاده‌سازی طوری تغییر کند که مجموعه open هیچ‌وقت مرتب نشود و همیشه اولین ورودی موجود (که لزوماً ارزان‌ترین نیست) از آن خارج شود، آیا نتیجه همچنان درست خواهد بود؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "خیر — الگوریتم به این وابسته است که همیشه ارزان‌ترین گره موجود را پردازش کند؛ در غیر این صورت ممکن است گرهی قبل از پیدا شدن هزینه واقعی کوتاه‌ترین مسیرش بسته و نهایی شود"
+          },
+          {
+            "id": "b",
+            "text": "بله، نتیجه در هر صورت یکسان خواهد بود و فقط ممکن است الگوریتم کندتر شود"
+          },
+          {
+            "id": "c",
+            "text": "بله، به شرطی که گراف هیچ چرخه‌ای نداشته باشد"
+          },
+          {
+            "id": "d",
+            "text": "فقط در گراف‌هایی با بیشتر از پنج گره دچار مشکل می‌شود"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "قاعده «همیشه ارزان‌ترین گره را انتخاب کن» همان چیزی است که بسته‌شدن یک گره را ایمن می‌کند. اگر این تضمین حذف شود، ممکن است گرهی در حالی بسته شود که مسیر کوتاه‌تر واقعی آن هنوز کشف نشده و همچنان در بخش پردازش‌نشده گراف قرار داشته باشد. در نتیجه جواب نهایی اشتباه می‌شود، نه اینکه فقط الگوریتم کندتر شود."
+      },
+      {
+        "id": "dijkstra-medium-s3-q4",
+        "type": "execution",
+        "prompt": "گره C همین الان بازدید شده و الگوریتم برای اولین بار تنها همسایه آن، یعنی E، را بررسی می‌کند. چه اتفاقی می‌افتد؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 15
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "E با هزینه ۵ (۲ + ۳) به مجموعه open اضافه می‌شود و بهترین مسیر فعلی به E از طریق C است"
+          },
+          {
+            "id": "b",
+            "text": "هزینه E برابر ۳ قرار داده می‌شود؛ یعنی فقط وزن یال در نظر گرفته می‌شود و هزینه خود C نادیده گرفته می‌شود"
+          },
+          {
+            "id": "c",
+            "text": "E مستقیماً به مجموعه closed منتقل می‌شود و مجموعه open نادیده گرفته می‌شود"
+          },
+          {
+            "id": "d",
+            "text": "الگوریتم E را نادیده می‌گیرد، چون E مستقیماً به گره شروع A متصل نیست"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "هزینه موقت رسیدن به E برابر است با هزینه خود C یعنی ۲، به‌علاوه وزن یال C-E که برابر ۳ است؛ در نتیجه هزینه E برابر ۵ می‌شود. چون این اولین باری است که برای E هزینه‌ای محاسبه می‌شود، این مقدار پذیرفته شده و E به مجموعه open اضافه می‌شود و مسیر فعلی آن از طریق C است."
+      },
+      {
+        "id": "dijkstra-medium-s3-q5",
+        "type": "execution",
+        "prompt": "مجموعه open اکنون شامل B با هزینه ۴ و E با هزینه ۵ است و قرار است مرتب شود. کدام گره بعدی پردازش می‌شود؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 16
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "B، زیرا هزینه ۴ آن از هزینه ۵ مربوط به E کمتر است"
+          },
+          {
+            "id": "b",
+            "text": "E، زیرا جدیدتر از B کشف شده است"
+          },
+          {
+            "id": "c",
+            "text": "هر دو گره در یک مرحله پردازش می‌شوند"
+          },
+          {
+            "id": "d",
+            "text": "هیچ‌کدام — الگوریتم در اینجا متوقف می‌شود، زیرا دو گره با فاصله یکسان وجود دارند"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "مرتب‌سازی بر اساس هزینه همیشه مقدار کمتر را در ابتدا قرار می‌دهد؛ در اینجا هزینه B برابر ۴ و هزینه E برابر ۵ است. بنابراین B در ابتدای مجموعه قرار می‌گیرد تا از open خارج و پردازش شود، حتی اگر در نهایت مشخص شود که روی کوتاه‌ترین مسیر گراف به F قرار ندارد."
+      },
+      {
+        "id": "dijkstra-medium-s3-q6",
+        "type": "execution",
+        "prompt": "گره مقصد F همین الان به‌عنوان current انتخاب شده است؛ یعنی دقیقاً همان لحظه‌ای که شرط خط ۵ برقرار می‌شود. بعد از آن چه اتفاقی می‌افتد؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 38
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "الگوریتم حلقه اصلی را متوقف می‌کند و مسیر کوتاه‌ترین را از F به سمت عقب دنبال می‌کند و مسیر نهایی A - C - E - F را مشخص می‌کند"
+          },
+          {
+            "id": "b",
+            "text": "الگوریتم به کار خود ادامه می‌دهد تا تمام گره‌های دیگر نیز بسته شوند"
+          },
+          {
+            "id": "c",
+            "text": "هزینه F یک بار دیگر محاسبه می‌شود و سپس مسیر برگردانده می‌شود"
+          },
+          {
+            "id": "d",
+            "text": "الگوریتم کاملاً از ابتدا اجرا می‌شود، با این تفاوت که F به‌عنوان گره شروع در نظر گرفته می‌شود"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "هدف اصلی شرط خط ۵ این است که به محض تأیید مقصد به‌عنوان ارزان‌ترین گره باقی‌مانده، جستجو متوقف شود؛ زیرا دیگر نیازی به بررسی مسیرهای گران‌تر وجود ندارد. سپس مسیر با دنبال کردن ارتباط‌های «رسیدن از طریق» از F به سمت عقب بازسازی می‌شود."
+      },
+      {
+        "id": "dijkstra-medium-s3-q7",
+        "type": "code",
+        "prompt": "جای خالی را در شبه‌کد Dijkstra پر کنید:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "push"
+          },
+          {
+            "id": "b",
+            "text": "pop"
+          },
+          {
+            "id": "c",
+            "text": "shift"
+          },
+          {
+            "id": "d",
+            "text": "remove"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "وقتی هزینه یک همسایه بهبود پیدا می‌کند، آن گره باید به مجموعه open اضافه شود تا در ادامه خودش پردازش شود. تابع push() گره را به مجموعه اضافه می‌کند تا هر زمان که به ارزان‌ترین گزینه باقی‌مانده تبدیل شد، انتخاب و پردازش شود."
+      }
+    ]
+  },
+  "hard": {
+    "1": [
+      {
+        "id": "dijkstra-hard-s1-q1",
+        "type": "conceptual",
+        "prompt": "پیچیدگی زمانی الگوریتم دایکسترا چگونه با توجه به نحوه پیاده‌سازی مجموعه باز تغییر می‌کند؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "استفاده از یک آرایه ساده که در هر مرحله به مرتب‌سازی کامل یا پیمایش نیاز دارد، تقریباً پیچیدگی O(V²) ایجاد می‌کند؛ استفاده از هیپ دودویی این مقدار را به O((V + E) log V) بهبود می‌دهد؛ و هیپ فیبوناچی می‌تواند به O(E + V log V) برسد"
+          },
+          {
+            "id": "b",
+            "text": "انتخاب ساختار داده برای مجموعه باز هیچ تأثیری بر پیچیدگی الگوریتم ندارد"
+          },
+          {
+            "id": "c",
+            "text": "یک آرایه ساده همیشه از هر پیاده‌سازی مبتنی بر هیپ سریع‌تر است"
+          },
+          {
+            "id": "d",
+            "text": "پیچیدگی فقط به تعداد یال‌ها بستگی دارد و هیچ ارتباطی با نحوه پیاده‌سازی مجموعه باز ندارد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "وظیفه مجموعه باز این است که مرتباً ارزان‌ترین ورودی را پیدا و حذف کند و گره‌های تازه کشف‌شده را به آن اضافه کند؛ دقیقاً همان کاری که صف اولویت برای انجام کارآمد آن طراحی شده است. پیمایش یا مرتب‌سازی خطی در یک آرایه ساده، این عملیات را نسبت به عملیات لگاریتمی هیپ بسیار پرهزینه‌تر می‌کند، به‌خصوص با افزایش V."
+      },
+      {
+        "id": "dijkstra-hard-s1-q2",
+        "type": "conceptual",
+        "prompt": "در این پیاده‌سازی مشخص، آیا ممکن است یک گره به‌طور هم‌زمان دو بار در مجموعه باز وجود داشته باشد؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "خیر؛ کد واقعی فقط زمانی یک همسایه را به مجموعه باز اضافه می‌کند که برای اولین بار کشف شود و بررسی می‌کند که گره از قبل در مجموعه باز یا بسته نباشد؛ بهبودهای بعدی هزینه فقط مقدار هزینه ذخیره‌شده آن را به‌صورت مستقیم به‌روزرسانی می‌کنند"
+          },
+          {
+            "id": "b",
+            "text": "بله؛ دقیقاً مانند پشته DFS، هر بار که هزینه یک گره بهتر شود، آن گره دوباره به مجموعه باز اضافه می‌شود"
+          },
+          {
+            "id": "c",
+            "text": "بله، اما فقط برای گره شروع"
+          },
+          {
+            "id": "d",
+            "text": "بدون اجرای الگوریتم روی یک گراف مشخص نمی‌توان این موضوع را تعیین کرد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "این نکته‌ای است که شبه‌کد ساده‌شده در خط ۹ («open.push(neighbor)») آن را نادیده می‌گیرد؛ پیاده‌سازی واقعی قبل از اضافه کردن گره بررسی می‌کند که همسایه از قبل در مجموعه باز یا بسته نباشد، بنابراین هر گره فقط یک بار به مجموعه باز اضافه می‌شود. این موضوع تفاوت واقعی آن با پشته DFS است، زیرا در پشته DFS ممکن است یک گره چندین بار ظاهر شود."
+      },
+      {
+        "id": "dijkstra-hard-s1-q3",
+        "type": "conceptual",
+        "prompt": "الگوریتم A* چه ارتباطی با دایکسترا دارد؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "A* در واقع دایکسترا به‌علاوه یک تخمین ابتکاری از فاصله باقی‌مانده تا مقصد است که برای تعیین اولویت گره بعدی مورد استفاده قرار می‌گیرد؛ اگر این تخمین همیشه صفر باشد، A* دقیقاً مانند دایکسترا عمل می‌کند"
+          },
+          {
+            "id": "b",
+            "text": "A* و دایکسترا مسائل کاملاً متفاوت و نامرتبطی را حل می‌کنند"
+          },
+          {
+            "id": "c",
+            "text": "A* فقط روی گراف‌های بدون وزن کار می‌کند، برخلاف دایکسترا"
+          },
+          {
+            "id": "d",
+            "text": "A* فقط همان دایکسترا است که از مقصد به سمت عقب اجرا می‌شود"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A* با اضافه کردن یک تابع ابتکاری به محاسبه هزینه دایکسترا، آن را گسترش می‌دهد. این تابع تخمینی از فاصله یک گره تا مقصد ارائه می‌کند و باعث می‌شود جست‌وجو به سمت مقصد هدایت شود، به‌جای اینکه به‌صورت یکنواخت به اطراف گسترش پیدا کند. اگر این تابع ابتکاری همیشه مقدار صفر برگرداند، A* گره‌ها را دقیقاً به همان ترتیبی بررسی می‌کند که دایکسترا بررسی می‌کند."
+      },
+      {
+        "id": "dijkstra-hard-s1-q4",
+        "type": "conceptual",
+        "prompt": "چرا بستن گره‌ها به ترتیب کاملاً صعودی هزینه تضمین می‌کند که هزینه هر گره در لحظه بسته شدن صحیح است؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "اگر کوتاه‌ترین مسیر واقعی یک گره از گره‌ای عبور می‌کرد که هنوز بسته نشده است، آن گرهِ بسته‌نشده باید هزینه‌ای کمتر از گره‌ای می‌داشت که اکنون در حال بسته شدن است؛ اما این با این واقعیت که الگوریتم همیشه ارزان‌ترین گزینه باقی‌مانده را ابتدا می‌بندد در تضاد است"
+          },
+          {
+            "id": "b",
+            "text": "این فقط یک فرض است که الگوریتم بدون هیچ تضمین واقعی در نظر می‌گیرد"
+          },
+          {
+            "id": "c",
+            "text": "این روش فقط به این دلیل کار می‌کند که گراف این مثال کوچک است"
+          },
+          {
+            "id": "d",
+            "text": "ترتیب بسته شدن گره‌ها هیچ تأثیری بر درستی الگوریتم ندارد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "این اصل، هسته اثبات درستی الگوریتم دایکسترا است: با وجود وزن‌های غیرمنفی، هر مسیری که از یک گره بسته‌نشده عبور کند، حداقل به اندازه هزینه خود آن گره بسته‌نشده خواهد بود. این هزینه، اگرچه هنوز موقت است، از قبل مشخص شده و طبق ساختار الگوریتم از هزینه گره‌ای که اکنون در حال بسته شدن است کمتر نیست. بنابراین هیچ مسیر بهتری نمی‌تواند در بخش بررسی‌نشده گراف پنهان مانده باشد."
+      },
+      {
+        "id": "dijkstra-hard-s1-q5",
+        "type": "execution",
+        "prompt": "گره C به‌تازگی بازدید شده و الگوریتم هنگام بررسی همسایه آن، یال C-E را مشخص می‌کند. چرا این یال با برچسب «compare» مشخص شده است، نه «path»؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 13
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "برچسب «compare» نشان می‌دهد که یال در حال بررسی برای یافتن یک بهبود احتمالی در هزینه است؛ این یال فقط پس از موفقیت مقایسه در خط ۸ و به‌روزرسانی هزینه، به «path» تبدیل می‌شود"
+          },
+          {
+            "id": "b",
+            "text": "«compare» و «path» دقیقاً یک معنی دارند و فقط در الگوریتم‌های متفاوت استفاده می‌شوند"
+          },
+          {
+            "id": "c",
+            "text": "این یال با برچسب «compare» مشخص شده چون قرار نیست هرگز در مسیر نهایی استفاده شود"
+          },
+          {
+            "id": "d",
+            "text": "«compare» یعنی یال قبلاً به‌صورت دائمی رد شده است"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "این دو برچسب نشان‌دهنده دو مرحله متفاوت از وضعیت یک یال هستند: «compare» یعنی یال در حال حاضر در حال ارزیابی است (خطوط ۷ و ۸)، در حالی که «path» یعنی یال به عنوان بخشی از بهترین مسیر شناخته‌شده فعلی تأیید شده است؛ این اتفاق فقط زمانی رخ می‌دهد که بررسی انجام‌شده واقعاً هزینه کمتری پیدا کند (خط ۹)."
+      },
+      {
+        "id": "dijkstra-hard-s1-q6",
+        "type": "execution",
+        "prompt": "مجموعه باز اکنون فقط شامل E با هزینه ۵ است و الگوریتم آماده مرتب‌سازی و انتخاب گره بعدی است. با توجه به اینکه B با هزینه ۴ قبلاً بسته شده است، چه نتیجه‌ای می‌توان گرفت؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 24
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "E در مرحله بعد انتخاب می‌شود، چون تنها ورودی مجموعه است؛ و هزینه ۵ آن به محض بسته شدن قطعی خواهد بود، زیرا هیچ گره بسته‌نشده‌ای نمی‌تواند مسیر ارزان‌تری به E ارائه دهد"
+          },
+          {
+            "id": "b",
+            "text": "هزینه E هنوز احتمالاً بعداً کاهش پیدا می‌کند، زیرا E هنوز بسته نشده است"
+          },
+          {
+            "id": "c",
+            "text": "الگوریتم تاکنون کوتاه‌ترین مسیر را به تمام گره‌های گراف پیدا کرده است"
+          },
+          {
+            "id": "d",
+            "text": "B دوباره باز می‌شود، زیرا رسیدن به E هزینه بیشتری نسبت به B دارد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "وقتی فقط یک ورودی در مجموعه باز وجود دارد، E بدون توجه به مرتب‌سازی در مرحله بعد انتخاب می‌شود. همچنین از آنجا که تمام گره‌های دیگری که تاکنون کشف شده‌اند یا بسته شده‌اند (A، C و B) یا هزینه‌ای حداقل به اندازه آن دارند، بستن E در این مرحله طبق همان تضمین حریصانه‌ای که درستی دایکسترا را تضمین می‌کند، کاملاً ایمن است."
+      },
+      {
+        "id": "dijkstra-hard-s1-q7",
+        "type": "execution",
+        "prompt": "گره F پس از انتخاب شدن به عنوان «current» به‌تازگی به مجموعه بسته منتقل شده است. بلافاصله پس از آن چه شرطی بررسی می‌شود و چه نتیجه‌ای خواهد داشت؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 37
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "شرط خط ۵ یعنی (current == end) بررسی می‌شود و چون F گره مقصد است، شرط برقرار خواهد بود؛ در نتیجه حلقه اصلی پایان می‌یابد و بازسازی مسیر آغاز می‌شود"
+          },
+          {
+            "id": "b",
+            "text": "الگوریتم پیش از هر کار دیگری همسایه‌های F را بررسی می‌کند"
+          },
+          {
+            "id": "c",
+            "text": "الگوریتم تمام گره‌های بسته‌شده قبلی را دوباره باز می‌کند تا هزینه آن‌ها را بررسی کند"
+          },
+          {
+            "id": "d",
+            "text": "هیچ تفاوتی با زمانی که هر گره دیگری بسته می‌شود وجود ندارد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "خط ۵ بلافاصله پس از انتخاب یک گره به عنوان current اجرا می‌شود؛ حتی پیش از آنکه همسایه‌های آن بررسی شوند. هدف دقیق این شرط شناسایی همین لحظه است: گره مقصد اکنون به ارزان‌ترین گره باقی‌مانده تبدیل شده است، بنابراین هزینه آن قطعی است و جست‌وجو می‌تواند بلافاصله متوقف شود."
+      },
+      {
+        "id": "dijkstra-hard-s1-q8",
+        "type": "code",
+        "prompt": "جای خالی خط ۴ را پر کنید — گره بعدی برای پردازش چگونه از مجموعه باز حذف می‌شود؟",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "shift"
+          },
+          {
+            "id": "b",
+            "text": "pop"
+          },
+          {
+            "id": "c",
+            "text": "sort"
+          },
+          {
+            "id": "d",
+            "text": "peek"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "پس از مرتب‌سازی مجموعه باز به‌گونه‌ای که ارزان‌ترین گره در ابتدای آن قرار بگیرد، تابع shift() دقیقاً همان ورودی ابتدایی را حذف می‌کند. دو جای خالی دیگر در این قطعه کد، یعنی خطوط ۸ و ۹، در دو سؤال بعدی بررسی می‌شوند."
+      },
+      {
+        "id": "dijkstra-hard-s1-q9",
+        "type": "code",
+        "prompt": "جای خالی خط ۸ را پر کنید — چه مقایسه‌ای تعیین می‌کند که هزینه یک همسایه باید به‌روزرسانی شود؟",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "<"
+          },
+          {
+            "id": "b",
+            "text": ">"
+          },
+          {
+            "id": "c",
+            "text": "=="
+          },
+          {
+            "id": "d",
+            "text": ">="
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "فقط زمانی باید هزینه فعلی با یک مقدار جدید جایگزین شود که هزینه جدید به‌طور مشخص کمتر باشد؛ عملگر «<» دقیقاً همین شرط را نشان می‌دهد. جای خالی باقی‌مانده در این قطعه کد، یعنی خط ۹، در سؤال بعدی بررسی می‌شود."
+      },
+      {
+        "id": "dijkstra-hard-s1-q10",
+        "type": "code",
+        "prompt": "جای خالی خط ۹ را پر کنید — وقتی هزینه یک همسایه بهبود پیدا می‌کند، چه عملیاتی آن را به مجموعه باز اضافه می‌کند؟",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "push"
+          },
+          {
+            "id": "b",
+            "text": "pop"
+          },
+          {
+            "id": "c",
+            "text": "shift"
+          },
+          {
+            "id": "d",
+            "text": "sort"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "تابع push() همسایه را به مجموعه باز اضافه می‌کند تا در نهایت انتخاب و پردازش شود. در نسخه ساده‌شده شبه‌کد، این عملیات هر بار که هزینه کمتری پیدا شود انجام می‌شود؛ البته پیاده‌سازی واقعی علاوه بر آن بررسی می‌کند که گره از قبل در مجموعه باز وجود نداشته باشد، همان‌طور که در سؤال مفهومی مربوط به جلوگیری از وجود چندباره یک گره توضیح داده شد."
+      }
+    ],
+    "2": [
+      {
+        "id": "dijkstra-hard-s2-q1",
+        "type": "conceptual",
+        "prompt": "پیچیدگی زمانی بهترین حالت الگوریتم دایکسترا چیست و چه تفاوتی با بدترین حالت دارد؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "این دو حالت عملاً یکسان هستند؛ زیرا صرف‌نظر از وزن یال‌ها یا شکل گراف، همچنان هر رأس باید از مجموعه باز خارج شود و هر یال نیز باید بررسی شود، مگر اینکه جست‌وجو به دلیل رسیدن به مقصد زودتر متوقف شود"
+          },
+          {
+            "id": "b",
+            "text": "بهترین حالت O(1) است، اگر گره شروع با گره مقصد یکسان باشد"
+          },
+          {
+            "id": "c",
+            "text": "بهترین حالت همیشه O(V) و بدترین حالت همیشه O(V²) است و هیچ حالت دیگری بین این دو وجود ندارد"
+          },
+          {
+            "id": "d",
+            "text": "دایکسترا بدترین حالت معناداری ندارد، زیرا همیشه بلافاصله کوتاه‌ترین مسیر را پیدا می‌کند"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "برخلاف جست‌وجویی که ممکن است به‌صورت تصادفی خیلی زود به نتیجه برسد، دایکسترا به دلیل دنبال کردن هزینه‌ها باید گره‌ها را به ترتیب صعودی هزینه پردازش کند. تنها میان‌بُر واقعی، توقف زودهنگام در خط ۵ و زمانی است که خود مقصد به ارزان‌ترین گره باقی‌مانده تبدیل شود؛ این موضوع فقط مقدار عملیات را کاهش می‌دهد و کلاس پیچیدگی اصلی را تغییر نمی‌دهد."
+      },
+      {
+        "id": "dijkstra-hard-s2-q2",
+        "type": "conceptual",
+        "prompt": "فرض کنید یک گراف دارای یک یال با وزن منفی باشد، اما هیچ دور منفی نداشته باشد. آیا ممکن است دایکسترا همچنان پاسخ اشتباهی تولید کند، با وجود اینکه کوتاه‌ترین مسیر صحیح از نظر فنی وجود دارد؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "بله؛ دایکسترا ممکن است یک گره را خیلی زود ببندد و هزینه‌ای را نهایی کند که بعداً یک یال منفی می‌توانست آن را کاهش دهد، حتی اگر خود گراف دارای یک مسیر کوتاه‌ترین مشخص باشد"
+          },
+          {
+            "id": "b",
+            "text": "خیر؛ تا زمانی که دور منفی وجود نداشته باشد، دایکسترا همیشه کوتاه‌ترین مسیر صحیح را پیدا می‌کند"
+          },
+          {
+            "id": "c",
+            "text": "دایکسترا به محض مشاهده یک یال منفی، از اجرای الگوریتم خودداری می‌کند"
+          },
+          {
+            "id": "d",
+            "text": "وجود یک یال منفی به‌تنهایی همیشه باعث ایجاد یک دور منفی می‌شود"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "تضمین درستی دایکسترا به این فرض وابسته است که با طولانی‌تر شدن یک مسیر، هزینه آن فقط می‌تواند افزایش پیدا کند. وجود حتی یک یال منفی، صرف‌نظر از اینکه یک دور منفی کامل وجود داشته باشد یا نه، این فرض را نقض می‌کند. در نتیجه انتخاب حریصانه الگوریتم ممکن است هزینه‌ای اشتباه و بیش از مقدار واقعی را نهایی کند. به همین دلیل، در صورت وجود یال‌های منفی معمولاً از الگوریتم بلمن–فورد استفاده می‌شود."
+      },
+      {
+        "id": "dijkstra-hard-s2-q3",
+        "type": "conceptual",
+        "prompt": "اگر دایکسترا بدون تعیین گره مقصد اجرا شود و اجازه دهیم تا زمانی که مجموعه باز کاملاً خالی شود ادامه پیدا کند، چه چیزی محاسبه می‌شود؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "هزینه کوتاه‌ترین مسیر از گره شروع به تمام گره‌های قابل دسترسی دیگر در گراف، نه فقط یک مقصد مشخص"
+          },
+          {
+            "id": "b",
+            "text": "هیچ نتیجه مفیدی به دست نمی‌آید؛ دایکسترا برای تولید هر نتیجه صحیحی به یک گره مقصد نیاز دارد"
+          },
+          {
+            "id": "c",
+            "text": "طولانی‌ترین مسیر موجود در کل گراف"
+          },
+          {
+            "id": "d",
+            "text": "فقط هزینه رسیدن به گره‌ای که کمترین تعداد همسایه را دارد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "حذف شرط توقف زودهنگام خط ۵ مشکلی ایجاد نمی‌کند؛ فقط باعث می‌شود الگوریتم به بستن گره‌ها بر اساس ترتیب صعودی هزینه ادامه دهد تا مجموعه باز خالی شود. در پایان، هزینه کوتاه‌ترین مسیر و مسیر قابل بازسازی برای تمام گره‌هایی که از گره شروع قابل دسترسی هستند به‌درستی محاسبه شده است؛ دقیقاً همان چیزی که برای ایجاد نقشه فاصله از گره شروع مورد نیاز است."
+      },
+      {
+        "id": "dijkstra-hard-s2-q4",
+        "type": "conceptual",
+        "prompt": "این پیاده‌سازی یک جدول «cost» مشترک برای کل گراف نگه می‌دارد. آیا دو اجرای متفاوت دایکسترا، مثلاً از دو گره شروع متفاوت، می‌توانند با خیال راحت از همین جدول مشترک استفاده کنند؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "خیر؛ جدول هزینه فقط نسبت به یک گره شروع مشخص معنا دارد و استفاده مجدد از آن برای گره شروع دیگر باعث ترکیب شدن هزینه‌هایی می‌شود که از دو مبدأ کاملاً متفاوت محاسبه شده‌اند"
+          },
+          {
+            "id": "b",
+            "text": "بله؛ زیرا مقادیر هزینه همیشه یکسان هستند و به گره شروع بستگی ندارند"
+          },
+          {
+            "id": "c",
+            "text": "بله، به شرطی که دو گره شروع مستقیماً به یکدیگر متصل باشند"
+          },
+          {
+            "id": "d",
+            "text": "این موضوع فقط به جهت‌دار یا بدون‌جهت بودن گراف بستگی دارد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "در خط ۲ مقدار cost[start] برابر با صفر قرار می‌گیرد و تمام هزینه‌های دیگر نیز نسبت به همان گره شروع محاسبه می‌شوند. بنابراین هر اجرای جدید دایکسترا به جدول هزینه، مجموعه باز و مجموعه بسته جدید نیاز دارد. استفاده مجدد از مقادیر باقی‌مانده از اجرای قبلی با یک گره شروع متفاوت، نتایجی نامعتبر و ترکیبی از دو مبدأ مختلف ایجاد می‌کند."
+      },
+      {
+        "id": "dijkstra-hard-s2-q5",
+        "type": "execution",
+        "prompt": "این اولین مرحله اجرای الگوریتم است و هزینه گره شروع به‌تازگی تنظیم شده است. با توجه به اینکه در این لحظه هزینه تمام گره‌های دیگر از نظر مفهومی بی‌نهایت است، تنها گره‌ای که می‌تواند ابتدا انتخاب شود کدام است؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 1
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "خود A؛ زیرا تنها گره موجود در مجموعه باز است و هزینه آن برابر با ۰ بوده و به‌طور بدیهی کمترین هزینه ممکن را دارد"
+          },
+          {
+            "id": "b",
+            "text": "گرهی که بیشترین تعداد همسایه را دارد، بدون توجه به هزینه آن"
+          },
+          {
+            "id": "c",
+            "text": "F، زیرا گره مقصد است و اولویت دارد"
+          },
+          {
+            "id": "d",
+            "text": "بدون بررسی ابتدا تمام یال‌های گراف نمی‌توان این موضوع را مشخص کرد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "در این اولین مرحله، مجموعه باز دقیقاً یک ورودی دارد و آن خود گره شروع است. بنابراین مرتب‌سازی بر اساس هزینه بسیار ساده است و A حتماً انتخاب می‌شود؛ صرف‌نظر از اینکه هزینه نهایی سایر گره‌ها بعداً چه مقداری شود."
+      },
+      {
+        "id": "dijkstra-hard-s2-q6",
+        "type": "execution",
+        "prompt": "گره B به‌تازگی بسته شده است. در این مرحله، آیا الگوریتم کوتاه‌ترین مسیر واقعی از A به تمام گره‌هایی را که تاکنون کشف کرده است پیدا کرده؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 18
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "فقط برای گره‌هایی که در حال حاضر بسته شده‌اند (A، C و اکنون B)؛ گره‌های D و E هنوز باز هستند و هزینه آن‌ها (در این مرحله به‌ترتیب ۱۴ و ۵) ممکن است پیش از بسته شدن تغییر کند"
+          },
+          {
+            "id": "b",
+            "text": "بله؛ هزینه هر گره کشف‌شده از همان لحظه کشف شدن نهایی است"
+          },
+          {
+            "id": "c",
+            "text": "خیر؛ هزینه هیچ گرهی تا پایان کامل الگوریتم نهایی در نظر گرفته نمی‌شود"
+          },
+          {
+            "id": "d",
+            "text": "فقط هزینه A تضمین می‌شود که صحیح باشد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "این دقیقاً تفاوت بین «کشف‌شده» و «بسته‌شده» است: هزینه هر گره بسته‌شده به‌صورت اثبات‌شده نهایی است، اما هزینه یک گره باز فقط بهترین مقدار پیدا‌شده تا آن لحظه است. به همین دلیل هزینه D که در این مرحله ۱۴ است، هنوز می‌تواند پس از پردازش E به ۹ کاهش پیدا کند."
+      },
+      {
+        "id": "dijkstra-hard-s2-q7",
+        "type": "execution",
+        "prompt": "در لحظه‌ای که F از طریق E کشف می‌شود و با هزینه ۱۳ به مجموعه باز اضافه می‌شود، آیا تضمین شده است که ۱۳ هزینه نهایی F در زمان بسته شدن آن خواهد بود؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 29
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "هنوز نه؛ F تنها زمانی بسته می‌شود که به ارزان‌ترین گره مجموعه باز تبدیل شود. تا آن زمان ممکن است مسیر ارزان‌تری، مانند مسیری که بعداً از طریق D بررسی می‌شود، پیدا شود؛ البته در این گراف هیچ مسیری بهتر از ۱۳ پیدا نمی‌شود"
+          },
+          {
+            "id": "b",
+            "text": "بله؛ اولین هزینه‌ای که به هر گره اختصاص داده شود همیشه هزینه نهایی آن است"
+          },
+          {
+            "id": "c",
+            "text": "خیر؛ تا زمانی که تمام گره‌های گراف کشف نشده باشند، هیچ هزینه‌ای قابل اعتماد نیست"
+          },
+          {
+            "id": "d",
+            "text": "هزینه F قطعی است، زیرا F گره مقصد است"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "مقصد بودن F هیچ امتیاز ویژه‌ای برای نهایی شدن زودهنگام هزینه آن ایجاد نمی‌کند. هزینه ۱۳ برای F تا زمانی که در مجموعه باز قرار دارد فقط بهترین هزینه شناخته‌شده فعلی است. این مقدار در ادامه بدون تغییر باقی می‌ماند، زیرا مسیر D-F با هزینه ۲۰ گران‌تر است؛ اما این موضوع به وزن‌های خاص همین گراف مربوط است و صرفاً به دلیل «کشف شدن» F تضمین نشده است."
+      },
+      {
+        "id": "dijkstra-hard-s2-q8",
+        "type": "code",
+        "prompt": "جای خالی خط ۲ را پر کنید — هزینه اولیه گره شروع باید چه مقداری باشد؟",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ", open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "0"
+          },
+          {
+            "id": "b",
+            "text": "Infinity"
+          },
+          {
+            "id": "c",
+            "text": "1"
+          },
+          {
+            "id": "d",
+            "text": "undefined"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "رسیدن به نقطه شروع خود هیچ هزینه‌ای ندارد؛ بنابراین cost[start] = 0 مقدار پایه‌ای است که تمام محاسبات هزینه‌های موقت دیگر بر اساس آن انجام می‌شوند. دو جای خالی دیگر این قطعه، یعنی خطوط ۶ و ۷، در دو سؤال بعدی بررسی می‌شوند."
+      },
+      {
+        "id": "dijkstra-hard-s2-q9",
+        "type": "code",
+        "prompt": "جای خالی خط ۶ را پر کنید — فهرست همسایه‌هایی که باید بررسی شوند از کجا به دست می‌آید؟",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ", open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "graph[current]"
+          },
+          {
+            "id": "b",
+            "text": "open"
+          },
+          {
+            "id": "c",
+            "text": "cost"
+          },
+          {
+            "id": "d",
+            "text": "closed"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "الگوریتم باید ارتباطات مربوط به گره فعلی را در گراف پیدا کند. عبارت graph[current] دقیقاً فهرست همسایه‌های گره فعلی را برمی‌گرداند. جای خالی باقی‌مانده در این قطعه، یعنی خط ۷، در سؤال بعدی بررسی می‌شود."
+      },
+      {
+        "id": "dijkstra-hard-s2-q10",
+        "type": "code",
+        "prompt": "جای خالی خط ۷ را پر کنید — برای به دست آوردن هزینه موقت یک همسایه، چه مقداری به هزینه گره فعلی اضافه می‌شود؟",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ", open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "weight"
+          },
+          {
+            "id": "b",
+            "text": "newCost"
+          },
+          {
+            "id": "c",
+            "text": "end"
+          },
+          {
+            "id": "d",
+            "text": "0"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "هزینه رسیدن به یک همسایه از طریق گره فعلی برابر است با هزینه رسیدن به گره فعلی به‌علاوه وزن یال مشخصی که این دو گره را به هم متصل می‌کند. بنابراین مقدار weight همان مقداری است که برای تکمیل این محاسبه باید به هزینه گره فعلی اضافه شود."
+      }
+    ],
+    "3": [
+      {
+        "id": "dijkstra-hard-s3-q1",
+        "type": "conceptual",
+        "prompt": "اگر گره شروع و گره مقصد دقیقاً یک گره باشند، این پیاده‌سازی چه کاری انجام می‌دهد؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "در همان اولین تکرار، current به‌عنوان همان گره از open خارج می‌شود و چون current == end بلافاصله برقرار است، شرط خط ۵ اجرا شده و یک مسیر ساده با هزینه کل ۰ برگردانده می‌شود"
+          },
+          {
+            "id": "b",
+            "text": "الگوریتم برای همیشه در یک حلقه باقی می‌ماند، چون گره شروع و مقصد یکسان هستند"
+          },
+          {
+            "id": "c",
+            "text": "خطا رخ می‌دهد، چون یک گره نمی‌تواند مقصد خودش باشد"
+          },
+          {
+            "id": "d",
+            "text": "مقدار \"no path\" برگردانده می‌شود، چون یک گره نمی‌تواند به خودش مسیر داشته باشد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "در این منطق هیچ حالت ویژه‌ای برای start == end وجود ندارد؛ این حالت به‌صورت طبیعی از بررسی‌های موجود نتیجه می‌شود. مجموعه open با [start] شروع می‌شود، اولین pop باعث می‌شود current برابر start شود و در نتیجه با end نیز برابر باشد، بنابراین شرط خط ۵ در اولین تکرار ممکن اجرا می‌شود."
+      },
+      {
+        "id": "dijkstra-hard-s3-q2",
+        "type": "conceptual",
+        "prompt": "این پیاده‌سازی در چه شرایطی واقعاً به خط ۱۰ می‌رسد و مقدار \"no path\" را برمی‌گرداند؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "وقتی مجموعه open کاملاً خالی شود، قبل از اینکه current هرگز برابر end شود؛ یعنی مقصد از گره شروع قابل دسترسی نباشد، که معمولاً به این دلیل است که آن‌ها در بخش‌های جدا و غیرمتصل گراف قرار دارند"
+          },
+          {
+            "id": "b",
+            "text": "این اتفاق هیچ‌وقت رخ نمی‌دهد، چون در هر گرافی بین هر دو گره یک مسیر وجود دارد"
+          },
+          {
+            "id": "c",
+            "text": "هر زمان که گراف شامل یال‌هایی با وزن دقیقاً ۰ باشد، این اتفاق رخ می‌دهد"
+          },
+          {
+            "id": "d",
+            "text": "اگر گره شروع بیشتر از سه همسایه داشته باشد، این اتفاق رخ می‌دهد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "حلقه اصلی فقط تا زمانی ادامه پیدا می‌کند که چیزی در open برای پردازش وجود داشته باشد. اگر open بدون اینکه current هرگز با end برابر شود خالی شود، یعنی تمام گره‌های قابل دسترسی از start بررسی شده‌اند و end در میان آن‌ها نبوده است؛ بنابراین دو گره در مؤلفه‌های متصل متفاوتی قرار دارند."
+      },
+      {
+        "id": "dijkstra-hard-s3-q3",
+        "type": "conceptual",
+        "prompt": "استراتژی اصلی Dijkstra چه تفاوتی با Bellman-Ford دارد و چرا این تفاوت برای وزن‌های منفی اهمیت دارد؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "Dijkstra به‌صورت حریصانه ارزان‌ترین گره شناخته‌شده را نهایی می‌کند و دیگر گره‌های بسته‌شده را بررسی نمی‌کند؛ اما Bellman-Ford در عوض همه یال‌ها را به‌طور مکرر (V - 1 بار) Relax می‌کند و به این ترتیب می‌تواند تصمیم‌های قبلی را اصلاح کرده و وزن‌های منفی را به‌درستی مدیریت کند، هرچند در مجموع کندتر است"
+          },
+          {
+            "id": "b",
+            "text": "Dijkstra و Bellman-Ford دقیقاً از یک الگوریتم استفاده می‌کنند و فقط نام متغیرهایشان متفاوت است"
+          },
+          {
+            "id": "c",
+            "text": "Bellman-Ford فقط روی درخت‌ها کار می‌کند، در حالی که Dijkstra روی هر نوع گرافی کار می‌کند"
+          },
+          {
+            "id": "d",
+            "text": "Dijkstra حالت خاصی از Bellman-Ford است که فقط روی گراف‌های جهت‌دار اجرا می‌شود"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "سرعت Dijkstra دقیقاً از این فرض می‌آید که هزینه یک گره بسته‌شده برای همیشه قابل اعتماد است؛ و این موضوع به غیرمنفی بودن وزن یال‌ها وابسته است. Bellman-Ford این میان‌بُر را کنار می‌گذارد و با بررسی مکرر همه یال‌ها اجازه می‌دهد هزینه‌هایی که ممکن است بعداً به‌وسیله یک یال منفی بهتر شوند، اصلاح شوند. در نتیجه روی دسته بزرگ‌تری از گراف‌ها درست عمل می‌کند، اما پیچیدگی زمانی بالاتری دارد (O(V × E) در مقایسه با کران بسیار بهتر Dijkstra)."
+      },
+      {
+        "id": "dijkstra-hard-s3-q4",
+        "type": "conceptual",
+        "prompt": "Dijkstra یک الگوریتم حریصانه (Greedy) محسوب می‌شود. این موضوع در اینجا یعنی چه و چرا با وجود این، مانند بعضی الگوریتم‌های حریصانه دیگر، به یک جواب سراسریِ اشتباه نمی‌رسد؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "الگوریتم حریصانه در هر مرحله بهترین انتخاب محلی را انجام می‌دهد و آن را دوباره بررسی نمی‌کند؛ Dijkstra نیز همیشه ارزان‌ترین گره باقی‌مانده را می‌بندد و این انتخاب به‌طور قابل اثبات بهینه سراسری است، زیرا وزن‌های غیرمنفی تضمین می‌کنند که هیچ مسیر کشف‌شده در آینده نمی‌تواند هزینه یک گره بسته‌شده را کمتر کند"
+          },
+          {
+            "id": "b",
+            "text": "الگوریتم‌های حریصانه همیشه تضمین می‌کنند که برای هر مسئله‌ای بهترین جواب سراسری را تولید کنند"
+          },
+          {
+            "id": "c",
+            "text": "Dijkstra در واقع یک الگوریتم حریصانه نیست، با اینکه معمولاً این‌گونه توصیف می‌شود"
+          },
+          {
+            "id": "d",
+            "text": "اصطلاح \"حریصانه\" در اینجا فقط به میزان حافظه‌ای که الگوریتم استفاده می‌کند اشاره دارد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "الگوریتم‌های حریصانه به‌طور کلی می‌توانند با انتخابی که محلی خوب اما در مقیاس سراسری اشتباه است، به بن‌بست برسند. Dijkstra یکی از موارد خاصی است که استراتژی حریصانه آن به‌صورت قابل اثبات امن است و این امنیت کاملاً به فرض غیرمنفی بودن وزن یال‌ها وابسته است؛ همان فرضی که در بخش‌های دیگر این آزمون نیز مطرح شده است."
+      },
+      {
+        "id": "dijkstra-hard-s3-q5",
+        "type": "execution",
+        "prompt": "گره B همین الان به مجموعه open اضافه شده (کشف شده است)، یک مرحله قبل از اینکه هزینه آن به‌صورت تصویری در نمودار Node Costs نمایش داده شود. آیا در این لحظه مقدار واقعی هزینه B از قبل محاسبه شده است، حتی اگر نمودار هنوز ۰ را نشان دهد؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 5
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "بله — مقدار داخلی هزینه B در الگوریتم دقیقاً در همین لحظه روی ۴ تنظیم شده است؛ فقط نمودار قابل مشاهده Node Costs هنوز دوباره رسم نشده، چون این کار در یک مرحله جداگانه بلافاصله بعد از آن انجام می‌شود"
+          },
+          {
+            "id": "b",
+            "text": "خیر — هزینه B واقعاً تا زمانی که نمودار در فریم بعدی به‌روزرسانی شود وجود ندارد"
+          },
+          {
+            "id": "c",
+            "text": "نمودار و مقدار داخلی هزینه همیشه دقیقاً در یک مرحله و بدون هیچ تأخیری به‌روزرسانی می‌شوند"
+          },
+          {
+            "id": "d",
+            "text": "هزینه B برای همیشه ۰ باقی می‌ماند، چون هنوز از آن بازدید نشده است"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "الگوریتم داخلی همان لحظه‌ای که شرط خط ۸ برقرار می‌شود، مقدار tentativeCost را محاسبه و ذخیره می‌کند؛ حتی قبل از اینکه مراحل \"کشف گره جدید\" یا \"به‌روزرسانی کوتاه‌ترین هزینه شناخته‌شده\" ثبت شوند. چیزی که اینجا می‌بینید یک تأخیر تصویری یک‌فریمی است: مقدار در داخل الگوریتم از قبل درست است، اما هنوز روی صفحه رسم نشده است."
+      },
+      {
+        "id": "dijkstra-hard-s3-q6",
+        "type": "execution",
+        "prompt": "گره A همین الان بازدید شده و الگوریتم در حال بررسی همسایه C (دومین همسایه A) است. این بررسی چه تفاوتی با بررسی B که درست قبل از آن انجام شد دارد؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 7
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "از نظر ساختاری هیچ تفاوتی ندارد — همان منطق مقایسه برای یک همسایه و وزن یال متفاوت اجرا می‌شود (۲ به‌جای ۴ برای B) و به همین دلیل هزینه C کمتر از B می‌شود"
+          },
+          {
+            "id": "b",
+            "text": "این بررسی کاملاً رد می‌شود، چون B قبلاً بررسی شده است"
+          },
+          {
+            "id": "c",
+            "text": "C به‌جای هزینه فعلی خودش، با هزینه B مقایسه می‌شود"
+          },
+          {
+            "id": "d",
+            "text": "این آخرین بررسی همسایه‌ای است که الگوریتم انجام خواهد داد"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "هر همسایه یک گره تازه‌بازدیدشده دقیقاً از همان بررسی یکسان در خطوط ۷ تا ۹ عبور می‌کند؛ تنها چیزی که متفاوت است وزن یال مشخص است. وزن یال A به C برابر ۲ است، در حالی که وزن یال A به B برابر ۴ است و دقیقاً به همین دلیل رسیدن به C هزینه کمتری دارد و C قبل از B پردازش می‌شود."
+      },
+      {
+        "id": "dijkstra-hard-s3-q7",
+        "type": "execution",
+        "prompt": "در این فریم نهایی، گره‌های A، B، C، D، E و F همگی بسته شده‌اند. با توجه به مسیر نهایی مشخص‌شده (A-C-E-F)، کدام گره‌های بسته‌شده در مسیر کوتاه‌ترین قرار نگرفته‌اند و چرا با این حال پردازش شده‌اند؟",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 39
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "B و D — هر دو در زمانی که پردازش شدند هزینه رسیدن کمتری نسبت به F داشتند، بنابراین الگوریتم آن‌ها را در مسیر اجرای خود بست، حتی اگر در نهایت مشخص شد هیچ‌کدام روی مسیر کوتاه‌ترین قرار ندارند"
+          },
+          {
+            "id": "b",
+            "text": "هر گره بسته‌شده طبق تعریف همیشه بخشی از مسیر کوتاه‌ترین است"
+          },
+          {
+            "id": "c",
+            "text": "فقط A در مسیر نهایی نبود، چون گره شروع است"
+          },
+          {
+            "id": "d",
+            "text": "C و E در مسیر نهایی نبودند، با وجود اینکه هایلایت شده‌اند"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Dijkstra گره‌ها را بر اساس افزایش هزینه می‌بندد، نه بر اساس اینکه در نهایت مشخص شود کدام گره‌ها برای جواب نهایی مهم هستند. B با هزینه ۴ و D با هزینه ۹ هر دو قبل از F با هزینه ۱۳ بسته شدند، چون رسیدن به آن‌ها در آن لحظه ارزان‌تر بود. بسته شدن یک گره فقط به این معنی است که \"کوتاه‌ترین هزینه رسیدن به خود این گره نهایی شده است\"، نه اینکه \"این گره حتماً روی مسیر مقصد قرار دارد\"."
+      },
+      {
+        "id": "dijkstra-hard-s3-q8",
+        "type": "code",
+        "prompt": "جای خالی خط ۱ را پر کنید — کدام پارامتر به الگوریتم می‌گوید جستجو باید در کجا متوقف شود؟",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ": return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "end"
+          },
+          {
+            "id": "b",
+            "text": "target"
+          },
+          {
+            "id": "c",
+            "text": "goal"
+          },
+          {
+            "id": "d",
+            "text": "stop"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "امضای تابع به یک مقصد نیاز دارد تا در خط ۵ با current مقایسه شود. نام این پارامتر end است و بعداً در شبه‌کد نیز دقیقاً با همین نام استفاده می‌شود. دو جای خالی دیگر این قطعه، یعنی خطوط ۵ و ۱۰، در دو سؤال بعدی بررسی می‌شوند."
+      },
+      {
+        "id": "dijkstra-hard-s3-q9",
+        "type": "code",
+        "prompt": "جای خالی خط ۵ را پر کنید — چه شرطی باید باعث شود مسیر کامل‌شده زودتر از پایان حلقه برگردانده شود؟",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ": return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "current == end"
+          },
+          {
+            "id": "b",
+            "text": "current == start"
+          },
+          {
+            "id": "c",
+            "text": "open is empty"
+          },
+          {
+            "id": "d",
+            "text": "cost[current] == 0"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "الگوریتم باید همان لحظه‌ای متوقف شود که گرهی که به‌عنوان ارزان‌ترین گزینه باقی‌مانده انتخاب شده، خود مقصد باشد. مقایسه current با end دقیقاً همین شرط را بررسی می‌کند. جای خالی باقی‌مانده در این قطعه، یعنی خط ۱۰، در سؤال بعدی بررسی می‌شود."
+      },
+      {
+        "id": "dijkstra-hard-s3-q10",
+        "type": "code",
+        "prompt": "جای خالی خط ۱۰ را پر کنید — اگر حلقه بدون رسیدن به مقصد تمام شود، تابع باید چه چیزی برگرداند؟",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ": return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "no path"
+          },
+          {
+            "id": "b",
+            "text": "the full cost table"
+          },
+          {
+            "id": "c",
+            "text": "the start node"
+          },
+          {
+            "id": "d",
+            "text": "an empty graph"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "اگر مجموعه open خالی شود و حلقه بدون اجرای return زودهنگام خط ۵ به پایان برسد، یعنی مقصد هرگز پیدا نشده است. بنابراین تنها نتیجه درست این است که اعلام شود هیچ مسیری بین دو گره وجود ندارد."
+      }
+    ]
+  }
+}

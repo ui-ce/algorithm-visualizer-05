@@ -1,0 +1,260 @@
+.algo-custom-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--color-background);
+
+  // Grid instead of flex specifically so the right column (viz-column)
+  // only ever spans row 1 — the same height as the editor — instead of
+  // stretching down to match the editor + Run button together. Row 2
+  // is just the button, and only exists in column 1.
+  &__main-row {
+    display: grid;
+    grid-template-columns: minmax(320px, 40%) 1fr;
+    grid-template-rows: 1fr auto;
+    column-gap: 14px;
+    row-gap: 12px;
+    flex: 1;
+    min-height: 0;
+    padding-inline-start: 12px;
+    padding-inline-end: 24px;
+    padding-block: 10px;
+    overflow: hidden;
+
+    @media (max-width: 1050px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+      overflow: auto;
+    }
+  }
+
+  &__editor-column {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+    min-height: 0;
+
+    @media (max-width: 1050px) {
+      grid-column: 1;
+      grid-row: 1;
+    }
+  }
+
+  // Its own grid row so it never affects the right column's height —
+  // see the __main-row comment above.
+  &__actions {
+    grid-column: 1;
+    grid-row: 2;
+
+    @media (max-width: 1050px) {
+      grid-column: 1;
+      grid-row: 2;
+    }
+  }
+
+  &__viz-column {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+    min-height: 0;
+
+    @media (max-width: 1050px) {
+      grid-column: 1;
+      grid-row: 3;
+    }
+  }
+
+  &__section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--color-text-primary);
+  }
+
+  &__language-badge,
+  &__line-indicator {
+    flex-shrink: 0;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background-color: var(--color-surface-container-highest, var(--color-surface-container));
+    color: var(--color-text-tertiary);
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 11px;
+  }
+
+  &__editor {
+    flex: 1;
+    min-height: 260px;
+    overflow: hidden;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 4px;
+    background-color: var(--color-surface);
+
+    &:focus-within {
+      border-color: var(--color-border-primary);
+    }
+
+    ::ng-deep .cm-editor {
+      height: 100%;
+    }
+
+    ::ng-deep .cm-tooltip {
+      z-index: 20;
+    }
+  }
+
+  &__error {
+    background-color: color-mix(in srgb, var(--color-text-error) 12%, var(--color-surface));
+    border: 1px solid var(--color-text-error);
+    border-radius: 4px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__error-title {
+    color: var(--color-text-error);
+  }
+
+  &__error-message {
+    color: var(--color-text-primary);
+    margin: 0;
+    direction: ltr;
+    text-align: left;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+
+  // The one container the request asked for: visualization + legend +
+  // nav controls (+ the variables card) all inside one bordered,
+  // surface-colored, centered box — the same visual treatment the
+  // editor already has on the left, so the two columns read as a
+  // matched pair.
+  &__viz-surface {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 0;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 4px;
+    background-color: var(--color-surface);
+  }
+
+  &__viz-surface--placeholder {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-text-tertiary);
+  }
+
+  &__execution-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    flex: 1;
+    gap: 10px;
+  }
+
+  &__execution-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    color: var(--color-text-primary);
+  }
+
+  &__variables-card {
+    width: 100%;
+    flex: 0 0 auto;
+    max-height: 230px;
+    min-height: 100px;
+    overflow: auto;
+    padding: 12px 14px;
+    border-radius: 4px;
+    background-color: var(--color-surface-container);
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  &__variables-title {
+    color: var(--color-text-primary);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  // Chips that wrap, instead of full-width rows — short values (most
+  // of them: ints, small lists) end up several to a line rather than
+  // each eating a whole row with a huge gap before the value.
+  &__variables-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  &__variable-row {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    max-width: 100%;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  &__variable-name,
+  &__variable-value {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  &__variable-name {
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+  }
+
+  &__variable-value {
+    color: var(--color-text-primary);
+    font-weight: 600;
+    direction: ltr;
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+
+  &__variables-empty {
+    margin: 0;
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+  }
+
+  algo-visualization-area {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    width: 100%;
+  }
+
+  algo-visualization-legend {
+    flex-shrink: 0;
+  }
+}

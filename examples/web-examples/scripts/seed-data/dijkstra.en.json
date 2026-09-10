@@ -1,0 +1,4450 @@
+{
+  "easy": {
+    "1": [
+      {
+        "id": "dijkstra-easy-s1-q1",
+        "type": "conceptual",
+        "prompt": "What problem does Dijkstra's algorithm solve?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Finding the shortest (lowest total cost) path from a start node to every other node in a weighted graph"
+          },
+          {
+            "id": "b",
+            "text": "Visiting every node in a graph as deep as possible before backtracking"
+          },
+          {
+            "id": "c",
+            "text": "Sorting the nodes of a graph by how many neighbors they have"
+          },
+          {
+            "id": "d",
+            "text": "Finding whether a graph contains a cycle"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Dijkstra keeps a running \"cheapest known cost so far\" for every node and only ever updates it when a genuinely cheaper path is found, which is exactly what guarantees the final costs are the true shortest distances."
+      },
+      {
+        "id": "dijkstra-easy-s1-q2",
+        "type": "conceptual",
+        "prompt": "Why does Dijkstra always pick the lowest-cost node in the open set to process next?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Because once a node has the lowest cost among all remaining candidates, no future path through a more expensive node could ever beat it — its cost is already final"
+          },
+          {
+            "id": "b",
+            "text": "Because it makes the algorithm visit nodes in alphabetical order"
+          },
+          {
+            "id": "c",
+            "text": "Because the lowest-cost node always has the fewest neighbors"
+          },
+          {
+            "id": "d",
+            "text": "It is an arbitrary choice with no effect on correctness"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This is the core greedy idea behind Dijkstra: as long as every edge weight is non-negative, a path can only get more expensive by adding more edges — so the cheapest node in the open set can never be beaten by a longer route discovered later."
+      },
+      {
+        "id": "dijkstra-easy-s1-q3",
+        "type": "execution",
+        "prompt": "The algorithm has just started. What are the contents of the open set and the closed set right now?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 0
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The open set contains only the start node A, and the closed set is empty"
+          },
+          {
+            "id": "b",
+            "text": "The open set is empty, and the closed set contains only A"
+          },
+          {
+            "id": "c",
+            "text": "Both the open set and the closed set contain every node in the graph"
+          },
+          {
+            "id": "d",
+            "text": "The open set contains every node except A"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Line 2 initializes cost[start] = 0 and open = [start] — so at the very beginning, A is the only entry in the open set, and nothing has been moved to the closed set yet."
+      },
+      {
+        "id": "dijkstra-easy-s1-q4",
+        "type": "execution",
+        "prompt": "Node A has just been moved from the open set to the closed set. What does this tell you about A?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 3
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "A is now considered fully processed — its shortest-path cost (0) is final, and the algorithm moves on to check A's neighbors"
+          },
+          {
+            "id": "b",
+            "text": "A has been removed from the graph entirely"
+          },
+          {
+            "id": "c",
+            "text": "A's cost can still change later in the run"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm has finished, since A is the start node"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Moving a node to the closed set (line 3's 'Visiting a node' step) marks it as done — its cost is locked in, and the very next step is to look at its neighbors on line 6 to see if going through A gives any of them a cheaper path."
+      },
+      {
+        "id": "dijkstra-easy-s1-q5",
+        "type": "code",
+        "prompt": "Fill in the blank in Dijkstra's pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "shift"
+          },
+          {
+            "id": "b",
+            "text": "pop"
+          },
+          {
+            "id": "c",
+            "text": "sort"
+          },
+          {
+            "id": "d",
+            "text": "push"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Since the open set was just sorted by cost with the cheapest node first, shift() removes that very first (lowest-cost) entry — pop() would instead remove the most expensive one, from the end of the sorted list."
+      }
+    ],
+    "2": [
+      {
+        "id": "dijkstra-easy-s2-q1",
+        "type": "conceptual",
+        "prompt": "What does a node's \"cost\" represent while Dijkstra's algorithm is running?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The cheapest total distance found so far from the start node to that node — it can still improve until the node is closed"
+          },
+          {
+            "id": "b",
+            "text": "The node's fixed distance from the start, decided before the algorithm even begins"
+          },
+          {
+            "id": "c",
+            "text": "The number of edges connected to that node"
+          },
+          {
+            "id": "d",
+            "text": "The alphabetical position of the node's label"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Cost starts as a placeholder (conceptually infinite for every node except the start) and only ever gets lower, each time a cheaper path through some other node is discovered — line 9 is the only place it changes."
+      },
+      {
+        "id": "dijkstra-easy-s2-q2",
+        "type": "conceptual",
+        "prompt": "What is the difference between the \"open set\" and the \"closed set\"?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The open set holds nodes that have been discovered but not yet fully processed; the closed set holds nodes whose shortest cost is already final"
+          },
+          {
+            "id": "b",
+            "text": "The open set holds nodes with even-numbered costs, the closed set holds nodes with odd-numbered costs"
+          },
+          {
+            "id": "c",
+            "text": "The open set is used only at the very start, and the closed set is used for everything after"
+          },
+          {
+            "id": "d",
+            "text": "There is no meaningful difference between them"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A node moves from open to closed the moment it's picked as 'current' and processed (line 4). Once closed, its cost is treated as settled, while open still holds every node that has been reached but not yet had its own neighbors checked."
+      },
+      {
+        "id": "dijkstra-easy-s2-q3",
+        "type": "execution",
+        "prompt": "A has just been visited, and the algorithm is now checking A's neighbor B. What is happening at this step?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 4
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The algorithm is comparing the cost of reaching B through A against B's current known cost, to see if this is an improvement"
+          },
+          {
+            "id": "b",
+            "text": "B is being moved directly into the closed set without any comparison"
+          },
+          {
+            "id": "c",
+            "text": "The edge between A and B is being permanently removed from the graph"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm has already decided B will be the next node visited"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This is line 7's newCost calculation, immediately followed by line 8's comparison against B's current cost — the highlighted edge marks that this specific A-to-B connection is what's being evaluated right now."
+      },
+      {
+        "id": "dijkstra-easy-s2-q4",
+        "type": "execution",
+        "prompt": "B has just been discovered as a new node and added to the open set, with its cost updated to 4 (the weight of the edge from A). What does this tell you?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 6
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Going from A directly to B costs 4, which is currently the cheapest known way to reach B — though a cheaper route could still be found later"
+          },
+          {
+            "id": "b",
+            "text": "B's cost of 4 is now permanent and can never change again"
+          },
+          {
+            "id": "c",
+            "text": "B has already been fully processed and moved to the closed set"
+          },
+          {
+            "id": "d",
+            "text": "The total shortest path from A to the destination is 4"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Since the direct edge A-B has weight 4, and A's own cost is 0, the tentative cost for B becomes 0 + 4 = 4. This value can still be lowered later if some other path to B turns out cheaper — it only becomes final once B itself is closed."
+      },
+      {
+        "id": "dijkstra-easy-s2-q5",
+        "type": "code",
+        "prompt": "Fill in the blank in Dijkstra's pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "<"
+          },
+          {
+            "id": "b",
+            "text": ">"
+          },
+          {
+            "id": "c",
+            "text": "<="
+          },
+          {
+            "id": "d",
+            "text": "=="
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A neighbor's cost should only be updated when a strictly cheaper path has been found — that's what '<' checks. Using '>' would keep only the most expensive path instead of the cheapest, which defeats the entire point of the algorithm."
+      }
+    ],
+    "3": [
+      {
+        "id": "dijkstra-easy-s3-q1",
+        "type": "conceptual",
+        "prompt": "Why can't Dijkstra's algorithm be trusted to find the correct shortest path if the graph has a negative edge weight?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It always processes the cheapest-looking node first and treats its cost as final — a later negative edge could make some other, already-closed path even cheaper, but Dijkstra would never go back and check"
+          },
+          {
+            "id": "b",
+            "text": "It would run forever and never terminate"
+          },
+          {
+            "id": "c",
+            "text": "It would crash with an error the moment it saw a negative number"
+          },
+          {
+            "id": "d",
+            "text": "Negative weights actually cause no problems at all for Dijkstra"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Dijkstra's greedy choice — always trusting the cheapest open node as final — relies entirely on the fact that adding more edges can never make a path cheaper. A negative edge breaks that assumption, since a longer path could suddenly become the cheapest one after all."
+      },
+      {
+        "id": "dijkstra-easy-s3-q2",
+        "type": "conceptual",
+        "prompt": "What condition causes this implementation to stop and return the path early, before the open set empties?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The moment the destination node is picked as \"current\" — meaning it has already been popped as the cheapest remaining option"
+          },
+          {
+            "id": "b",
+            "text": "The destination node's cost first appears in the Node Costs chart"
+          },
+          {
+            "id": "c",
+            "text": "The closed set contains every node except the destination"
+          },
+          {
+            "id": "d",
+            "text": "The open set contains more than three nodes"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Line 5 checks 'if current == end' right after current is popped as the cheapest remaining node — at that point, its cost is guaranteed final, so there's no need to keep processing the rest of the (more expensive) open set."
+      },
+      {
+        "id": "dijkstra-easy-s3-q3",
+        "type": "execution",
+        "prompt": "Node C has just had its cost updated to 2, and the edge A-C is now highlighted as part of the current best-known path. What does this mean?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 9
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The cheapest way found so far to reach C is directly from A, at a total cost of 2"
+          },
+          {
+            "id": "b",
+            "text": "C's cost of 2 means it took two separate paths to reach it"
+          },
+          {
+            "id": "c",
+            "text": "C has now been moved to the closed set"
+          },
+          {
+            "id": "d",
+            "text": "The edge A-C has now been permanently removed from the graph"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The edge A-C has weight 2, and A's own cost is 0, so the tentative cost for C becomes 2. Since 2 is cheaper than C's previous (unset) cost, the update goes through and the A-C edge is marked as part of the current best path to C."
+      },
+      {
+        "id": "dijkstra-easy-s3-q4",
+        "type": "execution",
+        "prompt": "The open set is being sorted here, and it currently holds C and B. Why does C end up first?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 10
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "C's cost (2) is lower than B's cost (4), and the open set is always sorted from cheapest to most expensive"
+          },
+          {
+            "id": "b",
+            "text": "C comes first alphabetically"
+          },
+          {
+            "id": "c",
+            "text": "C was added to the open set before B"
+          },
+          {
+            "id": "d",
+            "text": "The sort order has nothing to do with cost"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Line 4 explicitly sorts the open set 'by cost' before picking the next node — with C at cost 2 and B at cost 4, C sorts to the front, guaranteeing it (not B) is the next one shifted off and processed."
+      },
+      {
+        "id": "dijkstra-easy-s3-q5",
+        "type": "code",
+        "prompt": "Fill in the blank in Dijkstra's pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ", open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "0"
+          },
+          {
+            "id": "b",
+            "text": "Infinity"
+          },
+          {
+            "id": "c",
+            "text": "1"
+          },
+          {
+            "id": "d",
+            "text": "end"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "It costs nothing to reach the start node from itself — cost[start] = 0 is what guarantees start's own tentative cost calculations always begin from the right baseline."
+      }
+    ]
+  },
+  "medium": {
+    "1": [
+      {
+        "id": "dijkstra-medium-s1-q1",
+        "type": "conceptual",
+        "prompt": "How does this implementation decide which node in the open set to process next, step by step?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It sorts the entire open set by cost every single iteration, then removes the first (cheapest) entry"
+          },
+          {
+            "id": "b",
+            "text": "It removes whichever node was added to the open set first, ignoring cost entirely"
+          },
+          {
+            "id": "c",
+            "text": "It picks a node at random from the open set"
+          },
+          {
+            "id": "d",
+            "text": "It only sorts the open set once, at the very start of the algorithm"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Line 4 runs 'sort open by cost' inside the main while loop, so it re-sorts on every single iteration — not just once — since new nodes with new costs keep getting added to the open set as the algorithm progresses."
+      },
+      {
+        "id": "dijkstra-medium-s1-q2",
+        "type": "conceptual",
+        "prompt": "Once a node has been moved to the closed set, can this implementation still change its cost later?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The code technically doesn't prevent line 9 from updating a closed node's cost value, but that update is harmless — since the node is closed, it's never re-added to the open set or reprocessed, so the change has no effect on the final result"
+          },
+          {
+            "id": "b",
+            "text": "No — the code explicitly checks the closed set before ever comparing costs"
+          },
+          {
+            "id": "c",
+            "text": "Yes, and this actually changes the final answer, since closed nodes get reprocessed"
+          },
+          {
+            "id": "d",
+            "text": "Cost values become read-only the instant a node is created"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Line 8's comparison doesn't check whether neighbor is already closed — but because Dijkstra guarantees a closed node's cost is already the true shortest one (as long as weights are non-negative), no later comparison could actually produce a smaller value anyway, so this gap in the logic never causes an incorrect result."
+      },
+      {
+        "id": "dijkstra-medium-s1-q3",
+        "type": "conceptual",
+        "prompt": "What is the relationship between Dijkstra's algorithm and BFS?",
+        "options": [
+          {
+            "id": "a",
+            "text": "If every edge in the graph has the same weight (say, 1), Dijkstra behaves identically to BFS, since \"cheapest cost\" becomes the same as \"fewest edges\""
+          },
+          {
+            "id": "b",
+            "text": "They are completely unrelated algorithms that happen to both use graphs"
+          },
+          {
+            "id": "c",
+            "text": "Dijkstra is just BFS run in reverse, from the destination to the start"
+          },
+          {
+            "id": "d",
+            "text": "BFS is a special case of Dijkstra that only works on trees"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "BFS finds the path with the fewest edges; Dijkstra finds the path with the lowest total weight. When every edge weighs exactly the same, minimizing total weight and minimizing edge count become the same problem, so the two algorithms end up producing identical results."
+      },
+      {
+        "id": "dijkstra-medium-s1-q4",
+        "type": "execution",
+        "prompt": "B has just been visited and moved to the closed set. The algorithm is now checking B's neighbor C — but C was already closed earlier. What happens here?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 19
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The tentative cost through B (0 + 4 + 5 = 9) is compared against C's current cost (2) anyway — since 9 is not cheaper, nothing changes"
+          },
+          {
+            "id": "b",
+            "text": "C is skipped entirely without any comparison, since it's already closed"
+          },
+          {
+            "id": "c",
+            "text": "C is reopened and moved back into the open set"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm raises an error, since C shouldn't be revisited"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The code doesn't special-case closed neighbors — it still computes newCost and compares it on line 8. Here, 9 is worse than C's existing cost of 2, so the comparison simply fails and nothing is updated, exactly as it should be."
+      },
+      {
+        "id": "dijkstra-medium-s1-q5",
+        "type": "execution",
+        "prompt": "B has just been checked against its neighbor D, and D turns out to be a brand-new node. D's cost is set to 14 (the cost through B). Is this D's final cost?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 22
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "No — 14 is just the best cost found so far. It can still be lowered if a cheaper path to D is discovered before D itself is closed"
+          },
+          {
+            "id": "b",
+            "text": "Yes, once any cost is assigned to a node it never changes again"
+          },
+          {
+            "id": "c",
+            "text": "No, but only because D has more than one neighbor"
+          },
+          {
+            "id": "d",
+            "text": "It is impossible for a node's cost to be updated more than once"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "D's cost is only final once D itself is popped as \"current\" and moved to the closed set. Until then, it stays open to being lowered — and on this exact graph, D's cost does get improved from 14 down to 9 shortly after, once E is processed."
+      },
+      {
+        "id": "dijkstra-medium-s1-q6",
+        "type": "execution",
+        "prompt": "E has just been visited. The algorithm checks E's neighbor D — which already has a cost of 14 from earlier — and finds a cheaper route through E. What happens?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 27
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "D's cost is lowered from 14 to 9 (5 + 4), and the best-known path to D now runs through E instead of B"
+          },
+          {
+            "id": "b",
+            "text": "D's cost stays at 14, since a node's cost can only be set once"
+          },
+          {
+            "id": "c",
+            "text": "D is removed from the open set because its cost changed"
+          },
+          {
+            "id": "d",
+            "text": "Both the old and new costs for D are kept and averaged"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This is exactly the scenario line 8's check exists for: the tentative cost through E (cost[E]=5, plus the E-D edge weight of 4) comes to 9, which is cheaper than D's current cost of 14 — so D's cost updates, and the path-tracking data is updated to reflect the new, cheaper route through E."
+      },
+      {
+        "id": "dijkstra-medium-s1-q7",
+        "type": "code",
+        "prompt": "Fill in the blank in Dijkstra's pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "weight"
+          },
+          {
+            "id": "b",
+            "text": "newCost"
+          },
+          {
+            "id": "c",
+            "text": "cost[neighbor]"
+          },
+          {
+            "id": "d",
+            "text": "1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The tentative cost of reaching a neighbor is the cost of reaching the current node plus the weight of the edge connecting them — that edge weight is what gets added here."
+      }
+    ],
+    "2": [
+      {
+        "id": "dijkstra-medium-s2-q1",
+        "type": "conceptual",
+        "prompt": "What is the time complexity of this specific implementation, given that it re-sorts the entire open set on every iteration of the main loop?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Noticeably worse than the classic O((V + E) log V) bound, since sorting the open set from scratch every iteration is more expensive than using a proper priority queue"
+          },
+          {
+            "id": "b",
+            "text": "Exactly O((V + E) log V), identical to the most efficient known implementation"
+          },
+          {
+            "id": "c",
+            "text": "O(1), since sorting a small array is effectively instant"
+          },
+          {
+            "id": "d",
+            "text": "O(V), the same as a single pass over the open set"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A proper priority-queue-based Dijkstra only pays a logarithmic cost each time a node is inserted or extracted. Re-sorting the whole open set from scratch every iteration (as this pseudocode does) repeats work a priority queue would have already accounted for, making it strictly less efficient on larger graphs even though it produces the same correct result."
+      },
+      {
+        "id": "dijkstra-medium-s2-q2",
+        "type": "conceptual",
+        "prompt": "What is a common way to make Dijkstra more efficient than repeatedly sorting a plain array?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Use a min-heap (priority queue) for the open set, so both inserting a new node and extracting the cheapest one take logarithmic time instead of a full sort"
+          },
+          {
+            "id": "b",
+            "text": "Skip updating the cost of any node more than once"
+          },
+          {
+            "id": "c",
+            "text": "Run the algorithm twice and keep whichever result finishes first"
+          },
+          {
+            "id": "d",
+            "text": "Remove the closed set entirely to save memory"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A min-heap keeps the cheapest entry accessible in O(log V) time without needing to re-sort everything else. This is the standard optimization that gets Dijkstra's complexity down to O((V + E) log V) on a graph with V vertices and E edges."
+      },
+      {
+        "id": "dijkstra-medium-s2-q3",
+        "type": "conceptual",
+        "prompt": "Is it possible for this Dijkstra implementation to visit (move to the closed set) a node that is not on the shortest path from start to end?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Yes — the algorithm keeps closing nodes in increasing order of cost until it happens to close the destination; any node cheaper to reach than the destination gets closed along the way, whether or not it's on the final path"
+          },
+          {
+            "id": "b",
+            "text": "No — Dijkstra only ever visits nodes that lie exactly on the final shortest path"
+          },
+          {
+            "id": "c",
+            "text": "It only happens if the graph contains a cycle"
+          },
+          {
+            "id": "d",
+            "text": "It only happens if the destination node has more than one incoming edge"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "On this graph, B gets closed even though the final shortest path (A-C-E-F) never passes through B — B is simply cheaper to reach than the destination, so it gets processed along the way before the algorithm reaches F."
+      },
+      {
+        "id": "dijkstra-medium-s2-q4",
+        "type": "execution",
+        "prompt": "E has just been visited, and the algorithm checks E's neighbor F for the first time. F has never been discovered before this. What happens?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 30
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "F is added to the open set with a cost of 13 (5 + 8), and the current best path to F runs through E"
+          },
+          {
+            "id": "b",
+            "text": "F is immediately moved to the closed set, since it is the destination"
+          },
+          {
+            "id": "c",
+            "text": "F's cost is set to 8, ignoring E's own cost entirely"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm terminates as soon as F is discovered, without processing it further"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The tentative cost for F through E is cost[E] (5) plus the E-F edge weight (8), giving 13. Since F had no previous cost to compare against, this becomes F's first known cost, and F is added to the open set to be processed later."
+      },
+      {
+        "id": "dijkstra-medium-s2-q5",
+        "type": "execution",
+        "prompt": "The open set now holds D (cost 9) and F (cost 13), and is about to be sorted. Which one will be processed next, and why?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 31
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "D, since its cost (9) is lower than F's cost (13), and the open set is always sorted cheapest-first"
+          },
+          {
+            "id": "b",
+            "text": "F, since it was discovered second and the open set works like a stack"
+          },
+          {
+            "id": "c",
+            "text": "Both are processed together in the same step"
+          },
+          {
+            "id": "d",
+            "text": "Whichever one has fewer neighbors gets processed first"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Sorting by cost always puts the cheapest entry first — with D at 9 and F at 13, D sorts ahead of F and will be the next one shifted off the open set and processed."
+      },
+      {
+        "id": "dijkstra-medium-s2-q6",
+        "type": "execution",
+        "prompt": "D has just been visited, and the algorithm checks D's only neighbor, F — which already has a cost of 13 from an earlier discovery. What happens here?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 34
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The tentative cost through D (9 + 11 = 20) is compared against F's current cost (13) — since 20 is worse, F's cost stays at 13"
+          },
+          {
+            "id": "b",
+            "text": "F's cost is overwritten with 20, since D was just visited"
+          },
+          {
+            "id": "c",
+            "text": "F is removed from the open set because two different nodes both claim to reach it"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm ends immediately, since D is the second-to-last node"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This shows the update check working as a safeguard, not just a formality: the route through D turns out to be worse (20) than the existing route through E (13), so line 8's comparison correctly rejects the update and F keeps its cheaper, already-known cost."
+      },
+      {
+        "id": "dijkstra-medium-s2-q7",
+        "type": "code",
+        "prompt": "Fill in the blank in Dijkstra's pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "graph[current]"
+          },
+          {
+            "id": "b",
+            "text": "open"
+          },
+          {
+            "id": "c",
+            "text": "closed"
+          },
+          {
+            "id": "d",
+            "text": "cost"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The loop needs to examine the current node's own neighbors — the ones directly connected to it in the graph — which is exactly what graph[current] looks up."
+      }
+    ],
+    "3": [
+      {
+        "id": "dijkstra-medium-s3-q1",
+        "type": "conceptual",
+        "prompt": "On this graph, D's cost is updated twice — first to 14 (via B), then later lowered to 9 (via E). Why doesn't this ever happen to a node after it's been closed?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Because a node is only closed once it's the cheapest remaining option in the open set — and since all edge weights are non-negative, nothing discovered afterward could ever produce a cheaper route to it"
+          },
+          {
+            "id": "b",
+            "text": "Because the code explicitly forbids updating any node's cost more than once"
+          },
+          {
+            "id": "c",
+            "text": "Because closed nodes are deleted from the graph entirely"
+          },
+          {
+            "id": "d",
+            "text": "It can happen after closing too, but the algorithm ignores it"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "D stayed open exactly because it wasn't yet the cheapest option, which is precisely why it could still improve. Once a node like A, C, B, or E gets closed, it's provably already at its true minimum cost — that's the whole guarantee the greedy 'always pick cheapest open node' strategy provides."
+      },
+      {
+        "id": "dijkstra-medium-s3-q2",
+        "type": "conceptual",
+        "prompt": "How does Dijkstra keep track of the actual shortest path (not just its total cost) from the start to a given node?",
+        "options": [
+          {
+            "id": "a",
+            "text": "By recording, each time a node's cost improves, which edge produced that cheaper cost — tracing those edges backward from a node reconstructs its full path"
+          },
+          {
+            "id": "b",
+            "text": "By storing every single path ever considered and picking the shortest one at the very end"
+          },
+          {
+            "id": "c",
+            "text": "It doesn't — Dijkstra can only report the total cost, never the actual path"
+          },
+          {
+            "id": "d",
+            "text": "By re-running the entire algorithm once for every possible path"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Every time line 9 updates a neighbor's cost, it also implicitly means \"the best way to reach this neighbor right now is through the current node.\" Following that chain of \"reached through\" links backward from any node all the way to the start reconstructs the shortest path to it."
+      },
+      {
+        "id": "dijkstra-medium-s3-q3",
+        "type": "conceptual",
+        "prompt": "If this implementation were changed so the open set was never sorted, and the FIRST entry (not necessarily the cheapest) were always shifted off instead, would the result still be correct?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No — the algorithm depends on always processing the cheapest available node next; without that, a node could be closed (marked final) before its true shortest cost is found"
+          },
+          {
+            "id": "b",
+            "text": "Yes, the result would be identical either way, just potentially slower"
+          },
+          {
+            "id": "c",
+            "text": "Yes, as long as the graph has no cycles"
+          },
+          {
+            "id": "d",
+            "text": "It would only break on graphs with more than five nodes"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The 'always pick cheapest' rule is what makes closing a node safe. Remove that guarantee, and a node could get closed while its true shortest cost is still sitting undiscovered on the open set — corrupting the final result rather than just slowing it down."
+      },
+      {
+        "id": "dijkstra-medium-s3-q4",
+        "type": "execution",
+        "prompt": "C has just been visited, and the algorithm checks C's only neighbor, E, for the very first time. What happens?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 15
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "E is added to the open set with a cost of 5 (2 + 3), and the current best path to E runs through C"
+          },
+          {
+            "id": "b",
+            "text": "E's cost is set to 3, the weight of the edge alone, without adding C's own cost"
+          },
+          {
+            "id": "c",
+            "text": "E is moved directly to the closed set, skipping the open set entirely"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm ignores E because it's not directly connected to the start node A"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The tentative cost for E is C's own cost (2) plus the weight of the C-E edge (3), giving 5. Since this is E's first-ever cost, it's accepted immediately and E is added to the open set with the path currently running through C."
+      },
+      {
+        "id": "dijkstra-medium-s3-q5",
+        "type": "execution",
+        "prompt": "The open set now holds B (cost 4) and E (cost 5), and is about to be sorted. Which node gets processed next?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 16
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "B, since its cost of 4 is lower than E's cost of 5"
+          },
+          {
+            "id": "b",
+            "text": "E, since it was discovered more recently"
+          },
+          {
+            "id": "c",
+            "text": "Both nodes are processed in the same step"
+          },
+          {
+            "id": "d",
+            "text": "Neither — the algorithm terminates here since two nodes are tied for closest"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Sorting by cost consistently puts the lower value first — 4 for B versus 5 for E — so B is next in line to be shifted off and processed, even though it isn't on the graph's eventual shortest path to F."
+      },
+      {
+        "id": "dijkstra-medium-s3-q6",
+        "type": "execution",
+        "prompt": "The destination node F has just been picked as \"current\" — the very moment line 5's check succeeds. What happens next?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 38
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The algorithm stops the main loop and traces the shortest path backward from F, highlighting the final route: A - C - E - F"
+          },
+          {
+            "id": "b",
+            "text": "The algorithm keeps running until every other node has also been closed"
+          },
+          {
+            "id": "c",
+            "text": "F's cost is recalculated one more time before the path is returned"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm restarts entirely, this time treating F as the new start node"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Line 5's whole purpose is to end the search the instant the destination is confirmed as the cheapest remaining node, since there's no need to keep exploring more expensive alternatives — the path is then reconstructed by walking the 'reached through' links backward from F."
+      },
+      {
+        "id": "dijkstra-medium-s3-q7",
+        "type": "code",
+        "prompt": "Fill in the blank in Dijkstra's pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "push"
+          },
+          {
+            "id": "b",
+            "text": "pop"
+          },
+          {
+            "id": "c",
+            "text": "shift"
+          },
+          {
+            "id": "d",
+            "text": "remove"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Once a neighbor's cost has just improved, it needs to be added to the open set so it eventually gets processed itself — push() adds it in, ready to be picked up whenever it becomes the cheapest remaining option."
+      }
+    ]
+  },
+  "hard": {
+    "1": [
+      {
+        "id": "dijkstra-hard-s1-q1",
+        "type": "conceptual",
+        "prompt": "How does Dijkstra's time complexity change depending on how the open set is implemented?",
+        "options": [
+          {
+            "id": "a",
+            "text": "A plain array needing a full sort or scan each time gives roughly O(V^2); a binary heap improves this to O((V + E) log V); a Fibonacci heap can reach O(E + V log V)"
+          },
+          {
+            "id": "b",
+            "text": "The choice of data structure for the open set never affects the algorithm's complexity"
+          },
+          {
+            "id": "c",
+            "text": "A plain array is always faster than any heap-based implementation"
+          },
+          {
+            "id": "d",
+            "text": "Complexity depends only on the number of edges, never on the open-set implementation"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The open set's job — repeatedly finding and removing the cheapest entry, and inserting newly discovered nodes — is exactly what a priority queue is built to do efficiently. A plain array's linear scan/sort makes both operations far more expensive than a heap's logarithmic ones, especially as V grows."
+      },
+      {
+        "id": "dijkstra-hard-s1-q2",
+        "type": "conceptual",
+        "prompt": "In this specific implementation, can the same node ever exist twice at once in the open set?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No — the actual code only pushes a neighbor onto the open set the first time it's discovered (checking it isn't already open or closed); later cost improvements just update its stored cost value in place"
+          },
+          {
+            "id": "b",
+            "text": "Yes, exactly like DFS's stack, a node gets pushed again every time its cost improves"
+          },
+          {
+            "id": "c",
+            "text": "Yes, but only for the start node"
+          },
+          {
+            "id": "d",
+            "text": "It is impossible to know without running the algorithm on a specific graph"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This is a detail the simplified pseudocode's line 9 ('open.push(neighbor)') glosses over — the real implementation guards the push with a check that the neighbor isn't already in the open set or closed set, so it's only ever added once. This is a genuine difference from DFS's stack, which does allow the same node to appear multiple times."
+      },
+      {
+        "id": "dijkstra-hard-s1-q3",
+        "type": "conceptual",
+        "prompt": "How does the A* algorithm relate to Dijkstra?",
+        "options": [
+          {
+            "id": "a",
+            "text": "A* is Dijkstra plus a heuristic estimate of remaining distance to the goal, used to prioritize which node to explore next — when that heuristic is always zero, A* behaves exactly like Dijkstra"
+          },
+          {
+            "id": "b",
+            "text": "A* and Dijkstra solve completely unrelated problems"
+          },
+          {
+            "id": "c",
+            "text": "A* only works on unweighted graphs, unlike Dijkstra"
+          },
+          {
+            "id": "d",
+            "text": "A* is simply Dijkstra run backward from the destination"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A* extends Dijkstra's cost tracking by adding a heuristic — an estimate of how far a node is from the goal — to bias exploration toward the destination instead of expanding outward evenly. Set that heuristic to always return 0, and A* explores nodes in exactly the same order Dijkstra would."
+      },
+      {
+        "id": "dijkstra-hard-s1-q4",
+        "type": "conceptual",
+        "prompt": "Why does closing nodes in strictly increasing order of cost guarantee that each node's cost is correct once it's closed?",
+        "options": [
+          {
+            "id": "a",
+            "text": "If a node's true shortest path went through some node not yet closed, that unclosed node would have to have a lower cost than the one being closed now — contradicting the fact that the algorithm always closes the cheapest remaining candidate first"
+          },
+          {
+            "id": "b",
+            "text": "It is simply an assumption the algorithm makes without any real guarantee"
+          },
+          {
+            "id": "c",
+            "text": "It only works because the graph in this example happens to be small"
+          },
+          {
+            "id": "d",
+            "text": "The order nodes are closed in has no bearing on correctness"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This is the heart of Dijkstra's correctness proof: with non-negative weights, any path through an unclosed node would already cost at least as much as that unclosed node's own (still tentative, but already-known) cost — which is, by construction, no cheaper than the node currently being closed. So no better path can be hiding in the unexplored part of the graph."
+      },
+      {
+        "id": "dijkstra-hard-s1-q5",
+        "type": "execution",
+        "prompt": "C has just been visited, and the algorithm highlights the edge C-E as it checks that neighbor. Why is this edge marked 'compare' rather than 'path'?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 13
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "'compare' marks an edge being evaluated for a possible cost improvement — it only becomes 'path' afterward, once the comparison on line 8 actually succeeds and the cost is updated"
+          },
+          {
+            "id": "b",
+            "text": "'compare' and 'path' mean exactly the same thing, just for different algorithms"
+          },
+          {
+            "id": "c",
+            "text": "This edge is marked 'compare' because it will never be used in the final path"
+          },
+          {
+            "id": "d",
+            "text": "'compare' means the edge has already been permanently rejected"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The two tags represent two different stages of the same edge's story: 'compare' is 'currently being evaluated' (line 7-8), and 'path' is 'confirmed as part of the current best-known route' — which only happens if that evaluation actually finds a cheaper cost (line 9)."
+      },
+      {
+        "id": "dijkstra-hard-s1-q6",
+        "type": "execution",
+        "prompt": "The open set now holds only E (cost 5), and the algorithm is about to sort and pick the next node. What can you conclude, given that B (cost 4) was already closed earlier?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 24
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "E will be picked next, since it's the only entry — and its cost of 5 is now guaranteed final the moment it's closed, since no unclosed node can offer a cheaper path to it"
+          },
+          {
+            "id": "b",
+            "text": "E's cost is still likely to be lowered later, since it hasn't been closed yet"
+          },
+          {
+            "id": "c",
+            "text": "The algorithm has already found the shortest path to every node in the graph"
+          },
+          {
+            "id": "d",
+            "text": "B will be reopened, since E is more expensive to reach than B was"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "With only one entry in the open set, E is guaranteed to be picked next regardless of sorting — and since every other node already discovered is either closed (A, C, B) or costs at least as much, closing E here is safe under the same greedy guarantee that makes Dijkstra correct."
+      },
+      {
+        "id": "dijkstra-hard-s1-q7",
+        "type": "execution",
+        "prompt": "F has just been moved to the closed set after being picked as \"current\". What check happens immediately after this, and what will it find?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 37
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Line 5's check (current == end) runs next, and since F is the destination, it will succeed — ending the main loop and triggering the path reconstruction"
+          },
+          {
+            "id": "b",
+            "text": "The algorithm checks F's neighbors before doing anything else"
+          },
+          {
+            "id": "c",
+            "text": "The algorithm reopens every previously closed node to double-check their costs"
+          },
+          {
+            "id": "d",
+            "text": "Nothing happens differently than for any other node being closed"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Line 5 runs right after a node is chosen as current — before its neighbors are even examined — specifically to catch this exact moment: the destination has just become the cheapest remaining node, so its cost is final and the search can stop immediately."
+      },
+      {
+        "id": "dijkstra-hard-s1-q8",
+        "type": "code",
+        "prompt": "Fill in the blank on line 4 — how is the next node to process actually removed from the open set?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "shift"
+          },
+          {
+            "id": "b",
+            "text": "pop"
+          },
+          {
+            "id": "c",
+            "text": "sort"
+          },
+          {
+            "id": "d",
+            "text": "peek"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "After sorting the open set with the cheapest node first, shift() removes exactly that front entry. The other two blanks in this snippet (lines 8 and 9) are covered by the next two questions."
+      },
+      {
+        "id": "dijkstra-hard-s1-q9",
+        "type": "code",
+        "prompt": "Fill in the blank on line 8 — what comparison decides whether a neighbor's cost gets updated?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "<"
+          },
+          {
+            "id": "b",
+            "text": ">"
+          },
+          {
+            "id": "c",
+            "text": "=="
+          },
+          {
+            "id": "d",
+            "text": ">="
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Only a strictly cheaper cost should ever overwrite the current one — '<' captures exactly that. The remaining blank in this snippet (line 9) is covered by the next question."
+      },
+      {
+        "id": "dijkstra-hard-s1-q10",
+        "type": "code",
+        "prompt": "Fill in the blank on line 9 — once a neighbor's cost improves, what operation adds it to the open set?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "push"
+          },
+          {
+            "id": "b",
+            "text": "pop"
+          },
+          {
+            "id": "c",
+            "text": "shift"
+          },
+          {
+            "id": "d",
+            "text": "sort"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "push() adds the neighbor into the open set so it can eventually be picked up and processed — in the pseudocode's simplified view, this runs every time a cheaper cost is found (the actual implementation additionally checks it isn't already there, per the earlier conceptual question about duplicate entries)."
+      }
+    ],
+    "2": [
+      {
+        "id": "dijkstra-hard-s2-q1",
+        "type": "conceptual",
+        "prompt": "What is the best-case time complexity of Dijkstra's algorithm, and how does it compare to the worst case?",
+        "options": [
+          {
+            "id": "a",
+            "text": "They are effectively the same — every vertex still has to be extracted from the open set and every edge still has to be examined, regardless of the specific weights or graph shape, unless the search ends early because the destination is reached"
+          },
+          {
+            "id": "b",
+            "text": "Best case is O(1), if the start node happens to equal the end node"
+          },
+          {
+            "id": "c",
+            "text": "Best case is always O(V), while worst case is always O(V^2), with nothing in between"
+          },
+          {
+            "id": "d",
+            "text": "Dijkstra has no meaningful worst case, since it always finds the shortest path immediately"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Unlike a search that can get lucky and finish in one comparison, Dijkstra's cost-tracking approach has to fully process nodes in increasing cost order — the only real shortcut is line 5's early exit once the destination itself becomes the cheapest remaining node, which just reduces the constant factor, not the underlying complexity class."
+      },
+      {
+        "id": "dijkstra-hard-s2-q2",
+        "type": "conceptual",
+        "prompt": "Suppose a graph has a negative-weight edge, but no negative cycle. Could Dijkstra still produce a wrong answer, even though a correct shortest path technically exists?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Yes — Dijkstra can still close a node too early, locking in a cost that a later negative edge would have made cheaper, even though the graph itself has a well-defined shortest path"
+          },
+          {
+            "id": "b",
+            "text": "No — as long as there is no negative cycle, Dijkstra always finds the correct shortest path"
+          },
+          {
+            "id": "c",
+            "text": "Dijkstra would simply refuse to run at all if it saw a negative edge"
+          },
+          {
+            "id": "d",
+            "text": "A single negative edge always creates a negative cycle"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Dijkstra's guarantee depends on the assumption that a path can only get more expensive as it grows longer — a single negative edge breaks that assumption regardless of whether a full negative cycle exists, so the algorithm's greedy closing can still lock in a wrong, too-high cost. This is why Bellman-Ford (which handles negative edges correctly) is used instead when they might be present."
+      },
+      {
+        "id": "dijkstra-hard-s2-q3",
+        "type": "conceptual",
+        "prompt": "If Dijkstra is run without specifying an end node — letting it run until the open set is completely empty — what does it compute?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The shortest-path cost from the start node to every other reachable node in the graph, not just one specific destination"
+          },
+          {
+            "id": "b",
+            "text": "Nothing useful — Dijkstra requires an end node to produce any correct results at all"
+          },
+          {
+            "id": "c",
+            "text": "The single longest path in the entire graph"
+          },
+          {
+            "id": "d",
+            "text": "Only the cost to the node with the fewest neighbors"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Removing line 5's early-exit check doesn't break anything — it just means the algorithm keeps closing nodes in increasing cost order until none are left, ending up with a correct shortest-path cost (and reconstructable path) to every node reachable from the start, which is exactly what's needed for a 'distances from start' map."
+      },
+      {
+        "id": "dijkstra-hard-s2-q4",
+        "type": "conceptual",
+        "prompt": "This implementation stores a single graph-wide \"cost\" table. Could two different Dijkstra searches (say, from two different start nodes) safely share that same table?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No — the cost table is meaningful only relative to one specific start node; reusing it for a different start node would mix up costs computed from two entirely different origins"
+          },
+          {
+            "id": "b",
+            "text": "Yes, since cost values are always the same no matter which node the search starts from"
+          },
+          {
+            "id": "c",
+            "text": "Yes, as long as the two start nodes are directly connected"
+          },
+          {
+            "id": "d",
+            "text": "It depends only on whether the graph is directed or undirected"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "cost[start] = 0 and every other cost is computed relative to that specific starting point on line 2. A fresh Dijkstra run needs its own fresh cost table (and open/closed sets) — reusing stale values from a previous run with a different start would produce meaningless, mixed-origin results."
+      },
+      {
+        "id": "dijkstra-hard-s2-q5",
+        "type": "execution",
+        "prompt": "This is the very first iteration, and cost[start] has just been set. Given that every other node's cost is conceptually infinite at this point, what is the only node that could possibly be picked first?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 1
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "A itself — it is the only node in the open set, and its cost of 0 is trivially the lowest possible"
+          },
+          {
+            "id": "b",
+            "text": "Whichever node has the most neighbors, regardless of cost"
+          },
+          {
+            "id": "c",
+            "text": "F, since it is the destination and gets priority"
+          },
+          {
+            "id": "d",
+            "text": "It's impossible to know without examining every edge in the graph first"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "At this very first step, the open set contains exactly one entry — the start node itself — so sorting by cost is trivial and A is guaranteed to be picked, regardless of what any other node's (still-undiscovered) cost will eventually turn out to be."
+      },
+      {
+        "id": "dijkstra-hard-s2-q6",
+        "type": "execution",
+        "prompt": "B has just been closed. At this point, has the algorithm found the true shortest path from A to every node it has discovered so far?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 18
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Only for the nodes that are already closed (A, C, and now B) — D and E are still open, and their costs (14 and 5 respectively at this point) could still change before they're closed"
+          },
+          {
+            "id": "b",
+            "text": "Yes, every discovered node's cost is already final the moment it is discovered"
+          },
+          {
+            "id": "c",
+            "text": "No node's cost is ever considered final until the entire algorithm finishes"
+          },
+          {
+            "id": "d",
+            "text": "Only A's cost is ever guaranteed to be correct"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This is the precise distinction between 'discovered' and 'closed': every closed node's cost is provably final, but an open node's cost is only the best found *so far* — exactly why D's cost of 14 here still has room to improve to 9 once E is processed shortly after."
+      },
+      {
+        "id": "dijkstra-hard-s2-q7",
+        "type": "execution",
+        "prompt": "At the moment F is discovered (added to the open set) via E, with a cost of 13, is it guaranteed that 13 will be F's final cost when it is eventually closed?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 29
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Not yet — F is only closed once it becomes the cheapest node in the open set; until then, a cheaper route (like the one later checked through D) could still be found, though on this graph none turns out to beat 13"
+          },
+          {
+            "id": "b",
+            "text": "Yes — the very first cost assigned to any node is always its final cost"
+          },
+          {
+            "id": "c",
+            "text": "No node's cost can ever be trusted until every node in the graph has been discovered"
+          },
+          {
+            "id": "d",
+            "text": "F's cost is guaranteed final because it is the destination node"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Being the destination doesn't grant any special immunity — F's cost of 13 is still just the best-known value while F sits in the open set. It happens to survive unchanged (the later D-F route of 20 is worse), but that's a fact about this graph's specific weights, not a guarantee baked into being 'discovered'."
+      },
+      {
+        "id": "dijkstra-hard-s2-q8",
+        "type": "code",
+        "prompt": "Fill in the blank on line 2 — what should the start node's initial cost be?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ", open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "0"
+          },
+          {
+            "id": "b",
+            "text": "Infinity"
+          },
+          {
+            "id": "c",
+            "text": "1"
+          },
+          {
+            "id": "d",
+            "text": "undefined"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "It costs nothing to be at your own starting point — cost[start] = 0 is the baseline every other tentative cost calculation builds on. The other two blanks in this snippet (lines 6 and 7) are covered by the next two questions."
+      },
+      {
+        "id": "dijkstra-hard-s2-q9",
+        "type": "code",
+        "prompt": "Fill in the blank on line 6 — where does the list of neighbors to check come from?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ", open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "graph[current]"
+          },
+          {
+            "id": "b",
+            "text": "open"
+          },
+          {
+            "id": "c",
+            "text": "cost"
+          },
+          {
+            "id": "d",
+            "text": "closed"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The algorithm needs to look up current's own connections in the graph — graph[current] returns exactly that list. The remaining blank in this snippet (line 7) is covered by the next question."
+      },
+      {
+        "id": "dijkstra-hard-s2-q10",
+        "type": "code",
+        "prompt": "Fill in the blank on line 7 — what value is added to the current node's cost to get the tentative cost of a neighbor?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, end):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ", open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if current == end: return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return no path",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "weight"
+          },
+          {
+            "id": "b",
+            "text": "newCost"
+          },
+          {
+            "id": "c",
+            "text": "end"
+          },
+          {
+            "id": "d",
+            "text": "0"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The cost of reaching a neighbor through the current node is the current node's own cost plus the weight of the specific edge connecting them — that edge weight is exactly what completes this calculation."
+      }
+    ],
+    "3": [
+      {
+        "id": "dijkstra-hard-s3-q1",
+        "type": "conceptual",
+        "prompt": "If start and end were the exact same node, what would this implementation do?",
+        "options": [
+          {
+            "id": "a",
+            "text": "On the very first iteration, current would be popped as that same node — and since current == end immediately, line 5's check would succeed right away, returning a trivial path with a total cost of 0"
+          },
+          {
+            "id": "b",
+            "text": "It would loop forever, since the start and end are the same"
+          },
+          {
+            "id": "c",
+            "text": "It would raise an error, since a node cannot be its own destination"
+          },
+          {
+            "id": "d",
+            "text": "It would return \"no path\", since a node has no path to itself"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "There's nothing in the logic that special-cases start == end — it falls out naturally from the existing checks. The open set starts as [start], the very first pop makes current equal to start (and therefore to end too), and line 5 fires on the first possible iteration."
+      },
+      {
+        "id": "dijkstra-hard-s3-q2",
+        "type": "conceptual",
+        "prompt": "Under what circumstance would this implementation actually reach line 10 and return \"no path\"?",
+        "options": [
+          {
+            "id": "a",
+            "text": "When the open set becomes completely empty before current ever equals end — meaning the destination is unreachable from the start, most likely because they're in different, disconnected parts of the graph"
+          },
+          {
+            "id": "b",
+            "text": "It can never actually happen, since every graph has a path between any two nodes"
+          },
+          {
+            "id": "c",
+            "text": "It happens whenever the graph contains any edge with a weight of exactly 0"
+          },
+          {
+            "id": "d",
+            "text": "It happens if the start node has more than three neighbors"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The main loop only continues while there's still something in the open set to process. If it empties out without current ever matching end, that means every node reachable from start has been exhausted and end simply isn't among them — the two nodes live in different connected components."
+      },
+      {
+        "id": "dijkstra-hard-s3-q3",
+        "type": "conceptual",
+        "prompt": "How does Dijkstra's core strategy differ from Bellman-Ford's, and why does that difference matter for negative weights?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Dijkstra greedily commits to the cheapest known node and never revisits a closed one; Bellman-Ford instead relaxes every edge repeatedly (V - 1 times), which lets it correct earlier decisions and correctly handle negative weights, at the cost of being slower overall"
+          },
+          {
+            "id": "b",
+            "text": "Dijkstra and Bellman-Ford use exactly the same algorithm, just with different variable names"
+          },
+          {
+            "id": "c",
+            "text": "Bellman-Ford only works on trees, while Dijkstra works on any graph"
+          },
+          {
+            "id": "d",
+            "text": "Dijkstra is a special case of Bellman-Ford that only runs on directed graphs"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Dijkstra's speed comes precisely from trusting a closed node's cost forever, which relies on non-negative weights. Bellman-Ford gives up that shortcut — repeatedly re-checking every edge lets it revise costs that a negative edge might improve later, making it correct on a wider class of graphs but with a higher time complexity (O(V × E) versus Dijkstra's much better bound)."
+      },
+      {
+        "id": "dijkstra-hard-s3-q4",
+        "type": "conceptual",
+        "prompt": "Dijkstra is classified as a greedy algorithm. What does that mean here, and why does it still produce a globally correct answer (unlike some other greedy algorithms)?",
+        "options": [
+          {
+            "id": "a",
+            "text": "A greedy algorithm makes the locally best choice at each step without reconsidering it — Dijkstra always closes the cheapest remaining node — and this happens to be provably globally optimal specifically because non-negative weights guarantee no future discovery can ever undercut an already-closed node's cost"
+          },
+          {
+            "id": "b",
+            "text": "Greedy algorithms are always guaranteed to produce the globally optimal answer to any problem"
+          },
+          {
+            "id": "c",
+            "text": "Dijkstra isn't actually a greedy algorithm, despite commonly being described as one"
+          },
+          {
+            "id": "d",
+            "text": "The term \"greedy\" here just refers to how much memory the algorithm uses"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Greedy algorithms in general can absolutely get stuck on a locally-good-but-globally-wrong choice — Dijkstra is a rare case where the greedy strategy is provably safe, and that safety hinges entirely on the non-negative-weight assumption discussed elsewhere in this quiz."
+      },
+      {
+        "id": "dijkstra-hard-s3-q5",
+        "type": "execution",
+        "prompt": "B has just been added to the open set (discovered), one step before its cost is visually drawn on the Node Costs chart. Has B's actual cost value already been calculated at this point, even though the chart still shows 0?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 5
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Yes — the algorithm's internal cost value for B is already set to 4 at this exact moment; the visible Node Costs chart simply hasn't been redrawn yet, since that happens in a separate step immediately afterward"
+          },
+          {
+            "id": "b",
+            "text": "No — B's cost genuinely doesn't exist yet until the chart updates in the next frame"
+          },
+          {
+            "id": "c",
+            "text": "The chart and the internal cost value are always updated in the exact same step, with no lag between them"
+          },
+          {
+            "id": "d",
+            "text": "B's cost is permanently stuck at 0 because it hasn't been visited yet"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The underlying algorithm computes and stores tentativeCost the moment it passes line 8's check — before either the \"discovering a new node\" or \"updating shortest known cost\" steps are even logged. What you're seeing here is a one-frame visual lag: the number is already correct internally, it just hasn't been drawn on screen yet."
+      },
+      {
+        "id": "dijkstra-hard-s3-q6",
+        "type": "execution",
+        "prompt": "A has just been visited, and the algorithm is checking neighbor C (the second of A's two neighbors). What distinguishes this check from the one made for B just before it?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 7
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Nothing structural — it's the same comparison logic applied to a different neighbor and a different edge weight (2, instead of B's 4), which is why C ends up with a lower cost than B"
+          },
+          {
+            "id": "b",
+            "text": "This check is skipped entirely, since B was already checked"
+          },
+          {
+            "id": "c",
+            "text": "C is compared against B's cost instead of against its own current cost"
+          },
+          {
+            "id": "d",
+            "text": "This is the last neighbor check the algorithm will ever perform"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Every neighbor of a newly visited node goes through the identical check (lines 7-9) — it's purely the specific edge weight that differs between them. A's edge to C weighs 2 versus its edge to B weighing 4, which is exactly why C ends up cheaper to reach and gets processed before B."
+      },
+      {
+        "id": "dijkstra-hard-s3-q7",
+        "type": "execution",
+        "prompt": "By this final frame, A, B, C, D, E, and F have all been closed. Looking at the final highlighted path (A-C-E-F), which closed nodes ended up NOT being part of the shortest path, and why were they still processed?",
+        "visualization": {
+          "graph": {
+            "A": [
+              {
+                "B": 4
+              },
+              {
+                "C": 2
+              }
+            ],
+            "B": [
+              {
+                "C": 5
+              },
+              {
+                "D": 10
+              }
+            ],
+            "C": [
+              {
+                "E": 3
+              }
+            ],
+            "D": [
+              {
+                "F": 11
+              }
+            ],
+            "E": [
+              {
+                "D": 4
+              },
+              {
+                "F": 8
+              }
+            ],
+            "F": []
+          },
+          "start": "A",
+          "end": "F",
+          "frameIndex": 39
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "B and D — both were cheaper to reach than F at the time they were processed, so the algorithm closed them along the way even though neither turned out to lie on the final shortest route"
+          },
+          {
+            "id": "b",
+            "text": "Every closed node is always part of the final shortest path, by definition"
+          },
+          {
+            "id": "c",
+            "text": "Only A was not part of the final path, since it is the start node"
+          },
+          {
+            "id": "d",
+            "text": "C and E were not part of the final path, despite being highlighted"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Dijkstra closes nodes in increasing order of cost, not in the order they'll turn out to matter for the final answer. B (cost 4) and D (cost 9) both got closed before F (cost 13) simply because they were cheaper to reach at the time — being closed only means \"this node's own shortest cost is settled,\" not \"this node is on the path to the destination.\""
+      },
+      {
+        "id": "dijkstra-hard-s3-q8",
+        "type": "code",
+        "prompt": "Fill in the blank on line 1 — what parameter tells the algorithm where the search should stop?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ": return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "end"
+          },
+          {
+            "id": "b",
+            "text": "target"
+          },
+          {
+            "id": "c",
+            "text": "goal"
+          },
+          {
+            "id": "d",
+            "text": "stop"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The function's signature needs a destination to check against on line 5 — that parameter is named end, and it's used by that exact name later in the pseudocode. The other two blanks in this snippet (lines 5 and 10) are covered by the next two questions."
+      },
+      {
+        "id": "dijkstra-hard-s3-q9",
+        "type": "code",
+        "prompt": "Fill in the blank on line 5 — what condition should trigger an early return of the completed path?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ": return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "current == end"
+          },
+          {
+            "id": "b",
+            "text": "current == start"
+          },
+          {
+            "id": "c",
+            "text": "open is empty"
+          },
+          {
+            "id": "d",
+            "text": "cost[current] == 0"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The algorithm should stop the moment the node it just picked as the cheapest remaining candidate is the destination itself — checking current against end is exactly that condition. The remaining blank in this snippet (line 10) is covered by the next question."
+      },
+      {
+        "id": "dijkstra-hard-s3-q10",
+        "type": "code",
+        "prompt": "Fill in the blank on line 10 — what should the function return if the loop finishes without ever reaching the destination?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dijkstra(graph, start, ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "cost[start] = 0, open = [start]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while open is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "sort open by cost, current = open.shift()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ": return path",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for neighbor in graph[current]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "newCost = cost[current] + weight",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if newCost < cost[neighbor]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "cost[neighbor] = newCost, open.push(neighbor)",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 10,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "no path"
+          },
+          {
+            "id": "b",
+            "text": "the full cost table"
+          },
+          {
+            "id": "c",
+            "text": "the start node"
+          },
+          {
+            "id": "d",
+            "text": "an empty graph"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "If the open set empties out and the loop ends on its own (rather than through line 5's early return), that means the destination was never reached — the only honest thing left to report is that no path exists between the two nodes."
+      }
+    ]
+  }
+}

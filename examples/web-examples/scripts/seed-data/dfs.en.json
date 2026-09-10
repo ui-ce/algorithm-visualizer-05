@@ -1,0 +1,3838 @@
+{
+  "easy": {
+    "1": [
+      {
+        "id": "dfs-easy-s1-q1",
+        "type": "conceptual",
+        "prompt": "What is the main goal of Depth-First Search (DFS)?",
+        "options": [
+          {
+            "id": "a",
+            "text": "To explore as far as possible down one branch before backtracking to try another"
+          },
+          {
+            "id": "b",
+            "text": "To visit every node at the current distance from the start before going deeper"
+          },
+          {
+            "id": "c",
+            "text": "To find the shortest path between two nodes in a weighted graph"
+          },
+          {
+            "id": "d",
+            "text": "To sort the nodes of a graph by their numeric value"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "DFS commits to one path and follows it as deep as it goes, only backtracking once it hits a dead end — that \"go deep first\" behavior is where its name comes from."
+      },
+      {
+        "id": "dfs-easy-s1-q2",
+        "type": "conceptual",
+        "prompt": "Which data structure does this DFS implementation use to decide which node to visit next?",
+        "options": [
+          {
+            "id": "a",
+            "text": "A stack, so the most recently discovered node is visited next"
+          },
+          {
+            "id": "b",
+            "text": "A queue, so the earliest discovered node is visited next"
+          },
+          {
+            "id": "c",
+            "text": "A sorted list, so the smallest-value node is visited next"
+          },
+          {
+            "id": "d",
+            "text": "A priority queue ordered by distance from the start"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A stack is Last-In-First-Out, so the neighbor pushed most recently is popped first. That's exactly what makes the traversal dive deep along one branch instead of spreading out evenly, which is what a queue (used by BFS) would do."
+      },
+      {
+        "id": "dfs-easy-s1-q3",
+        "type": "execution",
+        "prompt": "The traversal is just beginning. What happens at this very first step?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 0
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Node A, the only entry on the stack, is popped to become the current node"
+          },
+          {
+            "id": "b",
+            "text": "Node A is immediately marked visited without being popped first"
+          },
+          {
+            "id": "c",
+            "text": "All of A's neighbors are visited before A itself"
+          },
+          {
+            "id": "d",
+            "text": "The stack starts out empty and the algorithm ends immediately"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The stack always starts as [A], since DFS begins at the hardcoded start node. The very first thing the loop does is pop that single entry off the stack, making A the current node to process."
+      },
+      {
+        "id": "dfs-easy-s1-q4",
+        "type": "execution",
+        "prompt": "Node A has just been popped and marked visited. What happens next?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 2
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "A's neighbors, B and C, are pushed onto the stack so they can be explored next"
+          },
+          {
+            "id": "b",
+            "text": "The algorithm ends, since A has no unvisited neighbors"
+          },
+          {
+            "id": "c",
+            "text": "A's neighbors are marked visited immediately, without being pushed onto the stack"
+          },
+          {
+            "id": "d",
+            "text": "The stack is cleared and restarted from an empty state"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Once a node is visited, its neighbors (here, B and C) are pushed onto the stack — not visited immediately — so they can each be popped and processed in a later iteration of the loop."
+      },
+      {
+        "id": "dfs-easy-s1-q5",
+        "type": "code",
+        "prompt": "Fill in the blank in the DFS pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dfs(graph, start):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "stack = [start], visited = {}",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while stack is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "node = stack.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if node not in visited:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "mark node visited",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "push node neighbors onto stack",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return visited",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "pop"
+          },
+          {
+            "id": "b",
+            "text": "shift"
+          },
+          {
+            "id": "c",
+            "text": "peek"
+          },
+          {
+            "id": "d",
+            "text": "sort"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "pop() removes and returns the last element added to the stack. That Last-In-First-Out removal is what makes the traversal go deep along one branch — using shift() (first-in-first-out) would turn this into BFS instead."
+      }
+    ],
+    "2": [
+      {
+        "id": "dfs-easy-s2-q1",
+        "type": "conceptual",
+        "prompt": "Why does DFS need a visited set?",
+        "options": [
+          {
+            "id": "a",
+            "text": "To avoid processing the same node more than once, which matters most on graphs with cycles"
+          },
+          {
+            "id": "b",
+            "text": "To keep track of which nodes are the largest in value"
+          },
+          {
+            "id": "c",
+            "text": "To store the shortest distance from the start to every other node"
+          },
+          {
+            "id": "d",
+            "text": "To decide the order neighbors are listed in the input graph"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Without a visited set, a graph containing a cycle would send DFS back and forth between the same nodes forever. Checking 'if node not in visited' before processing a node is what guarantees every node is handled exactly once."
+      },
+      {
+        "id": "dfs-easy-s2-q2",
+        "type": "conceptual",
+        "prompt": "How does DFS differ from BFS in the order it visits nodes?",
+        "options": [
+          {
+            "id": "a",
+            "text": "DFS dives deep along one branch before backtracking; BFS visits every neighbor at the current depth before going deeper"
+          },
+          {
+            "id": "b",
+            "text": "DFS and BFS always visit nodes in exactly the same order"
+          },
+          {
+            "id": "c",
+            "text": "DFS visits nodes in alphabetical order; BFS visits them in numeric order"
+          },
+          {
+            "id": "d",
+            "text": "DFS only works on trees, while BFS only works on general graphs"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The two algorithms explore the exact same graph completely differently because of the data structure behind them: DFS's stack commits to one path, while BFS's queue spreads outward level by level."
+      },
+      {
+        "id": "dfs-easy-s2-q3",
+        "type": "execution",
+        "prompt": "The stack currently holds [C, B], with B on top. What happens next?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 6
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "B is popped from the top of the stack and marked visited"
+          },
+          {
+            "id": "b",
+            "text": "C is popped instead, since it was pushed first"
+          },
+          {
+            "id": "c",
+            "text": "Both B and C are popped and visited together in this step"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm ends because the stack still has two entries"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A stack pops from the top, and B was pushed last (after C), so B is popped and processed first — this is exactly the Last-In-First-Out order that gives DFS its depth-first behavior."
+      },
+      {
+        "id": "dfs-easy-s2-q4",
+        "type": "execution",
+        "prompt": "B has just been visited. B's neighbor list is [A, D, E], and A was already visited earlier. What happens to A here?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 7
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "A is pushed onto the stack anyway, even though it is already visited — the check happens later, when it gets popped"
+          },
+          {
+            "id": "b",
+            "text": "A is skipped entirely and never pushed, since the algorithm already knows it is visited"
+          },
+          {
+            "id": "c",
+            "text": "The algorithm raises an error because A appears in B's neighbor list twice"
+          },
+          {
+            "id": "d",
+            "text": "A is removed from the graph so it cannot be pushed again"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This implementation pushes every neighbor onto the stack without checking visited status first — line 7 pushes all of a node's neighbors unconditionally. The 'if node not in visited' check only happens later, once a node is actually popped."
+      },
+      {
+        "id": "dfs-easy-s2-q5",
+        "type": "code",
+        "prompt": "Fill in the blank in the DFS pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dfs(graph, start):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "stack = [start], visited = {}",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while stack is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "node = stack.pop()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if node ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " visited:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "mark node visited",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "push node neighbors onto stack",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return visited",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "not in"
+          },
+          {
+            "id": "b",
+            "text": "in"
+          },
+          {
+            "id": "c",
+            "text": "equals"
+          },
+          {
+            "id": "d",
+            "text": "greater than"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The algorithm should only process a node the first time it's popped — 'not in' guards against re-processing a node that was pushed onto the stack more than once (a common occurrence, since neighbors are pushed without a prior visited check)."
+      }
+    ],
+    "3": [
+      {
+        "id": "dfs-easy-s3-q1",
+        "type": "conceptual",
+        "prompt": "What does it mean for DFS to \"backtrack\"?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Returning to a previous point in the traversal because the current branch has no more unvisited nodes to explore"
+          },
+          {
+            "id": "b",
+            "text": "Undoing every visit made so far and restarting from the start node"
+          },
+          {
+            "id": "c",
+            "text": "Sorting the visited nodes back into their original order"
+          },
+          {
+            "id": "d",
+            "text": "Removing the start node from the graph once the traversal is done"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Backtracking is what happens automatically once a branch runs out of unvisited neighbors to push: the stack's next entry is simply whatever was pushed earlier by an ancestor node further back in the traversal."
+      },
+      {
+        "id": "dfs-easy-s3-q2",
+        "type": "conceptual",
+        "prompt": "On the graph used in this quiz, DFS starts at node A. Is that a fixed rule of this implementation, or could it start anywhere?",
+        "options": [
+          {
+            "id": "a",
+            "text": "This implementation hardcodes the start node to 'A' — a general DFS could start from any chosen node"
+          },
+          {
+            "id": "b",
+            "text": "DFS must always start from the node with the fewest neighbors"
+          },
+          {
+            "id": "c",
+            "text": "DFS must always start from whichever node was added to the graph first, regardless of its label"
+          },
+          {
+            "id": "d",
+            "text": "The start node is chosen at random every time the algorithm runs"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The pseudocode's function signature, dfs(graph, start), takes a start node as a parameter — DFS itself works from any starting node. This particular app's implementation just always calls it with 'A'."
+      },
+      {
+        "id": "dfs-easy-s3-q3",
+        "type": "execution",
+        "prompt": "Node A was already visited earlier, and it has just been popped again from the stack. What happens now?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 11
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "It's already visited, so this iteration does nothing further and moves on to the next pop"
+          },
+          {
+            "id": "b",
+            "text": "It gets visited a second time and its neighbors are pushed again"
+          },
+          {
+            "id": "c",
+            "text": "The algorithm stops immediately, since a node cannot be popped twice"
+          },
+          {
+            "id": "d",
+            "text": "A's edges are removed from the graph"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This is exactly the case line 5's check exists for: A is already in the visited set, so the 'if node not in visited' condition is false, and the loop simply moves to its next iteration without doing anything else with A."
+      },
+      {
+        "id": "dfs-easy-s3-q4",
+        "type": "execution",
+        "prompt": "D has just been popped from the stack for the first time. What happens to it?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 15
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "D is marked visited, since it hasn't been processed before"
+          },
+          {
+            "id": "b",
+            "text": "D is skipped, since it was already visited earlier"
+          },
+          {
+            "id": "c",
+            "text": "D is pushed back onto the stack without being visited"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm ends because D has only one neighbor"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "D has not appeared in the visited set before this point, so the check on line 5 passes and D is marked visited — its one neighbor (B) will be pushed onto the stack next."
+      },
+      {
+        "id": "dfs-easy-s3-q5",
+        "type": "code",
+        "prompt": "Fill in the blank in the DFS pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dfs(graph, start):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "stack = [start], visited = {}",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while stack is ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "node = stack.pop()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if node not in visited:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "mark node visited",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "push node neighbors onto stack",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return visited",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "not"
+          },
+          {
+            "id": "b",
+            "text": "still"
+          },
+          {
+            "id": "c",
+            "text": "never"
+          },
+          {
+            "id": "d",
+            "text": "always"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The loop must keep running as long as there is still work left, which is exactly while the stack is NOT empty. Once the stack empties, there is nothing left to pop, and the loop should stop."
+      }
+    ]
+  },
+  "medium": {
+    "1": [
+      {
+        "id": "dfs-medium-s1-q1",
+        "type": "conceptual",
+        "prompt": "What is the time complexity of DFS on a graph with V vertices and E edges, using an adjacency list?",
+        "options": [
+          {
+            "id": "a",
+            "text": "O(V + E) — every vertex is visited once and every edge is examined once"
+          },
+          {
+            "id": "b",
+            "text": "O(V * E) — every vertex is compared against every edge"
+          },
+          {
+            "id": "c",
+            "text": "O(V^2), regardless of how the graph is represented"
+          },
+          {
+            "id": "d",
+            "text": "O(log V), since the stack keeps the traversal balanced"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Each vertex is popped and processed exactly once (O(V)), and each edge is looked at exactly once when its endpoints' neighbor lists are scanned (O(E)) — added together, that's O(V + E)."
+      },
+      {
+        "id": "dfs-medium-s1-q2",
+        "type": "conceptual",
+        "prompt": "What is the space complexity of DFS, and what does it depend on?",
+        "options": [
+          {
+            "id": "a",
+            "text": "O(V) in the worst case, for the stack and the visited set, which can together hold every vertex"
+          },
+          {
+            "id": "b",
+            "text": "O(1), since DFS never stores more than one node at a time"
+          },
+          {
+            "id": "c",
+            "text": "O(E), since every edge needs to be stored on the stack"
+          },
+          {
+            "id": "d",
+            "text": "O(V^2), since the visited set stores every possible pair of vertices"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "In the worst case (for example, a graph shaped like a single long chain), the stack can end up holding close to every vertex before any of them are popped, and the visited set grows to hold every vertex too — both are O(V)."
+      },
+      {
+        "id": "dfs-medium-s1-q3",
+        "type": "conceptual",
+        "prompt": "This app implements DFS iteratively with an explicit stack rather than recursively. What is the main practical benefit of that choice?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It avoids the risk of a stack overflow on very deep graphs, since it doesn't rely on the call stack"
+          },
+          {
+            "id": "b",
+            "text": "It makes the traversal visit nodes in a different order than a recursive version would"
+          },
+          {
+            "id": "c",
+            "text": "It reduces the time complexity from O(V + E) to O(V)"
+          },
+          {
+            "id": "d",
+            "text": "It removes the need for a visited set entirely"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Recursive DFS uses the call stack itself to remember where to backtrack to, which can overflow on a graph with a very long chain of nodes. An explicit stack data structure has no such limit (beyond available memory) and produces the exact same traversal order."
+      },
+      {
+        "id": "dfs-medium-s1-q4",
+        "type": "execution",
+        "prompt": "D has just been visited, and its only neighbor is B — which was already visited earlier. What happens to B here?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 16
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "B is pushed onto the stack again, creating a second, stale entry for an already-visited node"
+          },
+          {
+            "id": "b",
+            "text": "B is skipped and never pushed, since the algorithm remembers it is visited"
+          },
+          {
+            "id": "c",
+            "text": "D is removed from the visited set because its only neighbor is already visited"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm terminates, since D has no unvisited neighbors"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Line 7 pushes every neighbor unconditionally, with no visited check at push time. So B — already visited — gets pushed onto the stack a second time. That stale entry will simply be skipped once it's eventually popped and checked on line 5."
+      },
+      {
+        "id": "dfs-medium-s1-q5",
+        "type": "execution",
+        "prompt": "This stale, duplicate copy of B has just been popped from the stack. What happens to it?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 20
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "It's already in the visited set, so line 5's check fails and nothing further happens with it"
+          },
+          {
+            "id": "b",
+            "text": "It gets visited again, and its neighbors are pushed onto the stack a second time"
+          },
+          {
+            "id": "c",
+            "text": "The stack is cleared entirely to remove any other stale duplicates"
+          },
+          {
+            "id": "d",
+            "text": "An error is raised because the same node was pushed twice"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This is the direct cost of pushing neighbors without checking visited status first: stale duplicate entries do get popped eventually, but the \"not in visited\" check on line 5 quietly discards them without any extra visiting or pushing."
+      },
+      {
+        "id": "dfs-medium-s1-q6",
+        "type": "execution",
+        "prompt": "E has just been popped from the stack for the first time. What happens to it?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 24
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "E is marked visited, and its neighbors (B and F) will be pushed onto the stack next"
+          },
+          {
+            "id": "b",
+            "text": "E is skipped, since it appears more than once in the graph"
+          },
+          {
+            "id": "c",
+            "text": "E is visited, but its neighbors are not pushed because B was already visited"
+          },
+          {
+            "id": "d",
+            "text": "The traversal ends here, since E is the fourth node visited"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "E has not been visited before this point, so line 5's check passes: E is marked visited (line 6) and then all of its neighbors — both B and F — are pushed onto the stack on line 7, regardless of whether they've been visited already."
+      },
+      {
+        "id": "dfs-medium-s1-q7",
+        "type": "code",
+        "prompt": "Fill in the blank in the DFS pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dfs(graph, start):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "stack = [",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "], visited = {}",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while stack is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "node = stack.pop()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if node not in visited:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "mark node visited",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "push node neighbors onto stack",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return visited",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "start"
+          },
+          {
+            "id": "b",
+            "text": "graph"
+          },
+          {
+            "id": "c",
+            "text": "visited"
+          },
+          {
+            "id": "d",
+            "text": "end"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The stack must be seeded with the node the traversal begins from — the start parameter — so the very first pop in the loop has something to work with."
+      }
+    ],
+    "2": [
+      {
+        "id": "dfs-medium-s2-q1",
+        "type": "conceptual",
+        "prompt": "Which of these problems is DFS a natural fit for?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Detecting whether a graph contains a cycle"
+          },
+          {
+            "id": "b",
+            "text": "Finding the shortest path in a weighted graph"
+          },
+          {
+            "id": "c",
+            "text": "Sorting a list of numbers"
+          },
+          {
+            "id": "d",
+            "text": "Finding the maximum value stored in the graph"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "DFS can detect a cycle by noticing when it reaches a node that is already on the current path being explored — a byproduct of how it tracks its own traversal. Shortest-path problems need Dijkstra or BFS instead."
+      },
+      {
+        "id": "dfs-medium-s2-q2",
+        "type": "conceptual",
+        "prompt": "If the graph passed to DFS is disconnected (some nodes cannot be reached from the start node), what happens to those unreachable nodes?",
+        "options": [
+          {
+            "id": "a",
+            "text": "They never get pushed onto the stack and are never marked visited"
+          },
+          {
+            "id": "b",
+            "text": "They cause the algorithm to throw an error and stop"
+          },
+          {
+            "id": "c",
+            "text": "They are visited last, after every reachable node"
+          },
+          {
+            "id": "d",
+            "text": "They are visited first, before the start node"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "DFS only ever discovers a node by finding it in an already-visited node's neighbor list. A node with no path back to the start is never pushed onto the stack in the first place, so it simply never appears in the visited set."
+      },
+      {
+        "id": "dfs-medium-s2-q3",
+        "type": "conceptual",
+        "prompt": "Does this DFS implementation guarantee finding the shortest path (fewest edges) from the start to any other node?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No — DFS commits to the first available neighbor rather than exploring breadth-first, so it can reach a node via a longer path than necessary"
+          },
+          {
+            "id": "b",
+            "text": "Yes, DFS always finds the shortest path in any graph"
+          },
+          {
+            "id": "c",
+            "text": "Only if the graph has no cycles"
+          },
+          {
+            "id": "d",
+            "text": "Only if every edge has the same weight"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "DFS's traversal order (A, B, D, E, F, C on this graph) isn't organized by distance from the start at all — that guarantee belongs to BFS on unweighted graphs, or Dijkstra on weighted ones."
+      },
+      {
+        "id": "dfs-medium-s2-q4",
+        "type": "execution",
+        "prompt": "E has just been visited. E's neighbors are B (already visited) and F (never seen before). What happens to each of them?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 25
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Both B and F are pushed onto the stack — B as a stale duplicate, F as a genuinely new discovery"
+          },
+          {
+            "id": "b",
+            "text": "Only F is pushed, since B is already visited"
+          },
+          {
+            "id": "c",
+            "text": "Only B is pushed, since F was already discovered by a different node"
+          },
+          {
+            "id": "d",
+            "text": "Neither is pushed, since E has already been visited"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Line 7 pushes every neighbor with no visited check — so B (already visited) is pushed again as a stale duplicate, right alongside F (truly new, and now marked for discovery on the graph)."
+      },
+      {
+        "id": "dfs-medium-s2-q5",
+        "type": "execution",
+        "prompt": "This is the second stale copy of B to reach the top of the stack. What happens when it is popped here?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 29
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "It's still already visited, so it's skipped exactly the same way the first stale copy was"
+          },
+          {
+            "id": "b",
+            "text": "It gets a special second visit, since it has now appeared on the stack twice"
+          },
+          {
+            "id": "c",
+            "text": "It causes the traversal to jump back to the start node A"
+          },
+          {
+            "id": "d",
+            "text": "It permanently removes B from the graph"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Every stale duplicate of an already-visited node is handled identically: line 5's check fails, and the loop moves on. It doesn't matter how many times a node was pushed — only the very first pop where it's unvisited actually does anything."
+      },
+      {
+        "id": "dfs-medium-s2-q6",
+        "type": "execution",
+        "prompt": "F has just been popped from the stack for the first time. What happens to it?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 33
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "F is marked visited, and its neighbors (C and E) will be pushed onto the stack next"
+          },
+          {
+            "id": "b",
+            "text": "F is skipped, since C, one of its neighbors, was discovered earlier"
+          },
+          {
+            "id": "c",
+            "text": "F is visited, but no neighbors are pushed since E is already visited"
+          },
+          {
+            "id": "d",
+            "text": "The traversal ends, since F is the graph's last remaining node"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "F hasn't appeared in the visited set yet, so it gets marked visited here — and just like every other node, both of its neighbors get pushed onto the stack next, regardless of their own visited status."
+      },
+      {
+        "id": "dfs-medium-s2-q7",
+        "type": "code",
+        "prompt": "Fill in the blank in the DFS pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dfs(graph, start):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "stack = [start], visited = {}",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while stack is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "node = stack.pop()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if node not in visited:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "mark node visited",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "push node ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " onto stack",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return visited",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "neighbors"
+          },
+          {
+            "id": "b",
+            "text": "parent"
+          },
+          {
+            "id": "c",
+            "text": "index"
+          },
+          {
+            "id": "d",
+            "text": "value"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "It's node's neighbors that get pushed once node itself is visited — that's what makes the traversal spread outward to adjacent nodes, one step at a time."
+      }
+    ],
+    "3": [
+      {
+        "id": "dfs-medium-s3-q1",
+        "type": "conceptual",
+        "prompt": "On this graph, node C is pushed onto the stack very early (right after A is visited) but isn't actually visited until much later. Why can that happen?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Being pushed onto the stack (discovered) and being visited are two different events — C stays buried under other entries until every node stacked above it has been processed"
+          },
+          {
+            "id": "b",
+            "text": "It happens because C has no neighbors of its own"
+          },
+          {
+            "id": "c",
+            "text": "The graph's edges are read in a random order every time the algorithm runs"
+          },
+          {
+            "id": "d",
+            "text": "It is a bug — a correct DFS would always visit C right after pushing it"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A stack only exposes its top entry. Once C is pushed, it can sit buried under everything pushed afterward until the traversal backtracks all the way down to it — which is exactly why discovery order and visit order can differ so much."
+      },
+      {
+        "id": "dfs-medium-s3-q2",
+        "type": "conceptual",
+        "prompt": "Compared to BFS, why is DFS often more memory-efficient on graphs that are deep but not wide?",
+        "options": [
+          {
+            "id": "a",
+            "text": "DFS's stack only needs to remember the current path plus a few pending branches, while BFS's queue can end up holding an entire wide level of the graph at once"
+          },
+          {
+            "id": "b",
+            "text": "DFS never needs a visited set, while BFS does"
+          },
+          {
+            "id": "c",
+            "text": "DFS always processes fewer nodes overall than BFS"
+          },
+          {
+            "id": "d",
+            "text": "DFS's stack has a fixed maximum size, unlike BFS's queue"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "BFS keeps every node at the current frontier in its queue at once, which can be huge on a wide graph. DFS's stack instead only tends to hold the nodes along the current path (plus their as-yet-unvisited siblings), which stays small on a deep, narrow graph."
+      },
+      {
+        "id": "dfs-medium-s3-q3",
+        "type": "conceptual",
+        "prompt": "How does running DFS and recording each node's finish time (when it and all its descendants are fully processed) relate to topological sorting?",
+        "options": [
+          {
+            "id": "a",
+            "text": "On a directed acyclic graph, listing nodes in decreasing order of finish time produces a valid topological order"
+          },
+          {
+            "id": "b",
+            "text": "Finish times have no relationship to topological order at all"
+          },
+          {
+            "id": "c",
+            "text": "Topological sorting requires running DFS twice on the same graph"
+          },
+          {
+            "id": "d",
+            "text": "A node with an earlier finish time must always come before one with a later finish time"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This is the standard DFS-based topological sort: a node only \"finishes\" after all of its dependencies (its descendants in the DFS tree) have finished, so sorting by decreasing finish time respects every dependency edge."
+      },
+      {
+        "id": "dfs-medium-s3-q4",
+        "type": "execution",
+        "prompt": "F has just been visited. Its neighbors are C (discovered long ago, still not visited) and E (already visited). What happens to each?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 34
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Both are pushed onto the stack again — E as a stale duplicate, C as yet another copy of a node still waiting to be visited"
+          },
+          {
+            "id": "b",
+            "text": "Neither is pushed, since both have already appeared on the stack before"
+          },
+          {
+            "id": "c",
+            "text": "Only C is pushed, since E is already visited"
+          },
+          {
+            "id": "d",
+            "text": "C is removed from the graph, since it has waited too long to be visited"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Line 7 doesn't check visited status before pushing, and it also doesn't check whether a node is already sitting somewhere else on the stack — so both E (visited) and C (not yet visited, but already on the stack once) get pushed again."
+      },
+      {
+        "id": "dfs-medium-s3-q5",
+        "type": "execution",
+        "prompt": "This copy of C has just been popped, and it turns out to be the first time C is actually being processed. What happens?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 38
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "C is marked visited — its long wait on the stack is finally over — and its neighbors are pushed next"
+          },
+          {
+            "id": "b",
+            "text": "C is skipped, since it was discovered so early in the traversal"
+          },
+          {
+            "id": "c",
+            "text": "The algorithm restarts from A, since C took unusually long to be visited"
+          },
+          {
+            "id": "d",
+            "text": "C is visited, but no further neighbors are pushed"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Regardless of how long a node sat on the stack, all that matters is whether it's in the visited set when it's popped. This is C's first pop, so it passes the check on line 5 and gets visited like any other node."
+      },
+      {
+        "id": "dfs-medium-s3-q6",
+        "type": "execution",
+        "prompt": "C has just been visited. Its neighbors are A and F, both already visited long ago. What happens to them?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 39
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Both are pushed onto the stack as stale duplicates, and will simply be skipped when eventually popped"
+          },
+          {
+            "id": "b",
+            "text": "Neither is pushed, since the algorithm now recognizes them as visited"
+          },
+          {
+            "id": "c",
+            "text": "The traversal ends immediately, since both of C's neighbors are already visited"
+          },
+          {
+            "id": "d",
+            "text": "A and F are merged into a single node"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Same unconditional push as every other visit: A and F both get pushed onto the stack again even though they're long since visited. These are the last two stale entries the traversal has to clear out before finishing."
+      },
+      {
+        "id": "dfs-medium-s3-q7",
+        "type": "code",
+        "prompt": "Fill in the blank in the DFS pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dfs(graph, start):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "stack = [start], visited = {}",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while stack is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "node = stack.pop()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if node not in visited:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "mark node ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "push node neighbors onto stack",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return visited",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "visited"
+          },
+          {
+            "id": "b",
+            "text": "unvisited"
+          },
+          {
+            "id": "c",
+            "text": "closed"
+          },
+          {
+            "id": "d",
+            "text": "sorted"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This is the line that actually records the node so future pops of it (stale duplicates included) get correctly recognized and skipped by the check on line 5 — it must mark the node visited."
+      }
+    ]
+  },
+  "hard": {
+    "1": [
+      {
+        "id": "dfs-hard-s1-q1",
+        "type": "conceptual",
+        "prompt": "In what order does this DFS implementation visit the nodes of the graph used throughout this quiz, starting from A?",
+        "options": [
+          {
+            "id": "a",
+            "text": "A, B, D, E, F, C"
+          },
+          {
+            "id": "b",
+            "text": "A, B, C, D, E, F"
+          },
+          {
+            "id": "c",
+            "text": "A, C, F, E, B, D"
+          },
+          {
+            "id": "d",
+            "text": "A, B, E, D, F, C"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Because neighbors are reversed before being pushed (so the first-listed neighbor ends up on top of the stack and is explored first), A's traversal goes A, B, D, E, F, and only then back to C, which was discovered early but sat buried on the stack the whole time."
+      },
+      {
+        "id": "dfs-hard-s1-q2",
+        "type": "conceptual",
+        "prompt": "Why is DFS (with backtracking) a natural fit for solving a maze or a puzzle like Sudoku?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It commits fully to one path, and backtracking to try the next option is exactly what happens automatically once a branch fails"
+          },
+          {
+            "id": "b",
+            "text": "It always finds the shortest solution path in the fewest number of moves"
+          },
+          {
+            "id": "c",
+            "text": "It explores every possible path in parallel at the same time"
+          },
+          {
+            "id": "d",
+            "text": "It doesn't need a visited set, which makes it easier to implement"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Maze and puzzle solving is fundamentally about trying one option, following it as far as it goes, and backing up to try another when it fails — DFS's own execution model does exactly this without any extra bookkeeping needed."
+      },
+      {
+        "id": "dfs-hard-s1-q3",
+        "type": "conceptual",
+        "prompt": "If a graph has two disconnected components and dfs(graph, start) is called with a start node from only one of them, what must be done to make sure every node in the whole graph gets visited?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Run DFS again from an unvisited node in the other component, and repeat until every node has been visited"
+          },
+          {
+            "id": "b",
+            "text": "Nothing — a single DFS call always reaches every node in the graph"
+          },
+          {
+            "id": "c",
+            "text": "Add an edge connecting the two components before running DFS"
+          },
+          {
+            "id": "d",
+            "text": "Sort the graph's nodes before calling DFS"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A single DFS call only ever reaches nodes connected to its start node. Fully covering a disconnected graph — which is exactly how DFS is used to find connected components — means looping over every node and starting a fresh DFS from any that are still unvisited."
+      },
+      {
+        "id": "dfs-hard-s1-q4",
+        "type": "conceptual",
+        "prompt": "For a very dense graph, where E (edges) is much larger than V (vertices), which part of O(V + E) dominates the actual running time?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The E term — with far more edges than vertices, scanning neighbor lists dominates the total work"
+          },
+          {
+            "id": "b",
+            "text": "The V term, since every algorithm is bounded by the number of vertices"
+          },
+          {
+            "id": "c",
+            "text": "Neither — dense graphs always run in constant time"
+          },
+          {
+            "id": "d",
+            "text": "V and E always contribute equally, regardless of the graph's shape"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "O(V + E) is exactly what it says: the two terms are added, not multiplied, so whichever one is larger dominates the sum. A dense graph has E much larger than V, so the edge-scanning work is what actually drives the running time."
+      },
+      {
+        "id": "dfs-hard-s1-q5",
+        "type": "execution",
+        "prompt": "This is a stale copy of A, discovered long ago via C's neighbor list, being popped near the very end of the traversal. What happens?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 43
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "A is already visited, so this pop does nothing — it's simply discarded"
+          },
+          {
+            "id": "b",
+            "text": "A is visited a second time, since it was pushed by a different node this time"
+          },
+          {
+            "id": "c",
+            "text": "The traversal jumps back to the very beginning, since A is the start node"
+          },
+          {
+            "id": "d",
+            "text": "This pop causes an error, since A has already appeared in the visited set"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "No matter which node originally pushed a stale duplicate onto the stack, the check on line 5 only cares whether the popped node is already in the visited set — it is, so nothing else happens."
+      },
+      {
+        "id": "dfs-hard-s1-q6",
+        "type": "execution",
+        "prompt": "This stale copy of F — pushed once by E and again by itself, earlier in the traversal — is now being popped. What happens?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 47
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "It's skipped, exactly like every other stale duplicate that reaches the top of the stack already visited"
+          },
+          {
+            "id": "b",
+            "text": "It triggers a fresh visit of F, since it was pushed from a different call"
+          },
+          {
+            "id": "c",
+            "text": "F's neighbors are re-pushed onto the stack a third time"
+          },
+          {
+            "id": "d",
+            "text": "The stack is emptied entirely to prevent further duplicates"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "There's nothing special about where or when a duplicate was pushed — every single one is handled by the same one-line check on line 5, and every one of them is skipped once the node is already visited."
+      },
+      {
+        "id": "dfs-hard-s1-q7",
+        "type": "execution",
+        "prompt": "The stack now holds just [C, E], with a stale copy of E on top. What happens when it is popped?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 51
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "It's skipped, since E is already visited, leaving just [C] on the stack"
+          },
+          {
+            "id": "b",
+            "text": "It causes the traversal to restart from E"
+          },
+          {
+            "id": "c",
+            "text": "It's visited again, and the stack grows instead of shrinking"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm terminates immediately once E is popped for the second time"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This is the traversal's cleanup phase: every remaining entry on the stack is a stale duplicate of an already-visited node, so each pop from here to the end simply shrinks the stack by one without doing anything else."
+      },
+      {
+        "id": "dfs-hard-s1-q8",
+        "type": "code",
+        "prompt": "Fill in the blank on line 4 — which stack operation retrieves the node to process next?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dfs(graph, start):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "stack = [start], visited = {}",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while stack is ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "node = stack.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if node ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " visited:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "mark node visited",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "push node neighbors onto stack",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return visited",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "pop"
+          },
+          {
+            "id": "b",
+            "text": "shift"
+          },
+          {
+            "id": "c",
+            "text": "peek"
+          },
+          {
+            "id": "d",
+            "text": "sort"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "pop() removes the most recently pushed entry, giving DFS its depth-first character. Note the two other blanks in this snippet (lines 3 and 5) are covered by the next two questions."
+      },
+      {
+        "id": "dfs-hard-s1-q9",
+        "type": "code",
+        "prompt": "Fill in the blank on line 3 — what condition keeps the main loop running?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dfs(graph, start):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "stack = [start], visited = {}",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while stack is ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "node = stack.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if node ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " visited:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "mark node visited",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "push node neighbors onto stack",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return visited",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "not"
+          },
+          {
+            "id": "b",
+            "text": "still"
+          },
+          {
+            "id": "c",
+            "text": "barely"
+          },
+          {
+            "id": "d",
+            "text": "always"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The loop needs to keep running for as long as there is unprocessed work on the stack — that's \"while stack is NOT empty\". The other two blanks in this same snippet are covered by the surrounding questions."
+      },
+      {
+        "id": "dfs-hard-s1-q10",
+        "type": "code",
+        "prompt": "Fill in the blank on line 5 — what check decides whether a popped node actually gets processed?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dfs(graph, start):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "stack = [start], visited = {}",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while stack is ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "node = stack.",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if node ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " visited:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "mark node visited",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "push node neighbors onto stack",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return visited",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "not in"
+          },
+          {
+            "id": "b",
+            "text": "in"
+          },
+          {
+            "id": "c",
+            "text": "equal to"
+          },
+          {
+            "id": "d",
+            "text": "greater than"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This check — 'not in' visited — is what filters out every stale duplicate a node may have accumulated on the stack, making sure a node is only ever marked visited and expanded the first time it's popped."
+      }
+    ],
+    "2": [
+      {
+        "id": "dfs-hard-s2-q1",
+        "type": "conceptual",
+        "prompt": "How does this DFS implementation's best-case time complexity compare to its worst case?",
+        "options": [
+          {
+            "id": "a",
+            "text": "They are the same — O(V + E) either way, since every vertex and edge is always processed once regardless of the graph's shape"
+          },
+          {
+            "id": "b",
+            "text": "Best case is O(V), worst case is O(V + E)"
+          },
+          {
+            "id": "c",
+            "text": "Best case is O(1), if the start node has no neighbors"
+          },
+          {
+            "id": "d",
+            "text": "Best case is O(log V), on a balanced graph"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Unlike a sorting algorithm, DFS doesn't get to finish early on a 'favorable' input — it must still visit every reachable vertex and examine every one of its edges no matter how the graph is arranged, so best and worst case are the same O(V + E)."
+      },
+      {
+        "id": "dfs-hard-s2-q2",
+        "type": "conceptual",
+        "prompt": "For a recursive DFS implementation specifically (not this app's iterative one), what determines how deep the call stack gets?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The length of the longest path the traversal follows before backtracking — a long chain-like graph produces deep recursion"
+          },
+          {
+            "id": "b",
+            "text": "The total number of edges in the graph, regardless of its shape"
+          },
+          {
+            "id": "c",
+            "text": "The number of disconnected components in the graph"
+          },
+          {
+            "id": "d",
+            "text": "The order the neighbors are listed in the adjacency list"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Each recursive call for a node stays on the call stack until every one of its descendants has finished. On a long, chain-shaped graph that means one call sits on top of another all the way down the chain — which is exactly the scenario that can overflow the call stack, and why an iterative version avoids that risk."
+      },
+      {
+        "id": "dfs-hard-s2-q3",
+        "type": "conceptual",
+        "prompt": "On a graph that is wide (many nodes at the same distance from the start) rather than deep, how does DFS's memory use compare to BFS's?",
+        "options": [
+          {
+            "id": "a",
+            "text": "DFS still tends to use less memory, since its stack only grows with the branches it hasn't finished exploring yet, while BFS's queue can hold an entire wide frontier at once"
+          },
+          {
+            "id": "b",
+            "text": "DFS always uses more memory than BFS on a wide graph"
+          },
+          {
+            "id": "c",
+            "text": "They always use exactly the same amount of memory, regardless of graph shape"
+          },
+          {
+            "id": "d",
+            "text": "Memory use depends only on the number of edges, not the graph's width or depth"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "BFS's advantage (shortest paths) comes at the cost of holding a whole level of the graph in its queue, which is expensive on a wide graph. DFS's stack size is driven by how many branches are still 'pending' along the current path, which tends to stay much smaller."
+      },
+      {
+        "id": "dfs-hard-s2-q4",
+        "type": "conceptual",
+        "prompt": "Which of these tasks is DFS a poor fit for, compared to other graph algorithms?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Finding the shortest path between two nodes in a weighted graph — Dijkstra is built for that"
+          },
+          {
+            "id": "b",
+            "text": "Detecting a cycle in a graph"
+          },
+          {
+            "id": "c",
+            "text": "Finding the connected components of a graph"
+          },
+          {
+            "id": "d",
+            "text": "Traversing a file system's directory tree"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "DFS's traversal order has nothing to do with edge weights or distance from the start, so it offers no shortest-path guarantee on a weighted graph — that's specifically what Dijkstra's cost-tracking is designed to solve."
+      },
+      {
+        "id": "dfs-hard-s2-q5",
+        "type": "execution",
+        "prompt": "The stack holds only one entry left — a stale copy of C — and it is about to be popped. What happens, and what is the state of the stack right after?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 55
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "It's skipped since C is already visited, and the stack becomes empty, which will end the main loop on its next check"
+          },
+          {
+            "id": "b",
+            "text": "It's visited again, adding new entries to the stack"
+          },
+          {
+            "id": "c",
+            "text": "The traversal restarts from A, since the stack is nearly empty"
+          },
+          {
+            "id": "d",
+            "text": "It causes the visited set to be cleared"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This is the very last entry on the stack. Like every other stale duplicate, it's discarded by line 5's check — and with the stack now empty, the while condition on line 3 will fail on the next check, ending the loop."
+      },
+      {
+        "id": "dfs-hard-s2-q6",
+        "type": "execution",
+        "prompt": "The stack is now empty and every node has been marked visited. What does the algorithm do here?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 56
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The while loop's condition fails, so it exits and the visited set — now containing all six nodes — is returned"
+          },
+          {
+            "id": "b",
+            "text": "It picks a new, unvisited start node and begins a second traversal automatically"
+          },
+          {
+            "id": "c",
+            "text": "It removes nodes from the visited set one at a time until the stack refills"
+          },
+          {
+            "id": "d",
+            "text": "It raises an error, since the stack should never become fully empty"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "An empty stack is the normal, expected end condition — line 3's 'while stack is not empty' becomes false, the loop exits, and line 8 returns the completed visited set as the final result."
+      },
+      {
+        "id": "dfs-hard-s2-q7",
+        "type": "execution",
+        "prompt": "At this exact point, A has just been marked visited but nothing else has happened yet. What are the states of the stack and the visited set right now?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 1
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The stack is empty (A was just popped off it) and the visited set contains only A — its neighbors haven't been pushed yet"
+          },
+          {
+            "id": "b",
+            "text": "The stack still contains A, and the visited set is empty"
+          },
+          {
+            "id": "c",
+            "text": "The stack already contains B and C, and the visited set contains A, B, and C"
+          },
+          {
+            "id": "d",
+            "text": "Both the stack and the visited set are empty"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Marking a node visited (line 6) happens strictly after it has already been popped (line 4) and strictly before its neighbors get pushed (line 7) — so at this precise moment the stack is empty and only A is in the visited set."
+      },
+      {
+        "id": "dfs-hard-s2-q8",
+        "type": "code",
+        "prompt": "Fill in the blank on line 2 — what should the stack be initialized with?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dfs(graph, start):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "stack = [",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "], visited = {}",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while stack is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "node = stack.pop()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if node not in visited:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "mark node ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "push node ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " onto stack",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return visited",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "start"
+          },
+          {
+            "id": "b",
+            "text": "graph"
+          },
+          {
+            "id": "c",
+            "text": "visited"
+          },
+          {
+            "id": "d",
+            "text": "an empty list"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The traversal has to begin somewhere — the stack is seeded with the start node so the very first iteration of the loop has something to pop. The other two blanks in this snippet (lines 6 and 7) are covered by the next two questions."
+      },
+      {
+        "id": "dfs-hard-s2-q9",
+        "type": "code",
+        "prompt": "Fill in the blank on line 6 — what should happen to a node once it passes the visited check?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dfs(graph, start):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "stack = [",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "], visited = {}",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while stack is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "node = stack.pop()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if node not in visited:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "mark node ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "push node ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " onto stack",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return visited",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "visited"
+          },
+          {
+            "id": "b",
+            "text": "closed"
+          },
+          {
+            "id": "c",
+            "text": "discovered"
+          },
+          {
+            "id": "d",
+            "text": "sorted"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This is the step that actually records the node in the visited set, so any stale duplicate of it that shows up later on the stack gets correctly filtered out by line 5. The remaining blank in this snippet (line 7) is covered by the next question."
+      },
+      {
+        "id": "dfs-hard-s2-q10",
+        "type": "code",
+        "prompt": "Fill in the blank on line 7 — what gets pushed onto the stack once a node is visited?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dfs(graph, start):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "stack = [",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "], visited = {}",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while stack is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "node = stack.pop()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if node not in visited:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "mark node ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "push node ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " onto stack",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return visited",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "neighbors"
+          },
+          {
+            "id": "b",
+            "text": "ancestors"
+          },
+          {
+            "id": "c",
+            "text": "weight"
+          },
+          {
+            "id": "d",
+            "text": "index"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "It's the just-visited node's neighbors that get pushed — unconditionally, without checking if they're already visited — which is exactly the source of the stale duplicate entries seen throughout this traversal."
+      }
+    ],
+    "3": [
+      {
+        "id": "dfs-hard-s3-q1",
+        "type": "conceptual",
+        "prompt": "Could this DFS pseudocode be turned into BFS by changing only one thing?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Yes — replacing the stack (and stack.pop()) with a queue (and queue.shift()) turns the exact same skeleton into BFS"
+          },
+          {
+            "id": "b",
+            "text": "No — BFS requires an entirely different algorithm with no structural resemblance to DFS"
+          },
+          {
+            "id": "c",
+            "text": "Yes — removing the visited set is the only change needed"
+          },
+          {
+            "id": "d",
+            "text": "No — BFS cannot be expressed with a while loop at all"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "DFS and BFS share almost the exact same loop structure — pop/dequeue a node, check if visited, mark it, enqueue its neighbors. The single meaningful difference is which end of the pending-nodes structure gets removed from: the top of a stack (LIFO, depth-first) versus the front of a queue (FIFO, breadth-first)."
+      },
+      {
+        "id": "dfs-hard-s3-q2",
+        "type": "conceptual",
+        "prompt": "Can this DFS implementation, as written, be used directly to find the shortest path in a weighted graph?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No — it has no concept of edge weights or accumulated cost at all; Dijkstra (or Bellman-Ford for negative weights) is needed for that"
+          },
+          {
+            "id": "b",
+            "text": "Yes, as long as the graph's weights are all positive"
+          },
+          {
+            "id": "c",
+            "text": "Yes, but only if the graph is a tree"
+          },
+          {
+            "id": "d",
+            "text": "No algorithm can find shortest paths in a weighted graph"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This pseudocode never reads or accumulates any notion of cost — it only tracks which nodes have been reached. Adapting a traversal to find shortest weighted paths means tracking and comparing costs along the way, which is what Dijkstra's algorithm adds on top of a similar graph-exploration skeleton."
+      },
+      {
+        "id": "dfs-hard-s3-q3",
+        "type": "conceptual",
+        "prompt": "This implementation pushes every neighbor of a visited node onto the stack without first checking whether that neighbor is already visited. Does that affect the correctness of the final visited set DFS returns?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No — it only creates extra, harmless stale entries on the stack that get filtered out later by line 5's check; the final visited set is exactly the same either way"
+          },
+          {
+            "id": "b",
+            "text": "Yes — it causes some reachable nodes to be left out of the visited set"
+          },
+          {
+            "id": "c",
+            "text": "Yes — it causes the algorithm to visit some nodes more than once in the final result"
+          },
+          {
+            "id": "d",
+            "text": "It causes an infinite loop on any graph with a cycle"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Correctness and efficiency are separate questions here. The extra pushes cost some wasted stack space and pop operations, but the check on line 5 guarantees a node is only ever marked visited (and only ever counted once in the final set) the first time it's popped — the result is identical to a version that checked visited status before pushing."
+      },
+      {
+        "id": "dfs-hard-s3-q4",
+        "type": "conceptual",
+        "prompt": "What does the visited set returned by dfs(graph, start) represent?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Every node reachable from start by following the graph's edges"
+          },
+          {
+            "id": "b",
+            "text": "Every node in the entire graph, whether reachable from start or not"
+          },
+          {
+            "id": "c",
+            "text": "Only the nodes that lie on the single longest path found from start"
+          },
+          {
+            "id": "d",
+            "text": "The shortest path from start to every other node"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Since a node can only enter the stack by being listed as a neighbor of an already-discovered node, the visited set at the end contains exactly the connected component reachable from start — nothing from a separate, disconnected part of the graph is ever included."
+      },
+      {
+        "id": "dfs-hard-s3-q5",
+        "type": "execution",
+        "prompt": "A's neighbors, B and C, are being reversed before they're pushed here, so C ends up on the bottom and B on top. Why does the algorithm do this reversal?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 2
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "So that the FIRST neighbor in the original list (B) ends up on TOP of the stack and gets visited first — without reversing, pushing [B, C] in order would put C on top instead"
+          },
+          {
+            "id": "b",
+            "text": "To make sure both neighbors get visited at the same time"
+          },
+          {
+            "id": "c",
+            "text": "To guarantee the traversal always finds the shortest path"
+          },
+          {
+            "id": "d",
+            "text": "The reversal has no effect on which node is visited next"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Pushing a list in its original order would put its LAST element on top of the stack (popped first), which reverses the intended visiting order. Reversing the neighbor list before pushing cancels that out, so the traversal visits neighbors in the same left-to-right order they're listed in the graph."
+      },
+      {
+        "id": "dfs-hard-s3-q6",
+        "type": "execution",
+        "prompt": "At this point the stack holds [C, E, D, A], from bottom to top. Which of these entries represents genuinely unvisited work, and which are stale?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 7
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "C, E, and D are all still unvisited and will each trigger a real visit; A is a stale duplicate that will be skipped when popped"
+          },
+          {
+            "id": "b",
+            "text": "All four entries represent genuinely unvisited nodes"
+          },
+          {
+            "id": "c",
+            "text": "All four entries are stale duplicates of already-visited nodes"
+          },
+          {
+            "id": "d",
+            "text": "Only A represents real, unvisited work"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "At this moment only A has been visited. C was discovered earlier and is still waiting; D and E were just discovered as B's neighbors. A itself, discovered by both A's own push and now re-pushed as B's neighbor, is the one stale entry here — it will be popped, found already visited, and skipped."
+      },
+      {
+        "id": "dfs-hard-s3-q7",
+        "type": "execution",
+        "prompt": "At this point the stack holds [C, E, F, A]. Given that C, E, F, and A have all already been visited earlier in the traversal, what does that tell you about the rest of this run?",
+        "visualization": {
+          "graph": {
+            "A": [
+              "B",
+              "C"
+            ],
+            "B": [
+              "A",
+              "D",
+              "E"
+            ],
+            "C": [
+              "A",
+              "F"
+            ],
+            "D": [
+              "B"
+            ],
+            "E": [
+              "B",
+              "F"
+            ],
+            "F": [
+              "C",
+              "E"
+            ]
+          },
+          "frameIndex": 39
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Every remaining pop from here to the end of the traversal will find an already-visited node and be skipped — no new node will ever be visited again"
+          },
+          {
+            "id": "b",
+            "text": "The traversal still has at least one genuinely unvisited node left to discover"
+          },
+          {
+            "id": "c",
+            "text": "This means the graph must have more than six nodes"
+          },
+          {
+            "id": "d",
+            "text": "It means the algorithm will restart the traversal from the beginning"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Since all six of the graph's nodes are visited by this point (A, B, D, E, F, and C), every entry left on the stack — no matter how many more duplicates get pushed — can only ever be a stale copy. The rest of the run is pure cleanup: popping and discarding until the stack empties."
+      },
+      {
+        "id": "dfs-hard-s3-q8",
+        "type": "code",
+        "prompt": "Fill in the blank on line 1 — what parameter does the function need besides the graph itself?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dfs(graph, ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "stack = [start], visited = {}",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while stack is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "node = stack.pop()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "mark node visited",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "push node neighbors onto stack",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "start"
+          },
+          {
+            "id": "b",
+            "text": "end"
+          },
+          {
+            "id": "c",
+            "text": "visited"
+          },
+          {
+            "id": "d",
+            "text": "target"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "DFS needs to know where to begin, and the very next line uses that same name to seed the stack — the parameter is start. The other two blanks in this snippet (line 5 and line 8) are covered by the next two questions."
+      },
+      {
+        "id": "dfs-hard-s3-q9",
+        "type": "code",
+        "prompt": "Fill in the blank on line 5 — what full condition decides whether a popped node gets processed?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dfs(graph, ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "stack = [start], visited = {}",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while stack is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "node = stack.pop()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "mark node visited",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "push node neighbors onto stack",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "node not in visited"
+          },
+          {
+            "id": "b",
+            "text": "node in visited"
+          },
+          {
+            "id": "c",
+            "text": "node not in stack"
+          },
+          {
+            "id": "d",
+            "text": "stack not in visited"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The whole point of this check is to skip stale duplicates and only process a node the first time it's popped — that requires checking the popped node against the visited set, specifically that it is NOT already in it. The remaining blank in this snippet (line 8) is covered by the next question."
+      },
+      {
+        "id": "dfs-hard-s3-q10",
+        "type": "code",
+        "prompt": "Fill in the blank on line 8 — what does the function return once the loop finishes?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function dfs(graph, ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "stack = [start], visited = {}",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "while stack is not empty:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "node = stack.pop()",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "if ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "mark node visited",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "push node neighbors onto stack",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "visited"
+          },
+          {
+            "id": "b",
+            "text": "stack"
+          },
+          {
+            "id": "c",
+            "text": "graph"
+          },
+          {
+            "id": "d",
+            "text": "node"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The whole purpose of the traversal is to build up the set of reachable nodes, so that's what gets returned — the visited set, which by the time the loop ends contains every node reachable from start."
+      }
+    ]
+  }
+}

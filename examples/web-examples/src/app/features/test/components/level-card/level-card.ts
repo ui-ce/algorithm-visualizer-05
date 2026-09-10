@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SolarArrowRightLinear, SolarLockKeyholeMinimalisticLinear, SolarStarBold } from '@solar-icons/angular';
 import { SetRow } from '../set-row/set-row';
-import { QUESTIONS_PER_SET } from '../../data/test-question-bank';
 import { LanguageService } from '../../../../core/services/language.service';
 import { translate } from '../../../../core/i18n/translations';
 import { toLocaleDigitsForLanguage } from '../../../../core/i18n/locale-digits.pipe';
+import { TranslatePipe } from '../../../../core/i18n/translate.pipe';
+import { TranslateVarPipe } from '../../../../core/i18n/translate-var.pipe';
 import type { LevelCardData } from './level-card.types';
 import type { TestDifficulty } from '../../test.types';
 
@@ -36,18 +37,25 @@ const STAR_WORTH: Record<TestDifficulty, number> = { easy: 1, medium: 2, hard: 3
   styleUrl: './level-card.scss',
 })
 export class LevelCard {
-  public constructor(private readonly _languageService: LanguageService) {}
+  public constructor(private readonly _languageService: LanguageService) { }
 
   @Input()
   public data!: LevelCardData;
 
-  // No longer an @Input the caller has to remember to pass — that's
-  // exactly how this ended up hardcoded to 5 for every difficulty. It's
-  // now derived straight from the difficulty on `data`, so Easy/Medium/
-  // Hard automatically show 5/7/10 without the parent template having
-  // to know that mapping at all.
-  protected get questionsPerSet(): number {
-    return QUESTIONS_PER_SET[this.data.difficulty];
+  // Real counts per set now live on data.sets[].questionCount (see
+  // buildLevelPlan in test-question-bank.ts) instead of a single
+  // difficulty-wide constant — this reads whatever's actually there, so
+  // it stays correct if a DB-backed algorithm's sets end up different
+  // sizes instead of assuming every set matches QUESTIONS_PER_SET.
+  protected get questionsPerSet(): string {
+    const counts = [...new Set(this.data.sets.map((set) => set.questionCount))];
+    const language = this._languageService.currentLanguage();
+    if (counts.length <= 1) {
+      return toLocaleDigitsForLanguage(counts[0] ?? 0, language);
+    }
+    const min = Math.min(...counts);
+    const max = Math.max(...counts);
+    return `${toLocaleDigitsForLanguage(min, language)}–${toLocaleDigitsForLanguage(max, language)}`;
   }
 
   protected get starWorth(): number {
@@ -74,6 +82,21 @@ export class LevelCard {
     return translate(LABEL_KEY[this.data.difficulty], this._languageService.currentLanguage());
   }
 
+  protected get lockedCtaLabel(): string {
+    return translate(
+      'test.level.cta.locked',
+      this._languageService.currentLanguage()
+    );
+  }
+
+  protected get startCtaLabel(): string {
+    const language = this._languageService.currentLanguage();
+
+    return translate('test.level.cta.start', language)
+      .replaceAll('{level}', this.label);
+  }
+
+
   protected get accentColorVar(): string {
     return `var(--color-quiz-${this.data.difficulty})`;
   }
@@ -86,6 +109,10 @@ export class LevelCard {
     return !!this.data.unlocksAfter;
   }
 
+  protected get lockedText(): string {
+    return translate('test.level.locked', this._languageService.currentLanguage());
+
+  }
   protected get unlocksAfterLabel(): string {
     return this.data.unlocksAfter ? translate(LABEL_KEY[this.data.unlocksAfter], this._languageService.currentLanguage()) : '';
   }
@@ -109,31 +136,7 @@ export class LevelCard {
     const language = this._languageService.currentLanguage();
     return translate('test.level.setsSubtitle', language)
       .replaceAll('{sets}', toLocaleDigitsForLanguage(this.data.sets.length, language))
-      .replaceAll('{questions}', toLocaleDigitsForLanguage(this.questionsPerSet, language));
-  }
-
-  // All three of these were plain hardcoded English in the template
-  // before (a raw "Locked" / "Start {{ label }}" / "Complete all 3
-  // sets in ..." string-concat) — resolved as getters here, same as
-  // starWorthTitle/setsSubtitle above, rather than `| translate` pipes
-  // in the template, so this component has no dependency on
-  // TranslatePipe/TranslateVarPipe actually being registered in the
-  // @Component `imports` array to work correctly.
-  protected get lockedCtaLabel(): string {
-    return translate('test.level.cta.locked', this._languageService.currentLanguage());
-  }
-
-  protected get startCtaLabel(): string {
-    return translate('test.level.cta.start', this._languageService.currentLanguage()).replaceAll(
-      '{level}',
-      this.label,
-    );
-  }
-
-  protected get lockedText(): string {
-    return translate('test.level.lockedText', this._languageService.currentLanguage())
-      .replaceAll('{unlocksAfter}', this.unlocksAfterLabel)
-      .replaceAll('{level}', this.label);
+      .replaceAll('{questions}', this.questionsPerSet);
   }
 
   protected onStart(): void {

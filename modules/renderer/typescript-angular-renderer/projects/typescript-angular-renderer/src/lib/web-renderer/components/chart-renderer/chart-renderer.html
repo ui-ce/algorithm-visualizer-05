@@ -1,7 +1,7 @@
 <div class="chart-renderer-root">
   <div class="chart" [style.height]="getChartHeight()" [style.gap]="getBarGap()">
     @for (bar of state?.bars; track $index) {
-      <div class="bar-container" [style.width]="getBarWidth()">
+      <div class="bar-container" #barContainer [style.width]="getBarWidth()">
         @if (getShowValue()) {
           <div class="value">{{ formatDigits(bar.value) }}</div>
         }

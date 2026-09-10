@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { EventEmitter, Output, Input, Component, Injectable, inject, ViewChild } from '@angular/core';
+import { EventEmitter, Output, Input, Component, ViewChildren, Injectable, inject, ViewChild } from '@angular/core';
 import * as i4 from 'primeng/button';
 import { ButtonModule } from 'primeng/button';
 import * as i2 from 'primeng/knob';
@@ -188,6 +188,103 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.4", ngImpor
 class ChartRenderer {
     state;
     metadata;
+    // DOM nodes are kept and reused per array index (see chart-renderer.html's
+    // `#barContainer`, `track $index`) — the framer never reorders bars, it
+    // only overwrites values in place (see chart-framer.ts's setCells). That
+    // means a "swap" is, structurally, just two values trading places inside
+    // the same two DOM nodes with no movement at all: nothing to animate.
+    // To make it *read* as a physical swap, we detect the value trade between
+    // frames here and play a FLIP animation: snap each affected bar back to
+    // where it visually was an instant ago (no transition), force layout, then
+    // clear that offset so the CSS transition on .bar-container animates it
+    // into its real (already-correct) position.
+    barContainers;
+    previousBars = null;
+    pendingSwapOffsets = new Map();
+    ngOnChanges(changes) {
+        if (!changes['state']) {
+            return;
+        }
+        const newBars = this.state?.bars ?? [];
+        this.pendingSwapOffsets = this.computeSwapOffsets(this.previousBars, newBars);
+        this.previousBars = newBars.map((bar) => ({ value: bar.value, label: bar.label }));
+    }
+    ngAfterViewChecked() {
+        if (this.pendingSwapOffsets.size === 0) {
+            return;
+        }
+        const offsets = this.pendingSwapOffsets;
+        this.pendingSwapOffsets = new Map();
+        this.playSwapAnimation(offsets);
+    }
+    playSwapAnimation(offsetPerIndex) {
+        const elements = this.barContainers?.toArray() ?? [];
+        // Step 1 (Invert): jump each moved bar back to its previous slot with
+        // no transition, so nothing visibly changes yet.
+        elements.forEach((elRef, index) => {
+            const offset = offsetPerIndex.get(index);
+            if (offset === undefined) {
+                return;
+            }
+            const el = elRef.nativeElement;
+            el.style.transition = 'none';
+            el.style.transform = `translateX(${offset}px)`;
+        });
+        // Force layout so the browser commits the position set above before we
+        // change it again on the next frame — without this the two style writes
+        // get batched and there's nothing to animate between.
+        const firstOffsetIndex = elements.findIndex((_, index) => offsetPerIndex.has(index));
+        if (firstOffsetIndex !== -1) {
+            void elements[firstOffsetIndex].nativeElement.offsetWidth;
+        }
+        // Step 2 (Play): clear the offset on the next frame so the CSS
+        // transition (see chart-renderer.scss) animates the bar from its old
+        // slot into the new one it's already rendered at.
+        requestAnimationFrame(() => {
+            elements.forEach((elRef, index) => {
+                if (!offsetPerIndex.has(index)) {
+                    return;
+                }
+                const el = elRef.nativeElement;
+                el.style.transition = '';
+                el.style.transform = '';
+            });
+        });
+    }
+    // Only recognizes the shape this app's recorders actually produce: two
+    // adjacent bars trading values within one frame, tagged 'swap'. Returns
+    // how far (in px, along the always-LTR bar axis) each affected index
+    // needs to start offset from its new position to visually undo the swap.
+    computeSwapOffsets(previous, current) {
+        const offsets = new Map();
+        if (!previous || !current || previous.length !== current.length) {
+            return offsets;
+        }
+        const step = this.getBarStepPx();
+        for (let i = 0; i < current.length - 1; i++) {
+            const a = current[i];
+            const b = current[i + 1];
+            const prevA = previous[i];
+            const prevB = previous[i + 1];
+            const tradedValues = !!prevA && !!prevB && a.value === prevB.value && b.value === prevA.value;
+            const distinctValues = a.value !== b.value;
+            const taggedSwap = !!a.highlightTags?.includes('swap') || !!b.highlightTags?.includes('swap');
+            if (tradedValues && distinctValues && taggedSwap) {
+                // Bar now at index i used to sit one step to the right (i + 1);
+                // start it shifted right by `step` so it animates back left into i.
+                offsets.set(i, step);
+                // Bar now at index i + 1 used to sit one step to the left; start it
+                // shifted left so it animates right into i + 1.
+                offsets.set(i + 1, -step);
+            }
+        }
+        return offsets;
+    }
+    getBarStepPx() {
+        const width = parseFloat(this.getBarWidth());
+        const gap = parseFloat(this.getBarGap());
+        return (Number.isFinite(width) ? width : 40) + (Number.isFinite(gap) ? gap : 10);
+    }
     getBarColors(highlightTags) {
         return highlightTags.map((tag) => {
             const highlight = this.metadata?.highlightTags?.find((h) => h.tag === tag);
@@ -224,15 +321,18 @@ class ChartRenderer {
         return toLocaleDigits(value);
     }
     static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.2.4", ngImport: i0, type: ChartRenderer, deps: [], target: i0.ɵɵFactoryTarget.Component });
-    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "20.2.4", type: ChartRenderer, isStandalone: true, selector: "chart-renderer", inputs: { state: "state", metadata: "metadata" }, ngImport: i0, template: "<div class=\"chart-renderer-root\">\r\n  <div class=\"chart\" [style.height]=\"getChartHeight()\" [style.gap]=\"getBarGap()\">\r\n    @for (bar of state?.bars; track $index) {\r\n      <div class=\"bar-container\" [style.width]=\"getBarWidth()\">\r\n        @if (getShowValue()) {\r\n          <div class=\"value\">{{ formatDigits(bar.value) }}</div>\r\n        }\r\n        <div class=\"bar\" [style.height]=\"getBarHeight(bar.value)\" [style.background-color]=\"getDefaultColor()\">\r\n          @let colors = getBarColors(bar.highlightTags);\r\n          @if (colors.length !== 0) {\r\n            <chart-highlight-layer [colors]=\"colors\"></chart-highlight-layer>\r\n          }\r\n        </div>\r\n        @if (getShowLabel()) {\r\n          <div class=\"label\">{{ formatDigits(bar.label) }}</div>\r\n        }\r\n      </div>\r\n    }\r\n  </div>\r\n</div>\r\n", styles: [":host{display:block;width:100%;height:100%}:host .chart-renderer-root{display:flex;flex-direction:column;width:100%;height:100%;min-height:0}:host .header{display:flex;flex-direction:row;justify-content:space-between;align-items:center;flex-shrink:0;padding:1rem}:host .header .title{font-size:1.5rem;font-weight:700}.chart{direction:ltr;display:flex;flex-direction:row;align-items:flex-end;justify-content:center;flex:1;min-height:0;width:100%}.chart .bar-container{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}.chart .bar-container .bar{display:flex;align-items:flex-end;justify-content:center;background:transparent;border-radius:4px;width:100%;overflow:hidden}.chart .bar-container .value{margin-top:.5rem;font-size:.9rem;text-align:center;color:var(--color-text-primary)}.chart .bar-container .label{margin-top:.5rem;font-size:.9rem;text-align:center;color:var(--color-text-tertiary)}\n"], dependencies: [{ kind: "ngmodule", type: CommonModule }, { kind: "ngmodule", type: FormsModule }, { kind: "ngmodule", type: TableModule }, { kind: "component", type: ChartHighlightLayer, selector: "chart-highlight-layer", inputs: ["colors"] }] });
+    static ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "20.2.4", type: ChartRenderer, isStandalone: true, selector: "chart-renderer", inputs: { state: "state", metadata: "metadata" }, viewQueries: [{ propertyName: "barContainers", predicate: ["barContainer"], descendants: true }], usesOnChanges: true, ngImport: i0, template: "<div class=\"chart-renderer-root\">\r\n  <div class=\"chart\" [style.height]=\"getChartHeight()\" [style.gap]=\"getBarGap()\">\r\n    @for (bar of state?.bars; track $index) {\r\n      <div class=\"bar-container\" #barContainer [style.width]=\"getBarWidth()\">\r\n        @if (getShowValue()) {\r\n          <div class=\"value\">{{ formatDigits(bar.value) }}</div>\r\n        }\r\n        <div class=\"bar\" [style.height]=\"getBarHeight(bar.value)\" [style.background-color]=\"getDefaultColor()\">\r\n          @let colors = getBarColors(bar.highlightTags);\r\n          @if (colors.length !== 0) {\r\n            <chart-highlight-layer [colors]=\"colors\"></chart-highlight-layer>\r\n          }\r\n        </div>\r\n        @if (getShowLabel()) {\r\n          <div class=\"label\">{{ formatDigits(bar.label) }}</div>\r\n        }\r\n      </div>\r\n    }\r\n  </div>\r\n</div>", styles: [":host{display:block;width:100%;height:100%}:host .chart-renderer-root{display:flex;flex-direction:column;width:100%;height:100%;min-height:0}:host .header{display:flex;flex-direction:row;justify-content:space-between;align-items:center;flex-shrink:0;padding:1rem}:host .header .title{font-size:1.5rem;font-weight:700}.chart{direction:ltr;display:flex;flex-direction:row;align-items:flex-end;justify-content:center;flex:1;min-height:0;width:100%}.chart .bar-container{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;transition:transform .35s ease;will-change:transform}.chart .bar-container .bar{display:flex;align-items:flex-end;justify-content:center;background:transparent;border-radius:4px;width:100%;overflow:hidden}.chart .bar-container .value{margin-top:.5rem;font-size:.9rem;text-align:center;color:var(--color-text-primary)}.chart .bar-container .label{margin-top:.5rem;font-size:.9rem;text-align:center;color:var(--color-text-tertiary)}\n"], dependencies: [{ kind: "ngmodule", type: CommonModule }, { kind: "ngmodule", type: FormsModule }, { kind: "ngmodule", type: TableModule }, { kind: "component", type: ChartHighlightLayer, selector: "chart-highlight-layer", inputs: ["colors"] }] });
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.2.4", ngImport: i0, type: ChartRenderer, decorators: [{
             type: Component,
-            args: [{ selector: 'chart-renderer', imports: [CommonModule, FormsModule, TableModule, ChartHighlightLayer], template: "<div class=\"chart-renderer-root\">\r\n  <div class=\"chart\" [style.height]=\"getChartHeight()\" [style.gap]=\"getBarGap()\">\r\n    @for (bar of state?.bars; track $index) {\r\n      <div class=\"bar-container\" [style.width]=\"getBarWidth()\">\r\n        @if (getShowValue()) {\r\n          <div class=\"value\">{{ formatDigits(bar.value) }}</div>\r\n        }\r\n        <div class=\"bar\" [style.height]=\"getBarHeight(bar.value)\" [style.background-color]=\"getDefaultColor()\">\r\n          @let colors = getBarColors(bar.highlightTags);\r\n          @if (colors.length !== 0) {\r\n            <chart-highlight-layer [colors]=\"colors\"></chart-highlight-layer>\r\n          }\r\n        </div>\r\n        @if (getShowLabel()) {\r\n          <div class=\"label\">{{ formatDigits(bar.label) }}</div>\r\n        }\r\n      </div>\r\n    }\r\n  </div>\r\n</div>\r\n", styles: [":host{display:block;width:100%;height:100%}:host .chart-renderer-root{display:flex;flex-direction:column;width:100%;height:100%;min-height:0}:host .header{display:flex;flex-direction:row;justify-content:space-between;align-items:center;flex-shrink:0;padding:1rem}:host .header .title{font-size:1.5rem;font-weight:700}.chart{direction:ltr;display:flex;flex-direction:row;align-items:flex-end;justify-content:center;flex:1;min-height:0;width:100%}.chart .bar-container{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}.chart .bar-container .bar{display:flex;align-items:flex-end;justify-content:center;background:transparent;border-radius:4px;width:100%;overflow:hidden}.chart .bar-container .value{margin-top:.5rem;font-size:.9rem;text-align:center;color:var(--color-text-primary)}.chart .bar-container .label{margin-top:.5rem;font-size:.9rem;text-align:center;color:var(--color-text-tertiary)}\n"] }]
+            args: [{ selector: 'chart-renderer', imports: [CommonModule, FormsModule, TableModule, ChartHighlightLayer], template: "<div class=\"chart-renderer-root\">\r\n  <div class=\"chart\" [style.height]=\"getChartHeight()\" [style.gap]=\"getBarGap()\">\r\n    @for (bar of state?.bars; track $index) {\r\n      <div class=\"bar-container\" #barContainer [style.width]=\"getBarWidth()\">\r\n        @if (getShowValue()) {\r\n          <div class=\"value\">{{ formatDigits(bar.value) }}</div>\r\n        }\r\n        <div class=\"bar\" [style.height]=\"getBarHeight(bar.value)\" [style.background-color]=\"getDefaultColor()\">\r\n          @let colors = getBarColors(bar.highlightTags);\r\n          @if (colors.length !== 0) {\r\n            <chart-highlight-layer [colors]=\"colors\"></chart-highlight-layer>\r\n          }\r\n        </div>\r\n        @if (getShowLabel()) {\r\n          <div class=\"label\">{{ formatDigits(bar.label) }}</div>\r\n        }\r\n      </div>\r\n    }\r\n  </div>\r\n</div>", styles: [":host{display:block;width:100%;height:100%}:host .chart-renderer-root{display:flex;flex-direction:column;width:100%;height:100%;min-height:0}:host .header{display:flex;flex-direction:row;justify-content:space-between;align-items:center;flex-shrink:0;padding:1rem}:host .header .title{font-size:1.5rem;font-weight:700}.chart{direction:ltr;display:flex;flex-direction:row;align-items:flex-end;justify-content:center;flex:1;min-height:0;width:100%}.chart .bar-container{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;transition:transform .35s ease;will-change:transform}.chart .bar-container .bar{display:flex;align-items:flex-end;justify-content:center;background:transparent;border-radius:4px;width:100%;overflow:hidden}.chart .bar-container .value{margin-top:.5rem;font-size:.9rem;text-align:center;color:var(--color-text-primary)}.chart .bar-container .label{margin-top:.5rem;font-size:.9rem;text-align:center;color:var(--color-text-tertiary)}\n"] }]
         }], propDecorators: { state: [{
                 type: Input
             }], metadata: [{
                 type: Input
+            }], barContainers: [{
+                type: ViewChildren,
+                args: ['barContainer']
             }] } });
 
 const GRAPH_LAYOUT_OPTIONS = [

@@ -8,34 +8,15 @@ import { LoginPage } from './features/auth/login/login';
 import { RegisterPage } from './features/auth/register/register';
 import { ComparePage } from './features/compare/comapre';
 import { LearnPage } from './features/learn/learn';
+import { CustomAlgorithmPage } from './features/custom-algorithm/custom-algorithm.page';
+import { AdminShell } from './features/admin/admin-shell';
+import { AdminQuestionsPage } from './features/admin/admin-questions';
+import { AdminContentPage } from './features/admin/admin-content';
+import { AdminTablesPage } from './features/admin/admin-tables';
+import { AdminSqlPage } from './features/admin/admin-sql';
+import { adminGuard } from './features/admin/admin.guard';
 
 
-// '' is the Landing page (hero, algorithm picker, features, product
-// tour, quiz spotlight, comparison, sign-up, footer) — the entry point
-// for the app. The old '/home' card-grid page has been removed: every
-// link that used to point at it (breadcrumbs' "Algorithms" item, the
-// footer link, the auth-shell logo, post-login/register redirects) now
-// points at '/' with a `fragment: 'landing-picker'` where relevant, so
-// it lands on Landing's own algorithm-picker section instead.
-//
-// '/login' and '/register' were added here because both already exist
-// as components (features/auth) and are now linked from real UI:
-// the header's account icon already pointed at '/login' before this
-// change, and the landing page's new sign-up section links to both.
-//
-// The five algorithm routes now share one component and route by id
-// instead of pointing at five separate demo components — this also
-// matches the /algorithms/:id path used in the rest of the project's
-// planning documents. Learn will sit under the same :id param once that
-// page exists; only the segment after the id changes.
-//
-// Test is three routes: /test is the level/set picker (TestPlan — the
-// "Choose your test plan" screen); /test/:difficulty/:set is the actual
-// question-answering screen (Test); /test/:difficulty/:set/results is the
-// pass/fail summary screen (TestResults), reached only via Test's
-// "Finish Test" navigation since it needs router state that a typed URL
-// won't have (TestResults redirects back to TestPlan if that state is
-// missing — see its constructor).
 export const routes: Routes = [
   {
     path: '',
@@ -53,6 +34,25 @@ export const routes: Routes = [
   {
     path: 'algorithms/:id',
     component: PracticePage,
+  },
+  // adminGuard on this parent route gates every child route below it
+  // too — Angular re-checks canActivate for the whole matched chain on
+  // every navigation, so there's no separate guard needed per section.
+  {
+    path: 'admin',
+    component: AdminShell,
+    canActivate: [adminGuard],
+    children: [
+      { path: '', redirectTo: 'questions', pathMatch: 'full' },
+      { path: 'questions', component: AdminQuestionsPage },
+      { path: 'content', component: AdminContentPage },
+      { path: 'tables', component: AdminTablesPage },
+      { path: 'sql', component: AdminSqlPage },
+    ],
+  },
+  {
+    path: 'custom-algorithm',
+    component: CustomAlgorithmPage,
   },
   {
     path: 'algorithms/:id/learn',

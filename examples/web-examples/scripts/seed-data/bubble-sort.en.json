@@ -1,0 +1,2866 @@
+{
+  "easy": {
+    "1": [
+      {
+        "id": "bs-easy-s1-q1",
+        "type": "conceptual",
+        "prompt": "What is the main goal of the Bubble Sort algorithm?",
+        "promptFa": "هدف اصلی الگوریتم مرتب‌سازی حبابی (Bubble Sort) چیست؟",
+        "options": [
+          {
+            "id": "a",
+            "text": "Sorting an array by repeatedly comparing and swapping adjacent elements",
+            "textFa": "مرتب کردن یک آرایه با مقایسه و جابه‌جایی مکرر عناصر مجاور"
+          },
+          {
+            "id": "b",
+            "text": "Searching for a specific element in an array",
+            "textFa": "جستجوی یک عنصر مشخص در یک آرایه"
+          },
+          {
+            "id": "c",
+            "text": "Splitting an array into smaller subarrays and merging them",
+            "textFa": "تقسیم یک آرایه به زیرآرایه‌های کوچک‌تر و ادغام دوباره‌ی آن‌ها"
+          },
+          {
+            "id": "d",
+            "text": "Finding the shortest path between two nodes",
+            "textFa": "پیدا کردن کوتاه‌ترین مسیر بین دو گره"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Bubble Sort repeatedly compares each pair of adjacent elements and swaps them if they are in the wrong order, gradually sorting the array.",
+        "explanationFa": "مرتب‌سازی حبابی به‌طور مکرر هر جفت از عناصر مجاور را با هم مقایسه می‌کند و اگر ترتیبشان اشتباه بود جایشان را عوض می‌کند، و به این ترتیب آرایه رفته‌رفته مرتب می‌شود."
+      },
+      {
+        "id": "bs-easy-s1-q3",
+        "type": "conceptual",
+        "prompt": "What is guaranteed after one full pass of Bubble Sort over the array?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The largest remaining element is now at the end of the array"
+          },
+          {
+            "id": "b",
+            "text": "The entire array is fully sorted"
+          },
+          {
+            "id": "c",
+            "text": "The smallest element is now at the start of the array"
+          },
+          {
+            "id": "d",
+            "text": "Half of the array is sorted"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Each full pass pushes the largest unprocessed value toward the end of the array, so after one pass at least the last position holds its final value."
+      },
+      {
+        "id": "bs-easy-s1-q2",
+        "type": "execution",
+        "prompt": "The array is being processed. What happens next?",
+        "visualization": {
+          "inputArray": [
+            5,
+            2,
+            8,
+            1
+          ],
+          "frameIndex": 2
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The elements swap, because 5 is greater than 2"
+          },
+          {
+            "id": "b",
+            "text": "The elements stay in place, because 5 is less than 2"
+          },
+          {
+            "id": "c",
+            "text": "Index 2 and 3 are compared next without touching index 0 and 1"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm ends"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "arr[0]=5 is greater than arr[1]=2, so Bubble Sort swaps them."
+      },
+      {
+        "id": "bs-easy-s1-q4",
+        "type": "execution",
+        "prompt": "The array is being processed. What happens next?",
+        "visualization": {
+          "inputArray": [
+            5,
+            2,
+            8,
+            1
+          ],
+          "frameIndex": 15
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The elements stay in place, because 2 is less than 5"
+          },
+          {
+            "id": "b",
+            "text": "The elements swap, because 2 is less than 5"
+          },
+          {
+            "id": "c",
+            "text": "Index 2 and 3 are compared instead"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm restarts from index 0"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "arr[0]=2 is already less than arr[1]=5, so the order is correct and no swap happens."
+      },
+      {
+        "id": "bs-easy-s1-q5",
+        "type": "code",
+        "prompt": "Fill in the blank in the Bubble Sort pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function bubbleSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = 0 to n - i - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " arr[j + 1]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "swap(arr[j], arr[j + 1])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": ">"
+          },
+          {
+            "id": "b",
+            "text": "<"
+          },
+          {
+            "id": "c",
+            "text": "=="
+          },
+          {
+            "id": "d",
+            "text": "!="
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "To sort in ascending order, a swap is needed whenever the current element is greater than the next one - arr[j] > arr[j + 1]."
+      }
+    ],
+    "2": [
+      {
+        "id": "bs-easy-s2-q1",
+        "type": "conceptual",
+        "prompt": "Why does Bubble Sort compare adjacent elements?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Because each comparison can move a larger value one position toward the end"
+          },
+          {
+            "id": "b",
+            "text": "Because only the first and last elements can be compared"
+          },
+          {
+            "id": "c",
+            "text": "Because adjacent elements are always already sorted"
+          },
+          {
+            "id": "d",
+            "text": "Because the algorithm searches for a target value"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Bubble Sort compares neighboring elements so that a larger value can move step by step toward the end of the unsorted portion."
+      },
+      {
+        "id": "bs-easy-s2-q2",
+        "type": "conceptual",
+        "prompt": "What happens to the largest value during a complete Bubble Sort pass?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It moves toward the end of the unsorted portion"
+          },
+          {
+            "id": "b",
+            "text": "It always moves to the beginning of the array"
+          },
+          {
+            "id": "c",
+            "text": "It is removed from the array"
+          },
+          {
+            "id": "d",
+            "text": "It is moved to the middle of the array"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Whenever the largest value is compared with a smaller value next to it, they swap, pushing the larger value one position to the right."
+      },
+      {
+        "id": "bs-easy-s2-q3",
+        "type": "execution",
+        "prompt": "The array is being processed. What happens next?",
+        "visualization": {
+          "inputArray": [
+            3,
+            7,
+            2,
+            5
+          ],
+          "frameIndex": 2
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "3 and 7 stay in place because they are already in the correct order"
+          },
+          {
+            "id": "b",
+            "text": "3 and 7 swap because 3 is greater than 7"
+          },
+          {
+            "id": "c",
+            "text": "7 and 2 stay in place because 7 is smaller than 2"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm finishes immediately"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Since 3 is smaller than 7, the pair is already in ascending order, so Bubble Sort does not swap them."
+      },
+      {
+        "id": "bs-easy-s2-q4",
+        "type": "execution",
+        "prompt": "The array is being processed. What happens next?",
+        "visualization": {
+          "inputArray": [
+            3,
+            7,
+            2,
+            5
+          ],
+          "frameIndex": 7
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "7 and 2 swap because 7 is greater than 2"
+          },
+          {
+            "id": "b",
+            "text": "7 and 2 stay in place because they are already sorted"
+          },
+          {
+            "id": "c",
+            "text": "3 and 7 swap because 3 is smaller than 7"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm skips the entire pass"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The pair 7 and 2 is out of order for ascending sorting, so Bubble Sort swaps them."
+      },
+      {
+        "id": "bs-easy-s2-q5",
+        "type": "code",
+        "prompt": "Which condition should be used to swap adjacent elements when sorting in ascending order?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function bubbleSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = 0 to n - i - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " arr[j + 1]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "swap(arr[j], arr[j + 1])",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": ">"
+          },
+          {
+            "id": "b",
+            "text": "<"
+          },
+          {
+            "id": "c",
+            "text": "=="
+          },
+          {
+            "id": "d",
+            "text": "<="
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "For ascending order, adjacent elements are swapped when the left element is greater than the right element."
+      }
+    ],
+    "3": [
+      {
+        "id": "bs-easy-s3-q1",
+        "type": "conceptual",
+        "prompt": "Why does Bubble Sort need fewer comparisons in later passes?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Because the largest elements are already in their final positions"
+          },
+          {
+            "id": "b",
+            "text": "Because the array becomes half its original size"
+          },
+          {
+            "id": "c",
+            "text": "Because Bubble Sort stops comparing adjacent elements"
+          },
+          {
+            "id": "d",
+            "text": "Because every element becomes sorted after the first comparison"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "After each pass, the largest unsorted element moves to its final position at the end of the array. Therefore, later passes do not need to compare those already-sorted elements."
+      },
+      {
+        "id": "bs-easy-s3-q2",
+        "type": "conceptual",
+        "prompt": "Which statement correctly describes what happens when Bubble Sort compares two adjacent elements?",
+        "options": [
+          {
+            "id": "a",
+            "text": "They are swapped only if the left element is greater than the right element"
+          },
+          {
+            "id": "b",
+            "text": "They are always swapped after being compared"
+          },
+          {
+            "id": "c",
+            "text": "They are swapped only if the right element is greater than the left element"
+          },
+          {
+            "id": "d",
+            "text": "The larger element is always moved to the left"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "For ascending Bubble Sort, adjacent elements are swapped when the left element is greater than the right element. Otherwise, their order is already correct."
+      },
+      {
+        "id": "bs-easy-s3-q3",
+        "type": "execution",
+        "prompt": "The algorithm is comparing the highlighted elements. What happens next?",
+        "visualization": {
+          "inputArray": [
+            3,
+            7,
+            2,
+            5
+          ],
+          "frameIndex": 2
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The elements stay in place because 3 is less than 7"
+          },
+          {
+            "id": "b",
+            "text": "The elements swap because 3 is greater than 7"
+          },
+          {
+            "id": "c",
+            "text": "The algorithm compares 2 and 5 instead"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm finishes because the first pair is already sorted"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The first pair is 3 and 7. Since 3 is already smaller than 7, no swap is needed and the algorithm continues to the next pair."
+      },
+      {
+        "id": "bs-easy-s3-q4",
+        "type": "execution",
+        "prompt": "The highlighted pair is being compared. What will Bubble Sort do next?",
+        "visualization": {
+          "inputArray": [
+            3,
+            7,
+            2,
+            5
+          ],
+          "frameIndex": 15
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Swap 7 and 2 because 7 is greater than 2"
+          },
+          {
+            "id": "b",
+            "text": "Keep 7 and 2 in place because they are already sorted"
+          },
+          {
+            "id": "c",
+            "text": "Swap 3 and 7"
+          },
+          {
+            "id": "d",
+            "text": "Move 2 directly to the beginning of the array"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The compared values are 7 and 2. Because Bubble Sort sorts in ascending order, 7 must move to the right of 2, so the two elements are swapped."
+      },
+      {
+        "id": "bs-easy-s3-q5",
+        "type": "code",
+        "prompt": "Which condition should be used to swap adjacent elements in ascending Bubble Sort?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function bubbleSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = 0 to n - i - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " arr[j + 1]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "swap(arr[j], arr[j + 1])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": ">"
+          },
+          {
+            "id": "b",
+            "text": "<"
+          },
+          {
+            "id": "c",
+            "text": "=="
+          },
+          {
+            "id": "d",
+            "text": "<="
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "For ascending Bubble Sort, the left element must be greater than the right element before they are swapped."
+      }
+    ]
+  },
+  "medium": {
+    "1": [
+      {
+        "id": "bs-medium-s1-q1",
+        "type": "conceptual",
+        "prompt": "In the worst case, how many total comparisons does Bubble Sort perform on an array of n elements?",
+        "options": [
+          {
+            "id": "a",
+            "text": "n(n - 1) / 2"
+          },
+          {
+            "id": "b",
+            "text": "n log n"
+          },
+          {
+            "id": "c",
+            "text": "n - 1"
+          },
+          {
+            "id": "d",
+            "text": "2n"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Each of the n - 1 passes compares one fewer pair than the last, giving (n-1) + (n-2) + ... + 1 comparisons, which sums to n(n - 1) / 2."
+      },
+      {
+        "id": "bs-medium-s1-q2",
+        "type": "conceptual",
+        "prompt": "This platform's Bubble Sort pseudocode has no 'swapped' flag or early-exit check. Given that, what is its best-case time complexity, even if the input array is already sorted?",
+        "options": [
+          {
+            "id": "a",
+            "text": "O(n²) — every pass still runs in full, regardless of whether any swap happened"
+          },
+          {
+            "id": "b",
+            "text": "O(n) — the algorithm stops after the first pass finds no swaps"
+          },
+          {
+            "id": "c",
+            "text": "O(n log n)"
+          },
+          {
+            "id": "d",
+            "text": "O(1)"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The pseudocode shown on this platform always runs all n - 1 outer passes with no early-exit check, so it does not get the classic O(n) best case some textbook versions have — here best case equals worst case, O(n²)."
+      },
+      {
+        "id": "bs-medium-s1-q3",
+        "type": "execution",
+        "prompt": "The array is mid-pass. What happens next?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 6
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The elements swap, because 9 is greater than 6"
+          },
+          {
+            "id": "b",
+            "text": "The elements stay in place, because 9 is greater than 6"
+          },
+          {
+            "id": "c",
+            "text": "Index 2 and 3 are compared next, skipping this pair"
+          },
+          {
+            "id": "d",
+            "text": "The first pass ends here without checking the remaining pairs"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "By this point index 0 already holds 9 (moved there by the previous swap). Comparing index 1 and 2 (9 vs 6), 9 is greater, so they swap."
+      },
+      {
+        "id": "bs-medium-s1-q4",
+        "type": "execution",
+        "prompt": "The second pass is underway. What happens next?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 19
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The elements stay in place, because 3 is less than 6"
+          },
+          {
+            "id": "b",
+            "text": "The elements swap, because 3 is less than 6"
+          },
+          {
+            "id": "c",
+            "text": "The whole array is re-scanned from index 0 again"
+          },
+          {
+            "id": "d",
+            "text": "Index 4 is compared next"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "After pass one, the array is [3, 6, 1, 5, 9]. Comparing index 0 and 1 (3 vs 6), 3 is already smaller, so nothing swaps and the algorithm moves on to index 1 and 2."
+      },
+      {
+        "id": "bs-medium-s1-q5",
+        "type": "execution",
+        "prompt": "The first pass has just finished. Which index is now guaranteed to hold its final sorted value?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 17
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Index 4 — the largest value bubbled all the way to the end of the pass"
+          },
+          {
+            "id": "b",
+            "text": "Index 0 — the first element is always fixed after one pass"
+          },
+          {
+            "id": "c",
+            "text": "Index 4, but it may still move again in a later pass"
+          },
+          {
+            "id": "d",
+            "text": "No index is fixed yet — that only happens once the whole array is sorted"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Each full pass carries the largest unprocessed value to the right end of the range it scans. After pass one, index 4 holds 9 — the array's maximum — and the algorithm never touches that position again."
+      },
+      {
+        "id": "bs-medium-s1-q6",
+        "type": "conceptual",
+        "prompt": "For a strictly descending array of 5 distinct elements (the worst case), how many swaps does this Bubble Sort implementation perform in total?",
+        "options": [
+          {
+            "id": "a",
+            "text": "10"
+          },
+          {
+            "id": "b",
+            "text": "5"
+          },
+          {
+            "id": "c",
+            "text": "4"
+          },
+          {
+            "id": "d",
+            "text": "25"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "In the worst case every single comparison also causes a swap, so the swap count equals the comparison count: n(n - 1) / 2 = 5 × 4 / 2 = 10."
+      },
+      {
+        "id": "bs-medium-s1-q7",
+        "type": "code",
+        "prompt": "Fill in the blank — what bound does the outer loop need to guarantee the whole array gets sorted?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function bubbleSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = 0 to n - i - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] > arr[j + 1]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "swap(arr[j], arr[j + 1])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "n - 2"
+          },
+          {
+            "id": "b",
+            "text": "n - 1"
+          },
+          {
+            "id": "c",
+            "text": "n"
+          },
+          {
+            "id": "d",
+            "text": "n / 2"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "With n - 1 passes needed in total and i starting at 0, the loop must run while i is 0 through n - 2 inclusive — 'to n - 2' — to produce exactly n - 1 passes."
+      }
+    ],
+    "2": [
+      {
+        "id": "bs-medium-s2-q1",
+        "type": "conceptual",
+        "prompt": "After each complete pass of Bubble Sort, what is guaranteed about the rightmost unsorted position?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It contains the largest value that was still unsorted at the start of that pass"
+          },
+          {
+            "id": "b",
+            "text": "It contains the smallest value in the entire array"
+          },
+          {
+            "id": "c",
+            "text": "It contains the first value that was compared in the pass"
+          },
+          {
+            "id": "d",
+            "text": "It is always equal to the value at index 0"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "During a pass, larger values move step by step toward the right. Therefore, the largest value in the currently unsorted portion reaches its final position at the right end of that portion."
+      },
+      {
+        "id": "bs-medium-s2-q2",
+        "type": "conceptual",
+        "prompt": "Suppose Bubble Sort has already completed two passes on an array of 6 elements. How many elements are guaranteed to be in their final sorted positions?",
+        "options": [
+          {
+            "id": "a",
+            "text": "2"
+          },
+          {
+            "id": "b",
+            "text": "1"
+          },
+          {
+            "id": "c",
+            "text": "4"
+          },
+          {
+            "id": "d",
+            "text": "6"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Each complete pass places the largest remaining unsorted value into its final position at the right side. After two complete passes, the last two positions are guaranteed to be final."
+      },
+      {
+        "id": "bs-medium-s2-q3",
+        "type": "execution",
+        "prompt": "The array is partway through the first pass. What happens next?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 10
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The elements at index 2 and 3 swap, because 9 is greater than 1"
+          },
+          {
+            "id": "b",
+            "text": "The elements stay in place, because 9 is already larger"
+          },
+          {
+            "id": "c",
+            "text": "Index 0 and 1 are compared again before continuing"
+          },
+          {
+            "id": "d",
+            "text": "The first pass ends immediately"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "By this point, 9 has moved from index 0 to index 2 through the previous comparisons. The algorithm is now comparing 9 and 1. Since 9 is greater than 1, the two elements swap."
+      },
+      {
+        "id": "bs-medium-s2-q4",
+        "type": "execution",
+        "prompt": "The first pass is almost complete. What happens when the algorithm compares the last unsorted pair?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 14
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The elements stay in place because 1 is already smaller than 5"
+          },
+          {
+            "id": "b",
+            "text": "The elements swap because 1 is smaller than 5"
+          },
+          {
+            "id": "c",
+            "text": "The value 9 moves back from index 4"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm starts the second pass immediately without this comparison"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The current comparison is between 1 and 5. Because the left value is already smaller than the right value, Bubble Sort does not swap them and continues to the end of the pass."
+      },
+      {
+        "id": "bs-medium-s2-q5",
+        "type": "conceptual",
+        "prompt": "Why does Bubble Sort need fewer comparisons in each new pass than in the previous pass?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Because the largest remaining value has already been fixed at the right end"
+          },
+          {
+            "id": "b",
+            "text": "Because the algorithm removes the smallest value after every pass"
+          },
+          {
+            "id": "c",
+            "text": "Because the array becomes smaller after every pass"
+          },
+          {
+            "id": "d",
+            "text": "Because Bubble Sort skips every pair that was compared before"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "After each complete pass, the largest value in the remaining unsorted portion is guaranteed to be in its final position. Therefore, that position does not need to be compared again, so the comparison range becomes smaller."
+      },
+      {
+        "id": "bs-medium-s2-q6",
+        "type": "execution",
+        "prompt": "The second pass is underway. The current comparison is between 6 and 1. What should happen next?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 23
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "6 and 1 swap, producing [3, 1, 6, 5, 9]"
+          },
+          {
+            "id": "b",
+            "text": "6 and 1 stay in place because 6 is already larger"
+          },
+          {
+            "id": "c",
+            "text": "The algorithm compares 3 and 6 again"
+          },
+          {
+            "id": "d",
+            "text": "The value 9 is compared again because it is the largest value"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "After the first pass, the array is [3, 6, 1, 5, 9]. The second pass does not need to touch index 4 because 9 is already sorted. Comparing 6 and 1, 6 is greater, so they swap and the array becomes [3, 1, 6, 5, 9]."
+      },
+      {
+        "id": "bs-medium-s2-q7",
+        "type": "code",
+        "prompt": "Fill in the blank — what bound does the inner loop need on pass i so that it compares only the unsorted portion?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function bubbleSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = 0 to ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] > arr[j + 1]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "swap(arr[j], arr[j + 1])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "n - i - 2"
+          },
+          {
+            "id": "b",
+            "text": "n - i - 1"
+          },
+          {
+            "id": "c",
+            "text": "n - 2"
+          },
+          {
+            "id": "d",
+            "text": "i - 2"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "At pass i, the last i elements are already fixed. Therefore, the last valid j index is n - i - 2, so that j + 1 remains inside the unsorted portion of the array."
+      }
+    ],
+    "3": [
+      {
+        "id": "bs-medium-s3-q1",
+        "type": "conceptual",
+        "prompt": "A Bubble Sort pass starts with the unsorted portion [4, 2, 7, 1]. Which value is guaranteed to reach the right end of this portion by the end of the pass?",
+        "options": [
+          {
+            "id": "a",
+            "text": "7"
+          },
+          {
+            "id": "b",
+            "text": "1"
+          },
+          {
+            "id": "c",
+            "text": "4"
+          },
+          {
+            "id": "d",
+            "text": "2"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "During a complete Bubble Sort pass, the largest value in the currently unsorted portion keeps moving to the right whenever it is compared with a smaller value. Therefore, 7 reaches the right end of this portion."
+      },
+      {
+        "id": "bs-medium-s3-q2",
+        "type": "execution",
+        "prompt": "The first pass is in progress. After the previous comparisons, what happens when the algorithm compares 9 and 6?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 6
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "9 and 6 swap, so 9 moves one position to the right"
+          },
+          {
+            "id": "b",
+            "text": "9 and 6 stay in place because 9 is the larger value"
+          },
+          {
+            "id": "c",
+            "text": "6 moves directly to the end of the array"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm starts the second pass"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The previous comparison already moved 9 from index 0 to index 1. It is now compared with 6. Since 9 > 6, the pair swaps and 9 moves to index 2."
+      },
+      {
+        "id": "bs-medium-s3-q3",
+        "type": "conceptual",
+        "prompt": "After the first pass on [9, 3, 6, 1, 5], why does the algorithm no longer need to compare index 4 during later passes?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Because 9 is the largest value and is already in its final position"
+          },
+          {
+            "id": "b",
+            "text": "Because index 4 always contains the smallest value"
+          },
+          {
+            "id": "c",
+            "text": "Because Bubble Sort never compares the last index"
+          },
+          {
+            "id": "d",
+            "text": "Because the array has already become completely sorted"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The first pass moves the largest value, 9, all the way to index 4. Since that value is now in its final sorted position, later passes only work on indices 0 through 3."
+      },
+      {
+        "id": "bs-medium-s3-q4",
+        "type": "execution",
+        "prompt": "The second pass is underway. The current array state is [3, 6, 1, 5, 9]. What happens when 6 is compared with 5?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 27
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "6 and 5 swap, producing [3, 1, 5, 6, 9]"
+          },
+          {
+            "id": "b",
+            "text": "6 and 5 stay in place because 6 is already larger"
+          },
+          {
+            "id": "c",
+            "text": "5 moves directly to index 0"
+          },
+          {
+            "id": "d",
+            "text": "9 is compared with 6 again"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The second pass works on the unsorted portion [3, 6, 1, 5]. When 6 is compared with 5, 6 is greater, so they swap. The resulting array is [3, 1, 5, 6, 9]."
+      },
+      {
+        "id": "bs-medium-s3-q5",
+        "type": "conceptual",
+        "prompt": "For this Bubble Sort implementation, which statement correctly describes the relationship between comparisons and swaps?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Every swap is caused by a comparison, but not every comparison causes a swap"
+          },
+          {
+            "id": "b",
+            "text": "Every comparison always causes a swap"
+          },
+          {
+            "id": "c",
+            "text": "Swaps happen without comparing the two elements first"
+          },
+          {
+            "id": "d",
+            "text": "The number of swaps is always equal to the number of comparisons"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The algorithm first compares adjacent elements. A swap happens only when the left element is greater than the right element. Therefore, every swap follows a comparison, but some comparisons result in no swap."
+      },
+      {
+        "id": "bs-medium-s3-q6",
+        "type": "execution",
+        "prompt": "The first pass has just completed. What will the algorithm compare first in the second pass?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 19
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "3 and 6, because the second pass starts again from index 0"
+          },
+          {
+            "id": "b",
+            "text": "6 and 1, because the first pass ended near index 3"
+          },
+          {
+            "id": "c",
+            "text": "5 and 9, because the largest value must be checked again"
+          },
+          {
+            "id": "d",
+            "text": "3 and 1, because Bubble Sort skips the pair 3 and 6"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "At the end of the first pass the array is [3, 6, 1, 5, 9]. The second pass starts again from the beginning of the unsorted portion, so the first comparison is between 3 and 6. Index 4 containing 9 is excluded because it is already sorted."
+      },
+      {
+        "id": "bs-medium-s3-q7",
+        "type": "code",
+        "prompt": "Fill in the blank — why does the inner loop use n - i - 2 as its upper bound when j + 1 is accessed?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function bubbleSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = 0 to ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] > arr[j + 1]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "swap(arr[j], arr[j + 1])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "n - i - 2, so j + 1 stays within the current unsorted range"
+          },
+          {
+            "id": "b",
+            "text": "n - i - 1, because the algorithm should also compare the sorted position"
+          },
+          {
+            "id": "c",
+            "text": "n - 2, because the inner loop never changes between passes"
+          },
+          {
+            "id": "d",
+            "text": "i - 2, because the sorted portion is at the beginning"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "At pass i, the last i elements are already fixed. Because the algorithm accesses arr[j + 1], the largest valid j is n - i - 2. This keeps both j and j + 1 inside the unsorted portion."
+      }
+    ]
+  },
+  "hard": {
+    "1": [
+      {
+        "id": "bs-hard-s1-q1",
+        "type": "conceptual",
+        "prompt": "How does Bubble Sort's average-case time complexity compare to its worst case?",
+        "options": [
+          {
+            "id": "a",
+            "text": "They are the same order — O(n²) either way"
+          },
+          {
+            "id": "b",
+            "text": "Average case is O(n log n), worst case is O(n²)"
+          },
+          {
+            "id": "c",
+            "text": "Average case is O(n), worst case is O(n²)"
+          },
+          {
+            "id": "d",
+            "text": "Average case is always faster than best case"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Unlike algorithms such as Quick Sort, Bubble Sort has no favorable average-case behavior — a randomly ordered array still needs roughly the same number of comparisons as the worst case, so both are O(n²)."
+      },
+      {
+        "id": "bs-hard-s1-q2",
+        "type": "conceptual",
+        "prompt": "Is this Bubble Sort implementation stable — does it preserve the relative order of equal elements?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Yes — it only swaps when arr[j] is strictly greater than arr[j + 1], so equal elements are never swapped past each other"
+          },
+          {
+            "id": "b",
+            "text": "No — swapping adjacent elements always breaks stability"
+          },
+          {
+            "id": "c",
+            "text": "Only when the array has no duplicate values"
+          },
+          {
+            "id": "d",
+            "text": "Only if the input is already sorted before running"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The swap condition is arr[j] > arr[j + 1], a strict inequality. Two equal elements never satisfy that condition, so they never trade places — their original left-to-right order survives."
+      },
+      {
+        "id": "bs-hard-s1-q3",
+        "type": "conceptual",
+        "prompt": "What is the space complexity of this Bubble Sort implementation?",
+        "options": [
+          {
+            "id": "a",
+            "text": "O(1) — it sorts in place, swapping within the same array"
+          },
+          {
+            "id": "b",
+            "text": "O(n) — it needs a second array the same size as the input"
+          },
+          {
+            "id": "c",
+            "text": "O(log n) — proportional to the recursion depth"
+          },
+          {
+            "id": "d",
+            "text": "O(n²) — one cell of extra memory per comparison"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Every swap happens between two positions of the same input array — no second array or recursion stack is ever allocated, so the auxiliary space is constant."
+      },
+      {
+        "id": "bs-hard-s1-q4",
+        "type": "conceptual",
+        "prompt": "Unlike Merge Sort, why does this Bubble Sort implementation never need a second, temporary array?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It sorts by swapping elements directly within the original array, while Merge Sort needs a buffer to merge two already-sorted halves"
+          },
+          {
+            "id": "b",
+            "text": "Because Bubble Sort only works on arrays smaller than 10 elements"
+          },
+          {
+            "id": "c",
+            "text": "Because Merge Sort does not use recursion"
+          },
+          {
+            "id": "d",
+            "text": "Both algorithms need the same amount of extra memory"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Merge Sort's merge step combines two sorted halves into a new sequence, which needs somewhere to build that sequence before copying it back. Bubble Sort never separates the array at all — it just exchanges neighboring cells in place."
+      },
+      {
+        "id": "bs-hard-s1-q5",
+        "type": "execution",
+        "prompt": "The array contains a duplicate value. What happens at this comparison?",
+        "visualization": {
+          "inputArray": [
+            4,
+            2,
+            4,
+            1
+          ],
+          "frameIndex": 6
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Nothing swaps — the two values are equal, and equal values never satisfy arr[j] > arr[j + 1]"
+          },
+          {
+            "id": "b",
+            "text": "The elements swap, because equal values are always swapped to check for duplicates"
+          },
+          {
+            "id": "c",
+            "text": "The algorithm raises an error because of the duplicate value"
+          },
+          {
+            "id": "d",
+            "text": "Only one of the two 4s is kept, and the other is discarded"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "By this point the array is [2, 4, 4, 1] — index 1 and 2 both hold 4. Since 4 is not strictly greater than 4, the swap condition is false, so they stay exactly where they are."
+      },
+      {
+        "id": "bs-hard-s1-q6",
+        "type": "execution",
+        "prompt": "Continuing the same pass, what happens at this next comparison?",
+        "visualization": {
+          "inputArray": [
+            4,
+            2,
+            4,
+            1
+          ],
+          "frameIndex": 10
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The elements swap, because 4 is greater than 1"
+          },
+          {
+            "id": "b",
+            "text": "Nothing happens, since this pair was already checked earlier in the pass"
+          },
+          {
+            "id": "c",
+            "text": "The pass ends without comparing this pair"
+          },
+          {
+            "id": "d",
+            "text": "The two 4s from earlier are compared again instead"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "After the previous no-swap step the array is still [2, 4, 4, 1]. Comparing index 2 and 3 (4 vs 1), 4 is greater, so they swap — producing [2, 4, 1, 4] and locking 4 into the last position for this pass."
+      },
+      {
+        "id": "bs-hard-s1-q7",
+        "type": "code",
+        "prompt": "Fill in the blank in the swap call:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function bubbleSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = 0 to n - i - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] > arr[j + 1]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "swap(arr[j], arr[",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "j + 1"
+          },
+          {
+            "id": "b",
+            "text": "j - 1"
+          },
+          {
+            "id": "c",
+            "text": "j"
+          },
+          {
+            "id": "d",
+            "text": "j + 2"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The comparison one line above checks arr[j] against arr[j + 1], so the swap must exchange those exact same two positions — arr[j] and arr[j + 1]."
+      },
+      {
+        "id": "bs-hard-s1-q8",
+        "type": "code",
+        "prompt": "Fill in the blank — what bound keeps the inner loop from reading past the end of the unsorted region?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function bubbleSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = 0 to ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] > arr[j + 1]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "swap(arr[j], arr[j + 1])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "n - i - 2"
+          },
+          {
+            "id": "b",
+            "text": "n - i - 1"
+          },
+          {
+            "id": "c",
+            "text": "n - 1"
+          },
+          {
+            "id": "d",
+            "text": "n - 2"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Each pass i already fixed i elements at the end of the array, and j + 1 must stay a valid index, so the inner loop stops at n - i - 2 — one less than the size of the still-unsorted region."
+      },
+      {
+        "id": "bs-hard-s1-q9",
+        "type": "code",
+        "prompt": "Fill in the blank — which comparison actually decides whether a swap happens?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function bubbleSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = 0 to n - i - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "swap(arr[j], arr[j + 1])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "arr[j] > arr[j + 1]"
+          },
+          {
+            "id": "b",
+            "text": "arr[j] >= arr[j + 1]"
+          },
+          {
+            "id": "c",
+            "text": "arr[j] < arr[j + 1]"
+          },
+          {
+            "id": "d",
+            "text": "arr[j] == arr[j + 1]"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A strict greater-than is what makes this implementation both correct (ascending order) and stable (equal elements never swap) — using >= instead would still sort correctly but would break stability."
+      },
+      {
+        "id": "bs-hard-s1-q10",
+        "type": "conceptual",
+        "prompt": "Despite its O(n²) worst case, in which situation is Bubble Sort still a reasonable practical choice?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Very small or nearly-sorted arrays, where simplicity matters more than raw speed"
+          },
+          {
+            "id": "b",
+            "text": "Large, randomly ordered datasets that need to sort as fast as possible"
+          },
+          {
+            "id": "c",
+            "text": "Situations where preserving the order of equal elements does not matter"
+          },
+          {
+            "id": "d",
+            "text": "Any case where O(n log n) performance is required"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Bubble Sort's simplicity and low overhead make it reasonable for tiny inputs or teaching, but its O(n²) worst case makes it a poor fit for large or heavily shuffled datasets — that's exactly where algorithms like Merge Sort or Quick Sort win."
+      }
+    ],
+    "2": [
+      {
+        "id": "bs-hard-s2-q1",
+        "type": "conceptual",
+        "prompt": "For an array of n distinct elements in reverse order, how many swaps does this Bubble Sort implementation perform?",
+        "options": [
+          {
+            "id": "a",
+            "text": "n(n - 1) / 2"
+          },
+          {
+            "id": "b",
+            "text": "n - 1"
+          },
+          {
+            "id": "c",
+            "text": "n²"
+          },
+          {
+            "id": "d",
+            "text": "n log n"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "In reverse order, every adjacent comparison finds the left element larger than the right element, so every comparison causes a swap. The total number of comparisons is n(n - 1) / 2, so the swap count is the same."
+      },
+      {
+        "id": "bs-hard-s2-q2",
+        "type": "conceptual",
+        "prompt": "What would happen to the stability of this Bubble Sort if the condition changed from arr[j] > arr[j + 1] to arr[j] >= arr[j + 1]?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It would still sort correctly, but it would no longer be stable because equal elements could be swapped"
+          },
+          {
+            "id": "b",
+            "text": "It would become unstable and would also fail to sort the array"
+          },
+          {
+            "id": "c",
+            "text": "Nothing would change because equal elements are never compared"
+          },
+          {
+            "id": "d",
+            "text": "It would improve the time complexity to O(n log n)"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Using >= would make equal elements satisfy the swap condition. The array could still become sorted, but equal elements could exchange positions, which breaks the stability guarantee of the current implementation."
+      },
+      {
+        "id": "bs-hard-s2-q3",
+        "type": "conceptual",
+        "prompt": "For an already sorted array of n elements, how many comparisons does this implementation still perform?",
+        "options": [
+          {
+            "id": "a",
+            "text": "n(n - 1) / 2"
+          },
+          {
+            "id": "b",
+            "text": "n - 1"
+          },
+          {
+            "id": "c",
+            "text": "0"
+          },
+          {
+            "id": "d",
+            "text": "n log n"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This implementation has no swapped flag or early-exit condition. Even when every comparison finds the pair already ordered, all n - 1 passes still execute, giving n(n - 1) / 2 comparisons."
+      },
+      {
+        "id": "bs-hard-s2-q4",
+        "type": "conceptual",
+        "prompt": "Why can an already-sorted input still be expensive for this specific Bubble Sort implementation?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Because it still performs every planned comparison even though no swaps are needed"
+          },
+          {
+            "id": "b",
+            "text": "Because sorted arrays always require more swaps than reverse-sorted arrays"
+          },
+          {
+            "id": "c",
+            "text": "Because Bubble Sort reverses the array before sorting it"
+          },
+          {
+            "id": "d",
+            "text": "Because the algorithm creates a second copy of the input"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The implementation has no early-exit optimization. Therefore, an already-sorted array performs the same number of comparisons as any other input of the same length, although it performs zero swaps."
+      },
+      {
+        "id": "bs-hard-s2-q5",
+        "type": "execution",
+        "prompt": "The duplicate values have reached adjacent positions. What does this comparison reveal about the algorithm?",
+        "visualization": {
+          "inputArray": [
+            4,
+            2,
+            4,
+            1
+          ],
+          "frameIndex": 6
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Equal elements are left untouched, which preserves their relative order"
+          },
+          {
+            "id": "b",
+            "text": "Equal elements are swapped to guarantee ascending order"
+          },
+          {
+            "id": "c",
+            "text": "One of the duplicate values is removed"
+          },
+          {
+            "id": "d",
+            "text": "The pass stops immediately whenever equal values are found"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The two 4s are equal, so 4 > 4 is false. They remain in their current order. This is the concrete behavior that gives this implementation its stability property."
+      },
+      {
+        "id": "bs-hard-s2-q6",
+        "type": "execution",
+        "prompt": "At this point in the first pass, what is the important consequence of the next swap?",
+        "visualization": {
+          "inputArray": [
+            4,
+            2,
+            4,
+            1
+          ],
+          "frameIndex": 10
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The value 4 moves to the final position of the first pass"
+          },
+          {
+            "id": "b",
+            "text": "The value 1 moves to the first position immediately"
+          },
+          {
+            "id": "c",
+            "text": "The two equal 4s are exchanged"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm finishes because a swap occurred"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The comparison is 4 versus 1, so they swap and the array becomes [2, 4, 1, 4]. The larger 4 has now bubbled to index 3, which is the final position for the largest value in this pass."
+      },
+      {
+        "id": "bs-hard-s2-q7",
+        "type": "code",
+        "prompt": "Fill in the blank — which operator must be used to preserve stability while sorting in ascending order?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function bubbleSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = 0 to n - i - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " arr[j + 1]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "swap(arr[j], arr[j + 1])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": ">"
+          },
+          {
+            "id": "b",
+            "text": ">="
+          },
+          {
+            "id": "c",
+            "text": "<"
+          },
+          {
+            "id": "d",
+            "text": "=="
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The strict > operator swaps only when the left element is genuinely larger. Equal elements therefore remain in their original relative order, preserving stability."
+      },
+      {
+        "id": "bs-hard-s2-q8",
+        "type": "code",
+        "prompt": "Fill in the blank — how many comparisons are performed by the inner loop during pass i?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function bubbleSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = 0 to n - i - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "compare(arr[j], arr[j + 1])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "n - i - 1"
+          },
+          {
+            "id": "b",
+            "text": "n - i - 2"
+          },
+          {
+            "id": "c",
+            "text": "n - 1"
+          },
+          {
+            "id": "d",
+            "text": "i + 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The loop runs from j = 0 through j = n - i - 2, inclusive. That gives (n - i - 2) - 0 + 1 = n - i - 1 comparisons during pass i."
+      },
+      {
+        "id": "bs-hard-s2-q9",
+        "type": "code",
+        "prompt": "Fill in the blank — which expression gives the total number of comparisons over all passes?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function bubbleSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = 0 to n - i - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "compare(arr[j], arr[j + 1])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "n(n - 1) / 2"
+          },
+          {
+            "id": "b",
+            "text": "n(n + 1) / 2"
+          },
+          {
+            "id": "c",
+            "text": "n - 1"
+          },
+          {
+            "id": "d",
+            "text": "n² - 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The passes perform (n - 1), (n - 2), ..., 2, 1 comparisons. Their sum is n(n - 1) / 2."
+      },
+      {
+        "id": "bs-hard-s2-q10",
+        "type": "conceptual",
+        "prompt": "If you need to sort a large, randomly ordered array in a performance-sensitive application, why is Bubble Sort generally a poor choice?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Its quadratic time complexity makes it scale poorly as the input grows"
+          },
+          {
+            "id": "b",
+            "text": "It cannot sort arrays containing duplicate values"
+          },
+          {
+            "id": "c",
+            "text": "It always requires O(n) additional memory"
+          },
+          {
+            "id": "d",
+            "text": "It cannot produce the elements in ascending order"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "For large inputs, O(n²) growth causes the number of comparisons to increase rapidly. Algorithms with O(n log n) behavior, such as Merge Sort, are generally much more appropriate for performance-sensitive large datasets."
+      }
+    ],
+    "3": [
+      {
+        "id": "bs-hard-s3-q1",
+        "type": "conceptual",
+        "prompt": "Two sorting algorithms both use O(n²) time in their worst case. What additional property could make Bubble Sort preferable in a particular situation?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Its simple in-place behavior and stability can be useful when the input is small and equal-element order matters"
+          },
+          {
+            "id": "b",
+            "text": "Bubble Sort always uses less memory than every other sorting algorithm"
+          },
+          {
+            "id": "c",
+            "text": "Bubble Sort becomes O(n log n) whenever duplicate values exist"
+          },
+          {
+            "id": "d",
+            "text": "Bubble Sort is always faster because it uses adjacent comparisons"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Complexity is not the only consideration. For small inputs, simplicity, in-place operation, and stability can make Bubble Sort acceptable even though its asymptotic performance is poor."
+      },
+      {
+        "id": "bs-hard-s3-q2",
+        "type": "conceptual",
+        "prompt": "What is the key difference between the number of comparisons and the number of swaps for an already-sorted array in this implementation?",
+        "options": [
+          {
+            "id": "a",
+            "text": "There are still Θ(n²) comparisons, but zero swaps"
+          },
+          {
+            "id": "b",
+            "text": "Both comparisons and swaps are zero"
+          },
+          {
+            "id": "c",
+            "text": "There are Θ(n²) swaps but only Θ(n) comparisons"
+          },
+          {
+            "id": "d",
+            "text": "There are Θ(n) comparisons and Θ(n) swaps"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The implementation always executes all planned comparisons because it has no early-exit flag. Since every adjacent pair is already ordered, none of those comparisons causes a swap."
+      },
+      {
+        "id": "bs-hard-s3-q3",
+        "type": "conceptual",
+        "prompt": "Why does the strict comparison arr[j] > arr[j + 1] matter even though changing it to >= would still produce a sorted array?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It prevents equal elements from exchanging positions, which preserves stability"
+          },
+          {
+            "id": "b",
+            "text": "It prevents the algorithm from sorting descending instead of ascending"
+          },
+          {
+            "id": "c",
+            "text": "It reduces the worst-case complexity from O(n²) to O(n)"
+          },
+          {
+            "id": "d",
+            "text": "It allows the algorithm to use recursion instead of iteration"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Both > and >= can sort the values into ascending order. The important difference is that >= also swaps equal elements, which can change their relative order and therefore break stability."
+      },
+      {
+        "id": "bs-hard-s3-q4",
+        "type": "conceptual",
+        "prompt": "Which statement best describes Bubble Sort as an in-place algorithm?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It rearranges the elements inside the original array instead of building a separate array for the sorted result"
+          },
+          {
+            "id": "b",
+            "text": "It always creates a copy of the array before every pass"
+          },
+          {
+            "id": "c",
+            "text": "It stores every comparison in a second array"
+          },
+          {
+            "id": "d",
+            "text": "It requires recursive storage proportional to n"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The implementation modifies arr directly by exchanging neighboring elements. No auxiliary array proportional to the input size is required, so the auxiliary space is O(1)."
+      },
+      {
+        "id": "bs-hard-s3-q5",
+        "type": "execution",
+        "prompt": "The algorithm is comparing the two equal values. What can be concluded from this step?",
+        "visualization": {
+          "inputArray": [
+            4,
+            2,
+            4,
+            1
+          ],
+          "frameIndex": 6
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Their relative order is preserved because the strict > condition is false"
+          },
+          {
+            "id": "b",
+            "text": "Their relative order is reversed because equal values are swapped"
+          },
+          {
+            "id": "c",
+            "text": "One duplicate is removed before the next comparison"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm skips the rest of the current pass"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The comparison is 4 > 4, which is false. Therefore no swap happens. This concrete behavior is what allows the implementation to remain stable when duplicate values occur."
+      },
+      {
+        "id": "bs-hard-s3-q6",
+        "type": "execution",
+        "prompt": "After the next swap, which value becomes fixed at the end of the first pass?",
+        "visualization": {
+          "inputArray": [
+            4,
+            2,
+            4,
+            1
+          ],
+          "frameIndex": 10
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The 4 being compared with 1 becomes fixed at index 3"
+          },
+          {
+            "id": "b",
+            "text": "The value 1 becomes fixed at index 3"
+          },
+          {
+            "id": "c",
+            "text": "The first 4 is moved to index 0 and becomes fixed"
+          },
+          {
+            "id": "d",
+            "text": "No value becomes fixed until the entire array is sorted"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The comparison is 4 versus 1, so the 4 moves right and reaches index 3. Because it is the largest value in the current array, it is now in its final sorted position."
+      },
+      {
+        "id": "bs-hard-s3-q7",
+        "type": "code",
+        "prompt": "Fill in the blank — which index pair is exchanged when the comparison succeeds?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function bubbleSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = 0 to n - i - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] > arr[j + 1]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "swap(arr[",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "], arr[j + 1])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "j"
+          },
+          {
+            "id": "b",
+            "text": "j + 1"
+          },
+          {
+            "id": "c",
+            "text": "j - 1"
+          },
+          {
+            "id": "d",
+            "text": "j + 2"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The condition compares arr[j] with arr[j + 1]. When the left value is larger, those same two adjacent positions must be exchanged."
+      },
+      {
+        "id": "bs-hard-s3-q8",
+        "type": "code",
+        "prompt": "Fill in the blank — how many outer-loop passes are required by this implementation?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function bubbleSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = 0 to n - i - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] > arr[j + 1]:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 4,
+            "tokens": [
+              {
+                "text": "swap(arr[j], arr[j + 1])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "n - 2"
+          },
+          {
+            "id": "b",
+            "text": "n - 1"
+          },
+          {
+            "id": "c",
+            "text": "n"
+          },
+          {
+            "id": "d",
+            "text": "n / 2"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Because i starts at 0, the values 0 through n - 2 give exactly n - 1 passes. The final element does not need a separate pass because all remaining values have already been placed before it."
+      },
+      {
+        "id": "bs-hard-s3-q9",
+        "type": "code",
+        "prompt": "Fill in the blank — which expression represents the number of comparisons made during the first pass?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function bubbleSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = 0 to n - i - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "compare(arr[j], arr[j + 1])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "n - 1"
+          },
+          {
+            "id": "b",
+            "text": "n - 2"
+          },
+          {
+            "id": "c",
+            "text": "n"
+          },
+          {
+            "id": "d",
+            "text": "2n - 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The first pass has i = 0, so j runs from 0 through n - 2. That produces n - 1 adjacent comparisons."
+      },
+      {
+        "id": "bs-hard-s3-q10",
+        "type": "conceptual",
+        "prompt": "You have two datasets: a tiny array where the relative order of equal records must be preserved, and a very large randomly ordered array. Which conclusion about Bubble Sort is most accurate?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It can be reasonable for the tiny stable-sorting case, but it is generally a poor choice for the large random dataset because of O(n²) scaling"
+          },
+          {
+            "id": "b",
+            "text": "It is the better choice for both because it uses adjacent comparisons"
+          },
+          {
+            "id": "c",
+            "text": "It should be avoided in both cases because Bubble Sort cannot be stable"
+          },
+          {
+            "id": "d",
+            "text": "It is better for the large dataset because it uses O(1) extra space"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Bubble Sort has useful properties such as stability and O(1) auxiliary space, which can make it acceptable for very small inputs. But for large random inputs, its O(n²) running time makes it scale poorly compared with more efficient algorithms."
+      }
+    ]
+  }
+}

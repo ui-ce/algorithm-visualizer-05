@@ -1,0 +1,126 @@
+<div class="algo-custom-page">
+  <algo-header
+    [breadcrumbs]="breadcrumbs"
+    [themeMode]="themeService.themeMode()"
+    (themeToggle)="themeService.toggle()"
+    [currentLanguage]="languageService.currentLanguage()"
+    (languageToggle)="languageService.toggle()"
+  />
+
+  <div class="algo-custom-page__main-row">
+    <div class="algo-custom-page__editor-column">
+      <div class="algo-custom-page__section-heading">
+        <label class="text-body-medium" for="custom-python-editor">
+          {{ 'customAlgorithm.editor.label' | translate }}
+        </label>
+        <span class="algo-custom-page__language-badge">Python</span>
+      </div>
+
+      <div
+        #pythonEditorHost
+        id="custom-python-editor"
+        class="algo-custom-page__editor"
+        dir="ltr"
+      ></div>
+
+      @if (runError) {
+        <div class="algo-custom-page__error">
+          <div class="text-body-medium algo-custom-page__error-title">
+            {{ 'customAlgorithm.error.title' | translate }}
+          </div>
+          <p class="text-body-small algo-custom-page__error-message">
+            @if (runError.line !== null) {
+              <strong>
+                {{ 'customAlgorithm.error.lineLabel' | translate }} {{ runError.line }}:
+              </strong>
+            }
+            {{ runError.message }}
+          </p>
+        </div>
+      }
+    </div>
+
+    <!-- Own grid row (see .algo-custom-page__main-row) so the viz
+         column on the right lines up with just the editor's height,
+         not the editor + this button together. -->
+    <div class="algo-custom-page__actions">
+      <algo-button
+        [variant]="'primary'"
+        [size]="'medium'"
+        [fullWidth]="true"
+        [text]="isRunning ? loadingLabel : ('customAlgorithm.run' | translate)"
+        (click)="onRunClick()"
+      />
+    </div>
+
+    <div class="algo-custom-page__viz-column">
+      @if (hasRunSuccessfully && animation && rendererMetadata) {
+        <div class="algo-custom-page__viz-surface">
+          <div class="algo-custom-page__execution-main">
+            <div class="algo-custom-page__execution-header">
+              <span class="text-body-medium">{{ executionLabel }}</span>
+              @if (activeLineNumber !== null) {
+                <span class="algo-custom-page__line-indicator">
+                  {{ lineLabel }}: {{ activeLineNumber }}
+                </span>
+              }
+            </div>
+
+            <algo-visualization-area
+              [animation]="animation"
+              [rendererMetadata]="rendererMetadata"
+              [frameIndex]="frameIndex"
+              [hasPlayer]="false"
+              [showTitle]="false"
+            />
+
+            <algo-visualization-legend [items]="legendItems" />
+
+            <algo-navigation-controls
+              [isPlaying]="isPlaying"
+              (previous)="onPrevious()"
+              (playToggle)="onPlayToggle()"
+              (next)="onNext()"
+              (again)="onAgain()"
+            />
+          </div>
+
+          <aside class="algo-custom-page__variables-card">
+            <div class="algo-custom-page__variables-title">
+              {{ variablesLabel }}
+            </div>
+
+            @if ((currentVariables | keyvalue).length > 0) {
+              <div class="algo-custom-page__variables-list">
+                @for (variable of currentVariables | keyvalue; track variable.key) {
+                  <div class="algo-custom-page__variable-row">
+                    <span class="algo-custom-page__variable-name">
+                      {{ variable.key }}
+                    </span>
+                    <span class="algo-custom-page__variable-value">
+                      {{ formatVariable(variable.value) }}
+                    </span>
+                  </div>
+                }
+              </div>
+            } @else {
+              <p class="algo-custom-page__variables-empty">
+                {{ emptyVariablesLabel }}
+              </p>
+            }
+          </aside>
+        </div>
+      } @else {
+        <div class="algo-custom-page__viz-surface algo-custom-page__viz-surface--placeholder">
+          <p class="text-body-medium">
+            @if (isRunning) {
+              {{ loadingLabel }}
+            } @else {
+              {{ readyLabel }}
+            }
+          </p>
+        </div>
+      }
+    </div>
+  </div>
+</div>

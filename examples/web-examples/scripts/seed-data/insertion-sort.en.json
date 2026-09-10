@@ -1,0 +1,3342 @@
+{
+  "easy": {
+    "1": [
+      {
+        "id": "is-easy-s1-q1",
+        "type": "conceptual",
+        "prompt": "What is the main idea behind Insertion Sort?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Build a sorted portion by taking each new element and inserting it into its correct position"
+          },
+          {
+            "id": "b",
+            "text": "Repeatedly find the smallest value in the entire unsorted portion and swap it to the front"
+          },
+          {
+            "id": "c",
+            "text": "Split the array into smaller halves and merge the sorted halves"
+          },
+          {
+            "id": "d",
+            "text": "Repeatedly compare adjacent elements and swap them when they are out of order"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Insertion Sort grows a sorted portion from left to right. Each new element is taken as the key and inserted into its correct position among the elements already sorted."
+      },
+      {
+        "id": "is-easy-s1-q2",
+        "type": "conceptual",
+        "prompt": "What is guaranteed about the left portion of the array after each Insertion Sort iteration?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The processed portion is sorted"
+          },
+          {
+            "id": "b",
+            "text": "The largest value is always at its final position"
+          },
+          {
+            "id": "c",
+            "text": "The entire array is sorted"
+          },
+          {
+            "id": "d",
+            "text": "Only the first two elements are sorted"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "After processing each element, the portion to its left is maintained in sorted order. The rest of the array may still be unsorted."
+      },
+      {
+        "id": "is-easy-s1-q3",
+        "type": "execution",
+        "prompt": "The array is being processed. What happens next?",
+        "visualization": {
+          "inputArray": [
+            5,
+            2,
+            8,
+            1
+          ],
+          "frameIndex": 2
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The value 5 shifts to the right because it is greater than the key 2"
+          },
+          {
+            "id": "b",
+            "text": "The values 5 and 2 are swapped immediately and the iteration ends"
+          },
+          {
+            "id": "c",
+            "text": "The value 2 is discarded because it is smaller than 5"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm moves directly to value 8"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "When the current key is smaller than the element before it, that larger element shifts one position to the right to make room for the key."
+      },
+      {
+        "id": "is-easy-s1-q4",
+        "type": "execution",
+        "prompt": "The current key is larger than the element immediately before it. What happens next?",
+        "visualization": {
+          "inputArray": [
+            5,
+            2,
+            8,
+            1
+          ],
+          "frameIndex": 9
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The key stays in its current position because it is already larger than the previous element"
+          },
+          {
+            "id": "b",
+            "text": "Every element in the sorted portion shifts one position to the right"
+          },
+          {
+            "id": "c",
+            "text": "The key is moved to the beginning of the array"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm restarts from the first element"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "If the key is already greater than or equal to the previous sorted element, it is already in the correct position and no shifting is required."
+      },
+      {
+        "id": "is-easy-s1-q5",
+        "type": "code",
+        "prompt": "Fill in the blank in the Insertion Sort pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function insertionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "key = arr[i]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "j = i - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "while j >= 0 and arr[j] ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " key:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = arr[j]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "j = j - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = key",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": ">"
+          },
+          {
+            "id": "b",
+            "text": "<"
+          },
+          {
+            "id": "c",
+            "text": "=="
+          },
+          {
+            "id": "d",
+            "text": "!="
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "For ascending order, elements larger than the key must shift to the right. Therefore the condition is arr[j] > key."
+      }
+    ],
+    "2": [
+      {
+        "id": "is-easy-s2-q1",
+        "type": "conceptual",
+        "prompt": "Why is Insertion Sort considered an \"in-place\" algorithm?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It only moves elements around within the original array and needs just a few helper variables like key and j"
+          },
+          {
+            "id": "b",
+            "text": "Because it is always faster than algorithms that need an auxiliary array"
+          },
+          {
+            "id": "c",
+            "text": "Because it only works on arrays smaller than 10 elements"
+          },
+          {
+            "id": "d",
+            "text": "Because it returns its final result in a new, separate array"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Insertion Sort never builds a second array the size of the input; it only shifts elements within the same array while keeping track of key and j, so its extra space requirement is roughly O(1)."
+      },
+      {
+        "id": "is-easy-s2-q2",
+        "type": "conceptual",
+        "prompt": "If the input array is already fully sorted, what does Insertion Sort do for each element?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It compares the key only with the element right before it, finds that element is not larger, and leaves the key in place with no shifting"
+          },
+          {
+            "id": "b",
+            "text": "It still shifts every element of the sorted portion one by one"
+          },
+          {
+            "id": "c",
+            "text": "It rebuilds the array from the end to the beginning"
+          },
+          {
+            "id": "d",
+            "text": "It stops the algorithm early, since the array is already sorted"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "On an already-sorted array, every key is always greater than or equal to the element before it, so the inner loop stops immediately and no shifting happens. This is why the best-case running time of Insertion Sort is linear (Θ(n))."
+      },
+      {
+        "id": "is-easy-s2-q3",
+        "type": "execution",
+        "prompt": "The current key is 1, and the sorted portion is only [4]. What happens next?",
+        "visualization": {
+          "inputArray": [
+            4,
+            1,
+            3,
+            2
+          ],
+          "frameIndex": 2
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "4 shifts one position to the right, because it is greater than the key 1"
+          },
+          {
+            "id": "b",
+            "text": "1 stays in its current position immediately, because it is smaller than 4"
+          },
+          {
+            "id": "c",
+            "text": "4 and 1 are swapped directly with each other"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm moves straight on to the next element (3)"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Since 4 is greater than the key 1, it must shift one position to the right to make room for 1 to be inserted at the start of the array."
+      },
+      {
+        "id": "is-easy-s2-q4",
+        "type": "execution",
+        "prompt": "The current key is 3, and the sorted portion is [1, 4]. What happens next?",
+        "visualization": {
+          "inputArray": [
+            4,
+            1,
+            3,
+            2
+          ],
+          "frameIndex": 6
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "4 shifts one position to the right, because it is greater than the key 3; then 1 is checked and found not to be greater"
+          },
+          {
+            "id": "b",
+            "text": "Both 1 and 4 shift to the right immediately"
+          },
+          {
+            "id": "c",
+            "text": "3 is placed at the end of the array without any comparisons"
+          },
+          {
+            "id": "d",
+            "text": "The entire sorted portion is discarded"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Insertion Sort scans the sorted portion from right to left. 4 is greater than 3 and shifts, but 1 is not greater than 3; so the scan stops right there and 3 is inserted between 1 and 4."
+      },
+      {
+        "id": "is-easy-s2-q5",
+        "type": "code",
+        "prompt": "Fill in the blank in the Insertion Sort pseudocode — what should j be initialized to?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function insertionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "key = arr[i]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "j = i - ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "while j >= 0 and arr[j] > key:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = arr[j]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "j = j - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = key",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "1"
+          },
+          {
+            "id": "b",
+            "text": "0"
+          },
+          {
+            "id": "c",
+            "text": "2"
+          },
+          {
+            "id": "d",
+            "text": "i"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "j must point to the element immediately before the key so the comparison starts there. Since the key lives at index i, the correct starting value for j is i - 1."
+      }
+    ],
+    "3": [
+      {
+        "id": "is-easy-s3-q1",
+        "type": "conceptual",
+        "prompt": "In the Insertion Sort pseudocode, what exactly does the variable key hold?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The value of the element currently being inserted into the sorted portion"
+          },
+          {
+            "id": "b",
+            "text": "The smallest value found so far in the whole array"
+          },
+          {
+            "id": "c",
+            "text": "The index of the last element of the sorted portion"
+          },
+          {
+            "id": "d",
+            "text": "A value that must be removed by the end of execution"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "On every iteration of the outer loop, key holds the value arr[i] until the correct spot for it in the sorted portion is found and it gets inserted there."
+      },
+      {
+        "id": "is-easy-s3-q2",
+        "type": "conceptual",
+        "prompt": "Why is the element at index 0 already considered part of the \"sorted portion\" from the very first moment?",
+        "options": [
+          {
+            "id": "a",
+            "text": "An array with just one element is trivially sorted, so it needs no comparison at all"
+          },
+          {
+            "id": "b",
+            "text": "Because the smallest value in the array is always at index 0"
+          },
+          {
+            "id": "c",
+            "text": "Because the algorithm reads the array from right to left"
+          },
+          {
+            "id": "d",
+            "text": "Because index 0 never gets shifted"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The outer loop starts at index 1, so index 0 is never chosen as a key — it counts as a one-element sorted portion right from the start."
+      },
+      {
+        "id": "is-easy-s3-q3",
+        "type": "execution",
+        "prompt": "The current key is 6, and the sorted portion is only [3]. What happens next?",
+        "visualization": {
+          "inputArray": [
+            3,
+            6,
+            1,
+            4
+          ],
+          "frameIndex": 2
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "No shift happens, because 3 is not greater than the key 6; 6 stays right where it is"
+          },
+          {
+            "id": "b",
+            "text": "3 shifts one position to the right"
+          },
+          {
+            "id": "c",
+            "text": "3 and 6 are swapped with each other"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm stops immediately"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Since arr[0]=3 is not greater than the key 6, the inner loop condition fails right away; so no shifting happens and 6 stays in place."
+      },
+      {
+        "id": "is-easy-s3-q4",
+        "type": "execution",
+        "prompt": "The current key is 1, and the sorted portion is [3, 6]. What happens next?",
+        "visualization": {
+          "inputArray": [
+            3,
+            6,
+            1,
+            4
+          ],
+          "frameIndex": 4
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "6 shifts one position to the right, because it is greater than the key 1"
+          },
+          {
+            "id": "b",
+            "text": "1 stays in its current position immediately"
+          },
+          {
+            "id": "c",
+            "text": "Only 3 shifts and 6 is ignored"
+          },
+          {
+            "id": "d",
+            "text": "The sorted portion is entirely reversed"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Since 1 is smaller than every element of the sorted portion [3, 6], the scan starts from the right: first 6, being greater, shifts; 3 will shift next too, so 1 can be inserted at the very start of the array."
+      },
+      {
+        "id": "is-easy-s3-q5",
+        "type": "code",
+        "prompt": "Fill in the blank in the Insertion Sort pseudocode — which slot should the shifted element be written to?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function insertionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "key = arr[i]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "j = i - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "while j >= 0 and arr[j] > key:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "arr[j + ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "] = arr[j]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "j = j - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = key",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "1"
+          },
+          {
+            "id": "b",
+            "text": "0"
+          },
+          {
+            "id": "c",
+            "text": "-1"
+          },
+          {
+            "id": "d",
+            "text": "2"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The larger element arr[j] must move one slot to the right to free up its spot for the key, so it needs to be written to arr[j + 1]."
+      }
+    ]
+  },
+  "medium": {
+    "1": [
+      {
+        "id": "is-medium-s1-q1",
+        "type": "conceptual",
+        "prompt": "What is the worst-case time complexity of Insertion Sort on an array of n elements?",
+        "options": [
+          {
+            "id": "a",
+            "text": "O(n²), because an element may need to be shifted across most of the sorted portion"
+          },
+          {
+            "id": "b",
+            "text": "O(n), because every element is processed exactly once"
+          },
+          {
+            "id": "c",
+            "text": "O(log n), because the sorted portion is searched efficiently"
+          },
+          {
+            "id": "d",
+            "text": "O(n log n), because each insertion takes logarithmic time"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "In the worst case, such as a reverse-sorted array, every new key may need to move across the entire sorted portion. The total number of shifts and comparisons is therefore O(n²)."
+      },
+      {
+        "id": "is-medium-s1-q2",
+        "type": "conceptual",
+        "prompt": "What is the best-case time complexity of Insertion Sort, and when does it occur?",
+        "options": [
+          {
+            "id": "a",
+            "text": "O(n), when the array is already sorted or nearly requires no shifts"
+          },
+          {
+            "id": "b",
+            "text": "O(n²), because the inner loop always scans the whole sorted portion"
+          },
+          {
+            "id": "c",
+            "text": "O(log n), when the array is already sorted"
+          },
+          {
+            "id": "d",
+            "text": "O(n log n), because every element must be inserted using binary search"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "When the array is already sorted, each key only needs to be compared with the previous element and no shifting is required. The total work is linear."
+      },
+      {
+        "id": "is-medium-s1-q3",
+        "type": "execution",
+        "prompt": "The array is being processed. What happens when the current key is 3?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 4
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The value 9 shifts one position to the right because 9 is greater than the key 3"
+          },
+          {
+            "id": "b",
+            "text": "The key 3 is immediately placed at index 0 and the iteration ends"
+          },
+          {
+            "id": "c",
+            "text": "The value 9 stays in place because the key is smaller"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm starts processing the next key, 6"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The sorted portion initially contains [9]. Since 9 is greater than the key 3, it shifts one position to the right to make room for 3."
+      },
+      {
+        "id": "is-medium-s1-q4",
+        "type": "execution",
+        "prompt": "The key 6 is being inserted into the sorted portion [3, 9]. What happens next?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 10
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "9 shifts one position to the right because 9 is greater than 6"
+          },
+          {
+            "id": "b",
+            "text": "3 shifts right because 3 is greater than 6"
+          },
+          {
+            "id": "c",
+            "text": "6 is inserted before 3 immediately"
+          },
+          {
+            "id": "d",
+            "text": "The key 6 is discarded because the sorted portion already contains two elements"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The sorted portion is [3, 9]. The key is 6, so 9 must shift right. The next comparison is then made with 3, which is smaller than 6."
+      },
+      {
+        "id": "is-medium-s1-q5",
+        "type": "execution",
+        "prompt": "The key 6 has been compared with 3 after shifting 9. What happens next?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 13
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The key 6 is inserted after 3 because 3 is smaller than 6"
+          },
+          {
+            "id": "b",
+            "text": "3 shifts right because it is smaller than 6"
+          },
+          {
+            "id": "c",
+            "text": "6 moves to index 0 because it is the current key"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm starts the next pass without inserting 6"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Once the algorithm reaches 3, it finds that 3 is not greater than the key 6. The correct insertion position is immediately after 3, producing [3, 6, 9]."
+      },
+      {
+        "id": "is-medium-s1-q6",
+        "type": "conceptual",
+        "prompt": "What does the sorted portion represent during an Insertion Sort pass?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The elements to the left of the current key that are already sorted relative to one another"
+          },
+          {
+            "id": "b",
+            "text": "The elements that have already reached their final positions in the entire array"
+          },
+          {
+            "id": "c",
+            "text": "Only the elements that have never been moved"
+          },
+          {
+            "id": "d",
+            "text": "The elements larger than the current key"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Insertion Sort maintains a sorted prefix. Its elements are sorted relative to one another, although some of them may still move later when a new key is inserted."
+      },
+      {
+        "id": "is-medium-s1-q7",
+        "type": "code",
+        "prompt": "Fill in the blank — what should the inner loop do with an element larger than the key?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function insertionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "key = arr[i]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "j = i - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "while j >= 0 and arr[j] > key:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "j = j - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = key",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "arr[j]"
+          },
+          {
+            "id": "b",
+            "text": "key"
+          },
+          {
+            "id": "c",
+            "text": "arr[j + 1]"
+          },
+          {
+            "id": "d",
+            "text": "arr[i]"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "When arr[j] is greater than the key, it must shift one position to the right. Therefore arr[j + 1] receives arr[j]."
+      }
+    ],
+    "2": [
+      {
+        "id": "is-medium-s2-q1",
+        "type": "conceptual",
+        "prompt": "How does Insertion Sort behave on a reverse-sorted array?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It performs its maximum amount of shifting, giving O(n²) time"
+          },
+          {
+            "id": "b",
+            "text": "It becomes O(n) because every key is inserted immediately"
+          },
+          {
+            "id": "c",
+            "text": "It performs no shifts because the sorted portion is built from right to left"
+          },
+          {
+            "id": "d",
+            "text": "It automatically switches to Merge Sort"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "In a reverse-sorted array, every new key is smaller than all elements in the sorted prefix. Each key therefore shifts across that entire prefix, producing quadratic work."
+      },
+      {
+        "id": "is-medium-s2-q2",
+        "type": "conceptual",
+        "prompt": "Is the standard Insertion Sort implementation stable?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Yes — using arr[j] > key keeps equal elements in their original relative order"
+          },
+          {
+            "id": "b",
+            "text": "No — every insertion reverses equal elements"
+          },
+          {
+            "id": "c",
+            "text": "Only when the array contains no duplicate values"
+          },
+          {
+            "id": "d",
+            "text": "No — because it sorts the array in place"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "With the strict > comparison, an element equal to the key is not shifted past it. Therefore equal elements keep their relative order, making the standard implementation stable."
+      },
+      {
+        "id": "is-medium-s2-q3",
+        "type": "conceptual",
+        "prompt": "What is the extra space complexity of the standard Insertion Sort implementation?",
+        "options": [
+          {
+            "id": "a",
+            "text": "O(1), because it sorts the input array in place using only a few variables"
+          },
+          {
+            "id": "b",
+            "text": "O(n), because a second array is created for every insertion"
+          },
+          {
+            "id": "c",
+            "text": "O(log n), because the sorted portion is stored recursively"
+          },
+          {
+            "id": "d",
+            "text": "O(n²), because every comparison needs extra memory"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Insertion Sort only needs variables such as key, i, and j in addition to the input array. It does not allocate another array proportional to n."
+      },
+      {
+        "id": "is-medium-s2-q4",
+        "type": "execution",
+        "prompt": "The key 1 is being inserted into the sorted portion [3, 6, 9]. What happens first?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 18
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "9 shifts one position to the right because 9 is greater than 1"
+          },
+          {
+            "id": "b",
+            "text": "3 shifts first because it is the first element of the sorted portion"
+          },
+          {
+            "id": "c",
+            "text": "1 is inserted after 9"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm skips the key because 1 is the smallest value"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Insertion Sort scans the sorted portion from right to left. It first compares the key 1 with 9, so 9 shifts right."
+      },
+      {
+        "id": "is-medium-s2-q5",
+        "type": "execution",
+        "prompt": "The key 1 is smaller than 9, 6, and 3. What happens after all three larger values have shifted?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 23
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "1 is inserted at index 0, producing the sorted prefix [1, 3, 6, 9]"
+          },
+          {
+            "id": "b",
+            "text": "1 is inserted at index 3 because that is where it started"
+          },
+          {
+            "id": "c",
+            "text": "1 is inserted after 3 because 3 was the first element checked"
+          },
+          {
+            "id": "d",
+            "text": "The key remains outside the sorted portion"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "All elements in the sorted prefix are greater than 1, so they shift right. Once j becomes -1, the insertion position is j + 1 = 0."
+      },
+      {
+        "id": "is-medium-s2-q6",
+        "type": "conceptual",
+        "prompt": "Why can Insertion Sort be faster than its O(n²) worst-case bound suggests on nearly sorted input?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The inner loop stops quickly because most keys require few or no shifts"
+          },
+          {
+            "id": "b",
+            "text": "The algorithm changes its complexity to O(log n)"
+          },
+          {
+            "id": "c",
+            "text": "It ignores elements that are already sorted"
+          },
+          {
+            "id": "d",
+            "text": "It uses a second array to avoid comparisons"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Insertion Sort is adaptive. When a key is already close to its correct position, only a few comparisons and shifts are necessary."
+      },
+      {
+        "id": "is-medium-s2-q7",
+        "type": "code",
+        "prompt": "Fill in the blank — where is the key finally placed after the shifting loop ends?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function insertionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "key = arr[i]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "j = i - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "while j >= 0 and arr[j] > key:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = arr[j]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "j = j - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "arr[",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "] = key",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "j + 1"
+          },
+          {
+            "id": "b",
+            "text": "j"
+          },
+          {
+            "id": "c",
+            "text": "i - 1"
+          },
+          {
+            "id": "d",
+            "text": "i + 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The shifting loop decreases j one position at a time. When it stops, j points to the element before the key’s correct position, so the key belongs at j + 1."
+      }
+    ],
+    "3": [
+      {
+        "id": "is-medium-s3-q1",
+        "type": "conceptual",
+        "prompt": "What determines how many shifts a key causes during an Insertion Sort iteration?",
+        "options": [
+          {
+            "id": "a",
+            "text": "How many elements in the sorted portion are greater than the key"
+          },
+          {
+            "id": "b",
+            "text": "The total number of elements in the array, regardless of their values"
+          },
+          {
+            "id": "c",
+            "text": "How many elements are smaller than the key"
+          },
+          {
+            "id": "d",
+            "text": "Only the position of the largest element in the array"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The inner loop shifts every element greater than the key one position to the right. Therefore the number of shifts depends directly on how many sorted-prefix elements are greater than the key."
+      },
+      {
+        "id": "is-medium-s3-q2",
+        "type": "conceptual",
+        "prompt": "Why does Insertion Sort process the array from left to right?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Because it maintains the already-processed left portion as the sorted portion into which each new key is inserted"
+          },
+          {
+            "id": "b",
+            "text": "Because the right side of the array cannot be accessed"
+          },
+          {
+            "id": "c",
+            "text": "Because only the first element can be compared"
+          },
+          {
+            "id": "d",
+            "text": "Because the largest value must always be placed first"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "At each iteration, all elements before i form a sorted prefix. The current element at i becomes the key and is inserted into that prefix."
+      },
+      {
+        "id": "is-medium-s3-q3",
+        "type": "conceptual",
+        "prompt": "For the key 5 inserted into the sorted portion [1, 3, 6, 9], how many elements must shift right?",
+        "options": [
+          {
+            "id": "a",
+            "text": "2 — the values 9 and 6 are greater than 5"
+          },
+          {
+            "id": "b",
+            "text": "1 — only the largest value moves"
+          },
+          {
+            "id": "c",
+            "text": "3 — every element except 1 moves"
+          },
+          {
+            "id": "d",
+            "text": "0 — 5 is inserted without any comparison"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The algorithm scans from right to left. Both 9 and 6 are greater than 5, so they shift right. It stops when it reaches 3 because 3 is smaller than 5."
+      },
+      {
+        "id": "is-medium-s3-q4",
+        "type": "execution",
+        "prompt": "The key is 5 and the sorted portion is [1, 3, 6, 9]. What happens when the algorithm compares 5 with 6?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 28
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "6 shifts one position to the right because 6 is greater than 5"
+          },
+          {
+            "id": "b",
+            "text": "5 is inserted before 9 immediately"
+          },
+          {
+            "id": "c",
+            "text": "6 stays in place because it is smaller than 5"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm finishes because 9 was already shifted"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Since 6 is greater than the key 5, it must shift right. The algorithm then continues leftward and compares 5 with 3."
+      },
+      {
+        "id": "is-medium-s3-q5",
+        "type": "execution",
+        "prompt": "The key 5 has already shifted 9 and 6. What happens when it reaches 3?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 31
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The loop stops because 3 is not greater than 5, and 5 is inserted after 3"
+          },
+          {
+            "id": "b",
+            "text": "3 shifts right because every element must move during insertion"
+          },
+          {
+            "id": "c",
+            "text": "5 moves to index 0 because the scan reached the beginning"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm starts another pass before inserting 5"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The condition is arr[j] > key. Since 3 > 5 is false, the loop stops. The key is then written to j + 1, producing [1, 3, 5, 6, 9]."
+      },
+      {
+        "id": "is-medium-s3-q6",
+        "type": "conceptual",
+        "prompt": "Which statement best explains why Insertion Sort is adaptive?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Its amount of work decreases when elements are already close to their correct positions"
+          },
+          {
+            "id": "b",
+            "text": "It automatically changes to another sorting algorithm for difficult inputs"
+          },
+          {
+            "id": "c",
+            "text": "It always performs the same number of shifts regardless of input order"
+          },
+          {
+            "id": "d",
+            "text": "It only works correctly when the input is already sorted"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Insertion Sort does not blindly scan the entire prefix. The inner loop stops as soon as it reaches an element that is not greater than the key, so nearly sorted inputs require much less work."
+      },
+      {
+        "id": "is-medium-s3-q7",
+        "type": "code",
+        "prompt": "Fill in the blank — what condition stops the shifting loop when the correct insertion position has been reached?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function insertionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "key = arr[i]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "j = i - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "while j >= 0 and arr[j] ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " key:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = arr[j]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "j = j - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = key",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": ">"
+          },
+          {
+            "id": "b",
+            "text": "<"
+          },
+          {
+            "id": "c",
+            "text": "=="
+          },
+          {
+            "id": "d",
+            "text": ">="
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The loop should continue only while the current sorted element is strictly greater than the key. When arr[j] <= key, the correct insertion position has been reached."
+      }
+    ]
+  },
+  "hard": {
+    "1": [
+      {
+        "id": "is-hard-s1-q1",
+        "type": "conceptual",
+        "prompt": "How can Insertion Sort exit its inner loop early without any extra check like the \"swapped flag\" used in Bubble Sort?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The while condition itself (arr[j] > key) naturally stops as soon as it reaches an element that is not greater than the key, so early termination is a built-in part of the algorithm"
+          },
+          {
+            "id": "b",
+            "text": "Insertion Sort can never exit its loop early"
+          },
+          {
+            "id": "c",
+            "text": "Only when the array has no duplicate values"
+          },
+          {
+            "id": "d",
+            "text": "By adding a boolean flag similar to Bubble Sort, which the current pseudocode does not have"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Unlike Selection Sort, which must scan the entire remaining range to find the minimum, the inner loop of Insertion Sort stops as soon as it hits the first element that is not greater than the key. This is exactly what makes it run very fast on nearly-sorted data."
+      },
+      {
+        "id": "is-hard-s1-q2",
+        "type": "conceptual",
+        "prompt": "Is this implementation of Insertion Sort stable — does it preserve the relative order of equal elements?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Yes — because the shift condition is written strictly as arr[j] > key, an element equal to the key is never shifted past it"
+          },
+          {
+            "id": "b",
+            "text": "No — repeated shifts can reverse the relative order of equal elements"
+          },
+          {
+            "id": "c",
+            "text": "Only if the array has no duplicate values"
+          },
+          {
+            "id": "d",
+            "text": "It depends on whether the array is sorted in ascending or descending order"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The strict > comparison guarantees that when arr[j] equals key, the while loop stops, and key is inserted right after it. So two equal values never pass each other, and their original order is preserved. Questions 5 and 6 show exactly this behavior on real data."
+      },
+      {
+        "id": "is-hard-s1-q3",
+        "type": "conceptual",
+        "prompt": "Unlike Merge Sort, why does Insertion Sort never need a second, temporary array?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It only shifts elements within the original array itself and keeps the key in a single helper variable, whereas Merge Sort needs a buffer to combine two sorted halves"
+          },
+          {
+            "id": "b",
+            "text": "Because Insertion Sort only works on arrays smaller than 10 elements"
+          },
+          {
+            "id": "c",
+            "text": "Because Merge Sort does not use recursion"
+          },
+          {
+            "id": "d",
+            "text": "Both algorithms need the same amount of extra memory"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Merge Sort's merge step must combine two sorted sequences into a new array, which requires temporary space. Insertion Sort never separates the array; it just shifts elements within the same input array using a key value and an index j."
+      },
+      {
+        "id": "is-hard-s1-q4",
+        "type": "conceptual",
+        "prompt": "Does the number of shifts Insertion Sort performs depend on the initial order of the input array?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Yes — it ranges from 0 (for an already-sorted array) up to n(n - 1) / 2 (for a reverse-sorted array)"
+          },
+          {
+            "id": "b",
+            "text": "No, the number of shifts is always exactly n - 1 regardless of the input"
+          },
+          {
+            "id": "c",
+            "text": "No, a correct implementation always performs 0 shifts"
+          },
+          {
+            "id": "d",
+            "text": "Yes, but only when the array has duplicate values"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Unlike Selection Sort, whose comparison count is always fixed, both the comparison count and the shift count of Insertion Sort depend entirely on the input's initial order. On an already-sorted array, no shifts happen at all; on a fully reversed array, every key must pass every element before it."
+      },
+      {
+        "id": "is-hard-s1-q5",
+        "type": "execution",
+        "prompt": "The current key is 5, and the sorted portion is [3, 5]. What happens next?",
+        "visualization": {
+          "inputArray": [
+            5,
+            3,
+            5,
+            1
+          ],
+          "frameIndex": 6
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "No shift happens — since 5 is not strictly greater than the key 5, the key is inserted right after it immediately"
+          },
+          {
+            "id": "b",
+            "text": "The 5 at the end of the sorted portion shifts right, because it equals the key"
+          },
+          {
+            "id": "c",
+            "text": "The two 5s swap places with each other"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm throws an error because of the duplicate value"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The while condition is arr[j] > key. Since arr[1]=5 is not greater than key=5, the loop never runs and the key is immediately inserted at index 2. This is exactly the behavior that guarantees stability: the second 5 never passes the first 5."
+      },
+      {
+        "id": "is-hard-s1-q6",
+        "type": "execution",
+        "prompt": "The current key is 1, and the sorted portion is [3, 5, 5]. What happens next?",
+        "visualization": {
+          "inputArray": [
+            5,
+            3,
+            5,
+            1
+          ],
+          "frameIndex": 8
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The nearest 5 (index 2) shifts one position right, because it is greater than the key 1; the other 5 and 3 will shift in turn afterward"
+          },
+          {
+            "id": "b",
+            "text": "Both 5s shift at the same time in no particular order"
+          },
+          {
+            "id": "c",
+            "text": "1 stays in place immediately, with no shifting at all"
+          },
+          {
+            "id": "d",
+            "text": "Only 3 shifts, and both 5s are ignored"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Since 1 is smaller than every element of the sorted portion, the scan continues right to left: first the nearest 5 shifts, then the other 5, and finally 3. These are two separate, one-at-a-time shifts, not a single jump — so the relative order of the two 5s stays intact."
+      },
+      {
+        "id": "is-hard-s1-q7",
+        "type": "code",
+        "prompt": "Fill in the blank in the inner loop condition — how far is j allowed to decrease?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function insertionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "key = arr[i]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "j = i - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "while j >= ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " and arr[j] > key:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = arr[j]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "j = j - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = key",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "0"
+          },
+          {
+            "id": "b",
+            "text": "1"
+          },
+          {
+            "id": "c",
+            "text": "-1"
+          },
+          {
+            "id": "d",
+            "text": "i"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Index 0 is the smallest valid array index. The condition j >= 0 makes sure the loop stops before going out of bounds — otherwise, when key is the smallest value, the algorithm would try to access arr[-1]."
+      },
+      {
+        "id": "is-hard-s1-q8",
+        "type": "code",
+        "prompt": "Fill in the blank — which slot should the larger element be rewritten to?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function insertionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "key = arr[i]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "j = i - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "while j >= 0 and arr[j] > key:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "arr[",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "] = arr[j]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "j = j - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = key",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "j + 1"
+          },
+          {
+            "id": "b",
+            "text": "j - 1"
+          },
+          {
+            "id": "c",
+            "text": "j"
+          },
+          {
+            "id": "d",
+            "text": "i"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "For arr[j] to shift one slot to the right, it must be rewritten to arr[j + 1]. This is what creates the empty slot needed for the final insertion of key."
+      },
+      {
+        "id": "is-hard-s1-q9",
+        "type": "code",
+        "prompt": "Fill in the blank — which index should the outer loop start from?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function insertionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "key = arr[i]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "j = i - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "while j >= 0 and arr[j] > key:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = arr[j]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "j = j - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = key",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "1"
+          },
+          {
+            "id": "b",
+            "text": "0"
+          },
+          {
+            "id": "c",
+            "text": "2"
+          },
+          {
+            "id": "d",
+            "text": "n / 2"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Index 0 is treated as a one-element sorted portion from the very start, so the first element that actually needs to be considered as a key is at index 1. Starting from index 0 would mean comparing the key against itself, which is pointless."
+      },
+      {
+        "id": "is-hard-s1-q10",
+        "type": "conceptual",
+        "prompt": "Despite its O(n²) worst case, why is Insertion Sort still used inside production sorting algorithms (like Timsort)?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It has very low overhead for small or nearly-sorted subarrays, and can even outperform O(n log n) algorithms in those cases"
+          },
+          {
+            "id": "b",
+            "text": "Because its worst case never actually occurs"
+          },
+          {
+            "id": "c",
+            "text": "Because it runs in parallel across multiple CPU cores"
+          },
+          {
+            "id": "d",
+            "text": "Because it never needs to compare elements"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Hybrid algorithms like Timsort use Insertion Sort for small subarrays (typically under 64 elements) because its hidden constants are low, and on small or nearly-sorted data it can outperform O(n log n) algorithms that carry heavier recursive overhead."
+      }
+    ],
+    "2": [
+      {
+        "id": "is-hard-s2-q1",
+        "type": "conceptual",
+        "prompt": "Unlike Selection Sort, why is the number of comparisons in Insertion Sort not fixed?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Because the inner loop can stop early at any point, depending on the position of the key relative to the elements in the sorted portion"
+          },
+          {
+            "id": "b",
+            "text": "Because Insertion Sort always performs exactly n(n - 1) / 2 comparisons, just like Selection Sort"
+          },
+          {
+            "id": "c",
+            "text": "Because Insertion Sort never performs more than one comparison per pass"
+          },
+          {
+            "id": "d",
+            "text": "Because the number of comparisons depends only on the array size and not on its values"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Selection Sort always scans the entire remaining range to find the minimum, regardless of the input order. In Insertion Sort, however, the while loop stops as soon as it finds the first element smaller than or equal to the key; therefore, the number of comparisons depends entirely on the initial arrangement of the data."
+      },
+      {
+        "id": "is-hard-s2-q2",
+        "type": "conceptual",
+        "prompt": "For this 6-element array [8, 5, 2, 6, 1, 7], how many comparisons can Insertion Sort perform in the best and worst cases?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Best case: n - 1 = 5 comparisons (if the array is already sorted), and worst case: n(n - 1) / 2 = 15 comparisons (if the array is completely reversed)"
+          },
+          {
+            "id": "b",
+            "text": "Always exactly 15 comparisons, regardless of the initial order of the array"
+          },
+          {
+            "id": "c",
+            "text": "Always exactly 6 comparisons, one for each element"
+          },
+          {
+            "id": "d",
+            "text": "Between 0 and n comparisons, but never more than n"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "In the best case (the array is already sorted), each of the n - 1 keys is placed in its position after only one comparison. In the worst case (the array is completely reversed), each key must be compared with all elements before it, resulting in a total of n(n - 1) / 2 comparisons."
+      },
+      {
+        "id": "is-hard-s2-q3",
+        "type": "conceptual",
+        "prompt": "What does it mean for an algorithm to be \"adaptive,\" and why does Insertion Sort have this property?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It means the algorithm’s running time depends on how sorted the input is; Insertion Sort performs much faster on nearly sorted data than in the worst case"
+          },
+          {
+            "id": "b",
+            "text": "It means the algorithm can change the input data type during execution"
+          },
+          {
+            "id": "c",
+            "text": "It means the algorithm automatically chooses between multiple different implementations"
+          },
+          {
+            "id": "d",
+            "text": "It means the algorithm always runs at a constant speed regardless of the input"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "An adaptive algorithm takes advantage of existing structure in the input. Because the inner loop of Insertion Sort can stop early, the closer the elements are to their final positions, the less work is required; therefore, the algorithm is naturally adaptive."
+      },
+      {
+        "id": "is-hard-s2-q4",
+        "type": "conceptual",
+        "prompt": "If we want to reduce the number of comparisons using Binary Insertion Sort, which part of the execution cost does not decrease?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The number of shifts; even after finding the insertion position faster, larger elements still need to be shifted one by one to the right"
+          },
+          {
+            "id": "b",
+            "text": "The number of comparisons; binary search has no effect on the number of comparisons"
+          },
+          {
+            "id": "c",
+            "text": "The extra space; binary search requires an auxiliary array"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm’s stability; the binary version is no longer stable"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Binary search can find the correct insertion position in O(log n) comparisons instead of O(n), but after finding that position, all larger elements still need to be shifted one by one. Therefore, Binary Insertion Sort improves the number of comparisons, but the overall time complexity remains O(n²), and the algorithm remains stable."
+      },
+      {
+        "id": "is-hard-s2-q5",
+        "type": "execution",
+        "prompt": "The current key is 5, and the sorted portion contains only [8]. What happens next?",
+        "visualization": {
+          "inputArray": [
+            8,
+            5,
+            2,
+            6,
+            1,
+            7
+          ],
+          "frameIndex": 2
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "8 is shifted one position to the right because it is greater than the key 5"
+          },
+          {
+            "id": "b",
+            "text": "5 immediately remains in its current position"
+          },
+          {
+            "id": "c",
+            "text": "8 and 5 are directly swapped with each other"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm moves to the next element (2)"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Because 8 is greater than the key 5, the while-loop condition is satisfied, so 8 must be shifted one position to the right to make room for inserting 5."
+      },
+      {
+        "id": "is-hard-s2-q6",
+        "type": "execution",
+        "prompt": "The current key is 1, and the sorted portion is [2, 5, 6, 8]. What happens next?",
+        "visualization": {
+          "inputArray": [
+            8,
+            5,
+            2,
+            6,
+            1,
+            7
+          ],
+          "frameIndex": 16
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "8 (the last element of the sorted portion) is shifted one position to the right; this begins a four-element shift chain because 1 is smaller than all four elements"
+          },
+          {
+            "id": "b",
+            "text": "Only 2 (the element closest to the key) is shifted"
+          },
+          {
+            "id": "c",
+            "text": "1 is immediately inserted without any shifting"
+          },
+          {
+            "id": "d",
+            "text": "The sorted portion is completely reversed"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Because 1 is smaller than all elements in the sorted portion [2, 5, 6, 8], the scan starts from right to left: first 8 is shifted, then 6, then 5, and finally 2. All four elements are shifted one position to the right so that 1 can be inserted at the beginning of the array."
+      },
+      {
+        "id": "is-hard-s2-q7",
+        "type": "code",
+        "prompt": "Fill in the blank — what value should j be initialized to?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function insertionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "key = arr[i]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "j = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "while j >= 0 and arr[j] > key:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = arr[j]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "j = j - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = key",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "i - 1"
+          },
+          {
+            "id": "b",
+            "text": "i"
+          },
+          {
+            "id": "c",
+            "text": "0"
+          },
+          {
+            "id": "d",
+            "text": "i + 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "j must point to the element immediately before the key so that the comparison starts from that position. Since the key is stored at index i, the correct initial value of j is i - 1."
+      },
+      {
+        "id": "is-hard-s2-q8",
+        "type": "code",
+        "prompt": "Fill in the blank in the outer loop range:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function insertionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 1 to ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "key = arr[i]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "j = i - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "while j >= 0 and arr[j] > key:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = arr[j]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "j = j - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = key",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "n - 1"
+          },
+          {
+            "id": "b",
+            "text": "n"
+          },
+          {
+            "id": "c",
+            "text": "n - 2"
+          },
+          {
+            "id": "d",
+            "text": "n + 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The array is indexed from 0 to n - 1. Since the loop starts at index 1 and must proceed to the last valid array index, the correct upper bound is n - 1."
+      },
+      {
+        "id": "is-hard-s2-q9",
+        "type": "code",
+        "prompt": "Fill in the blank — after the shifting loop ends, what value should be written to arr[j + 1]?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function insertionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "key = arr[i]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "j = i - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "while j >= 0 and arr[j] > key:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = arr[j]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "j = j - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "key"
+          },
+          {
+            "id": "b",
+            "text": "arr[j]"
+          },
+          {
+            "id": "c",
+            "text": "arr[i]"
+          },
+          {
+            "id": "d",
+            "text": "0"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The while loop has shifted all larger elements and opened a space at arr[j + 1]. The original value that must be placed in this position is key — the value that was saved from arr[i] at the beginning of this iteration."
+      },
+      {
+        "id": "is-hard-s2-q10",
+        "type": "conceptual",
+        "prompt": "Why is Insertion Sort suitable for \"online\" (streaming) data, where elements arrive one at a time?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Because each new element can be immediately inserted into its correct position in the currently sorted portion without needing access to the entire array or re-sorting it"
+          },
+          {
+            "id": "b",
+            "text": "Because Insertion Sort is always faster than Quick Sort"
+          },
+          {
+            "id": "c",
+            "text": "Because it does not need to compare new elements with previous elements"
+          },
+          {
+            "id": "d",
+            "text": "Because it never stores more than one element in memory"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The nature of Insertion Sort is to gradually expand a sorted portion, one element at a time. This makes it natural and efficient for scenarios where data arrives over time, such as keeping an updating list sorted, because there is no need to restart the algorithm from scratch."
+      }
+    ],
+    "3": [
+      {
+        "id": "is-hard-s3-q1",
+        "type": "conceptual",
+        "prompt": "What is the time complexity of Insertion Sort in the best, average, and worst cases?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Best case: Θ(n), average case: Θ(n²), worst case: Θ(n²)"
+          },
+          {
+            "id": "b",
+            "text": "Θ(n²) in all cases, without any difference"
+          },
+          {
+            "id": "c",
+            "text": "Best case: Θ(log n), average case: Θ(n log n), worst case: Θ(n²)"
+          },
+          {
+            "id": "d",
+            "text": "Θ(n) in all cases"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "When the array is already sorted, each key requires only one comparison, making the running time linear. In the average and worst cases (especially for a reversed array), each key must be compared with and shifted past a significant portion of the preceding elements, resulting in quadratic behavior."
+      },
+      {
+        "id": "is-hard-s3-q2",
+        "type": "conceptual",
+        "prompt": "Which other common sorting algorithm, like Insertion Sort, is inherently stable?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Merge Sort, because during merging it never moves an equal element past another equal element that appeared earlier"
+          },
+          {
+            "id": "b",
+            "text": "Selection Sort, because it uses direct swapping"
+          },
+          {
+            "id": "c",
+            "text": "Quick Sort with in-place partitioning"
+          },
+          {
+            "id": "d",
+            "text": "None; only Insertion Sort is stable"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "In Merge Sort, when the merge step encounters two equal elements from the two halves, the element from the left half is typically selected first; therefore, their relative order is preserved. Selection Sort and Quick Sort with in-place partitioning are generally not stable because they can move equal elements past one another."
+      },
+      {
+        "id": "is-hard-s3-q3",
+        "type": "conceptual",
+        "prompt": "Why can’t Insertion Sort be reduced to O(n log n) using binary search without reducing the number of shifts?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Because the main bottleneck is shifting elements to make room for the key, not finding its position; shifting elements in a contiguous array remains inherently O(n)"
+          },
+          {
+            "id": "b",
+            "text": "Because binary search only works on sorted arrays, and the sorted portion is always sorted, so this claim is incorrect"
+          },
+          {
+            "id": "c",
+            "text": "Because binary search requires recursion, which Insertion Sort does not support"
+          },
+          {
+            "id": "d",
+            "text": "Because adding binary search makes the algorithm unstable"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Binary search can reduce the number of comparisons needed to find the correct position of the key to O(log n) (this version is called Binary Insertion Sort), but physically shifting elements to make room in a contiguous array still requires O(n) operations on average. Therefore, the overall O(n²) bound does not change."
+      },
+      {
+        "id": "is-hard-s3-q4",
+        "type": "conceptual",
+        "prompt": "In Shell Sort, what is its relationship to Insertion Sort?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Shell Sort is essentially a generalized version of Insertion Sort that initially compares and shifts elements using larger gaps and gradually reduces the gap until it eventually reaches a standard Insertion Sort pass"
+          },
+          {
+            "id": "b",
+            "text": "Shell Sort has no relationship to Insertion Sort and is entirely based on merging"
+          },
+          {
+            "id": "c",
+            "text": "Shell Sort is the recursive version of Insertion Sort"
+          },
+          {
+            "id": "d",
+            "text": "Shell Sort is used only for sorting text strings"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Shell Sort starts with a large gap and sorts sublists using logic similar to Insertion Sort; it then gradually reduces the gap. When the gap becomes 1, the algorithm becomes exactly a standard Insertion Sort pass, but because the array is already largely sorted, this final pass is much faster than it would normally be."
+      },
+      {
+        "id": "is-hard-s3-q5",
+        "type": "execution",
+        "prompt": "The current key is 7, and the sorted portion is [4, 6, 8]. What happens next?",
+        "visualization": {
+          "inputArray": [
+            8,
+            4,
+            6,
+            2,
+            7,
+            3
+          ],
+          "frameIndex": 18
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "8 (the last element of the sorted portion) is shifted one position to the right because it is greater than the key 7; the scan then stops at 6"
+          },
+          {
+            "id": "b",
+            "text": "4, 6, and 8 are all shifted simultaneously"
+          },
+          {
+            "id": "c",
+            "text": "7 is immediately inserted at the end of the sorted portion without any comparison"
+          },
+          {
+            "id": "d",
+            "text": "The scan starts again from the beginning of the array (index 0)"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The sorted portion is scanned from right to left. 8 is greater than 7 and is shifted, but the next value, 6, is not greater than 7. Therefore, the scan stops there and 7 is inserted between 6 and 8."
+      },
+      {
+        "id": "is-hard-s3-q6",
+        "type": "execution",
+        "prompt": "The current key is 3, and the sorted portion is [2, 4, 6, 7, 8]. What happens next?",
+        "visualization": {
+          "inputArray": [
+            8,
+            4,
+            6,
+            2,
+            7,
+            3
+          ],
+          "frameIndex": 22
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "8 is shifted one position to the right; this begins a chain of four shifts because 3 is greater than only 2"
+          },
+          {
+            "id": "b",
+            "text": "Only 2 is shifted and the remaining elements stay unchanged"
+          },
+          {
+            "id": "c",
+            "text": "3 is immediately inserted at the end of the array"
+          },
+          {
+            "id": "d",
+            "text": "The array is completely reversed"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The key 3 is greater than only 2. Therefore, 8, 7, 6, and 4 are each shifted one position to the right, one by one from right to left, until the scan stops at 2 and 3 is inserted immediately after it."
+      },
+      {
+        "id": "is-hard-s3-q7",
+        "type": "code",
+        "prompt": "Fill in the blank — how is j updated after each shift?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function insertionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "key = arr[i]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "j = i - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "while j >= 0 and arr[j] > key:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = arr[j]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "j = j - ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = key",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "1"
+          },
+          {
+            "id": "b",
+            "text": "0"
+          },
+          {
+            "id": "c",
+            "text": "-1"
+          },
+          {
+            "id": "d",
+            "text": "j"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "After the element arr[j] is shifted one position to the right, the algorithm must examine the next element to the left. Therefore, j must be decreased by one so that the scan continues toward the beginning of the sorted portion."
+      },
+      {
+        "id": "is-hard-s3-q8",
+        "type": "code",
+        "prompt": "Fill in the blank — which value should be read from the array and stored in the key variable?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function insertionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "key = arr[",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "j = i - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "while j >= 0 and arr[j] > key:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = arr[j]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "j = j - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = key",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "i"
+          },
+          {
+            "id": "b",
+            "text": "j"
+          },
+          {
+            "id": "c",
+            "text": "i - 1"
+          },
+          {
+            "id": "d",
+            "text": "0"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "In each iteration of the outer loop, the element that needs to be inserted into the sorted portion is exactly arr[i]. Therefore, key must be read from index i."
+      },
+      {
+        "id": "is-hard-s3-q9",
+        "type": "code",
+        "prompt": "Fill in the blank — what condition should be used to continue the inner loop on arr[j]?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function insertionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "key = arr[i]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "j = i - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "while j >= 0 and arr[j] ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " key:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = arr[j]",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "j = j - 1",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 8,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "arr[j + 1] = key",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 9,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": ">"
+          },
+          {
+            "id": "b",
+            "text": ">="
+          },
+          {
+            "id": "c",
+            "text": "<"
+          },
+          {
+            "id": "d",
+            "text": "=="
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The condition should use the strict comparison arr[j] > key. If >= were used, elements equal to the key would also be shifted, and the algorithm would no longer be stable."
+      },
+      {
+        "id": "is-hard-s3-q10",
+        "type": "conceptual",
+        "prompt": "Why is Insertion Sort generally preferred for nearly sorted data or very small arrays over O(n log n) algorithms?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Because its actual execution overhead — such as function calls, recursion, and array partitioning in algorithms like Quick Sort — is much lower, and on nearly sorted data it approaches its linear bound"
+          },
+          {
+            "id": "b",
+            "text": "Because it is actually faster than every O(n log n) algorithm for all types of large data"
+          },
+          {
+            "id": "c",
+            "text": "Because no other algorithm is capable of sorting small arrays"
+          },
+          {
+            "id": "d",
+            "text": "Because it requires less memory than every other algorithm, including Bubble Sort"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "O(n log n) algorithms such as Merge Sort or Quick Sort have constant overhead, such as recursive calls, array partitioning, and memory allocation, which can outweigh their theoretical benefits for very small arrays. Insertion Sort is straightforward and has little overhead, and on nearly sorted data it approaches its linear O(n) bound; therefore, it is often used for small subarrays in hybrid algorithms."
+      }
+    ]
+  }
+}

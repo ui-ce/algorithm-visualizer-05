@@ -6,6 +6,7 @@ import { LANDING_TRANSLATIONS } from './landing.translations';
 import { COMPARE_TRANSLATIONS } from './compare.translation';
 import { LEARN_TRANSLATIONS } from './learn.translation';
 import { TEST_TRANSLATIONS } from './test.translation';
+import { CUSTOM_ALGORITHM_TRANSLATIONS } from './custom-algorithm.translations';
 
 // Stage checklist (update as features are translated):
 //   [x] layout/header (shared aria-labels)
@@ -28,6 +29,7 @@ export const TRANSLATIONS: TranslationDictionary = {
   ...COMPARE_TRANSLATIONS,
   ...LEARN_TRANSLATIONS,
   ...TEST_TRANSLATIONS,
+  ...CUSTOM_ALGORITHM_TRANSLATIONS,
 };
 
 

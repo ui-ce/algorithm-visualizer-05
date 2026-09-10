@@ -5,4 +5,8 @@ export interface AppUser {
   id: string;
   email: string;
   fullName: string;
+  // From user_metadata.is_admin, set manually per person in the
+  // Supabase dashboard — see docs/database/schema-questions.sql's
+  // "Admin access" section. Gates the /admin/questions panel.
+  isAdmin: boolean;
 }

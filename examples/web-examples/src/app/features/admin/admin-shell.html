@@ -1,0 +1,19 @@
+<div class="algo-admin-shell">
+  <algo-header [breadcrumbs]="breadcrumbs" [themeMode]="themeService.themeMode()" (themeToggle)="themeService.toggle()"
+    [currentLanguage]="languageService.currentLanguage()" (languageToggle)="languageService.toggle()" />
+
+  <div class="algo-admin-shell__body">
+    <nav class="algo-admin-shell__sidebar" aria-label="Admin sections">
+      @for (item of navItems; track item.route) {
+      <a class="algo-admin-shell__nav-item" [routerLink]="item.route" routerLinkActive="algo-admin-shell__nav-item--active">
+        <span class="algo-admin-shell__nav-icon">{{ item.icon }}</span>
+        <span class="text-body-medium">{{ item.label }}</span>
+      </a>
+      }
+    </nav>
+
+    <main class="algo-admin-shell__content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

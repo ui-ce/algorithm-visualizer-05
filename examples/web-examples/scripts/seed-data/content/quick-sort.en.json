@@ -1,0 +1,117 @@
+{
+  "overview": "Quick Sort is a divide-and-conquer sorting algorithm that picks a \"pivot\" element and partitions the rest of the array around it, so that every value smaller than the pivot ends up to its left and every value greater ends up to its right. The pivot is now in its final, correct position and never needs to move again. The same partitioning step is then applied recursively to the smaller-than-pivot section and the greater-than-pivot section, until every section shrinks down to a single element. Unlike Merge Sort, Quick Sort does its work while dividing the array rather than while combining it back together, and it sorts in place instead of needing a second array to merge into.",
+  "intuition": "Imagine sorting a shelf of books by picking one book at random, then physically moving every book that’s \"smaller\" to its left and every book that’s \"bigger\" to its right, one swap at a time as you scan the shelf. Once you’re done scanning, that one book is exactly where it belongs on the finished shelf — it never needs to move again. Now repeat that same process separately on the pile to its left and the pile to its right, ignoring the book you already placed. Keep repeating on smaller and smaller piles, and the whole shelf ends up sorted without ever needing to lay every book out somewhere else first.",
+  "howItWorks": [
+    "If the current section has zero or one elements, it’s already sorted; this is the base case.",
+    "Otherwise, choose a pivot element from the section (this implementation always uses the last element).",
+    "Partition the section: scan through it, moving every element smaller than the pivot into a growing region at the front, then swap the pivot into place right after that region.",
+    "The pivot is now at its final, correct sorted index and is never touched again.",
+    "Recursively apply the same process to the section of elements left of the pivot.",
+    "Recursively apply the same process to the section of elements right of the pivot."
+  ],
+  "keyCharacteristic": "Quick Sort sorts in place — it moves elements around within the original array using only a small, fixed amount of extra memory for recursion, unlike Merge Sort’s O(n) auxiliary array. The trade-off is that its performance depends heavily on how good the chosen pivot turns out to be: a pivot close to the median splits the work evenly, while a consistently bad pivot (e.g. always the smallest or largest remaining value) degrades toward the O(n²) worst case.",
+  "overviewFaq": [
+    {
+      "question": "How does Quick Sort choose its pivot?",
+      "answer": "This implementation always uses the last element of the current section as the pivot, which is simple to implement and reason about (the Lomuto partition scheme). Other common strategies pick the first element, the middle element, or a random element — the choice mainly affects how likely it is to hit the O(n²) worst case on a given input."
+    },
+    {
+      "question": "Is Quick Sort a stable sort?",
+      "answer": "No. Partitioning swaps elements across potentially large distances in the array, including elements that compare equal to each other, so their original relative order isn’t guaranteed to survive."
+    },
+    {
+      "question": "Does Quick Sort sort in place?",
+      "answer": "Yes. All the partitioning happens by swapping elements within the original array, needing no second array. The only extra memory is the recursion call stack, which averages O(log n) depth but can reach O(n) on a badly unbalanced split."
+    },
+    {
+      "question": "Why does a bad pivot choice make it O(n²)?",
+      "answer": "If the pivot always ends up being the smallest or largest remaining value — which happens on an already-sorted or reverse-sorted array when always picking the last element — every partition splits the section into a section of size 0 and a section of size n-1 instead of two roughly equal halves. That turns the usual O(log n) recursion depth into O(n), giving O(n²) total work."
+    },
+    {
+      "question": "How is Quick Sort different from Merge Sort?",
+      "answer": "Both are divide-and-conquer with O(n log n) average time, but Merge Sort always splits evenly and does its real work while merging back together, guaranteeing O(n log n) even in the worst case at the cost of O(n) extra space. Quick Sort splits based on a chosen pivot, does its real work while partitioning, sorts in place with far less extra memory, and is usually faster in practice — but its worst case is O(n²) if the pivot choice is consistently unlucky."
+    },
+    {
+      "question": "What is the \"median-of-three\" pivot strategy?",
+      "answer": "A common improvement where the pivot is chosen as the median of the first, middle, and last elements of the section, rather than just always taking the last one. It’s cheap to compute and makes the already-sorted / reverse-sorted worst case far less likely to occur by accident."
+    },
+    {
+      "question": "When would a real project actually use Quick Sort?",
+      "answer": "Quick Sort (or a hybrid built on it, like Introsort) is what many standard library sort functions use under the hood — including C++’s std::sort in typical implementations — because its average-case speed and in-place memory usage beat Merge Sort’s guarantees for most real-world data, and its worst case is defended against with pivot-choice tricks or a fallback to a guaranteed-O(n log n) algorithm."
+    }
+  ],
+  "complexity": {
+    "bestTime": "O(n log n)",
+    "averageTime": "O(n log n)",
+    "worstTime": "O(n²)",
+    "space": "O(log n)",
+    "stable": "No",
+    "inPlace": "Yes",
+    "note": "The best and average cases happen when each partition splits the section into two roughly equal halves, giving O(log n) levels of recursion with O(n) partitioning work at each level. The worst case happens when the pivot is consistently the smallest or largest remaining value — for this last-element pivot choice, that means an already-sorted or reverse-sorted input — which turns the recursion depth into O(n)."
+  },
+  "pros": [
+    "Sorts in place, needing only O(log n) extra memory for the recursion stack — far less than Merge Sort’s O(n) auxiliary array.",
+    "Very fast in practice: its average-case constant factors are smaller than Merge Sort’s, which is why many standard libraries build their default sort around it.",
+    "Cache-friendly: partitioning scans through memory sequentially, which plays well with modern CPU cache behavior.",
+    "Easy to parallelize, since the two recursive calls after a partition operate on completely independent sections of the array.",
+    "No need for a separate merge step — the array is fully sorted in place once partitioning finishes recursing."
+  ],
+  "cons": [
+    "Worst-case O(n²) time, which can be hit by ordinary-looking input (e.g. an already-sorted array) if the pivot strategy is a simple fixed choice.",
+    "Not stable — elements that compare equal can end up reordered relative to each other, which matters when sorting records by one field while needing to preserve another field’s order.",
+    "Recursive by nature, so a badly unbalanced split can use up to O(n) stack depth, risking a stack overflow on very large, adversarial inputs.",
+    "Performance is sensitive to pivot choice — a naive strategy needs extra care (randomization, median-of-three) to avoid its worst case in practice."
+  ],
+  "whenToUse": [
+    "General-purpose sorting where average-case speed matters more than worst-case guarantees, which is most real-world data.",
+    "Memory-constrained environments, since it needs only O(log n) extra space compared to Merge Sort’s O(n).",
+    "Large in-memory arrays where cache-friendly, sequential memory access meaningfully improves real-world performance.",
+    "As the core of a hybrid sort (like Introsort) that falls back to Heap Sort or Merge Sort if the recursion depth suggests the worst case is being hit."
+  ],
+  "whenNotToUse": [
+    "Situations that require a stable sort — use Merge Sort or Insertion Sort instead.",
+    "Situations that can’t tolerate an O(n²) worst case at all, such as real-time systems with hard timing guarantees — use Merge Sort or Heap Sort for their guaranteed O(n log n) bound.",
+    "Sorting linked lists, where Quick Sort’s in-place partitioning advantage disappears and Merge Sort’s sequential-access merging works more naturally.",
+    "Extremely large datasets that don’t fit in memory, where an external merge sort is the standard approach instead."
+  ],
+  "applications": [
+    {
+      "title": "Standard library sort functions",
+      "description": "Many languages’ built-in sort — including typical C++ std::sort implementations — is a hybrid built around Quick Sort’s partitioning, chosen for its strong average-case speed and low memory overhead."
+    },
+    {
+      "title": "General-purpose in-memory sorting",
+      "description": "For most everyday sorting tasks on arrays that fit comfortably in memory, Quick Sort’s combination of speed and low overhead makes it a common default choice."
+    },
+    {
+      "title": "Teaching divide-and-conquer and partitioning",
+      "description": "Its partition step is a clean, self-contained example of rearranging data around a pivot, making it a natural algorithm for introducing both recursion and in-place array manipulation together."
+    },
+    {
+      "title": "Selection algorithms (Quickselect)",
+      "description": "The same partitioning idea, applied recursively to only one side instead of both, gives an average O(n) algorithm for finding the k-th smallest element — useful for things like finding a median without fully sorting the data."
+    },
+    {
+      "title": "Building block for hybrid sorts",
+      "description": "Introsort and similar hybrids start with Quick Sort for its speed and switch to Heap Sort or Insertion Sort when recursion depth or section size suggests Quick Sort’s worst case is being approached, combining its average-case speed with a guaranteed upper bound."
+    }
+  ],
+  "implementations": [
+    {
+      "language": "Python",
+      "code": "def quick_sort(arr, low=0, high=None):\n    if high is None:\n        high = len(arr) - 1\n    if low < high:\n        pivot_index = partition(arr, low, high)\n        quick_sort(arr, low, pivot_index - 1)\n        quick_sort(arr, pivot_index + 1, high)\n    return arr\n\n\ndef partition(arr, low, high):\n    pivot = arr[high]\n    i = low - 1\n    for j in range(low, high):\n        if arr[j] < pivot:\n            i += 1\n            arr[i], arr[j] = arr[j], arr[i]\n    arr[i + 1], arr[high] = arr[high], arr[i + 1]\n    return i + 1"
+    },
+    {
+      "language": "JavaScript",
+      "code": "function quickSort(arr, low = 0, high = arr.length - 1) {\n  if (low < high) {\n    const pivotIndex = partition(arr, low, high);\n    quickSort(arr, low, pivotIndex - 1);\n    quickSort(arr, pivotIndex + 1, high);\n  }\n  return arr;\n}\n\nfunction partition(arr, low, high) {\n  const pivot = arr[high];\n  let i = low - 1;\n  for (let j = low; j < high; j++) {\n    if (arr[j] < pivot) {\n      i++;\n      [arr[i], arr[j]] = [arr[j], arr[i]];\n    }\n  }\n  [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];\n  return i + 1;\n}"
+    },
+    {
+      "language": "Java",
+      "code": "public static void quickSort(int[] arr, int low, int high) {\n    if (low < high) {\n        int pivotIndex = partition(arr, low, high);\n        quickSort(arr, low, pivotIndex - 1);\n        quickSort(arr, pivotIndex + 1, high);\n    }\n}\n\nprivate static int partition(int[] arr, int low, int high) {\n    int pivot = arr[high];\n    int i = low - 1;\n    for (int j = low; j < high; j++) {\n        if (arr[j] < pivot) {\n            i++;\n            int temp = arr[i];\n            arr[i] = arr[j];\n            arr[j] = temp;\n        }\n    }\n    int temp = arr[i + 1];\n    arr[i + 1] = arr[high];\n    arr[high] = temp;\n    return i + 1;\n}"
+    },
+    {
+      "language": "C++",
+      "code": "int partition(std::vector<int>& arr, int low, int high) {\n    int pivot = arr[high];\n    int i = low - 1;\n    for (int j = low; j < high; j++) {\n        if (arr[j] < pivot) {\n            i++;\n            std::swap(arr[i], arr[j]);\n        }\n    }\n    std::swap(arr[i + 1], arr[high]);\n    return i + 1;\n}\n\nvoid quickSort(std::vector<int>& arr, int low, int high) {\n    if (low < high) {\n        int pivotIndex = partition(arr, low, high);\n        quickSort(arr, low, pivotIndex - 1);\n        quickSort(arr, pivotIndex + 1, high);\n    }\n}"
+    }
+  ]
+}

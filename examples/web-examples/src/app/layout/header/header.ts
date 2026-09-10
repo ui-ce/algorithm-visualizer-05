@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 // Same caveat as elsewhere in this project: these three names follow
 // Solar's "<IconName><Style>" convention but haven't been checked
 // against the installed package's export list yet.
-import { SolarMoonLinear, SolarSunLinear, SolarUserCircleLinear } from '@solar-icons/angular';
+import { SolarMoonLinear, SolarSunLinear, SolarUserCircleLinear, SolarCodeSquareLinear } from '@solar-icons/angular';
 import type { BreadcrumbItem } from './header-breadcrumb.type';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { AuthService } from '../../core/services/auth.service';
@@ -18,7 +18,7 @@ export interface HeaderNavLink {
 // rather than inside a feature folder.
 @Component({
   selector: 'algo-header',
-  imports: [RouterLink, SolarMoonLinear, SolarSunLinear, SolarUserCircleLinear, TranslatePipe],
+  imports: [RouterLink, SolarMoonLinear, SolarSunLinear, SolarUserCircleLinear, SolarCodeSquareLinear, TranslatePipe],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })

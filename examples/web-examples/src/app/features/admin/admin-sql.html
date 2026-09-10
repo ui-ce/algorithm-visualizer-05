@@ -1,0 +1,48 @@
+<div class="algo-admin-page">
+  <h1 class="algo-admin-page__title text-headline-large-emphasized">SQL</h1>
+  <p class="algo-admin-page__subtitle text-body-medium">
+    SELECT-only, runs through the admin_run_sql function (see docs/database/schema-admin-sql.sql) — enforced
+    server-side, not just by this page.
+  </p>
+
+  <div class="algo-admin-page__sql-layout">
+    <textarea class="algo-admin-page__textarea algo-admin-page__textarea--code algo-admin-page__sql-input" rows="8"
+      [(ngModel)]="query" name="query" spellcheck="false"></textarea>
+
+    <div class="algo-admin-page__form-actions">
+      <algo-button variant="primary" [text]="isRunning ? 'Running…' : 'Run'" [disabled]="isRunning" (click)="run()" />
+      @if (ranAt) {
+      <span class="text-label-medium algo-admin-page__sql-meta">
+        {{ rows.length }} row(s) — {{ ranAt | date: 'HH:mm:ss' }}
+      </span>
+      }
+    </div>
+
+    @if (error) {
+    <p class="algo-admin-page__message algo-admin-page__message--error text-body-medium">{{ error }}</p>
+    }
+
+    @if (columns.length > 0) {
+    <div class="algo-admin-page__sql-table-wrap">
+      <table class="algo-admin-page__sql-table">
+        <thead>
+          <tr>
+            @for (col of columns; track col) {
+            <th class="text-label-medium">{{ col }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of rows; track $index) {
+          <tr>
+            @for (col of columns; track col) {
+            <td class="text-body-medium">{{ cell(row, col) }}</td>
+            }
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    }
+  </div>
+</div>

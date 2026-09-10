@@ -129,6 +129,7 @@ export class AuthService {
       id: user.id,
       email: user.email ?? '',
       fullName: typeof user.user_metadata?.['full_name'] === 'string' ? user.user_metadata['full_name'] : '',
+      isAdmin: user.user_metadata?.['is_admin'] === true,
     });
   }
 

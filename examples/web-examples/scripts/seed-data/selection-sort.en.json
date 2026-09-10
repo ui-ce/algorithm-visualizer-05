@@ -1,0 +1,3066 @@
+{
+  "easy": {
+    "1": [
+      {
+        "id": "ss-easy-s1-q1",
+        "type": "conceptual",
+        "prompt": "What is the main goal of the Selection Sort algorithm?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Repeatedly finding the smallest remaining element and placing it at the front of the unsorted portion"
+          },
+          {
+            "id": "b",
+            "text": "Splitting the array into halves and merging them back in order"
+          },
+          {
+            "id": "c",
+            "text": "Searching for a specific value using binary search"
+          },
+          {
+            "id": "d",
+            "text": "Repeatedly swapping adjacent elements until the array is sorted"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Selection Sort scans the unsorted portion of the array each pass to find its minimum value, then swaps it into the next position — unlike Bubble Sort, which only ever compares neighbors."
+      },
+      {
+        "id": "ss-easy-s1-q2",
+        "type": "conceptual",
+        "prompt": "What is guaranteed after one full pass of Selection Sort?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The smallest remaining value is now at the front of the unsorted portion"
+          },
+          {
+            "id": "b",
+            "text": "The array is fully sorted"
+          },
+          {
+            "id": "c",
+            "text": "The largest value is now at the end of the array"
+          },
+          {
+            "id": "d",
+            "text": "Half of the array is sorted"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Each pass scans the rest of the array once, finds its minimum, and swaps it into the next front position — the opposite end from Bubble Sort, which fixes values at the back."
+      },
+      {
+        "id": "ss-easy-s1-q3",
+        "type": "execution",
+        "prompt": "The array is being processed. What happens next?",
+        "visualization": {
+          "inputArray": [
+            5,
+            2,
+            8,
+            1
+          ],
+          "frameIndex": 2
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Index 1 becomes the new candidate minimum, because 2 is less than 5"
+          },
+          {
+            "id": "b",
+            "text": "Index 0 and 1 swap immediately, because 2 is less than 5"
+          },
+          {
+            "id": "c",
+            "text": "Index 1 is skipped and index 2 is compared next"
+          },
+          {
+            "id": "d",
+            "text": "The pass ends here"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "arr[1]=2 is less than the current minimum arr[0]=5, so index 1 becomes the new candidate minimum — but no swap happens yet. Selection Sort only swaps once, after the whole pass finishes scanning."
+      },
+      {
+        "id": "ss-easy-s1-q4",
+        "type": "execution",
+        "prompt": "The second pass is underway. What happens next?",
+        "visualization": {
+          "inputArray": [
+            5,
+            2,
+            8,
+            1
+          ],
+          "frameIndex": 13
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The current minimum stays at index 1, because 5 is not less than 2"
+          },
+          {
+            "id": "b",
+            "text": "Index 1 and 3 swap, because 5 is greater than 2"
+          },
+          {
+            "id": "c",
+            "text": "Index 3 becomes the new minimum"
+          },
+          {
+            "id": "d",
+            "text": "The pass restarts from index 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "arr[3]=5 is not less than the current minimum arr[1]=2, so the candidate minimum doesn't change and the pass simply continues to the next comparison."
+      },
+      {
+        "id": "ss-easy-s1-q5",
+        "type": "code",
+        "prompt": "Fill in the blank in the Selection Sort pseudocode:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function selectionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "minIndex = i",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = i + 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " arr[minIndex]: minIndex = j",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "swap(arr[i], arr[minIndex])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "<"
+          },
+          {
+            "id": "b",
+            "text": ">"
+          },
+          {
+            "id": "c",
+            "text": "=="
+          },
+          {
+            "id": "d",
+            "text": "!="
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Selection Sort is looking for the smallest value, so the comparison must check whether the candidate is smaller than the current minimum — arr[j] < arr[minIndex]."
+      }
+    ],
+    "2": [
+      {
+        "id": "ss-easy-s2-q1",
+        "type": "conceptual",
+        "prompt": "Why does Selection Sort scan the entire unsorted portion before swapping anything?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Because it must find the single smallest value in that range before it knows what to swap into place"
+          },
+          {
+            "id": "b",
+            "text": "Because it needs to compare every pair of adjacent elements"
+          },
+          {
+            "id": "c",
+            "text": "Because the array must be split into two halves first"
+          },
+          {
+            "id": "d",
+            "text": "Because it swaps as soon as it finds any smaller neighbor"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Unlike Bubble Sort, which swaps on every out-of-order adjacent pair, Selection Sort performs only one swap per pass — but to know where the minimum is, it has to check every remaining element first."
+      },
+      {
+        "id": "ss-easy-s2-q2",
+        "type": "conceptual",
+        "prompt": "What happens to the smallest untouched value during a complete Selection Sort pass?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It moves to the front of the still-unsorted portion"
+          },
+          {
+            "id": "b",
+            "text": "It moves to the very end of the array"
+          },
+          {
+            "id": "c",
+            "text": "It stays in the middle of the array"
+          },
+          {
+            "id": "d",
+            "text": "It's removed and reinserted at the end"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Once a pass finishes scanning, whichever index held the smallest untouched value gets swapped into the front of the still-unsorted range."
+      },
+      {
+        "id": "ss-easy-s2-q3",
+        "type": "execution",
+        "prompt": "The array is being processed. What happens next?",
+        "visualization": {
+          "inputArray": [
+            3,
+            7,
+            2,
+            5
+          ],
+          "frameIndex": 4
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Index 2 becomes the new candidate minimum, because 2 is less than 3"
+          },
+          {
+            "id": "b",
+            "text": "Index 0 and 2 swap immediately, because 2 is less than 3"
+          },
+          {
+            "id": "c",
+            "text": "Index 2 stays unchanged, because 2 is greater than 3"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm moves to the next pass without finishing this one"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "arr[2]=2 is smaller than the current minimum arr[0]=3, so index 2 becomes the new candidate — the swap itself still waits until the whole pass finishes scanning."
+      },
+      {
+        "id": "ss-easy-s2-q4",
+        "type": "execution",
+        "prompt": "The second pass is underway. What happens next?",
+        "visualization": {
+          "inputArray": [
+            3,
+            7,
+            2,
+            5
+          ],
+          "frameIndex": 13
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The current minimum stays at index 2, because 5 is not less than 3"
+          },
+          {
+            "id": "b",
+            "text": "Index 2 and 3 swap, because 5 is greater than 3"
+          },
+          {
+            "id": "c",
+            "text": "Index 3 becomes the new minimum"
+          },
+          {
+            "id": "d",
+            "text": "The pass ends without checking index 3"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "arr[3]=5 is not smaller than the current minimum arr[2]=3, so the candidate minimum doesn't change."
+      },
+      {
+        "id": "ss-easy-s2-q5",
+        "type": "code",
+        "prompt": "Fill in the blank — which index should the swap use as its second target?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function selectionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "minIndex = i",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = i + 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] < arr[minIndex]: minIndex = j",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "swap(arr[i], arr[",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "minIndex"
+          },
+          {
+            "id": "b",
+            "text": "i"
+          },
+          {
+            "id": "c",
+            "text": "j"
+          },
+          {
+            "id": "d",
+            "text": "i + 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "After scanning the whole pass, minIndex holds the index of the smallest remaining value, so the swap must exchange arr[i] with arr[minIndex]."
+      }
+    ],
+    "3": [
+      {
+        "id": "ss-easy-s3-q1",
+        "type": "conceptual",
+        "prompt": "How many swaps does Selection Sort perform per pass, at most?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Exactly one — the minimum found is swapped into place a single time"
+          },
+          {
+            "id": "b",
+            "text": "One swap per comparison made during the pass"
+          },
+          {
+            "id": "c",
+            "text": "Two, one for the minimum and one for the maximum"
+          },
+          {
+            "id": "d",
+            "text": "It depends on how many elements are out of order"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Selection Sort only swaps once per pass — after scanning the whole unsorted range to find the minimum, that value is exchanged into the front position exactly once."
+      },
+      {
+        "id": "ss-easy-s3-q2",
+        "type": "conceptual",
+        "prompt": "If a pass's candidate minimum never changes from arr[i], what happens at the end of that pass?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No swap is performed, because the element at index i is already the smallest"
+          },
+          {
+            "id": "b",
+            "text": "The algorithm swaps arr[i] with itself, which changes nothing"
+          },
+          {
+            "id": "c",
+            "text": "An error is raised, since minIndex must always change"
+          },
+          {
+            "id": "d",
+            "text": "The pass repeats from the beginning"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "When minIndex stays equal to i for the whole pass, the element already sitting at index i was the smallest remaining value — the algorithm can skip the swap entirely."
+      },
+      {
+        "id": "ss-easy-s3-q3",
+        "type": "execution",
+        "prompt": "The algorithm is comparing the highlighted elements. What happens next?",
+        "visualization": {
+          "inputArray": [
+            3,
+            7,
+            2,
+            5
+          ],
+          "frameIndex": 2
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The candidate minimum stays at index 0, because 7 is not less than 3"
+          },
+          {
+            "id": "b",
+            "text": "Index 1 becomes the new candidate minimum, because 7 is greater than 3"
+          },
+          {
+            "id": "c",
+            "text": "Index 0 and 1 swap, because 3 is less than 7"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm compares index 2 and 3 instead"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "arr[1]=7 is not smaller than the current minimum arr[0]=3, so the candidate minimum is unchanged."
+      },
+      {
+        "id": "ss-easy-s3-q4",
+        "type": "execution",
+        "prompt": "The first pass has just finished. Which index is now guaranteed to hold its final sorted value?",
+        "visualization": {
+          "inputArray": [
+            3,
+            7,
+            2,
+            5
+          ],
+          "frameIndex": 9
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Index 0 — the smallest value in the array was just swapped into it"
+          },
+          {
+            "id": "b",
+            "text": "Index 3 — the last position is always fixed after one pass"
+          },
+          {
+            "id": "c",
+            "text": "Index 0, but it may still change again in a later pass"
+          },
+          {
+            "id": "d",
+            "text": "No index is fixed yet"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Selection Sort fixes the front of the unsorted range each pass, not the back like Bubble Sort. After pass one, index 0 holds the array's minimum and is never touched again."
+      },
+      {
+        "id": "ss-easy-s3-q5",
+        "type": "code",
+        "prompt": "Fill in the blank — where should the search for the minimum start scanning from?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function selectionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "minIndex = i",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] < arr[minIndex]: minIndex = j",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "swap(arr[i], arr[minIndex])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "i + 1"
+          },
+          {
+            "id": "b",
+            "text": "i"
+          },
+          {
+            "id": "c",
+            "text": "0"
+          },
+          {
+            "id": "d",
+            "text": "i - 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Index i already holds the current candidate minimum (minIndex = i), so the search for a smaller value only needs to check the remaining elements, starting at i + 1."
+      }
+    ]
+  },
+  "medium": {
+    "1": [
+      {
+        "id": "ss-medium-s1-q1",
+        "type": "conceptual",
+        "prompt": "Regardless of how the input array is ordered, how many total comparisons does Selection Sort perform on an array of n elements?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Always exactly n(n - 1) / 2 — the same as the worst case, no matter the input order"
+          },
+          {
+            "id": "b",
+            "text": "n(n - 1) / 2 in the worst case, but O(n) if the array is already sorted"
+          },
+          {
+            "id": "c",
+            "text": "n log n on average"
+          },
+          {
+            "id": "d",
+            "text": "Exactly n - 1, one comparison per pass"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Selection Sort always scans every remaining element to find the minimum, in every pass, no matter how the array is arranged — so its comparison count never changes: best case equals worst case, both n(n - 1) / 2."
+      },
+      {
+        "id": "ss-medium-s1-q2",
+        "type": "conceptual",
+        "prompt": "How many swaps does Selection Sort perform on an array of n elements, at most?",
+        "options": [
+          {
+            "id": "a",
+            "text": "At most n - 1 — one swap per pass, and some passes may need none"
+          },
+          {
+            "id": "b",
+            "text": "n(n - 1) / 2, the same as the comparison count"
+          },
+          {
+            "id": "c",
+            "text": "Exactly n swaps, one per element"
+          },
+          {
+            "id": "d",
+            "text": "It depends only on how many duplicate values exist"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Each pass performs at most one swap (or none, if the minimum is already in place), and there are n - 1 passes, so the swap count is bounded by n - 1 — far fewer than Bubble Sort's worst case."
+      },
+      {
+        "id": "ss-medium-s1-q3",
+        "type": "execution",
+        "prompt": "The array is mid-pass. What happens next?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 6
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Index 3 becomes the new candidate minimum, because 1 is less than 3"
+          },
+          {
+            "id": "b",
+            "text": "Index 1 and 3 swap immediately"
+          },
+          {
+            "id": "c",
+            "text": "The pass ends, skipping index 4"
+          },
+          {
+            "id": "d",
+            "text": "Index 3 is ignored because it's outside the current pass"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "arr[3]=1 is less than the current minimum arr[1]=3 (which itself replaced the original arr[0]=9 earlier in this pass), so index 3 becomes the new candidate minimum."
+      },
+      {
+        "id": "ss-medium-s1-q4",
+        "type": "execution",
+        "prompt": "The second pass is underway. What happens next?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 17
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The candidate minimum stays at index 1, because 5 is not less than 3"
+          },
+          {
+            "id": "b",
+            "text": "Index 1 and 4 swap, because 5 is greater than 3"
+          },
+          {
+            "id": "c",
+            "text": "Index 4 becomes the new minimum"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm restarts the pass from index 0"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "arr[4]=5 is not smaller than the current minimum arr[1]=3, so the candidate minimum is unchanged and the pass moves on."
+      },
+      {
+        "id": "ss-medium-s1-q5",
+        "type": "execution",
+        "prompt": "This is the third pass. What does this frame show?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 25
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Index 4 has just become the new candidate minimum, because 5 is less than the previous minimum, 6"
+          },
+          {
+            "id": "b",
+            "text": "Index 2 and 4 have just swapped"
+          },
+          {
+            "id": "c",
+            "text": "The pass has ended without finding a smaller value"
+          },
+          {
+            "id": "d",
+            "text": "Index 3 is still being compared"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Before this frame, the candidate minimum was index 2 (value 6). Now arr[4]=5 has just been found to be smaller, so index 4 takes over as the candidate minimum — the swap with index 2 only happens once the pass fully ends."
+      },
+      {
+        "id": "ss-medium-s1-q6",
+        "type": "conceptual",
+        "prompt": "For a strictly descending array of 5 distinct elements — Selection Sort's worst case for comparisons — how many swaps does it perform in total?",
+        "options": [
+          {
+            "id": "a",
+            "text": "4 — one swap per pass, since every pass’s minimum sits at the far end and must move"
+          },
+          {
+            "id": "b",
+            "text": "10, same as the comparison count"
+          },
+          {
+            "id": "c",
+            "text": "5, one per element"
+          },
+          {
+            "id": "d",
+            "text": "0, since a descending array is already fully out of order"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Selection Sort's swap count never depends on how disordered the array is — it's capped at n - 1 regardless of input. For n = 5, that's at most 4 swaps, even though the comparison count (10) matches Bubble Sort's worst case."
+      },
+      {
+        "id": "ss-medium-s1-q7",
+        "type": "code",
+        "prompt": "Fill in the blank — what bound does the outer loop need to guarantee the whole array gets sorted?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function selectionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "minIndex = i",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = i + 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] < arr[minIndex]: minIndex = j",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "swap(arr[i], arr[minIndex])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "n - 2"
+          },
+          {
+            "id": "b",
+            "text": "n - 1"
+          },
+          {
+            "id": "c",
+            "text": "n"
+          },
+          {
+            "id": "d",
+            "text": "n / 2"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "With n - 1 passes needed in total and i starting at 0, the loop must run while i is 0 through n - 2 inclusive — 'to n - 2' — to produce exactly n - 1 passes; the last element is already correct once everything else is placed."
+      }
+    ],
+    "2": [
+      {
+        "id": "ss-medium-s2-q1",
+        "type": "conceptual",
+        "prompt": "How does this Selection Sort implementation's best-case time complexity compare to this platform's Bubble Sort?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The same — both are O(n²) in the best case, since neither has an early-exit check"
+          },
+          {
+            "id": "b",
+            "text": "Selection Sort is O(n) in the best case, Bubble Sort is O(n²)"
+          },
+          {
+            "id": "c",
+            "text": "Selection Sort is O(n log n), better than Bubble Sort"
+          },
+          {
+            "id": "d",
+            "text": "Selection Sort has no best case — it fails on already-sorted input"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Both implementations always run their full nested loops with no early-exit check, so best case equals worst case for both: O(n²). Selection Sort's comparison count doesn't even react to input order, unlike some Bubble Sort variants that do."
+      },
+      {
+        "id": "ss-medium-s2-q2",
+        "type": "conceptual",
+        "prompt": "Is this Selection Sort implementation stable — does it preserve the relative order of equal elements?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Not guaranteed — swapping the minimum into place can move it past equal elements, changing their relative order"
+          },
+          {
+            "id": "b",
+            "text": "Yes — it never swaps equal elements"
+          },
+          {
+            "id": "c",
+            "text": "Only if minIndex never changes during a pass"
+          },
+          {
+            "id": "d",
+            "text": "Yes, because it's an in-place algorithm"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The strict `<` comparison means a later equal element never overrides an earlier one as the candidate minimum — but the swap itself can still leapfrog a distant minimum over several equal or larger elements sitting between it and index i, disturbing their relative order. That makes Selection Sort not stable in general."
+      },
+      {
+        "id": "ss-medium-s2-q3",
+        "type": "conceptual",
+        "prompt": "What is the space complexity of this Selection Sort implementation?",
+        "options": [
+          {
+            "id": "a",
+            "text": "O(1) — it sorts in place, only ever swapping within the same array"
+          },
+          {
+            "id": "b",
+            "text": "O(n) — it needs a second array the same size as the input"
+          },
+          {
+            "id": "c",
+            "text": "O(log n) — proportional to recursion depth"
+          },
+          {
+            "id": "d",
+            "text": "O(n²) — one cell of extra memory per comparison"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Every swap happens between two positions of the same input array, and minIndex is a single extra variable — no second array or recursion stack is ever allocated."
+      },
+      {
+        "id": "ss-medium-s2-q4",
+        "type": "execution",
+        "prompt": "The array is mid-pass. What happens next?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 4
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The candidate minimum stays at index 1, because 6 is not less than 3"
+          },
+          {
+            "id": "b",
+            "text": "Index 1 and 2 swap, because 6 is greater than 3"
+          },
+          {
+            "id": "c",
+            "text": "Index 2 becomes the new minimum"
+          },
+          {
+            "id": "d",
+            "text": "The pass restarts from index 0"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "arr[2]=6 is not smaller than the current minimum arr[1]=3, so the candidate minimum is unchanged."
+      },
+      {
+        "id": "ss-medium-s2-q5",
+        "type": "execution",
+        "prompt": "The third pass is underway. What happens next?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 22
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The candidate minimum stays at index 2, because 9 is not less than 6"
+          },
+          {
+            "id": "b",
+            "text": "Index 2 and 3 swap, because 9 is greater than 6"
+          },
+          {
+            "id": "c",
+            "text": "Index 3 becomes the new minimum"
+          },
+          {
+            "id": "d",
+            "text": "The pass ends without checking index 4"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "arr[3]=9 is not smaller than the current minimum arr[2]=6, so nothing changes."
+      },
+      {
+        "id": "ss-medium-s2-q6",
+        "type": "execution",
+        "prompt": "This is the fourth pass. What does this frame show?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 30
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Index 4 has just become the new candidate minimum, because 6 is less than the previous minimum, 9"
+          },
+          {
+            "id": "b",
+            "text": "Index 3 and 4 have just swapped"
+          },
+          {
+            "id": "c",
+            "text": "The pass has ended without finding a smaller value"
+          },
+          {
+            "id": "d",
+            "text": "Index 3 is still the final answer for this pass"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Before this frame, the candidate minimum was index 3 (value 9). Now arr[4]=6 has just been found to be smaller, so index 4 takes over — the swap with index 3 happens once the pass ends."
+      },
+      {
+        "id": "ss-medium-s2-q7",
+        "type": "code",
+        "prompt": "Fill in the blank — how far should the inner loop scan?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function selectionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "minIndex = i",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = i + 1 to ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] < arr[minIndex]: minIndex = j",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "swap(arr[i], arr[minIndex])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "n - 1"
+          },
+          {
+            "id": "b",
+            "text": "n"
+          },
+          {
+            "id": "c",
+            "text": "n - 2"
+          },
+          {
+            "id": "d",
+            "text": "i"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "j must be able to reach the very last index, n - 1, since any remaining element — including the last one — could turn out to be the true minimum."
+      }
+    ],
+    "3": [
+      {
+        "id": "ss-medium-s3-q1",
+        "type": "conceptual",
+        "prompt": "Why is Selection Sort sometimes preferred over Bubble Sort when the swap/write operation itself is expensive (e.g. writing to flash memory)?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It performs far fewer swaps — at most n - 1 — even though its comparison count is the same order as Bubble Sort's"
+          },
+          {
+            "id": "b",
+            "text": "It has a better asymptotic time complexity than Bubble Sort"
+          },
+          {
+            "id": "c",
+            "text": "It doesn't need to make any comparisons"
+          },
+          {
+            "id": "d",
+            "text": "It is a stable sorting algorithm, unlike Bubble Sort"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Both algorithms are O(n²) in comparisons, so that part is a wash. But Selection Sort caps its writes at n - 1 swaps total, while Bubble Sort can perform up to n(n - 1) / 2 swaps — a real difference when each write is costly."
+      },
+      {
+        "id": "ss-medium-s3-q2",
+        "type": "conceptual",
+        "prompt": "How many total passes does Selection Sort make over an array of n elements?",
+        "options": [
+          {
+            "id": "a",
+            "text": "n - 1"
+          },
+          {
+            "id": "b",
+            "text": "n"
+          },
+          {
+            "id": "c",
+            "text": "log n"
+          },
+          {
+            "id": "d",
+            "text": "n / 2"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The outer loop runs for i = 0 to n - 2 inclusive, which is n - 1 passes — once the first n - 1 elements are placed, the last one is automatically correct."
+      },
+      {
+        "id": "ss-medium-s3-q3",
+        "type": "conceptual",
+        "prompt": "What does the variable minIndex represent while a pass is running?",
+        "options": [
+          {
+            "id": "a",
+            "text": "The index of the smallest value found so far during the current pass’s scan"
+          },
+          {
+            "id": "b",
+            "text": "The smallest value itself, not its position"
+          },
+          {
+            "id": "c",
+            "text": "The index of the current pass"
+          },
+          {
+            "id": "d",
+            "text": "The number of elements left to scan"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "minIndex tracks a position, not a value — it updates every time a smaller element is found, and the algorithm swaps arr[i] with arr[minIndex] only once the whole pass finishes."
+      },
+      {
+        "id": "ss-medium-s3-q4",
+        "type": "execution",
+        "prompt": "The second pass has just finished scanning. What happens now?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 19
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "No swap happens, because index 1 already held the smallest remaining value"
+          },
+          {
+            "id": "b",
+            "text": "Index 1 swaps with index 4"
+          },
+          {
+            "id": "c",
+            "text": "A new candidate minimum is found"
+          },
+          {
+            "id": "d",
+            "text": "The pass restarts from index 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "minIndex never changed away from 1 during this pass, meaning arr[1] was already the smallest remaining value — so the algorithm skips the swap and moves straight to locking index 1 in as sorted."
+      },
+      {
+        "id": "ss-medium-s3-q5",
+        "type": "execution",
+        "prompt": "The array is mid-pass. What happens next?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 8
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The candidate minimum stays at index 3, because 5 is not less than 1"
+          },
+          {
+            "id": "b",
+            "text": "Index 3 and 4 swap, because 5 is greater than 1"
+          },
+          {
+            "id": "c",
+            "text": "Index 4 becomes the new minimum"
+          },
+          {
+            "id": "d",
+            "text": "The first pass ends without checking index 4"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "arr[4]=5 is not smaller than the current minimum arr[3]=1, so nothing changes."
+      },
+      {
+        "id": "ss-medium-s3-q6",
+        "type": "execution",
+        "prompt": "The second pass is underway. What happens next?",
+        "visualization": {
+          "inputArray": [
+            9,
+            3,
+            6,
+            1,
+            5
+          ],
+          "frameIndex": 13
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The candidate minimum stays at index 1, because 6 is not less than 3"
+          },
+          {
+            "id": "b",
+            "text": "Index 1 and 2 swap, because 6 is greater than 3"
+          },
+          {
+            "id": "c",
+            "text": "Index 2 becomes the new minimum"
+          },
+          {
+            "id": "d",
+            "text": "The pass ends without checking index 3 and 4"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "arr[2]=6 is not smaller than the current minimum arr[1]=3, so nothing changes."
+      },
+      {
+        "id": "ss-medium-s3-q7",
+        "type": "code",
+        "prompt": "Fill in the blank — what should minIndex be initialized to at the start of each pass?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function selectionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "minIndex = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = i + 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] < arr[minIndex]: minIndex = j",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "swap(arr[i], arr[minIndex])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "i"
+          },
+          {
+            "id": "b",
+            "text": "0"
+          },
+          {
+            "id": "c",
+            "text": "i + 1"
+          },
+          {
+            "id": "d",
+            "text": "n - 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "minIndex starts by assuming the current front element (index i) is the minimum, and the scan afterward only updates it if it finds actual proof otherwise."
+      }
+    ]
+  },
+  "hard": {
+    "1": [
+      {
+        "id": "ss-hard-s1-q1",
+        "type": "conceptual",
+        "prompt": "Even if a smarter version of Bubble Sort added an early-exit check for already-sorted input, would the same optimization help Selection Sort?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No — Selection Sort always scans the full remaining range every pass to confirm the minimum, so no early exit is possible even in principle"
+          },
+          {
+            "id": "b",
+            "text": "Yes, both algorithms could skip a pass on sorted input the same way"
+          },
+          {
+            "id": "c",
+            "text": "Only if the array has no duplicate values"
+          },
+          {
+            "id": "d",
+            "text": "Yes, but only for the very last pass"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Bubble Sort's early exit works because a swap-free pass proves the whole array is sorted. Selection Sort has no equivalent signal — even on a sorted array it still has to compare every candidate to confirm none is smaller, so its O(n²) comparison count is fundamental, not just a missing optimization."
+      },
+      {
+        "id": "ss-hard-s1-q2",
+        "type": "conceptual",
+        "prompt": "Is this Selection Sort implementation stable — does it preserve the relative order of equal elements?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No — swapping the minimum into place can move it past equal elements sitting between it and index i, reversing their relative order"
+          },
+          {
+            "id": "b",
+            "text": "Yes — it only swaps when arr[j] is strictly less than arr[minIndex], so equal elements are never disturbed"
+          },
+          {
+            "id": "c",
+            "text": "Only when the array has no duplicate values"
+          },
+          {
+            "id": "d",
+            "text": "Yes, because it sorts in place"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The strict `<` comparison does stop a later equal element from becoming the new candidate minimum — but it can't stop the swap from moving a distant minimum across an equal value that was closer to the front. See Q6 for exactly this happening."
+      },
+      {
+        "id": "ss-hard-s1-q3",
+        "type": "conceptual",
+        "prompt": "Unlike Merge Sort, why does this Selection Sort implementation never need a second, temporary array?",
+        "options": [
+          {
+            "id": "a",
+            "text": "It only ever swaps elements within the original array, while Merge Sort needs a buffer to merge two already-sorted halves"
+          },
+          {
+            "id": "b",
+            "text": "Because Selection Sort only works on arrays smaller than 10 elements"
+          },
+          {
+            "id": "c",
+            "text": "Because Merge Sort does not use recursion"
+          },
+          {
+            "id": "d",
+            "text": "Both algorithms need the same amount of extra memory"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Merge Sort's merge step combines two sorted halves into a new sequence, which needs somewhere to build that sequence before copying it back. Selection Sort never separates the array at all — it just tracks one index (minIndex) and exchanges two cells."
+      },
+      {
+        "id": "ss-hard-s1-q4",
+        "type": "conceptual",
+        "prompt": "Does the number of swaps Selection Sort performs depend on the input array's initial order?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Yes — unlike the comparison count, the swap count can range from 0 (already sorted) up to n - 1"
+          },
+          {
+            "id": "b",
+            "text": "No, swaps are always exactly n - 1 regardless of input"
+          },
+          {
+            "id": "c",
+            "text": "No, a correct implementation performs 0 swaps"
+          },
+          {
+            "id": "d",
+            "text": "Yes, but only when the array contains duplicate values"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A pass only swaps when minIndex ends up different from i. On an already-sorted array every pass's minimum is already at the front, so 0 swaps happen — even though the comparison count stays exactly n(n - 1) / 2 either way."
+      },
+      {
+        "id": "ss-hard-s1-q5",
+        "type": "execution",
+        "prompt": "The array has two equal values. What happens at this comparison?",
+        "visualization": {
+          "inputArray": [
+            4,
+            2,
+            4,
+            1
+          ],
+          "frameIndex": 18
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Nothing changes — 4 is not strictly less than 4, so index 3 does not become the new candidate minimum"
+          },
+          {
+            "id": "b",
+            "text": "Index 3 becomes the new minimum, since ties always go to the later index"
+          },
+          {
+            "id": "c",
+            "text": "The two elements swap because they are equal"
+          },
+          {
+            "id": "d",
+            "text": "The algorithm raises an error because of the duplicate value"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The comparison is arr[j] < arr[minIndex] — strictly less than. Since arr[3]=4 is not strictly less than arr[minIndex]=arr[2]=4, the candidate minimum stays at index 2, and this pass ends without a swap."
+      },
+      {
+        "id": "ss-hard-s1-q6",
+        "type": "execution",
+        "prompt": "This swap has just happened. What does it reveal about Selection Sort's stability?",
+        "visualization": {
+          "inputArray": [
+            4,
+            2,
+            4,
+            1
+          ],
+          "frameIndex": 8
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The value originally at index 0 (the first 4) has just jumped past the value originally at index 2 (the second 4) — a sign Selection Sort is not stable"
+          },
+          {
+            "id": "b",
+            "text": "The two 4s have just swapped directly with each other"
+          },
+          {
+            "id": "c",
+            "text": "This swap proves Selection Sort is stable, since neither 4 moved"
+          },
+          {
+            "id": "d",
+            "text": "This is an invalid state that shouldn't be possible"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "This swap exchanges index 0 (the first 4) with index 3 (where the minimum, 1, was found) — it never touches the second 4 sitting at index 2. Once this lands, the second 4 will end up appearing before the first 4 in the final array, reversing their original left-to-right order."
+      },
+      {
+        "id": "ss-hard-s1-q7",
+        "type": "code",
+        "prompt": "Fill in the blank in the minimum-finding comparison:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function selectionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "minIndex = i",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = i + 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " arr[minIndex]: minIndex = j",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "swap(arr[i], arr[minIndex])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "<"
+          },
+          {
+            "id": "b",
+            "text": "<="
+          },
+          {
+            "id": "c",
+            "text": ">"
+          },
+          {
+            "id": "d",
+            "text": "=="
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A strict less-than is what keeps the algorithm from treating a later equal element as a new minimum — using <= instead would still find a correct minimum but would make later equal elements override earlier ones, which is worse for stability, not better."
+      },
+      {
+        "id": "ss-hard-s1-q8",
+        "type": "code",
+        "prompt": "Fill in the blank in the swap call:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function selectionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "minIndex = i",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = i + 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] < arr[minIndex]: minIndex = j",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "swap(arr[i], arr[",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "minIndex"
+          },
+          {
+            "id": "b",
+            "text": "i"
+          },
+          {
+            "id": "c",
+            "text": "j"
+          },
+          {
+            "id": "d",
+            "text": "i + 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "By the time the inner loop finishes, minIndex holds the index of the smallest value found across the whole pass — that is exactly what must be swapped into index i."
+      },
+      {
+        "id": "ss-hard-s1-q9",
+        "type": "code",
+        "prompt": "Fill in the blank — where should the inner loop start scanning from?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function selectionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "minIndex = i",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] < arr[minIndex]: minIndex = j",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "swap(arr[i], arr[minIndex])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "i + 1"
+          },
+          {
+            "id": "b",
+            "text": "i"
+          },
+          {
+            "id": "c",
+            "text": "0"
+          },
+          {
+            "id": "d",
+            "text": "i - 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Index i already holds the current candidate minimum by assumption (minIndex = i), so scanning only needs to check the remaining elements starting at i + 1 — re-checking index i against itself would be wasted work."
+      },
+      {
+        "id": "ss-hard-s1-q10",
+        "type": "conceptual",
+        "prompt": "Despite its O(n²) worst case, in which situation is Selection Sort still a reasonable practical choice?",
+        "options": [
+          {
+            "id": "a",
+            "text": "When memory writes are expensive, since it minimizes the number of swaps far more than Bubble Sort does"
+          },
+          {
+            "id": "b",
+            "text": "Large, randomly ordered datasets that need to sort as fast as possible"
+          },
+          {
+            "id": "c",
+            "text": "Situations where preserving the relative order of equal elements is critical"
+          },
+          {
+            "id": "d",
+            "text": "Any case where O(n log n) performance is required"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Selection Sort's comparison count is always O(n²), same as Bubble Sort, but it caps swaps at n - 1 — useful when each write is costly (e.g. flash memory). It's a poor fit for stability-sensitive data (see Q2/Q6) or large datasets, where Merge Sort or Quick Sort win."
+      }
+    ],
+    "2": [
+      {
+        "id": "ss-hard-s2-q1",
+        "type": "conceptual",
+        "prompt": "Compared to Insertion Sort, why does Selection Sort not benefit from input that is already nearly sorted?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Selection Sort always scans the full remaining range every pass no matter how close to sorted the data already is, unlike Insertion Sort's early-stopping inner loop"
+          },
+          {
+            "id": "b",
+            "text": "Selection Sort is actually faster than Insertion Sort on nearly sorted data"
+          },
+          {
+            "id": "c",
+            "text": "Selection Sort skips comparisons once part of the array looks sorted"
+          },
+          {
+            "id": "d",
+            "text": "Both algorithms benefit from nearly sorted data equally"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Insertion Sort's inner while loop can stop early once it finds an element already in the right place, so a nearly sorted array costs it very little. Selection Sort has no such shortcut — every pass unconditionally checks every remaining candidate for the minimum."
+      },
+      {
+        "id": "ss-hard-s2-q2",
+        "type": "conceptual",
+        "prompt": "What is the best-case number of swaps Selection Sort performs, and when does it happen?",
+        "options": [
+          {
+            "id": "a",
+            "text": "0 — when the array is already fully sorted, so every pass’s minimum is already sitting at index i"
+          },
+          {
+            "id": "b",
+            "text": "n - 1, no matter the input"
+          },
+          {
+            "id": "c",
+            "text": "n(n - 1) / 2, the same as the comparison count"
+          },
+          {
+            "id": "d",
+            "text": "1, always on the first pass only"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A pass only swaps when minIndex ends up different from i. On an already-sorted array, every pass finds its minimum already at the front, so zero swaps happen — even though the comparison count is unaffected."
+      },
+      {
+        "id": "ss-hard-s2-q3",
+        "type": "conceptual",
+        "prompt": "What is the worst-case number of swaps Selection Sort performs on an array of n elements?",
+        "options": [
+          {
+            "id": "a",
+            "text": "n - 1 — one swap in every pass, which happens when the true minimum is never already sitting at index i"
+          },
+          {
+            "id": "b",
+            "text": "n(n - 1) / 2"
+          },
+          {
+            "id": "c",
+            "text": "n"
+          },
+          {
+            "id": "d",
+            "text": "0"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "There are n - 1 passes total, and each one performs at most one swap, so n - 1 is the ceiling regardless of how badly disordered the array is — Selection Sort never exceeds it."
+      },
+      {
+        "id": "ss-hard-s2-q4",
+        "type": "conceptual",
+        "prompt": "Which change to the algorithm would make it a stable sort?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Instead of one long-distance swap, shifting every element between minIndex and i over by one — the way Insertion Sort shifts elements — so equal elements keep their original order"
+          },
+          {
+            "id": "b",
+            "text": "Using <= instead of < in the comparison"
+          },
+          {
+            "id": "c",
+            "text": "Sorting the array in descending order instead of ascending"
+          },
+          {
+            "id": "d",
+            "text": "Nothing — Selection Sort can never be made stable by any modification"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Replacing the single swap with a shift-into-place step (much like Insertion Sort's inner loop) means the minimum slides past intervening elements one step at a time instead of teleporting past them — that preserves relative order at the cost of doing more than one write per pass."
+      },
+      {
+        "id": "ss-hard-s2-q5",
+        "type": "execution",
+        "prompt": "The second pass is underway. What happens next?",
+        "visualization": {
+          "inputArray": [
+            4,
+            2,
+            4,
+            1
+          ],
+          "frameIndex": 11
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "The candidate minimum stays at index 1, because 4 is not less than 2"
+          },
+          {
+            "id": "b",
+            "text": "Index 1 and 2 swap, because 4 is greater than 2"
+          },
+          {
+            "id": "c",
+            "text": "Index 2 becomes the new minimum"
+          },
+          {
+            "id": "d",
+            "text": "The pass ends without checking index 3"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "arr[2]=4 is not smaller than the current minimum arr[1]=2, so nothing changes."
+      },
+      {
+        "id": "ss-hard-s2-q6",
+        "type": "execution",
+        "prompt": "The second pass has just finished scanning. What happens now?",
+        "visualization": {
+          "inputArray": [
+            4,
+            2,
+            4,
+            1
+          ],
+          "frameIndex": 15
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "No swap happens, because index 1 already held the smallest remaining value"
+          },
+          {
+            "id": "b",
+            "text": "Index 1 swaps with index 3"
+          },
+          {
+            "id": "c",
+            "text": "A new candidate minimum is found at the last moment"
+          },
+          {
+            "id": "d",
+            "text": "The pass restarts from index 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "minIndex never changed away from 1 during this pass, so arr[1] was already the smallest remaining value — the swap is skipped and index 1 is locked in as sorted."
+      },
+      {
+        "id": "ss-hard-s2-q7",
+        "type": "code",
+        "prompt": "Fill in the blank in the outer loop bound:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function selectionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": ":",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "minIndex = i",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = i + 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] < arr[minIndex]: minIndex = j",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "swap(arr[i], arr[minIndex])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "n - 2"
+          },
+          {
+            "id": "b",
+            "text": "n - 1"
+          },
+          {
+            "id": "c",
+            "text": "n"
+          },
+          {
+            "id": "d",
+            "text": "n / 2"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "With i starting at 0, the loop must cover i = 0 through n - 2 to produce exactly n - 1 passes — the last element is already correct once everything before it is placed."
+      },
+      {
+        "id": "ss-hard-s2-q8",
+        "type": "code",
+        "prompt": "Fill in the blank — what should the current candidate minimum be compared against?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function selectionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "minIndex = i",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = i + 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] < arr[",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "]: minIndex = j",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "swap(arr[i], arr[minIndex])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "minIndex"
+          },
+          {
+            "id": "b",
+            "text": "i"
+          },
+          {
+            "id": "c",
+            "text": "j - 1"
+          },
+          {
+            "id": "d",
+            "text": "0"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Each candidate arr[j] must be compared against the smallest value found so far — which is tracked by minIndex, not the fixed pass index i."
+      },
+      {
+        "id": "ss-hard-s2-q9",
+        "type": "code",
+        "prompt": "Fill in the blank in the swap call:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function selectionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "minIndex = i",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = i + 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] < arr[minIndex]: minIndex = j",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "swap(arr[",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": "], arr[minIndex])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "i"
+          },
+          {
+            "id": "b",
+            "text": "j"
+          },
+          {
+            "id": "c",
+            "text": "minIndex"
+          },
+          {
+            "id": "d",
+            "text": "i + 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The swap places the pass's minimum into the front of the still-unsorted range, which is index i — swap(arr[i], arr[minIndex])."
+      },
+      {
+        "id": "ss-hard-s2-q10",
+        "type": "conceptual",
+        "prompt": "In terms of Big-O, how does Selection Sort compare to Insertion Sort on nearly-sorted data?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Insertion Sort approaches O(n) on nearly sorted data, while Selection Sort stays O(n²) regardless of how sorted the input already is"
+          },
+          {
+            "id": "b",
+            "text": "Both approach O(n) on nearly sorted data"
+          },
+          {
+            "id": "c",
+            "text": "Both stay O(n²) no matter what, with no difference between them"
+          },
+          {
+            "id": "d",
+            "text": "Selection Sort is faster than Insertion Sort on nearly sorted data"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Insertion Sort's inner loop can stop almost immediately when elements are already close to their correct spot, so nearly sorted input is close to its O(n) best case. Selection Sort has no such sensitivity to input order — it always pays the full O(n²) comparison cost."
+      }
+    ],
+    "3": [
+      {
+        "id": "ss-hard-s3-q1",
+        "type": "conceptual",
+        "prompt": "How many total comparisons does Selection Sort perform while sorting this specific 4-element array, [4, 2, 4, 1]?",
+        "options": [
+          {
+            "id": "a",
+            "text": "6 — n(n - 1) / 2 = 4 × 3 / 2, the same regardless of the values or their order"
+          },
+          {
+            "id": "b",
+            "text": "4, one per element"
+          },
+          {
+            "id": "c",
+            "text": "3, one per pass"
+          },
+          {
+            "id": "d",
+            "text": "12, since it must double-check the duplicate value"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Selection Sort's comparison count is a pure function of n, never of the actual values — for n = 4 that's always 4 × 3 / 2 = 6 comparisons, duplicates or not."
+      },
+      {
+        "id": "ss-hard-s3-q2",
+        "type": "conceptual",
+        "prompt": "If the input array were already sorted in ascending order, would Selection Sort detect this and skip work?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No — it has no mechanism to detect a sorted array early, so it still performs all n(n - 1) / 2 comparisons"
+          },
+          {
+            "id": "b",
+            "text": "Yes, the same way an optimized Bubble Sort with a swapped-flag could exit early"
+          },
+          {
+            "id": "c",
+            "text": "Yes, but only for arrays smaller than 5 elements"
+          },
+          {
+            "id": "d",
+            "text": "No, and it would actually raise an error on sorted input"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "There is no check anywhere in the pseudocode for whether the array is already sorted — every pass unconditionally scans the full remaining range, so a sorted input costs exactly as much as any other."
+      },
+      {
+        "id": "ss-hard-s3-q3",
+        "type": "conceptual",
+        "prompt": "Which other common sorting algorithm is also typically not guaranteed stable, the same as this Selection Sort?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Quick Sort, in its typical in-place partitioning form"
+          },
+          {
+            "id": "b",
+            "text": "Merge Sort"
+          },
+          {
+            "id": "c",
+            "text": "Insertion Sort"
+          },
+          {
+            "id": "d",
+            "text": "This platform's Bubble Sort"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Merge Sort, Insertion Sort, and this platform's Bubble Sort are all stable by construction. In-place Quick Sort shares Selection Sort's problem — its partitioning step can also swap equal elements past each other."
+      },
+      {
+        "id": "ss-hard-s3-q4",
+        "type": "conceptual",
+        "prompt": "Why can Selection Sort be described as a \"greedy\" algorithm?",
+        "options": [
+          {
+            "id": "a",
+            "text": "At each pass, it makes the locally optimal choice — placing the smallest remaining element — without ever reconsidering earlier passes"
+          },
+          {
+            "id": "b",
+            "text": "Because it uses more memory than other sorting algorithms"
+          },
+          {
+            "id": "c",
+            "text": "Because it is implemented recursively"
+          },
+          {
+            "id": "d",
+            "text": "Because it processes the array from the end toward the start"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A greedy algorithm commits to the best choice available at each step and never revisits it. Selection Sort does exactly that: once a pass's minimum is swapped into place, that decision is final for the rest of the run."
+      },
+      {
+        "id": "ss-hard-s3-q5",
+        "type": "execution",
+        "prompt": "The array is being processed. What happens next?",
+        "visualization": {
+          "inputArray": [
+            4,
+            2,
+            4,
+            1
+          ],
+          "frameIndex": 2
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "Index 1 becomes the new candidate minimum, because 2 is less than 4"
+          },
+          {
+            "id": "b",
+            "text": "Index 0 and 1 swap immediately"
+          },
+          {
+            "id": "c",
+            "text": "Index 1 is skipped"
+          },
+          {
+            "id": "d",
+            "text": "The pass ends here"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "arr[1]=2 is less than the current minimum arr[0]=4, so index 1 becomes the new candidate minimum."
+      },
+      {
+        "id": "ss-hard-s3-q6",
+        "type": "execution",
+        "prompt": "The third pass has just finished scanning. What happens now?",
+        "visualization": {
+          "inputArray": [
+            4,
+            2,
+            4,
+            1
+          ],
+          "frameIndex": 20
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "No swap happens — index 2 already held the smallest remaining value"
+          },
+          {
+            "id": "b",
+            "text": "Index 2 swaps with index 3"
+          },
+          {
+            "id": "c",
+            "text": "A new minimum is found at the last moment"
+          },
+          {
+            "id": "d",
+            "text": "The pass restarts"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Index 3 holds an equal value (4), and equal values never satisfy the strict `<` comparison, so minIndex stayed at index 2 for this whole pass — the swap is skipped and index 2 locks in as sorted."
+      },
+      {
+        "id": "ss-hard-s3-q7",
+        "type": "code",
+        "prompt": "Fill in the blank in the minimum-finding comparison:",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function selectionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "minIndex = i",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = i + 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " arr[minIndex]: minIndex = j",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "swap(arr[i], arr[minIndex])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "<"
+          },
+          {
+            "id": "b",
+            "text": ">"
+          },
+          {
+            "id": "c",
+            "text": "<="
+          },
+          {
+            "id": "d",
+            "text": "!="
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "A candidate only replaces the current minimum when it is strictly smaller — arr[j] < arr[minIndex] — which is what lets Q6 end without a swap when the only remaining candidate is equal, not smaller."
+      },
+      {
+        "id": "ss-hard-s3-q8",
+        "type": "code",
+        "prompt": "Fill in the blank — what should minIndex be initialized to?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function selectionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "minIndex = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = i + 1 to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] < arr[minIndex]: minIndex = j",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "swap(arr[i], arr[minIndex])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "i"
+          },
+          {
+            "id": "b",
+            "text": "0"
+          },
+          {
+            "id": "c",
+            "text": "i + 1"
+          },
+          {
+            "id": "d",
+            "text": "n - 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "The pass assumes the current front element (index i) is the minimum until the scan proves otherwise, so minIndex starts at i."
+      },
+      {
+        "id": "ss-hard-s3-q9",
+        "type": "code",
+        "prompt": "Fill in the blank — where should the inner loop start scanning?",
+        "codeLines": [
+          {
+            "lineNumber": 1,
+            "indentLevel": 0,
+            "tokens": [
+              {
+                "text": "function selectionSort(arr):",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 2,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "for i = 0 to n - 2:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 3,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "minIndex = i",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 4,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "for j = ",
+                "kind": "plain"
+              },
+              {
+                "text": "____",
+                "kind": "blank"
+              },
+              {
+                "text": " to n - 1:",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 5,
+            "indentLevel": 3,
+            "tokens": [
+              {
+                "text": "if arr[j] < arr[minIndex]: minIndex = j",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 6,
+            "indentLevel": 2,
+            "tokens": [
+              {
+                "text": "swap(arr[i], arr[minIndex])",
+                "kind": "plain"
+              }
+            ]
+          },
+          {
+            "lineNumber": 7,
+            "indentLevel": 1,
+            "tokens": [
+              {
+                "text": "return arr",
+                "kind": "plain"
+              }
+            ]
+          }
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "i + 1"
+          },
+          {
+            "id": "b",
+            "text": "i"
+          },
+          {
+            "id": "c",
+            "text": "0"
+          },
+          {
+            "id": "d",
+            "text": "n - 1"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Index i is already assumed to be the minimum (minIndex = i), so the scan only needs to check the elements after it, starting at i + 1."
+      },
+      {
+        "id": "ss-hard-s3-q10",
+        "type": "conceptual",
+        "prompt": "What is Selection Sort's overall time complexity across the best, average, and worst case?",
+        "options": [
+          {
+            "id": "a",
+            "text": "O(n²) in every case — the comparison count never depends on how the input is arranged"
+          },
+          {
+            "id": "b",
+            "text": "O(n) best case, O(n²) average and worst case"
+          },
+          {
+            "id": "c",
+            "text": "O(n log n) in every case"
+          },
+          {
+            "id": "d",
+            "text": "O(n) in every case"
+          }
+        ],
+        "correctOptionId": "a",
+        "explanation": "Because every pass unconditionally scans the entire remaining range regardless of the data, Selection Sort has no favorable case at all — best, average, and worst case are all exactly O(n²)."
+      }
+    ]
+  }
+}

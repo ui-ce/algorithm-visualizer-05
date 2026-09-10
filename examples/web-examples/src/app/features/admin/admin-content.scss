@@ -1,0 +1,326 @@
+// No outer page wrapper/background here anymore — admin-shell.scss
+// owns the page chrome (header, sidebar, content padding) now that
+// this is a routed child of /admin instead of its own top-level page.
+.algo-admin-page {
+  &__title {
+    color: var(--color-text-primary);
+    margin: 0 0 8px;
+  }
+
+  &__subtitle {
+    margin: 0 0 32px;
+    color: var(--color-text-secondary);
+    max-width: 640px;
+  }
+
+  &__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 24px;
+    align-items: start;
+  }
+
+  &__form,
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    border-radius: 12px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-default);
+  }
+
+  &__row {
+    display: flex;
+    gap: 12px;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+    color: var(--color-text-secondary);
+  }
+
+  &__field--full {
+    width: 100%;
+  }
+
+  &__select,
+  &__input,
+  &__textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border-default);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    font-family: inherit;
+    font-size: 0.875rem;
+  }
+
+  &__textarea {
+    resize: vertical;
+  }
+
+  &__textarea--code {
+    font-family: monospace;
+    direction: ltr;
+    text-align: left;
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--color-text-secondary);
+  }
+
+  &__option-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__option-id {
+    flex: 0 0 100px;
+  }
+
+  &__option-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__icon-btn {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid var(--color-border-default);
+    background: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-text-primary);
+      border-color: var(--color-border-subtle);
+    }
+  }
+
+  &__form-actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  &__json-label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__json-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__chip {
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--color-border-default);
+    background: none;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-text-primary);
+      border-color: var(--color-border-subtle);
+    }
+  }
+
+  &__filters {
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  &__message {
+    margin: 0;
+    padding: 8px 12px;
+    border-radius: 8px;
+  }
+
+  &__message--error {
+    color: var(--color-error, #e5484d);
+    background-color: rgb(229 72 77 / 10%);
+  }
+
+  &__message--success {
+    color: var(--color-success, #30a46c);
+    background-color: rgb(48 164 108 / 10%);
+  }
+
+  &__empty {
+    color: var(--color-text-secondary);
+  }
+
+  &__list-row {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__list-row--editing {
+    background-color: var(--color-surface-container);
+    border-radius: 8px;
+    margin: 0 -8px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  &__list-row-toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+    background: none;
+    border: none;
+    padding: 0;
+    text-align: start;
+    cursor: pointer;
+  }
+
+  // The toggle button (meta + prompt) and the edit/delete icon buttons
+  // sit side by side on the row's first line; expanded details (if
+  // any) go full-width underneath both.
+  &__list-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 8px;
+    row-gap: 8px;
+  }
+
+  &__list-row-buttons {
+    display: flex;
+    gap: 6px;
+    align-self: start;
+  }
+
+  &__list-row-meta {
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+
+  &__list-row-prompt {
+    color: var(--color-text-primary);
+  }
+
+  &__list-row-details {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background-color: var(--color-background);
+  }
+
+  &__list-row-options {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__list-row-option {
+    color: var(--color-text-secondary);
+  }
+
+  &__list-row-option--correct {
+    color: var(--color-success, #30a46c);
+    font-weight: 600;
+  }
+
+  &__list-row-explanation {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+
+  &__list-row-json {
+    margin: 0;
+    padding: 8px;
+    border-radius: 6px;
+    background-color: var(--color-surface-container);
+    font-family: monospace;
+    font-size: 0.75rem;
+    direction: ltr;
+    text-align: left;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 900px) {
+  .algo-admin-page__layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.algo-admin-page {
+  &__status-line {
+    margin: -8px 0 0;
+    color: var(--color-text-secondary);
+  }
+
+  &__step-index {
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+    padding-top: 8px;
+  }
+
+  &__pair-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border-subtle);
+    position: relative;
+
+    .algo-admin-page__icon-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+    }
+  }
+
+  &__content-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 4px;
+    border: none;
+    border-bottom: 1px solid var(--color-border-subtle);
+    background: none;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    text-align: start;
+
+    &:hover {
+      background-color: var(--color-surface-container);
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}

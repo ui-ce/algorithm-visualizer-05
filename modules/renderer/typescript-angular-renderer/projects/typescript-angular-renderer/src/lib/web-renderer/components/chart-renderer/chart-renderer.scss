@@ -49,6 +49,11 @@
     align-items: center;
     justify-content: flex-end;
     height: 100%;
+    // Animates the FLIP swap kicked off in chart-renderer.ts's
+    // playSwapAnimation(). Only `transform` needs a transition — height/
+    // color changes elsewhere in the tree keep their own timing.
+    transition: transform 0.35s ease;
+    will-change: transform;
 
     .bar {
       display: flex;
@@ -75,4 +80,3 @@
     }
   }
 }
-

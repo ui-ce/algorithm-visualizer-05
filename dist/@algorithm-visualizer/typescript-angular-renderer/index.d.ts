@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { OnDestroy, EventEmitter, OnInit, AfterViewInit, OnChanges, ElementRef, SimpleChanges } from '@angular/core';
+import { OnDestroy, EventEmitter, OnChanges, AfterViewChecked, SimpleChanges, OnInit, AfterViewInit, ElementRef } from '@angular/core';
 import { LayoutOptions } from 'cytoscape';
 import * as rxjs from 'rxjs';
 
@@ -101,9 +101,17 @@ type ChartMetaData = {
     showValue?: boolean;
 };
 
-declare class ChartRenderer {
+declare class ChartRenderer implements OnChanges, AfterViewChecked {
     state: ChartState;
     metadata: ChartMetaData;
+    private barContainers;
+    private previousBars;
+    private pendingSwapOffsets;
+    ngOnChanges(changes: SimpleChanges): void;
+    ngAfterViewChecked(): void;
+    private playSwapAnimation;
+    private computeSwapOffsets;
+    private getBarStepPx;
     protected getBarColors(highlightTags: string[]): string[];
     protected getBarHeight(value: number): string;
     protected getDefaultColor(): string;

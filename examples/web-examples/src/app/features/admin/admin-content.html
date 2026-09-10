@@ -1,0 +1,205 @@
+<div class="algo-admin-page">
+  <h1 class="algo-admin-page__title text-headline-large-emphasized">Algorithm Content Admin</h1>
+  <p class="algo-admin-page__subtitle text-body-medium">
+    Learn/Practice/Compare prose (definition, intuition, pros &amp; cons, complexity…) per algorithm+language.
+    Saving upserts — picking an algorithm+language that already has a row loads it here so Save replaces it.
+  </p>
+
+  <div class="algo-admin-page__layout">
+    <form class="algo-admin-page__form" (submit)="$event.preventDefault(); onSave()">
+      <div class="algo-admin-page__row">
+        <label class="algo-admin-page__field">
+          <span class="text-label-medium">Algorithm</span>
+          <select class="algo-admin-page__select" [(ngModel)]="algorithmId" name="algorithmId" (ngModelChange)="onAlgorithmOrLanguageChange()">
+            @for (id of algorithmOptions; track id) {
+            <option [value]="id">{{ id }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="algo-admin-page__field">
+          <span class="text-label-medium">Language</span>
+          <select class="algo-admin-page__select" [(ngModel)]="language" name="language" (ngModelChange)="onAlgorithmOrLanguageChange()">
+            <option value="en">English</option>
+            <option value="fa">فارسی</option>
+          </select>
+        </label>
+      </div>
+
+      <p class="text-label-medium algo-admin-page__status-line">
+        {{ editingRowId ? 'Editing existing row — Save replaces it.' : 'No row yet for this algorithm+language — Save creates one.' }}
+      </p>
+
+      <label class="algo-admin-page__field algo-admin-page__field--full">
+        <span class="text-label-medium">Overview / definition</span>
+        <textarea class="algo-admin-page__textarea" rows="3" [(ngModel)]="content.overview" name="overview"></textarea>
+      </label>
+
+      <label class="algo-admin-page__field algo-admin-page__field--full">
+        <span class="text-label-medium">Intuition</span>
+        <textarea class="algo-admin-page__textarea" rows="3" [(ngModel)]="content.intuition" name="intuition"></textarea>
+      </label>
+
+      <label class="algo-admin-page__field algo-admin-page__field--full">
+        <span class="text-label-medium">Key characteristic</span>
+        <textarea class="algo-admin-page__textarea" rows="2" [(ngModel)]="content.keyCharacteristic" name="keyCharacteristic"></textarea>
+      </label>
+
+      <!-- How it works -->
+      <div class="algo-admin-page__options">
+        <span class="text-label-medium">How it works (ordered steps)</span>
+        @for (step of content.howItWorks; track $index) {
+        <div class="algo-admin-page__option-row">
+          <span class="algo-admin-page__step-index text-label-medium">{{ $index + 1 }}.</span>
+          <textarea class="algo-admin-page__textarea algo-admin-page__option-text" rows="1" [ngModel]="step"
+            (ngModelChange)="content.howItWorks = updateStringItem(content.howItWorks, $index, $event)"
+            [name]="'step' + $index"></textarea>
+          <button type="button" class="algo-admin-page__icon-btn" (click)="content.howItWorks = removeStringItem(content.howItWorks, $index)">✕</button>
+        </div>
+        }
+        <algo-button variant="outline" size="medium" text="+ Add step" (click)="content.howItWorks = addStringItem(content.howItWorks)" />
+      </div>
+
+      <!-- Complexity -->
+      <div class="algo-admin-page__options">
+        <span class="text-label-medium">Complexity</span>
+        <div class="algo-admin-page__row">
+          <label class="algo-admin-page__field">
+            <span class="text-label-medium">Best time</span>
+            <input class="algo-admin-page__input" [ngModel]="content.complexity.bestTime"
+              (ngModelChange)="updateComplexity('bestTime', $event)" name="bestTime" />
+          </label>
+          <label class="algo-admin-page__field">
+            <span class="text-label-medium">Average time</span>
+            <input class="algo-admin-page__input" [ngModel]="content.complexity.averageTime"
+              (ngModelChange)="updateComplexity('averageTime', $event)" name="averageTime" />
+          </label>
+          <label class="algo-admin-page__field">
+            <span class="text-label-medium">Worst time</span>
+            <input class="algo-admin-page__input" [ngModel]="content.complexity.worstTime"
+              (ngModelChange)="updateComplexity('worstTime', $event)" name="worstTime" />
+          </label>
+        </div>
+        <div class="algo-admin-page__row">
+          <label class="algo-admin-page__field">
+            <span class="text-label-medium">Space</span>
+            <input class="algo-admin-page__input" [ngModel]="content.complexity.space"
+              (ngModelChange)="updateComplexity('space', $event)" name="space" />
+          </label>
+          <label class="algo-admin-page__field">
+            <span class="text-label-medium">Stable</span>
+            <input class="algo-admin-page__input" [ngModel]="content.complexity.stable"
+              (ngModelChange)="updateComplexity('stable', $event)" name="stable" />
+          </label>
+          <label class="algo-admin-page__field">
+            <span class="text-label-medium">In-place</span>
+            <input class="algo-admin-page__input" [ngModel]="content.complexity.inPlace"
+              (ngModelChange)="updateComplexity('inPlace', $event)" name="inPlace" />
+          </label>
+        </div>
+        <label class="algo-admin-page__field algo-admin-page__field--full">
+          <span class="text-label-medium">Note (why best/worst happens)</span>
+          <input class="algo-admin-page__input" [ngModel]="content.complexity.note"
+            (ngModelChange)="updateComplexity('note', $event)" name="complexityNote" />
+        </label>
+      </div>
+
+      <!-- Pros / Cons / When to use / When not to use -->
+      @for (field of ['pros', 'cons', 'whenToUse', 'whenNotToUse']; track field) {
+      <div class="algo-admin-page__options">
+        <span class="text-label-medium">{{ field }}</span>
+        @for (item of content[field]; track $index) {
+        <div class="algo-admin-page__option-row">
+          <textarea class="algo-admin-page__textarea algo-admin-page__option-text" rows="1" [ngModel]="item"
+            (ngModelChange)="content[field] = updateStringItem(content[field], $index, $event)"
+            [name]="field + $index"></textarea>
+          <button type="button" class="algo-admin-page__icon-btn" (click)="content[field] = removeStringItem(content[field], $index)">✕</button>
+        </div>
+        }
+        <algo-button variant="outline" size="medium" text="+ Add" (click)="content[field] = addStringItem(content[field])" />
+      </div>
+      }
+
+      <!-- Overview FAQ -->
+      <div class="algo-admin-page__options">
+        <span class="text-label-medium">Overview FAQ</span>
+        @for (item of content.overviewFaq; track $index) {
+        <div class="algo-admin-page__pair-row">
+          <input class="algo-admin-page__input" placeholder="Question" [ngModel]="item.question"
+            (ngModelChange)="content.overviewFaq = updateFaqItem(content.overviewFaq, $index, 'question', $event)"
+            [name]="'faqQ' + $index" />
+          <textarea class="algo-admin-page__textarea" rows="2" placeholder="Answer" [ngModel]="item.answer"
+            (ngModelChange)="content.overviewFaq = updateFaqItem(content.overviewFaq, $index, 'answer', $event)"
+            [name]="'faqA' + $index"></textarea>
+          <button type="button" class="algo-admin-page__icon-btn" (click)="content.overviewFaq = removeFaqItem(content.overviewFaq, $index)">✕</button>
+        </div>
+        }
+        <algo-button variant="outline" size="medium" text="+ Add FAQ item" (click)="content.overviewFaq = addFaqItem(content.overviewFaq)" />
+      </div>
+
+      <!-- Applications -->
+      <div class="algo-admin-page__options">
+        <span class="text-label-medium">Applications</span>
+        @for (item of content.applications; track $index) {
+        <div class="algo-admin-page__pair-row">
+          <input class="algo-admin-page__input" placeholder="Title" [ngModel]="item.title"
+            (ngModelChange)="content.applications = updateApplicationItem(content.applications, $index, 'title', $event)"
+            [name]="'appT' + $index" />
+          <textarea class="algo-admin-page__textarea" rows="2" placeholder="Description" [ngModel]="item.description"
+            (ngModelChange)="content.applications = updateApplicationItem(content.applications, $index, 'description', $event)"
+            [name]="'appD' + $index"></textarea>
+          <button type="button" class="algo-admin-page__icon-btn" (click)="content.applications = removeApplicationItem(content.applications, $index)">✕</button>
+        </div>
+        }
+        <algo-button variant="outline" size="medium" text="+ Add application" (click)="content.applications = addApplicationItem(content.applications)" />
+      </div>
+
+      <!-- Implementations -->
+      <div class="algo-admin-page__options">
+        <span class="text-label-medium">Code implementations</span>
+        @for (item of content.implementations; track $index) {
+        <div class="algo-admin-page__pair-row">
+          <input class="algo-admin-page__input" placeholder="Language (e.g. python)" [ngModel]="item.language"
+            (ngModelChange)="content.implementations = updateImplementationItem(content.implementations, $index, 'language', $event)"
+            [name]="'implLang' + $index" />
+          <textarea class="algo-admin-page__textarea algo-admin-page__textarea--code" rows="6" placeholder="Code" [ngModel]="item.code"
+            (ngModelChange)="content.implementations = updateImplementationItem(content.implementations, $index, 'code', $event)"
+            [name]="'implCode' + $index"></textarea>
+          <button type="button" class="algo-admin-page__icon-btn" (click)="content.implementations = removeImplementationItem(content.implementations, $index)">✕</button>
+        </div>
+        }
+        <algo-button variant="outline" size="medium" text="+ Add implementation" (click)="content.implementations = addImplementationItem(content.implementations)" />
+      </div>
+
+      @if (formError) {
+      <p class="algo-admin-page__message algo-admin-page__message--error text-body-medium">{{ formError }}</p>
+      }
+      @if (formSuccess) {
+      <p class="algo-admin-page__message algo-admin-page__message--success text-body-medium">{{ formSuccess }}</p>
+      }
+
+      <div class="algo-admin-page__form-actions">
+        <algo-button variant="primary" [text]="isSubmitting ? 'Saving…' : 'Save'" [disabled]="isSubmitting" (click)="onSave()" />
+        @if (editingRowId) {
+        <algo-button variant="outline" text="Delete this content" (click)="onDelete()" />
+        }
+      </div>
+    </form>
+
+    <div class="algo-admin-page__list">
+      <span class="text-label-medium">Algorithms with content already saved</span>
+      @if (isLoadingList) {
+      <p class="text-body-medium">Loading…</p>
+      } @else if (groupedRows.length === 0) {
+      <p class="text-body-medium algo-admin-page__empty">None yet.</p>
+      } @else {
+      @for (entry of groupedRows; track entry.row.id) {
+      <button type="button" class="algo-admin-page__content-row" (click)="onSelectRow(entry.row)">
+        <span class="text-body-medium">{{ entry.algorithmId }}</span>
+        <span class="text-label-medium algo-admin-page__list-row-meta">{{ entry.language }}</span>
+      </button>
+      }
+      }
+    </div>
+  </div>
+</div>
