@@ -23,6 +23,7 @@ function emptyContent(): AlgorithmContent {
     whenNotToUse: [''],
     applications: [{ title: '', description: '' }],
     implementations: [{ language: '', code: '' }],
+    notesPdfUrl: undefined,
   };
 }
 
@@ -56,6 +57,12 @@ export class AdminContentPage implements OnInit {
   protected isSubmitting = false;
   protected formError: string | null = null;
   protected formSuccess: string | null = null;
+
+  // جزوه PDF upload — separate loading/error state from the rest of the
+  // form since it fires its own async Storage request (on file pick)
+  // rather than waiting for the Save button like every other field.
+  protected isUploadingNotesPdf = false;
+  protected notesPdfError: string | null = null;
 
   public constructor(private readonly _contentService: AlgorithmContentService) {}
 
@@ -160,6 +167,39 @@ export class AdminContentPage implements OnInit {
 
   protected updateComplexity<K extends keyof AlgorithmContent['complexity']>(field: K, value: string): void {
     this.content = { ...this.content, complexity: { ...this.content.complexity, [field]: value } };
+  }
+
+  // Uploads immediately on file pick (rather than waiting for the main
+  // Save button) so the admin sees success/failure right away and the
+  // PDF is already sitting in Storage under this algorithm+language by
+  // the time they hit Save — Save just needs to persist the resulting
+  // URL along with everything else already in `content`.
+  protected async onUploadNotesPdf(event: Event): Promise<void> {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+
+    if (file.type !== 'application/pdf') {
+      this.notesPdfError = 'Only PDF files are accepted.';
+      input.value = '';
+      return;
+    }
+
+    this.notesPdfError = null;
+    this.isUploadingNotesPdf = true;
+    const result = await this._contentService.uploadNotesPdf(this.algorithmId, this.language, file);
+    this.isUploadingNotesPdf = false;
+    input.value = '';
+
+    if (!result.url) {
+      this.notesPdfError = result.error ?? 'Upload failed.';
+      return;
+    }
+    this.content = { ...this.content, notesPdfUrl: result.url };
+  }
+
+  protected clearNotesPdf(): void {
+    this.content = { ...this.content, notesPdfUrl: undefined };
   }
 
   private validate(): string | null {

@@ -233,7 +233,7 @@ export class TestResults {
   }
 
   protected get heroImage(): string {
-    return this.passed ? '/quiz/quiz-results-pass-trophy.png' : '/quiz/quiz-results-fail-target.png';
+    return this.passed ? '/quiz/quiz-results-pass-trophy.webp' : '/quiz/quiz-results-fail-target.webp';
   }
 
   protected get titleText(): string {

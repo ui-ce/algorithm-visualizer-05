@@ -1,0 +1,35 @@
+<div class="algo-notes-topbar">
+  <span class="algo-notes-topbar__title text-title-large">{{ 'learn.notes.title' | translate }}</span>
+
+  <div class="algo-notes-topbar__menu">
+    <algo-button
+      variant="outline"
+      [text]="'learn.notes.downloadMenu' | translate"
+      [hasLeftIcon]="true"
+      [hasRightIcon]="true"
+      (click)="toggleOpen()"
+    >
+      <svg left-icon solarDownloadLinear [size]="16"></svg>
+      <svg right-icon solarAltArrowDownLinear [size]="14" class="algo-notes-topbar__chevron" [class.algo-notes-topbar__chevron--open]="isOpen"></svg>
+    </algo-button>
+
+    @if (isOpen) {
+    <div class="algo-notes-topbar__popover">
+      @if (notesPdfUrl) {
+      <a class="algo-notes-topbar__option" [href]="notesPdfUrl" download target="_blank" rel="noopener" (click)="closeMenu()">
+        <span class="text-body-medium algo-notes-topbar__option-name">{{ 'learn.notes.downloadPdf' | translate }}</span>
+      </a>
+      } @else {
+      <button type="button" class="algo-notes-topbar__option" disabled>
+        <span class="text-body-medium algo-notes-topbar__option-name">{{ 'learn.notes.downloadPdf' | translate }}</span>
+      </button>
+      }
+
+      <button type="button" class="algo-notes-topbar__option" disabled>
+        <span class="text-body-medium algo-notes-topbar__option-name">{{ 'learn.notes.downloadVideo' | translate }}</span>
+        <span class="text-label-medium-regular algo-notes-topbar__soon">({{ 'learn.notes.comingSoon' | translate }})</span>
+      </button>
+    </div>
+    }
+  </div>
+</div>

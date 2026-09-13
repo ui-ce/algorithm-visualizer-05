@@ -1,34 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  SolarInfoCircleLinear,
-  SolarWidget2Linear,
-  SolarMagnifierLinear,
-  SolarStarLinear,
-  SolarStarBold,
-  SolarSkipPreviousLinear,
-  SolarSkipNextLinear,
-  SolarLockKeyholeMinimalisticLinear,
-} from '@solar-icons/angular';
+import { SolarStarLinear, SolarStarBold, SolarLockKeyholeMinimalisticLinear } from '@solar-icons/angular';
 import { AlgoHeader } from '../../layout/header/header';
-import { AlgoDrawer } from '../../design-system/drawer/drawer';
-import { AlgoDrawerIconButton } from '../../design-system/drawer-icon-button/drawer-icon-button';
 import { AlgoSegmentedButton } from '../../design-system/segmented-button/segmented-button';
-import { AlgoButton } from '../../design-system/button/button';
+import { AlgoLearnToc } from './components/learn-toc/learn-toc';
+import { AlgoNotesTopbar } from './components/notes-topbar/notes-topbar';
 import { ThemeService } from '../../core/services/theme.service';
 import { LanguageService } from '../../core/services/language.service';
 import { TestProgressService } from '../../core/services/test-progress.service';
 import { translate } from '../../core/i18n/translations';
-import { TranslatePipe} from '../../core/i18n/translate.pipe';
+import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { TranslateVarPipe } from '../../core/i18n/translate-var.pipe';
-import { toLocaleDigitsForLanguage } from '../../core/i18n/locale-digits.pipe';
 import type { BreadcrumbItem } from '../../layout/header/header-breadcrumb.type';
 import { isTestAvailable, buildLevelPlan, countEarnedStars } from '../test/data/test-question-bank';
 import { ALGORITHM_CONTENT } from '../practice/data/algorithm-content.registry';
 import { ALGORITHM_CONTENT_FA } from '../practice/data/algorithm-content.registry.fa';
 import type { AlgorithmContent } from '../practice/data/algorithm-content.types';
-import type { DrawerSectionId } from './learn.types';
-
+import type { DrawerSectionId, LearnTocEntry } from './learn.types';
 
 // Same map as practice.ts's ALGORITHM_NAME_KEYS — kept as its own copy
 // (not an import) since practice.ts doesn't export it, and this page
@@ -48,10 +36,12 @@ const ALGORITHM_NAME_KEYS: Record<string, string> = {
   'a-star': 'home.algorithm.aStar.name',
 };
 
-// Cycle order for the Prev/Next buttons at the bottom of the panel.
+// Document order — same three chapters that used to be the drawer's
+// icon-button sections, now rendered stacked in the document instead of
+// swapped in and out. This is also the TOC's entry order.
 const SECTION_ORDER: DrawerSectionId[] = ['overview', 'pros-cons', 'usage'];
 
-const DRAWER_SECTION_TITLE_KEYS: Record<DrawerSectionId, string> = {
+const SECTION_TITLE_KEYS: Record<DrawerSectionId, string> = {
   overview: 'practice.drawer.overview',
   'pros-cons': 'practice.drawer.prosCons',
   usage: 'practice.drawer.usage',
@@ -63,21 +53,20 @@ const TOTAL_STARS = 3;
 // (segmented-button.scss) — see onTabChange's comment below.
 const TAB_SLIDE_DELAY_MS = 250;
 
+// Height of AlgoNotesTopbar (see notes-topbar.scss padding) — subtracted
+// from scrollIntoView targets so a jump-scrolled heading doesn't land
+// hidden behind the sticky bar.
+const TOPBAR_OFFSET_PX = 64;
+
 @Component({
   selector: 'algo-learn-page',
   imports: [
     AlgoHeader,
-    AlgoDrawer,
-    AlgoDrawerIconButton,
     AlgoSegmentedButton,
-    AlgoButton,
-    SolarInfoCircleLinear,
-    SolarWidget2Linear,
-    SolarMagnifierLinear,
+    AlgoLearnToc,
+    AlgoNotesTopbar,
     SolarStarLinear,
     SolarStarBold,
-    SolarSkipPreviousLinear,
-    SolarSkipNextLinear,
     SolarLockKeyholeMinimalisticLinear,
     TranslatePipe,
     TranslateVarPipe,
@@ -87,6 +76,9 @@ const TAB_SLIDE_DELAY_MS = 250;
 })
 export class LearnPage {
   protected readonly algorithmId: string;
+
+  @ViewChild('docScroll')
+  private docScrollRef?: ElementRef<HTMLElement>;
 
   protected get tabs(): string[] {
     const language = this.languageService.currentLanguage();
@@ -100,11 +92,10 @@ export class LearnPage {
   protected selectedTabIndex = 0;
   protected isTestUnavailableModalOpen = false;
 
-  // Always showing one of the three sections — same reasoning as
-  // Practice's activeDrawerSection: Complexity and Code stayed behind
-  // in Practice's drawer, so this page only ever needs to represent
-  // "which of these three is open," never "none."
-  protected activeDrawerSection: DrawerSectionId = 'overview';
+  // Which chapter's TOC row is highlighted — driven by scroll position
+  // (see onDocScroll), not by which content is "open," since all three
+  // chapters are always in the document now.
+  protected activeSectionId: DrawerSectionId = SECTION_ORDER[0];
 
   protected readonly starSlots = Array.from({ length: TOTAL_STARS }, (_, i) => i + 1);
   protected earnedStars = 0;
@@ -144,7 +135,9 @@ export class LearnPage {
   // Same FA-with-EN-fallback rule as practice.ts's own `content`
   // getter — the FA registry only has real translations for a subset
   // of algorithms so far, and this page shows exactly the same data
-  // Practice's drawer used to, sourced from the exact same registry.
+  // Practice's drawer used to, sourced from the exact same registry
+  // (which is itself hydrated from Supabase's algorithm_content table
+  // at app start — see initDynamicAlgorithmContent / AlgorithmContentService).
   protected get content(): AlgorithmContent | null {
     const language = this.languageService.currentLanguage();
     if (language === 'fa') {
@@ -153,23 +146,17 @@ export class LearnPage {
     return ALGORITHM_CONTENT[this.algorithmId] ?? null;
   }
 
-  protected get drawerPanelTitle(): string {
-    return translate(DRAWER_SECTION_TITLE_KEYS[this.activeDrawerSection], this.languageService.currentLanguage());
+  protected get notesPdfUrl(): string | null {
+    return this.content?.notesPdfUrl ?? null;
   }
 
-  // "1 of 3" — shown where the close button would be, since this
-  // drawer can't be closed. Deliberately no "out" ("1 out of 3"), per
-  // the shorter phrasing asked for. "of" reuses the same
-  // practice.viz.of key Practice's own step counter uses ("از" in
-  // Persian), and the numbers go through the same Persian-numeral
-  // conversion as everywhere else in the app.
-  protected get pageIndicator(): string {
+  protected get tocEntries(): LearnTocEntry[] {
     const language = this.languageService.currentLanguage();
-    const currentIndex = SECTION_ORDER.indexOf(this.activeDrawerSection);
-    const current = toLocaleDigitsForLanguage(currentIndex + 1, language);
-    const total = toLocaleDigitsForLanguage(SECTION_ORDER.length, language);
-    const of = translate('practice.viz.of', language);
-    return `${current} ${of} ${total}`;
+    return SECTION_ORDER.map((id) => ({ id, label: translate(SECTION_TITLE_KEYS[id], language) }));
+  }
+
+  protected sectionTitle(id: DrawerSectionId): string {
+    return translate(SECTION_TITLE_KEYS[id], this.languageService.currentLanguage());
   }
 
   protected starTooltip(starIndex: number): string {
@@ -181,20 +168,35 @@ export class LearnPage {
       : `Complete the ${levelLabel} level to earn this star`;
   }
 
-  protected setDrawerSection(section: DrawerSectionId): void {
-    this.activeDrawerSection = section;
+  // Jump-scrolls the doc column to the clicked TOC entry's <section id>,
+  // offsetting for the sticky notes topbar so the heading itself ends
+  // up visible instead of tucked behind it.
+  protected scrollToSection(id: string): void {
+    const container = this.docScrollRef?.nativeElement;
+    if (!container) return;
+    const target = container.querySelector<HTMLElement>(`#learn-section-${id}`);
+    if (!target) return;
+
+    const top = target.offsetTop - TOPBAR_OFFSET_PX;
+    container.scrollTo({ top, behavior: 'smooth' });
+    this.activeSectionId = id as DrawerSectionId;
   }
 
-  protected previousSection(): void {
-    const currentIndex = SECTION_ORDER.indexOf(this.activeDrawerSection);
-    const previousIndex = (currentIndex - 1 + SECTION_ORDER.length) % SECTION_ORDER.length;
-    this.activeDrawerSection = SECTION_ORDER[previousIndex];
-  }
+  // Simple scroll-spy: whichever section's heading has scrolled past
+  // the topbar (and is the last one to have done so) is the "current"
+  // one, same rule a reading progress indicator in Word/Docs uses.
+  protected onDocScroll(): void {
+    const container = this.docScrollRef?.nativeElement;
+    if (!container) return;
 
-  protected nextSection(): void {
-    const currentIndex = SECTION_ORDER.indexOf(this.activeDrawerSection);
-    const nextIndex = (currentIndex + 1) % SECTION_ORDER.length;
-    this.activeDrawerSection = SECTION_ORDER[nextIndex];
+    let current: DrawerSectionId = SECTION_ORDER[0];
+    for (const id of SECTION_ORDER) {
+      const el = container.querySelector<HTMLElement>(`#learn-section-${id}`);
+      if (el && el.offsetTop - TOPBAR_OFFSET_PX - 8 <= container.scrollTop) {
+        current = id;
+      }
+    }
+    this.activeSectionId = current;
   }
 
   // See practice.ts's onTabChange for why the index updates before the

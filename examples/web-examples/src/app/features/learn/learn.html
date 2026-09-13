@@ -3,12 +3,23 @@
     [currentLanguage]="languageService.currentLanguage()" (languageToggle)="languageService.toggle()" />
 
   <div class="algo-learn-page__main-row">
+
+    <!-- TOC — first in DOM (same "sidebar/icon-column comes first,
+         flips sides with document direction" convention Test's
+         question-sidebar and Practice's drawer use), so it lands on
+         the correct physical side in both Persian and English instead
+         of staying pinned to one side regardless of language. -->
+    <algo-learn-toc [entries]="tocEntries" [activeId]="activeSectionId" (select)="scrollToSection($event)" />
+
     <div class="algo-learn-page__content">
       <div class="algo-learn-page__sections-layer">
 
         <!-- Title + Stars + Segmented Button — same markup/classes as
              Practice and Test, so the title reads identically on all
-             three pages. -->
+             three pages. Joined into the same card as the document
+             below via __sections-layer, matching Practice's own
+             layering (title-row and the visualization sit in one
+             bordered surface together, not as two separate blocks). -->
         <div class="algo-learn-page__title-row">
           <div class="algo-learn-page__title-group">
             <h1 class="algo-learn-page__title text-title-large">
@@ -31,176 +42,118 @@
             (selectedIndexChange)="onTabChange($event)" />
         </div>
 
-        <!-- Drawer: fill-width, always one section open, no close
-             button — Overview / Pros & Cons / Usage only (Complexity
-             and Code stayed in Practice's own drawer). -->
-        <algo-drawer [isOpen]="true" [hideCloseButton]="true" [pageIndicator]="pageIndicator" [fullWidth]="true"
-          [plain]="true" [title]="drawerPanelTitle">
-          <ng-container icon-buttons>
-            <algo-drawer-icon-button [selected]="activeDrawerSection === 'overview'"
-              (toggle)="setDrawerSection('overview')">
-              <svg icon solarInfoCircleLinear [size]="24"></svg>
-            </algo-drawer-icon-button>
+        <!-- Scrollable document column. Unlike the old drawer (one
+             section visible at a time, paged with Prev/Next), all
+             three chapters are stacked here and the TOC just
+             jump-scrolls to whichever one was clicked — see learn.ts's
+             scrollToSection/onDocScroll. -->
+        <div class="algo-learn-page__doc" #docScroll (scroll)="onDocScroll()">
+          <algo-notes-topbar [notesPdfUrl]="notesPdfUrl" />
 
-            <algo-drawer-icon-button [selected]="activeDrawerSection === 'pros-cons'"
-              (toggle)="setDrawerSection('pros-cons')">
-              <svg icon solarWidget2Linear [size]="24"></svg>
-            </algo-drawer-icon-button>
-
-            <algo-drawer-icon-button [selected]="activeDrawerSection === 'usage'" (toggle)="setDrawerSection('usage')">
-              <svg icon solarMagnifierLinear [size]="24"></svg>
-            </algo-drawer-icon-button>
-          </ng-container>
-
-          <div panel-content>
+          <article class="algo-learn-page__doc-body">
             @if (content) {
-            @switch (activeDrawerSection) {
-            @case ('overview') {
-            <p class="text-body-large algo-learn-page__section-heading">
-              {{ 'practice.overview.definition' | translate }}
-            </p>
 
-            <p class="text-body-medium algo-learn-page__panel-description">
-              {{ content.overview }}
-            </p>
+            <section id="learn-section-overview" class="algo-learn-page__chapter">
+              <h2 class="algo-learn-page__chapter-title text-body-large-emphasized">
+                {{ sectionTitle('overview') }}
+              </h2>
 
-            <p class="text-body-large algo-learn-page__section-heading">
-              {{ 'practice.overview.intuition' | translate }}
-            </p>
+              <h3 class="algo-learn-page__section-heading text-body-medium-emphasized">
+                {{ 'practice.overview.definition' | translate }}
+              </h3>
+              <p class="text-body-large algo-learn-page__paragraph">{{ content.overview }}</p>
 
-            <p class="text-body-medium algo-learn-page__panel-description">
-              {{ content.intuition }}
-            </p>
+              <h3 class="algo-learn-page__section-heading text-body-medium-emphasized">
+                {{ 'practice.overview.intuition' | translate }}
+              </h3>
+              <p class="text-body-large algo-learn-page__paragraph">{{ content.intuition }}</p>
 
-            <p class="text-body-large algo-learn-page__section-heading">
-              {{ 'practice.overview.howItWorks' | translate }}
-            </p>
+              <h3 class="algo-learn-page__section-heading text-body-medium-emphasized">
+                {{ 'practice.overview.howItWorks' | translate }}
+              </h3>
+              <ol class="algo-learn-page__list algo-learn-page__list--numbered text-body-large">
+                @for (step of content.howItWorks; track step) {
+                <li>{{ step }}</li>
+                }
+              </ol>
 
-            <ol class="algo-learn-page__list algo-learn-page__list--numbered text-body-medium">
-              @for (step of content.howItWorks; track step) {
-              <li>{{ step }}</li>
-              }
-            </ol>
+              <h3 class="algo-learn-page__section-heading text-body-medium-emphasized">
+                {{ 'practice.overview.keyCharacteristic' | translate }}
+              </h3>
+              <p class="text-body-large algo-learn-page__paragraph">{{ content.keyCharacteristic }}</p>
 
-            <p class="text-body-large algo-learn-page__section-heading">
-              {{ 'practice.overview.keyCharacteristic' | translate }}
-            </p>
-
-            <p class="text-body-medium algo-learn-page__panel-description">
-              {{ content.keyCharacteristic }}
-            </p>
-
-            <div class="algo-learn-page__faq">
-              @for (item of content.overviewFaq; track item.question) {
-              <div class="algo-learn-page__faq-item">
-                <p class="text-body-medium algo-learn-page__faq-question">
-                  {{ item.question }}
-                </p>
-
-                <p class="text-body-medium algo-learn-page__panel-description">
-                  {{ item.answer }}
-                </p>
+              @if (content.overviewFaq.length) {
+              <div class="algo-learn-page__faq">
+                @for (item of content.overviewFaq; track item.question) {
+                <div class="algo-learn-page__faq-item">
+                  <p class="text-body-medium-emphasized algo-learn-page__faq-question">{{ item.question }}</p>
+                  <p class="text-body-large algo-learn-page__paragraph">{{ item.answer }}</p>
+                </div>
+                }
               </div>
               }
-            </div>
-            }
+            </section>
 
-            @case ('pros-cons') {
-            <p class="text-body-large algo-learn-page__section-heading">
-              {{ 'practice.prosCons.pros' | translate }}
-            </p>
+            <section id="learn-section-pros-cons" class="algo-learn-page__chapter">
+              <h2 class="algo-learn-page__chapter-title text-body-large-emphasized">
+                {{ sectionTitle('pros-cons') }}
+              </h2>
 
-            @for (pro of content.pros; track pro) {
-            <p class="text-body-medium algo-learn-page__panel-description">{{ pro }}</p>
-            }
+              <h3 class="algo-learn-page__section-heading text-body-medium-emphasized">
+                {{ 'practice.prosCons.pros' | translate }}
+              </h3>
+              <ul class="algo-learn-page__list text-body-large">
+                @for (pro of content.pros; track pro) { <li>{{ pro }}</li> }
+              </ul>
 
-            <p class="text-body-large algo-learn-page__section-heading">
-              {{ 'practice.prosCons.cons' | translate }}
-            </p>
+              <h3 class="algo-learn-page__section-heading text-body-medium-emphasized">
+                {{ 'practice.prosCons.cons' | translate }}
+              </h3>
+              <ul class="algo-learn-page__list text-body-large">
+                @for (con of content.cons; track con) { <li>{{ con }}</li> }
+              </ul>
 
-            @for (con of content.cons; track con) {
-            <p class="text-body-medium algo-learn-page__panel-description">{{ con }}</p>
-            }
+              <h3 class="algo-learn-page__section-heading text-body-medium-emphasized">
+                {{ 'practice.prosCons.whenToUse' | translate }}
+              </h3>
+              <ul class="algo-learn-page__list text-body-large">
+                @for (item of content.whenToUse; track item) { <li>{{ item }}</li> }
+              </ul>
 
-            <p class="text-body-large algo-learn-page__section-heading">
-              {{ 'practice.prosCons.whenToUse' | translate }}
-            </p>
+              <h3 class="algo-learn-page__section-heading text-body-medium-emphasized">
+                {{ 'practice.prosCons.whenNotToUse' | translate }}
+              </h3>
+              <ul class="algo-learn-page__list text-body-large">
+                @for (item of content.whenNotToUse; track item) { <li>{{ item }}</li> }
+              </ul>
+            </section>
 
-            @for (item of content.whenToUse; track item) {
-            <p class="text-body-medium algo-learn-page__panel-description">{{ item }}</p>
-            }
+            <section id="learn-section-usage" class="algo-learn-page__chapter algo-learn-page__chapter--last">
+              <h2 class="algo-learn-page__chapter-title text-body-large-emphasized">
+                {{ sectionTitle('usage') }}
+              </h2>
 
-            <p class="text-body-large algo-learn-page__section-heading">
-              {{ 'practice.prosCons.whenNotToUse' | translate }}
-            </p>
-
-            @for (item of content.whenNotToUse; track item) {
-            <p class="text-body-medium algo-learn-page__panel-description">{{ item }}</p>
-            }
-            }
-
-            @case ('usage') {
-            <div class="algo-learn-page__faq">
-              @for (application of content.applications; track application.title) {
-              <div class="algo-learn-page__faq-item">
-                <p class="text-body-medium algo-learn-page__faq-question">
-                  {{ application.title }}
-                </p>
-
-                <p class="text-body-medium algo-learn-page__panel-description">
-                  {{ application.description }}
-                </p>
+              <div class="algo-learn-page__faq">
+                @for (application of content.applications; track application.title) {
+                <div class="algo-learn-page__faq-item">
+                  <p class="text-body-medium-emphasized algo-learn-page__faq-question">{{ application.title }}</p>
+                  <p class="text-body-large algo-learn-page__paragraph">{{ application.description }}</p>
+                </div>
+                }
               </div>
-              }
-            </div>
-            }
-            }
+            </section>
+
             } @else {
-            <p class="text-body-medium algo-learn-page__panel-description">
+            <p class="text-body-large algo-learn-page__paragraph">
               Learn content for {{ algorithmDisplayName }} hasn't been written yet.
             </p>
             }
-          </div>
-        </algo-drawer>
-
-        <!-- Prev / Next — pages through Overview → Pros & Cons →
-             Usage → back to Overview. Same navigation-button styling
-             as Practice's Prev/Next/Again transport controls.
-
-             Unlike Practice's transport controls (which pin LTR on
-             purpose, like fixed video-player controls), this row is a
-             page-turning pagination control, so in Persian it mirrors:
-             "next" (forward) sits on the left with its icon pointing
-             left, "prev" (back) sits on the right with its icon
-             pointing right. The row itself is pinned to `direction:
-             ltr` in learn.scss so this DOM order is exactly what
-             renders, regardless of the page's ambient dir. -->
-        <div class="algo-learn-page__nav-row">
-          @if (languageService.currentLanguage() === 'fa') {
-          <algo-button variant="navigation" size="medium" [backgroundColorVar]="'var(--color-surface)'"
-            [text]="'practice.nav.next' | translate" [hasLeftIcon]="true" (click)="nextSection()">
-            <svg left-icon solarSkipNextLinear [size]="16" class="algo-learn-page__nav-icon--flipped"></svg>
-          </algo-button>
-
-          <algo-button variant="navigation" size="medium" [backgroundColorVar]="'var(--color-surface)'"
-            [text]="'practice.nav.prev' | translate" [hasRightIcon]="true" (click)="previousSection()">
-            <svg right-icon solarSkipPreviousLinear [size]="16" class="algo-learn-page__nav-icon--flipped"></svg>
-          </algo-button>
-          } @else {
-          <algo-button variant="navigation" size="medium" [backgroundColorVar]="'var(--color-surface)'"
-            [text]="'practice.nav.prev' | translate" [hasLeftIcon]="true" (click)="previousSection()">
-            <svg left-icon solarSkipPreviousLinear [size]="16"></svg>
-          </algo-button>
-
-          <algo-button variant="navigation" size="medium" [backgroundColorVar]="'var(--color-surface)'"
-            [text]="'practice.nav.next' | translate" [hasRightIcon]="true" (click)="nextSection()">
-            <svg right-icon solarSkipNextLinear [size]="16"></svg>
-          </algo-button>
-          }
+          </article>
         </div>
 
       </div>
     </div>
+
   </div>
 
   @if (isTestUnavailableModalOpen) {

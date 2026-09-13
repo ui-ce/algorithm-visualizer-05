@@ -1,0 +1,13 @@
+<nav class="algo-learn-toc">
+  <h2 class="algo-learn-toc__title text-body-large">
+    {{ 'learn.toc.title' | translate }}
+  </h2>
+
+  <ul class="algo-learn-toc__list">
+    @for (entry of entries; track entry.id) {
+    <li>
+      <algo-selective-button [text]="entry.label" [selected]="entry.id === activeId" (click)="onSelect(entry.id)" />
+    </li>
+    }
+  </ul>
+</nav>

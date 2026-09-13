@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injectable, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AlgoHeader, type HeaderNavLink } from '../../layout/header/header';
 import { AlgoFooter } from '../../layout/footer/footer';
@@ -8,7 +8,7 @@ import { MiniSortDemo } from './mini-sort-demo/mini-sort-demo';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { translate } from '../../core/i18n/translations';
 import { ThemeService } from '../../core/services/theme.service';
-import { LanguageService } from '../../core/services/language.service';
+import { LanguageService, type Language } from '../../core/services/language.service';
 import type { AlgorithmData } from '../../components/home/models/algorithm-data.type';
 
 export type AlgorithmCategory = 'sorting' | 'searching' | 'graph';
@@ -132,26 +132,71 @@ const TOUR_ITEMS: TourItem[] = [
   {
     titleKey: 'landing.tour.learn.title',
     descriptionKey: 'landing.tour.learn.description',
-    image: 'learn.png',
+    image: 'learn.webp',
     ctaRoute: 'algorithms/bubble-sort',
   },
   {
     titleKey: 'landing.tour.practice.title',
     descriptionKey: 'landing.tour.practice.description',
-    image: 'practice.png',
+    image: 'practice.webp',
     ctaRoute: 'algorithms/bubble-sort',
   },
   {
     titleKey: 'landing.tour.test.title',
     descriptionKey: 'landing.tour.test.description',
-    image: 'test.png',
+    image: 'test.webp',
     ctaRoute: 'algorithms/bubble-sort/test',
   },
 ];
 
+// Landing is the marketing/first-impression page and is deliberately
+// always dark + English + LTR, independent of whatever theme/language
+// the person has chosen elsewhere in the app (see landing.html:
+// [showThemeToggle]="false" [showLanguageToggle]="false" — there's no
+// way to change it from this page anyway). These two stand in for the
+// real ThemeService/LanguageService *only within Landing's own
+// component subtree* (see providers below), so every '| translate'
+// call and every themeService/languageService read inside Landing (and
+// its children: AlgoHeader, AlgoFooter, AlgoPickerCard, MiniSortDemo)
+// resolves to a fixed dark/English value. Deliberately doesn't touch
+// document.documentElement or localStorage — the person's real
+// preference, used by every other route, is left completely alone and
+// is exactly what they'll see again the moment they navigate away.
+@Injectable()
+class LandingLockedThemeService {
+  public readonly themeMode = signal<'light' | 'dark'>('dark');
+  public toggle(): void {
+    // No-op — see class comment above. Exists only so this satisfies
+    // the same shape AlgoHeader's bindings expect from ThemeService.
+  }
+}
+
+@Injectable()
+class LandingLockedLanguageService {
+  public readonly currentLanguage = signal<Language>('en');
+  public toggle(): void {}
+  public set(): void {}
+}
+
 @Component({
   selector: 'algo-landing',
   imports: [AlgoHeader, AlgoFooter, AlgoButton, AlgoPickerCard, MiniSortDemo, TranslatePipe, RouterLink],
+  // Forces the CSS side of dark + LTR for this page's whole subtree —
+  // [data-theme='dark'] and dir='ltr' are plain attribute selectors in
+  // the token/RTL stylesheets (not html[data-theme=...]-scoped), so
+  // setting them here on <algo-landing> itself cascades to every
+  // descendant exactly like setting them on <html> would, but scoped
+  // to just this page. lang='en' likewise overrides <html lang="fa">
+  // for anything inside Landing that depends on it.
+  host: {
+    'data-theme': 'dark',
+    dir: 'ltr',
+    lang: 'en',
+  },
+  providers: [
+    { provide: ThemeService, useClass: LandingLockedThemeService },
+    { provide: LanguageService, useClass: LandingLockedLanguageService },
+  ],
   templateUrl: './landing.html',
   styleUrl: './landing.scss',
 })

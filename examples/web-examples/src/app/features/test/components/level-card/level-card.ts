@@ -10,9 +10,9 @@ import type { LevelCardData } from './level-card.types';
 import type { TestDifficulty } from '../../test.types';
 
 const FACE_IMAGE: Record<TestDifficulty, string> = {
-  easy: '/quiz/quiz-easy-face.png',
-  medium: '/quiz/quiz-medium-face.png',
-  hard: '/quiz/quiz-hard-face.png',
+  easy: '/quiz/quiz-easy-face.webp',
+  medium: '/quiz/quiz-medium-face.webp',
+  hard: '/quiz/quiz-hard-face.webp',
 };
 
 // Translation keys, not display strings — the actual word is resolved

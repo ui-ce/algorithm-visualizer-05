@@ -36,6 +36,19 @@ export const LEARN_TRANSLATIONS: TranslationDictionary = {
     en: "Learn content for {name} hasn't been written yet.",
   },
 
+  // TOC sidebar (algo-learn-toc) heading, above the Overview/Pros &
+  // Cons/Usage headline list.
+  'learn.toc.title': { fa: 'فهرست مطالب', en: 'Contents' },
+
+  // Sticky doc-column topbar (algo-notes-topbar). Deliberately not
+  // "یادگیری" — this row is about the downloadable جزوه, not a repeat
+  // of the page's own Learn/Practice/Test tab label.
+  'learn.notes.title': { fa: 'جزوه', en: 'Notes' },
+  'learn.notes.downloadMenu': { fa: 'دانلود', en: 'Download' },
+  'learn.notes.downloadPdf': { fa: 'دانلود جزوه (PDF)', en: 'Download notes (PDF)' },
+  'learn.notes.downloadVideo': { fa: 'دانلود ویدیو آموزشی', en: 'Download video lesson' },
+  'learn.notes.comingSoon': { fa: 'به‌زودی', en: 'Coming soon' },
+
   //unavalable test model
   'learn.testUnavailable.title': {
     fa: 'آزمون «{name}» هنوز آماده نیست.',

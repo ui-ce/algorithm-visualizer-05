@@ -1,0 +1,48 @@
+// Angular components default to `display: inline` on their host
+// element — needs `display: block` for width/flex-shrink and the
+// border/background below to actually apply.
+//
+// Background + border + radius here matches test.scss's
+// `.algo-test-page__sidebar` wrapper (the same "list of headline rows"
+// pattern, just driven by scroll position instead of question index)
+// rather than a new one-off treatment.
+:host {
+  display: block;
+  flex-shrink: 0;
+  align-self: stretch;
+  width: 200px;
+  padding: 10px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 4px;
+}
+
+.algo-learn-toc {
+  &__title {
+    margin: 0 0 10px;
+    color: var(--color-text-primary);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+// AlgoSelectiveButton is `width: fit-content` + centered by default
+// (it's built for a horizontal row of options, e.g. Practice's Data
+// Pattern controls) — stretched and start-aligned here since each row
+// is the full width of this vertical list instead.
+::ng-deep .algo-learn-toc algo-selective-button {
+  display: block;
+}
+
+::ng-deep .algo-learn-toc .algo-selective-button {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+}

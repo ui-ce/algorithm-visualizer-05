@@ -154,6 +154,28 @@
         <algo-button variant="outline" size="medium" text="+ Add application" (click)="content.applications = addApplicationItem(content.applications)" />
       </div>
 
+      <!-- جزوه PDF -->
+      <div class="algo-admin-page__options">
+        <span class="text-label-medium">جزوه PDF (Learn page download)</span>
+        @if (content.notesPdfUrl) {
+        <div class="algo-admin-page__option-row">
+          <a class="algo-admin-page__option-text text-body-medium" [href]="content.notesPdfUrl" target="_blank" rel="noopener">
+            {{ content.notesPdfUrl }}
+          </a>
+          <button type="button" class="algo-admin-page__icon-btn" (click)="clearNotesPdf()">✕</button>
+        </div>
+        } @else {
+        <p class="text-body-medium algo-admin-page__empty">No PDF uploaded for this algorithm+language yet.</p>
+        }
+        <input type="file" accept="application/pdf" (change)="onUploadNotesPdf($event)" [disabled]="isUploadingNotesPdf" />
+        @if (isUploadingNotesPdf) {
+        <p class="text-label-medium">Uploading…</p>
+        }
+        @if (notesPdfError) {
+        <p class="algo-admin-page__message algo-admin-page__message--error text-body-medium">{{ notesPdfError }}</p>
+        }
+      </div>
+
       <!-- Implementations -->
       <div class="algo-admin-page__options">
         <span class="text-label-medium">Code implementations</span>

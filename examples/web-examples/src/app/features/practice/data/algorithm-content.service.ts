@@ -21,6 +21,9 @@ interface AlgorithmContentRow {
   when_not_to_use: string[];
   applications: AlgorithmContent['applications'];
   implementations: AlgorithmContent['implementations'];
+  // Nullable — see schema-content-notes-pdf.sql; not every existing row
+  // has one yet.
+  notes_pdf_url: string | null;
 }
 
 // What the admin form submits — same shape minus the generated id, plus
@@ -50,6 +53,7 @@ function rowToContent(row: AlgorithmContentRow): AlgorithmContent {
     whenNotToUse: row.when_not_to_use,
     applications: row.applications,
     implementations: row.implementations,
+    notesPdfUrl: row.notes_pdf_url ?? undefined,
   };
 }
 
@@ -76,6 +80,7 @@ function contentToColumns(content: AlgorithmContent) {
     when_not_to_use: content.whenNotToUse,
     applications: content.applications,
     implementations: content.implementations,
+    notes_pdf_url: content.notesPdfUrl ?? null,
   };
 }
 
@@ -148,5 +153,34 @@ export class AlgorithmContentService {
       return { success: false, error: error.message };
     }
     return { success: true, error: null };
+  }
+
+  // ---- Notes PDF upload (admin panel only) ---------------------------
+  //
+  // Uploads to the public 'algorithm-notes' Storage bucket (see
+  // schema-content-notes-pdf.sql for the bucket + policy setup) and
+  // returns its public URL, ready to be stored on the row's
+  // notes_pdf_url column via saveContent. Uploading does NOT save the
+  // row itself — the admin form still has to call saveContent
+  // afterwards, same as every other field in the form.
+  public async uploadNotesPdf(
+    algorithmId: string,
+    language: 'en' | 'fa',
+    file: File,
+  ): Promise<{ url: string | null; error: string | null }> {
+    const path = `${algorithmId}/${language}.pdf`;
+
+    const { error: uploadError } = await supabase.storage.from('algorithm-notes').upload(path, file, {
+      upsert: true,
+      contentType: 'application/pdf',
+    });
+
+    if (uploadError) {
+      console.error('algorithm-notes upload failed:', uploadError);
+      return { url: null, error: uploadError.message };
+    }
+
+    const { data } = supabase.storage.from('algorithm-notes').getPublicUrl(path);
+    return { url: data.publicUrl, error: null };
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, effect } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import type { Animation, RendererMetadata } from '@algorithm-visualizer/typescript-angular-renderer';
 import { FramerEngine } from '@algorithm-visualizer/typescript-framer';
@@ -72,6 +72,10 @@ import {
   SolarLockKeyholeMinimalisticLinear,
 } from '@solar-icons/angular';
 import type { DrawerSectionId } from './practice.types';
+
+// The language type is inferred directly from the LanguageService so the recording
+// factory always receives the same language value used by the page.
+type Language = ReturnType<LanguageService['currentLanguage']>;
 
 // Reuses the same translation keys already defined for the algorithm
 // name on the home page cards (core/i18n/home.translations.ts), so the
@@ -415,6 +419,7 @@ export class PracticePage implements OnDestroy {
   protected explanationDescription = '';
 
   private playbackIntervalId: ReturnType<typeof setInterval> | null = null;
+  private recordingFactory: ((language: Language) => Recording) | null = null;
 
   public constructor(
     private readonly router: Router,
@@ -436,6 +441,11 @@ export class PracticePage implements OnDestroy {
     );
 
     this.generateInitialData();
+
+    effect(() => {
+      const language = this.languageService.currentLanguage();
+      this.refreshRecordingLanguage(language);
+    });
   }
 
   protected starTooltip(starIndex: number): string {
@@ -548,11 +558,14 @@ export class PracticePage implements OnDestroy {
       if (this.algorithmId === 'linear-search') {
         // Unlike binary search, linear search doesn't require (or
         // want) the array sorted first.
-        const recording = linearSearchVisualization([...result.values], result.target);
+        const values = [...result.values];
+        const target = result.target;
+        const recording = linearSearchVisualization(values, target, this.languageService.currentLanguage());
         this.applyRecording(
           recording,
           [CHART_METADATA_ENTRY],
           true,
+          (language) => linearSearchVisualization([...values], target, language),
         );
         this.searchTarget = result.target;
         return;
@@ -562,11 +575,13 @@ export class PracticePage implements OnDestroy {
       // typed is used as-is, including the "not found" case where it
       // isn't actually one of the array's values.
       const sortedArray = [...result.values].sort((a, b) => a - b);
-      const recording = binarySearchVisualization(sortedArray, result.target);
+      const target = result.target;
+      const recording = binarySearchVisualization(sortedArray, target, this.languageService.currentLanguage());
       this.applyRecording(
         recording,
         [CHART_METADATA_ENTRY],
         true,
+        (language) => binarySearchVisualization([...sortedArray], target, language),
       );
       this.searchTarget = result.target;
       return;
@@ -911,37 +926,46 @@ export class PracticePage implements OnDestroy {
   private setArrayData(array: number[], autoPlay = false): void {
     // Every recorder sorts its input array in place, so each call gets
     // its own copy rather than sharing the caller's array reference.
-    const recording = this.buildArraySortRecording([...array]);
-    this.applyRecording(recording, [CHART_METADATA_ENTRY], autoPlay);
+    const original = [...array];
+    const recording = this.buildArraySortRecording([...original], this.languageService.currentLanguage());
+    this.applyRecording(
+      recording,
+      [CHART_METADATA_ENTRY],
+      autoPlay,
+      (language) => this.buildArraySortRecording([...original], language),
+    );
   }
 
-  private buildArraySortRecording(array: number[]): Recording {
+  private buildArraySortRecording(array: number[], language: Language): Recording {
     switch (this.algorithmId) {
       case 'merge-sort':
-        return mergeSortVisualization(
-          array,
-          this.languageService.currentLanguage(),
-        );
+        return mergeSortVisualization(array, language);
       case 'quick-sort':
-        return quickSortVisualization(array, this.languageService.currentLanguage(),);
+        return quickSortVisualization(array, language);
       case 'selection-sort':
-        return selectionSortVisualization(array, this.languageService.currentLanguage(),);
+        return selectionSortVisualization(array, language);
       case 'insertion-sort':
-        return insertionSortVisualization(array, this.languageService.currentLanguage(),);
+        return insertionSortVisualization(array, language);
       case 'bubble-sort':
       default:
-        return bubbleSortVisualization(array, this.languageService.currentLanguage());
+        return bubbleSortVisualization(array, language);
     }
   }
 
   private setBinarySearchData(sortedArray: number[], autoPlay = false,): void {
     const target = this.pickSearchTarget(sortedArray);
+    const original = [...sortedArray];
     const recording = binarySearchVisualization(
-      [...sortedArray],
+      [...original],
       target,
       this.languageService.currentLanguage(),
     );
-    this.applyRecording(recording, [CHART_METADATA_ENTRY], autoPlay);
+    this.applyRecording(
+      recording,
+      [CHART_METADATA_ENTRY],
+      autoPlay,
+      (language) => binarySearchVisualization([...original], target, language),
+    );
     this.searchTarget = target;
   }
 
@@ -950,12 +974,18 @@ export class PracticePage implements OnDestroy {
   // sort step setBinarySearchData does.
   private setLinearSearchData(array: number[], autoPlay = false): void {
     const target = this.pickSearchTarget(array);
+    const original = [...array];
     const recording = linearSearchVisualization(
-      [...array],
+      [...original],
       target,
       this.languageService.currentLanguage(),
     );
-    this.applyRecording(recording, [CHART_METADATA_ENTRY], autoPlay);
+    this.applyRecording(
+      recording,
+      [CHART_METADATA_ENTRY],
+      autoPlay,
+      (language) => linearSearchVisualization([...original], target, language),
+    );
     this.searchTarget = target;
   }
 
@@ -967,12 +997,22 @@ export class PracticePage implements OnDestroy {
     // and CHART_METADATA_ENTRY was missing from this list as a result,
     // so the Node Costs panel's 'changed' highlight had no color
     // metadata to resolve against.
-    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY, CHART_METADATA_ENTRY], autoPlay);
+    this.applyRecording(
+      recording,
+      [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY, CHART_METADATA_ENTRY],
+      autoPlay,
+      (language) => dijkstraVisualization(sample.graph, sample.start, sample.end, language),
+    );
   }
 
   private setDfsData(graph: Record<string, string[]>, autoPlay = false,): void {
     const recording = dfsVisualization(graph, this.languageService.currentLanguage());
-    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY], autoPlay);
+    this.applyRecording(
+      recording,
+      [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY],
+      autoPlay,
+      (language) => dfsVisualization(graph, language),
+    );
   }
 
   // Same recorder shape as DFS (Graph + one Array2D queue panel), just
@@ -983,7 +1023,12 @@ export class PracticePage implements OnDestroy {
       'A',
       this.languageService.currentLanguage(),
     );
-    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY], autoPlay);
+    this.applyRecording(
+      recording,
+      [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY],
+      autoPlay,
+      (language) => bfsVisualization(graph, 'A', language),
+    );
   }
 
   // Same recorder shape as Dijkstra (Graph + Open/Closed Set + Node
@@ -995,15 +1040,26 @@ export class PracticePage implements OnDestroy {
       sample.end,
       this.languageService.currentLanguage(),
     );
-    this.applyRecording(recording, [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY, CHART_METADATA_ENTRY], autoPlay);
+    this.applyRecording(
+      recording,
+      [GRAPH_METADATA_ENTRY, ARRAY_2D_METADATA_ENTRY, CHART_METADATA_ENTRY],
+      autoPlay,
+      (language) => aStarVisualization(sample.graph, sample.start, sample.end, language),
+    );
   }
 
-  private applyRecording(recording: Recording, objectMetaData: RendererMetadata['objectMetaData'], autoPlay = false,): void {
+  private applyRecording(
+    recording: Recording,
+    objectMetaData: RendererMetadata['objectMetaData'],
+    autoPlay = false,
+    recordingFactory?: (language: Language) => Recording,
+  ): void {
     // Reset here, not just at construction — every setXData method
     // (setArrayData, setDfsData, ...) funnels through this method, so
     // this is the one place guaranteed to run on every data change.
     // setBinarySearchData/setLinearSearchData re-set it right after
     // calling this.
+    this.recordingFactory = recordingFactory ?? null;
     this.searchTarget = null;
     this.animation = new FramerEngine().getAnimation(recording);
     this.totalSteps = this.animation.length;
@@ -1019,6 +1075,15 @@ export class PracticePage implements OnDestroy {
       this.isPlaying = true;
       this.startPlayback();
     }
+  }
+
+  private refreshRecordingLanguage(language: Language): void {
+    if (!this.recordingFactory) {
+      return;
+    }
+
+    this.animation = new FramerEngine().getAnimation(this.recordingFactory(language));
+    this.updateExplanationFromLog(this.frameIndex);
   }
 
   protected toggleExportMenu(): void {

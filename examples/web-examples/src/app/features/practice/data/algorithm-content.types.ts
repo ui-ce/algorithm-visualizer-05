@@ -45,4 +45,10 @@ export interface AlgorithmContent {
   whenNotToUse: string[];
   applications: ApplicationItem[];
   implementations: CodeImplementation[];
+  // Public Supabase Storage URL for the algorithm's PDF handout ("جزوه"),
+  // uploaded from the admin panel (see admin-content.ts's onUploadNotesPdf).
+  // Optional/undefined means no PDF has been uploaded yet for this
+  // algorithm+language — Learn's download menu disables the PDF item in
+  // that case instead of erroring.
+  notesPdfUrl?: string;
 }
