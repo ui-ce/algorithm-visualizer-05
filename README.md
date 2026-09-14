@@ -1,11 +1,12 @@
-# algorithm-visualizer-05
-# ALGO — Interactive Algorithm & Data Structure Visualization Platform
+# [ALGO — Interactive Algorithm & Data Structure Visualization Platform](http://algovisualizer.pages.dev)
 
 بازطراحی و توسعه‌ی ابزار تعاملی آموزش و مصورسازی الگوریتم‌ها و ساختمان داده‌ها
+
 *Redesign and Development of an Interactive Educational Visualization Tool for Algorithms and Data Structures*
 
 **دانشگاه اصفهان — دانشکده‌ی مهندسی کامپیوتر — گروه مهندسی نرم‌افزار**
-پروژه‌ی کارشناسی | پژوهشگر: زهرا ابراهیمی | استاد راهنما: دکتر آرش شفیعی
+
+پروژه‌ی کارشناسی | پژوهشگر: زهرا ابراهیمی
 
 ---
 
